@@ -377,8 +377,12 @@ public class MessageFormat extends UFormat {
      * @stable ICU 3.0
      */
     public MessageFormat(String pattern) {
-        this.ulocale = ULocale.getDefault(Category.FORMAT);
-        applyPattern(pattern);
+        this(pattern, (Map<String,? extends CustomFormatBuilder>) null);
+    }
+
+    public MessageFormat(String pattern,
+            Map<String,? extends CustomFormatBuilder> customFormatters) {
+        this(pattern, ULocale.getDefault(Category.FORMAT), customFormatters);
     }
 
     /**
@@ -392,7 +396,12 @@ public class MessageFormat extends UFormat {
      * @stable ICU 3.0
      */
     public MessageFormat(String pattern, Locale locale) {
-        this(pattern, ULocale.forLocale(locale));
+        this(pattern, locale, null);
+    }
+
+    public MessageFormat(String pattern, Locale locale,
+            Map<String,? extends CustomFormatBuilder> customFormatters) {
+        this(pattern, ULocale.forLocale(locale), customFormatters);
     }
 
     /**
@@ -406,6 +415,12 @@ public class MessageFormat extends UFormat {
      * @stable ICU 3.2
      */
     public MessageFormat(String pattern, ULocale locale) {
+        this(pattern, locale, null);
+    }
+
+    public MessageFormat(String pattern, ULocale locale,
+            Map<String,? extends CustomFormatBuilder> customFormatters) {
+        this.customFormatters = customFormatters;
         this.ulocale = locale;
         applyPattern(pattern);
     }
@@ -1007,6 +1022,15 @@ public class MessageFormat extends UFormat {
         return result;
     }
 
+    /*
+     * Convenience method, nothing to do with custom formatters.
+     * Would be nice to have this in ICU by default.
+     */
+    public final String format(Map<String, Object> arguments) {
+        StringBuffer result = new StringBuffer();
+        return format(arguments, result, (FieldPosition) null).toString();
+    }
+
     /**
      * Creates a MessageFormat with the given pattern and uses it
      * to format the given arguments. This is equivalent to
@@ -1602,6 +1626,17 @@ public class MessageFormat extends UFormat {
 
     private transient PluralSelectorProvider pluralProvider;
     private transient PluralSelectorProvider ordinalProvider;
+
+    private transient final Map<String,? extends CustomFormatBuilder> customFormatters;
+
+    /**
+     * This will construct a formatter for a custom type.
+     * The type name is given by second parameter in the placeholder:
+     * <code>Hello, {name, firstOrLastName, last}</code>
+     */
+    static public interface CustomFormatBuilder {
+        public Format build(ULocale locale, String style);
+    }
 
     private DateFormat getStockDateFormatter() {
         if (stockDateFormatter == null) {
@@ -2349,6 +2384,12 @@ public class MessageFormat extends UFormat {
             }
             break;
         default:
+            if (customFormatters != null) {
+                CustomFormatBuilder custFmt = customFormatters.get(type);
+                if (custFmt != null) {
+                    return custFmt.build(ulocale, style.trim());
+                }
+            }
             throw new IllegalArgumentException("Unknown format type \"" + type + "\"");
         }
         return newFormat;
