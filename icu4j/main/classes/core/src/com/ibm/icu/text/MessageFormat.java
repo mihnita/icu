@@ -1635,7 +1635,7 @@ public class MessageFormat extends UFormat {
      * <code>Hello, {name, firstOrLastName, last}</code>
      */
     static public interface CustomFormatBuilder {
-        public Format build(ULocale locale, String style);
+        public Format build(ULocale locale, String argName, String style);
     }
 
     private DateFormat getStockDateFormatter() {
@@ -1721,8 +1721,14 @@ public class MessageFormat extends UFormat {
                 if(argsMap!=null && argsMap.containsKey(argName)) {
                     arg=argsMap.get(argName);
                 } else {
-                    arg=null;
-                    noArg=true;
+                    String fmtType = msgPattern.getSubstring(msgPattern.getPart(i + 1));
+                    if(customFormatters!=null && customFormatters.containsKey(fmtType)) {
+                        arg = "";
+                        noArg = false;
+                    } else {
+                        arg=null;
+                        noArg=true;
+                    }
                 }
             }
             ++i;
@@ -2260,7 +2266,7 @@ public class MessageFormat extends UFormat {
 
     // Creates an appropriate Format object for the type and style passed.
     // Both arguments cannot be null.
-    private Format createAppropriateFormat(String type, String style) {
+    private Format createAppropriateFormat(String type, String argName, String style) {
         Format newFormat = null;
         int subformatType  = findKeyword(type, typeList);
         switch (subformatType){
@@ -2387,7 +2393,7 @@ public class MessageFormat extends UFormat {
             if (customFormatters != null) {
                 CustomFormatBuilder custFmt = customFormatters.get(type);
                 if (custFmt != null) {
-                    return custFmt.build(ulocale, style.trim());
+                    return custFmt.build(ulocale, argName.trim(), style.trim());
                 }
             }
             throw new IllegalArgumentException("Unknown format type \"" + type + "\"");
@@ -2499,6 +2505,7 @@ public class MessageFormat extends UFormat {
             if(argType != ArgType.SIMPLE) {
                 continue;
             }
+            String argName = msgPattern.getSubstring(msgPattern.getPart(i+1));
             int index = i;
             i += 2;
             String explicitType = msgPattern.getSubstring(msgPattern.getPart(i++));
@@ -2507,7 +2514,7 @@ public class MessageFormat extends UFormat {
                 style = msgPattern.getSubstring(part);
                 ++i;
             }
-            Format formatter = createAppropriateFormat(explicitType, style);
+            Format formatter = createAppropriateFormat(explicitType, argName, style);
             setArgStartFormat(index, formatter);
         }
     }

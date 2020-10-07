@@ -10,38 +10,26 @@
 package com.ibm.icu.dev.test.format;
 
 import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.text.ChoiceFormat;
 import java.text.FieldPosition;
 import java.text.Format;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.Objects;
+import java.util.Properties;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.ibm.icu.dev.test.TestFmwk;
 import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.text.MessageFormat;
-import com.ibm.icu.text.MessagePattern;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SelectFormat;
 import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.text.UFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
-import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 @RunWith(JUnit4.class)
@@ -51,9 +39,11 @@ public class TestMessageFormatCustom extends TestFmwk {
         static final long serialVersionUID = -1;
         final String style;
         final ULocale ulocale;
+        final String argName;
 
-        public CustomFormatBase(ULocale ulocale, String style) {
+        public CustomFormatBase(ULocale ulocale, String argName, String style) {
             this.ulocale = ulocale;
+            this.argName = argName;
             this.style = style;
         }
 
@@ -86,15 +76,15 @@ public class TestMessageFormatCustom extends TestFmwk {
     }
 
     static class GrammarCaseFormatBuilder implements MessageFormat.CustomFormatBuilder {
-        public Format build(ULocale locale, String style) {
-            return new GrammarCaseFormat(locale, style);
+        public Format build(ULocale locale, String argName, String style) {
+            return new GrammarCaseFormat(locale, argName, style);
         }
     }
 
     static class GrammarCaseFormat extends CustomFormatBase {
         static final long serialVersionUID = -1;
-        public GrammarCaseFormat(ULocale ulocale, String style) {
-            super(ulocale, style);
+        public GrammarCaseFormat(ULocale ulocale, String argName, String style) {
+            super(ulocale, argName, style);
         }
 
         public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
@@ -169,13 +159,13 @@ public class TestMessageFormatCustom extends TestFmwk {
         static final long serialVersionUID = -1;
 
         static class PoliteNameFormatBuilder implements MessageFormat.CustomFormatBuilder {
-            public Format build(ULocale locale, String style) {
-                return new PoliteNameFormat(locale, style);
+            public Format build(ULocale locale, String argName, String style) {
+                return new PoliteNameFormat(locale, argName, style);
             }
         }
 
-        public PoliteNameFormat(ULocale ulocale, String style) {
-            super(ulocale, style);
+        public PoliteNameFormat(ULocale ulocale, String argName, String style) {
+            super(ulocale, argName, style);
         }
 
         public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
@@ -228,13 +218,13 @@ public class TestMessageFormatCustom extends TestFmwk {
         static final long serialVersionUID = -1;
 
         static class Builder implements MessageFormat.CustomFormatBuilder {
-            public Format build(ULocale locale, String style) {
-                return new FirstLastNameFormat(locale, style);
+            public Format build(ULocale locale, String argName, String style) {
+                return new FirstLastNameFormat(locale, argName, style);
             }
         }
 
-        public FirstLastNameFormat(ULocale ulocale, String style) {
-            super(ulocale, style);
+        public FirstLastNameFormat(ULocale ulocale, String argName, String style) {
+            super(ulocale, argName, style);
         }
 
         public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
@@ -266,18 +256,17 @@ public class TestMessageFormatCustom extends TestFmwk {
         private final SimpleDateFormat df;
 
         static class Builder implements MessageFormat.CustomFormatBuilder {
-            public Format build(ULocale locale, String style) {
-                return new DeepDateFormat(locale, style);
+            public Format build(ULocale locale, String argName, String style) {
+                return new DeepDateFormat(locale, argName, style);
             }
         }
 
-        public DeepDateFormat(ULocale ulocale, String style) {
-            super(ulocale, style);
+        public DeepDateFormat(ULocale ulocale, String argName, String style) {
+            super(ulocale, argName, style);
             df = style.startsWith("::")
                 ? (SimpleDateFormat) SimpleDateFormat.getInstanceForSkeleton(style.substring(2), ULocale.US)
                 : new SimpleDateFormat(style, ULocale.US);
         }
-
 
         public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
             toAppendTo.append("<<");
@@ -338,12 +327,12 @@ public class TestMessageFormatCustom extends TestFmwk {
         static final long serialVersionUID = -1;
 
         static class Builder implements MessageFormat.CustomFormatBuilder {
-            public Format build(ULocale locale, String style) {
-                return new GenderFormat(locale, style);
+            public Format build(ULocale locale, String argName, String style) {
+                return new GenderFormat(locale, argName, style);
             }
         }
 
-        public GenderFormat(ULocale ulocale, String style) {
+        public GenderFormat(ULocale ulocale, String argName, String style) {
             super(style);
         }
     }
@@ -375,5 +364,160 @@ public class TestMessageFormatCustom extends TestFmwk {
 
         args.put("host_gender", "something");
         assertEquals("gender", "They invited you", mf.format(args));
+    }
+
+    static class XRefFormat extends CustomFormatBase {
+        static final long serialVersionUID = -1;
+        private final Properties prop;
+
+        static class XRefFormatBuilder implements MessageFormat.CustomFormatBuilder {
+            private final Properties prop;
+
+            public XRefFormatBuilder(Properties prop) {
+                this.prop = prop;
+            }
+
+            public Format build(ULocale locale, String argName, String style) {
+                return new XRefFormat(locale, argName, style, prop);
+            }
+        }
+
+        public XRefFormat(ULocale ulocale, String argName, String style, Properties prop) {
+            super(ulocale, argName, style);
+            this.prop = prop;
+        }
+
+        public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+            String argValue = (String) prop.get(argName + "." + style);
+            if (argValue == null) {
+                argValue = (String) prop.get(argName);
+            }
+            if (argValue == null) {
+                String show = (obj == null) ? "{" + argName + "}" : Objects.toString(obj);
+                if (show.isEmpty())
+                    show = "{" + argName + "}";
+                toAppendTo.append(show);
+            } else {
+                toAppendTo.append(argValue);
+            }
+            return toAppendTo;
+        }
+    }
+
+    @Test
+    public void TestCustomTypeXRef() {
+        // Resources. This to be (or course) replaced with whatever the "resource manager"
+        // is on the hosting platform. For instance Android would use Resources.getString, etc.
+        Properties prop = new Properties();
+        // prop.setProperty("brandName.nominative", "Konto Firefox");
+        prop.setProperty("brandName", "Konto Firefox");
+        prop.setProperty("brandName.genitive", "Konta Firefox");
+        prop.setProperty("brandName.accusative", "Kontem Firefox");
+
+        HashMap<String, MessageFormat.CustomFormatBuilder> formatterMap = new HashMap<>();
+        formatterMap.put("xref", new XRefFormat.XRefFormatBuilder(prop));
+
+        HashMap<String, Object> args = new HashMap<>();
+        args.put("company", "unknown company"); // Used as "ultimate fallback
+
+        ULocale locale = ULocale.forLanguageTag("pl");
+
+        MessageFormat mfXref = new MessageFormat("Zaloguj do {brandName,xref,genitive}",
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+            "Zaloguj do Konta Firefox", mfXref.format(args));
+
+        mfXref = new MessageFormat("Zaloguj do {brandName,xref,dative}", // dative does not exist, fallback
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+            "Zaloguj do Konto Firefox", mfXref.format(args));
+
+        // TBD what we really want to do when we can't find the string in resources
+        mfXref = new MessageFormat("Zaloguj do {company,xref,dative}", // company does not exist, has fallback
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+            "Zaloguj do unknown company", mfXref.format(args));
+
+        // The current result is not great. This is what we really want?
+        mfXref = new MessageFormat("Zaloguj do {entity,xref,dative}", // entity does not exist
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+            "Zaloguj do {entity}", mfXref.format(args));
+    }
+
+    static class UseTheNameFormat extends CustomFormatBase {
+        static final long serialVersionUID = -1;
+
+        static class UseTheNameFormatBuilder implements MessageFormat.CustomFormatBuilder {
+            public Format build(ULocale locale, String argName, String style) {
+                return new UseTheNameFormat(locale, argName, style);
+            }
+        }
+
+        public UseTheNameFormat(ULocale ulocale, String argName, String style) {
+            super(ulocale, argName, style);
+        }
+
+        public final StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+            if (argName.startsWith("N")) { // number
+                Double val = Double.valueOf(argName.substring(1).replace("_", "."));
+                NumberFormat nf = NumberFormat.getInstance(ulocale);
+                toAppendTo.append(nf.format(val));
+            } else if (argName.startsWith("D")) { // very primitive date parsing, iso
+                String [] parts = argName.substring(1).split("T", 2);
+                String date = "";
+                String time = "";
+                if (parts.length == 2) {
+                    date = parts[0];
+                    time = parts[1];
+                } else {
+                    if (parts[0].length() == 8) { // date
+                        date = parts[0];
+                    } else if (parts[0].length() == 6) { // time
+                        time = parts[0];
+                    }
+                }
+                Date now = new Date();
+                if (!date.isEmpty()) {
+                    int year = Integer.valueOf(date.substring(0, 4));
+                    int month = Integer.valueOf(date.substring(4, 6));
+                    int day = Integer.valueOf(date.substring(6, 8));
+                    now.setYear(year - 1900);
+                    now.setMonth(month - 1);
+                    now.setDate(day);
+                }
+                if (!time.isEmpty()) {
+                    int hour = Integer.valueOf(date.substring(0, 2));
+                    int minute = Integer.valueOf(date.substring(2, 4));
+                    int second = Integer.valueOf(date.substring(4, 6));
+                    now.setHours(hour);
+                    now.setMinutes(minute);
+                    now.setSeconds(second);
+                }
+                DateFormat df = DateFormat.getInstanceForSkeleton(style, ulocale);
+                toAppendTo.append(df.format(now));
+            }
+            return toAppendTo;
+        }
+    }
+
+    @Test
+    public void TestCustomTypeNameDependent() {
+        HashMap<String, MessageFormat.CustomFormatBuilder> formatterMap = new HashMap<>();
+        formatterMap.put("inline", new UseTheNameFormat.UseTheNameFormatBuilder());
+
+        HashMap<String, Object> args = new HashMap<>();
+
+        ULocale locale = ULocale.forLanguageTag("en-IN");
+
+        MessageFormat mfXref = new MessageFormat("This expires on {D20200923T214215,inline,yMMMdjm}",
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+            "This expires on 23 Sep 2020, 8:20 pm", mfXref.format(args));
+
+        mfXref = new MessageFormat("The population is {N123456789_9876,inline,{x:'a', b:'xxrr'}}",
+                locale, formatterMap);
+        assertEquals("Cross-reference to a sting in resources",
+                "The population is 12,34,56,789.988", mfXref.format(args));
     }
 }
