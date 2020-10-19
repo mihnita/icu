@@ -368,6 +368,10 @@ public class TestMessageFormatCustom extends TestFmwk {
         assertEquals("gender", "They invited you", mf.format(args));
     }
 
+    /*
+     * Example: referencing a different message, possibly handling grammatical case in the same time
+     */
+
     static class XRefFormat extends CustomFormatBase {
         static final long serialVersionUID = -1;
         private final Properties prop;
@@ -447,6 +451,15 @@ public class TestMessageFormatCustom extends TestFmwk {
             "Zaloguj do {entity}", mfXref.format(args));
     }
 
+    /*
+     * Example: syntactic sugar to use "fixed values" (not parameters)
+     * Same as hard-coding the value ("expires in 30 days"), but still formatted
+     * at runtime. Reasons: we translate into ar/es/fr/en, but there are 40+ countries
+     * using French, 20+ for Arabic & Spanish, > 100 for English.
+     * There are also systems (Windows, Android) where the digit types is a user preference.
+     * Same for calendars, time formats, etc.
+     */
+
     static class UseTheNameFormat extends CustomFormatBase {
         static final long serialVersionUID = -1;
 
@@ -523,15 +536,17 @@ public class TestMessageFormatCustom extends TestFmwk {
                 "The population is 12,34,56,789.988", mfXref.format(args));
     }
 
+    /*
+     * Example: interval formatting
+     * Shows how you can have a "function" that takes more than a parameter
+     * OK, it is cheating: take an Object :-) But this is an already established ICU pattern.
+     */
+
     static class DTIntervalFormat extends CustomFormatBase {
         static final long serialVersionUID = -1;
         private final DateIntervalFormat dif;
 
         static class DTIntervalBuilder implements MessageFormat.CustomFormatBuilder {
-
-            public DTIntervalBuilder() {
-            }
-
             public Format build(ULocale locale, String argName, String style) {
                 return new DTIntervalFormat(locale, argName, style);
             }
