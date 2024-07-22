@@ -62,6 +62,15 @@ class MFDataModelFormatter {
                         .setDefaultFormatterNameForType(Date.class, "datetime")
                         .setDefaultFormatterNameForType(Calendar.class, "datetime")
                         .setDefaultFormatterNameForType(java.util.Calendar.class, "datetime")
+                        .setDefaultFormatterNameForType(java.time.temporal.Temporal.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.LocalDate.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.LocalDateTime.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.OffsetDateTime.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.ZonedDateTime.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.chrono.HijrahDate.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.chrono.JapaneseDate.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.chrono.MinguoDate.class, "datetime")
+//                        .setDefaultFormatterNameForType(java.time.chrono.ThaiBuddhistDate.class, "datetime")
 
                         // Number formatting
                         .setFormatter("number", new NumberFormatterFactory("number"))

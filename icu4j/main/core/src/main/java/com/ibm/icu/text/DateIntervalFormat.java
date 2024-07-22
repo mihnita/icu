@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import com.ibm.icu.impl.FormattedValueFieldPositionIteratorImpl;
 import com.ibm.icu.impl.ICUCache;
 import com.ibm.icu.impl.ICUData;
 import com.ibm.icu.impl.ICUResourceBundle;
+import com.ibm.icu.impl.JavaTimeConverters;
 import com.ibm.icu.impl.SimpleCache;
 import com.ibm.icu.impl.SimpleFormatterImpl;
 import com.ibm.icu.impl.Utility;
@@ -890,6 +892,33 @@ public class DateIntervalFormat extends UFormat {
     }
 
     /**
+     * Format 2 Temporals to produce a string.
+     *
+     * @param fromTemporal      temporal set to the from date in date interval
+     *                          to be formatted into date interval string
+     * @param toTemporal        temporal set to the to date in date interval
+     *                          to be formatted into date interval string
+     * @param appendTo          Output parameter to receive result.
+     *                          Result is appended to existing contents.
+     * @param pos               On input: an alignment field, if desired.
+     *                          On output: the offsets of the alignment field.
+     *                          There may be multiple instances of a given field type
+     *                          in an interval format; in this case the fieldPosition
+     *                          offsets refer to the first instance.
+     * @return                  Reference to 'appendTo' parameter.
+     * @throws    IllegalArgumentException  if the two calendars are not equivalent.
+     * @stable ICU 4.0
+     */
+    public final StringBuffer format(Temporal fromTemporal,
+    		Temporal toTemporal,
+            StringBuffer appendTo,
+            FieldPosition pos) {
+    	Calendar fromCalendar = JavaTimeConverters.temporalToCalendar(fromTemporal);
+    	Calendar toCalendar = JavaTimeConverters.temporalToCalendar(toTemporal);
+        return formatImpl(fromCalendar, toCalendar, appendTo, pos, null, null);
+    }
+
+    /**
      * Format 2 Calendars to produce a FormattedDateInterval.
      *
      * The FormattedDateInterval exposes field information about the formatted string.
@@ -913,6 +942,24 @@ public class DateIntervalFormat extends UFormat {
             FormattedValueFieldPositionIteratorImpl.sort(attributes);
         }
         return new FormattedDateInterval(sb, attributes);
+    }
+
+    /**
+     * Format 2 Temporals to produce a FormattedDateInterval.
+     *
+     * The FormattedDateInterval exposes field information about the formatted string.
+     *
+     * @param fromCalendar      temporal set to the from date in date interval
+     *                          to be formatted into date interval string
+     * @param toCalendar        temporal set to the to date in date interval
+     *                          to be formatted into date interval string
+     * @return                  A FormattedDateInterval containing the format result.
+     * @stable ICU 64
+     */
+    public FormattedDateInterval formatToValue(Temporal fromTemporal, Temporal toTemporal) {
+    	Calendar fromCalendar = JavaTimeConverters.temporalToCalendar(fromTemporal);
+    	Calendar toCalendar = JavaTimeConverters.temporalToCalendar(toTemporal);
+        return formatToValue(fromCalendar, toCalendar);
     }
 
     private synchronized StringBuffer formatImpl(Calendar fromCalendar,

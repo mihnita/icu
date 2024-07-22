@@ -14,6 +14,7 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.EnumSet;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 import com.ibm.icu.impl.ICUResourceBundle;
+import com.ibm.icu.impl.JavaTimeConverters;
 import com.ibm.icu.impl.RelativeDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
@@ -630,6 +632,8 @@ public abstract class DateFormat extends UFormat {
         else if (obj instanceof Number)
             return format( new Date(((Number)obj).longValue()),
                           toAppendTo, fieldPosition );
+        else if (obj instanceof Temporal)
+            return format( (Temporal)obj, toAppendTo, fieldPosition );
         else
             throw new IllegalArgumentException("Cannot format given Object (" +
                                                obj.getClass().getName() + ") as a Date");
@@ -706,6 +710,42 @@ public abstract class DateFormat extends UFormat {
         return format(date, new StringBuffer(64),new FieldPosition(0)).toString();
     }
 
+    /**
+     * Formats a {@link Temporal} into a date/time string.
+     *
+     * @param date a {@link Temporal} to be formatted into a date/time string.
+     * @param toAppendTo the string buffer for the returning date/time string.
+     * @param fieldPosition keeps track of the position of the field within the returned string.<br>
+     *   On input: an alignment field, if desired.<br>
+     *   On output: the offsets of the alignment field.<br>
+     *   For example, given a time text "1996.07.10 AD at 15:08:56 PDT",
+     *   if the given {@code fieldPosition} is {@code DateFormat.YEAR_FIELD}, the begin index and end index
+     *   of {@code fieldPosition} will be set to 0 and 4, respectively.<br>
+     *   Notice that if the same time field appears more than once in a pattern, the fieldPosition will
+     *   be set for the first occurrence of that time field. For instance, formatting a {@link Temporal}
+     *   to the time string "1 PM PDT (Pacific Daylight Time)" using the pattern "h a z (zzzz)" and the
+     *   alignment field {@code DateFormat.TIMEZONE_FIELD}, the begin index and end index
+     *   of {@code fieldPosition} will be set to 5 and 8, respectively, for the first occurrence of the
+     *   timezone pattern character 'z'.
+     *
+     * @return the formatted date/time string.
+     */
+    public StringBuffer format(Temporal date, StringBuffer toAppendTo,
+    	    FieldPosition fieldPosition) {
+        return format(JavaTimeConverters.temporalToCalendar(date), toAppendTo, fieldPosition);
+    }
+
+    /**
+     * Formats a {@link Temporal} into a date/time string.
+     *
+     * @param date the time value to be formatted into a time string.
+     * @return the formatted time string.
+     */
+    public final String format(Temporal date)
+    {
+        return format(date, new StringBuffer(64),new FieldPosition(0)).toString();
+    }
+    
     /**
      * Parses a date/time string. For example, a time text "07/10/96 4:5 PM, PDT"
      * will be parsed into a Date that is equivalent to Date(837039928046).
