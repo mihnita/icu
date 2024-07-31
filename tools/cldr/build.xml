@@ -14,7 +14,7 @@
      -->
 
 <!-- Using the directory of this build.xml file as ${basedir}. -->
-<project name="CLDR" basedir=".">
+<project name="CLDR" basedir="." default="help">
 
     <!-- Initialize any properties not already set on the command line. -->
     <target name="init-args">
@@ -47,7 +47,7 @@
     <!-- Copies CLDR test data directories, after deleting previous
          contents to prevent inconsistent state. -->
     <target name="copy-cldr-testdata" depends="init-args, clean-cldr-testdata"
-            description="Copies CLDR test data directories, after deleting previous contents">
+            description="!!! Copies CLDR test data directories, after deleting previous contents">
         <!-- CLDR test data directories to be copied into ICU. -->
         <fileset id="cldrTestData" dir="${cldrDir}/common/testData">
             <!-- Add directories here to control which test data is installed. -->
@@ -76,7 +76,7 @@
     </target>
 
     <target name="clean-cldr-testdata" depends="init-args"
-            description="Deletes CLDR test data">
+            description="!!! Deletes CLDR test data">
         <delete dir="${testDataDir4C}"/>
         <delete dir="${testDataDir4J}"/>
     </target>
@@ -123,9 +123,9 @@
             <arg value="--projects"/> <!-- Specifies the modules to include or exclude from a build. -->
             <arg value=":cldr-code"/>
             <arg value="--also-make"/> <!-- Builds the specified modules, and any of their dependencies in the reactor. -->
-            <arg value="--no-transfer-progress"/>
             <arg value="-DskipTests"/>
-            <arg value="-DskipITs" />
+            <arg value="-DskipITs"/>
+            <arg value="--no-transfer-progress"/>
         </exec>
     </target>
 
@@ -138,11 +138,18 @@
     </target>
 
     <target name="clean" depends="init-args,clean-icu-data,clean-cldr-code,clean-icu4j"
-            description="Clean all the tools and libraries used for data generation">
+            description="!!! Clean all the tools and libraries used for data generation">
     </target>
 
     <target name="build" depends="init-args,build-icu4j,build-cldr-code,build-icu-data"
-            description="Build all the tools and libraries needed and then generate the ICU data from CLDR data">
+            description="!!! Build all the tools and libraries needed and then generate the ICU data from CLDR data">
+    </target>
+
+    <target name="help" description="Show a minimal help message">
+        <echo message="This build file is used to:"/>
+        <echo message=" - buid               : Generate ICU data (.txt files in icu4c) from CLDR data (.xml files)"/>
+        <echo message=" - copy-cldr-testdata : Copy CLDR test data directories"/>
+        <echo message="Run ant -p for a complete list of targets"/>
     </target>
 
 </project>
