@@ -29,14 +29,25 @@
             <isset property="env.CLDR_DIR"/>
         </condition>
         <fail unless="cldrDir"
-             message="Set the CLDR_DIR environment variable (or cldrDir property) to the top level CLDR source directory (containing 'common')."/>
+             message="Set the 'CLDR_DIR' environment variable (or 'cldrDir' property) to the top level CLDR source directory (containing 'common')."/>
+
+        <condition property="icuDir" value="${env.TOOLS_ROOT}">
+          <isset property="env.TOOLS_ROOT"/>
+        </condition>
+        <fail unless="icuDir"
+            message="Set the 'TOOLS_ROOT' environment variable (or 'icuDir' property) to the top level ICU source directory (containing 'icu4c' and 'icu4j')."/>
+
+            <!-- 
+            export CLDR_DATA_DIR=$BASE_DIR/cldr-staging/production
+            -->
         <property name="testDataDir4C" value="${basedir}/../../icu4c/source/test/testdata/cldr"/>
         <property name="testDataDir4J" value="${basedir}/../../icu4j/main/core/src/test/resources/com/ibm/icu/dev/data/cldr"/>
     </target>
 
     <!-- Copies CLDR test data directories, after deleting previous
          contents to prevent inconsistent state. -->
-    <target name="copy-cldr-testdata" depends="init-args, clean-cldr-testdata">
+    <target name="copy-cldr-testdata" depends="init-args, clean-cldr-testdata"
+            description="Copies CLDR test data directories, after deleting previous contents">
         <!-- CLDR test data directories to be copied into ICU. -->
         <fileset id="cldrTestData" dir="${cldrDir}/common/testData">
             <!-- Add directories here to control which test data is installed. -->
@@ -64,8 +75,8 @@
         <echo message="${personNameTestDirContents}" file="${testDataDir4J}/personNameTest/catalog.txt" append="true" />
     </target>
 
-    <!-- Deletes CLDR test data -->
-    <target name="clean-cldr-testdata" depends="init-args">
+    <target name="clean-cldr-testdata" depends="init-args"
+            description="Deletes CLDR test data">
         <delete dir="${testDataDir4C}"/>
         <delete dir="${testDataDir4J}"/>
     </target>
@@ -74,19 +85,64 @@
          through any specified arguments for controlling the build. If you need more control when
          building ICU data (such as incrementally building parts of the data), you should use the
          build-icu-data.xml file directly. -->
-    <target name="build-icu-data">
+    <target name="build-icu-data"
+            description="Builds the ICU data from CLDR data">
         <ant dir="cldr-to-icu" antfile="build-icu-data.xml" target="all" inheritAll="true"/>
     </target>
 
     <!-- Deletes generated ICU data by invoking "clean" in cldr-to-icu/build-icu-data.xml -->
-    <target name="clean-icu-data">
+    <target name="clean-icu-data"
+            description="Deletes generated ICU data">
         <ant dir="cldr-to-icu" antfile="build-icu-data.xml" target="clean" inheritAll="true"/>
     </target>
 
-    <!-- Installs the CLDR library dependencies needed for building ICU data. -->
-    <target name="install-cldr-libs" depends="init-args">
-        <exec dir="lib" executable="install-cldr-jars.sh" resolveexecutable="true" failonerror="true">
-            <arg line="${cldrDir}"/>
+    <target name="build-icu4j" depends="init-args"
+            description="Build the icu4j libraries used for data generation">
+        <exec dir="${icuDir}/icu4j" executable="mvn" searchpath="true" failonerror="true">
+            <arg value="clean"/>
+            <arg value="install"/>
+            <arg value="-DskipTests"/>
+            <arg value="-DskipITs"/>
+            <arg value="--no-transfer-progress"/>
         </exec>
     </target>
+
+    <target name="clean-icu4j" depends="init-args"
+        description="Clean the icu4j libraries used for data generation">
+      <exec dir="${icuDir}/icu4j" executable="mvn" searchpath="true" failonerror="true">
+        <arg value="clean"/>
+        <arg value="--no-transfer-progress"/>
+      </exec>
+    </target>
+
+    <target name="build-cldr-code" depends="init-args"
+            description="Build the CLDR tool used for data generation">
+        <exec dir="${cldrDir}/tools" executable="mvn" searchpath="true" failonerror="true">
+            <arg value="clean"/>
+            <arg value="install"/>
+            <arg value="--projects"/> <!-- Specifies the modules to include or exclude from a build. -->
+            <arg value=":cldr-code"/>
+            <arg value="--also-make"/> <!-- Builds the specified modules, and any of their dependencies in the reactor. -->
+            <arg value="--no-transfer-progress"/>
+            <arg value="-DskipTests"/>
+            <arg value="-DskipITs" />
+        </exec>
+    </target>
+
+    <target name="clean-cldr-code" depends="init-args"
+            description="Clean CLDR tool used for data generation">
+        <exec dir="${cldrDir}/tools" executable="mvn" searchpath="true" failonerror="true">
+            <arg value="clean"/>
+            <arg value="--no-transfer-progress"/>
+        </exec>
+    </target>
+
+    <target name="clean" depends="init-args,clean-icu-data,clean-cldr-code,clean-icu4j"
+            description="Clean all the tools and libraries used for data generation">
+    </target>
+
+    <target name="build" depends="init-args,build-icu4j,build-cldr-code,build-icu-data"
+            description="Build all the tools and libraries needed and then generate the ICU data from CLDR data">
+    </target>
+
 </project>
