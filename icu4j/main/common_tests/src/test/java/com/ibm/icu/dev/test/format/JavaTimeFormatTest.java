@@ -14,6 +14,7 @@
 
 package com.ibm.icu.dev.test.format;
 
+import java.text.FieldPosition;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -37,6 +38,7 @@ import com.ibm.icu.dev.test.CoreTestFmwk;
 import com.ibm.icu.impl.CalType;
 import com.ibm.icu.message2.MessageFormatter;
 import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.DateIntervalFormat;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.util.Calendar;
 
@@ -48,7 +50,6 @@ public class JavaTimeFormatTest extends CoreTestFmwk {
      */
     @Test
     public void TestTemporal() {
-        // Use "March 16, 1943 at 3:45 PM" for date testing
         Locale locale = Locale.US;
         DateFormat df;
 
@@ -141,9 +142,24 @@ public class JavaTimeFormatTest extends CoreTestFmwk {
         mf2 = mf2Builder.setPattern("(mf2) Your card expires on {$expDate}").build();
         System.out.println(mf2.formatToString(arguments));
 
-        mf2 = mf2Builder.setPattern("(mf2ss) Your card expires on {|1968-04-21| :date dateStyle=long}").build();
-        System.out.println(mf2.formatToString(arguments));
-        mf2 = mf2Builder.setPattern("(mf2ss) Your card expires on {|1968-04-21| :date icu:skeleton=EEEEyMMMMd}").build();
-        System.out.println(mf2.formatToString(arguments));
+        System.out.println("=== DateIntervalFormat =======");
+        String intervalSkeleton = "dMMMMy";
+        LocalDate from = LocalDate.of(2024, Month.SEPTEMBER, 17);
+        LocalDate to = LocalDate.of(2024, Month.OCTOBER, 3);
+        StringBuffer result = new StringBuffer();
+
+        locale = Locale.forLanguageTag("fr");
+        DateIntervalFormat di = DateIntervalFormat.getInstance(intervalSkeleton, locale);
+        System.out.println(di.format(from, to, result, new FieldPosition(0)));
+
+        locale = Locale.forLanguageTag("fr-u-ca-hebrew");
+        di = DateIntervalFormat.getInstance(intervalSkeleton, locale);
+        result.setLength(0);
+        System.out.println(di.format(from, to, result, new FieldPosition(0)));
+
+        locale = Locale.forLanguageTag("fr-u-ca-coptic");
+        di = DateIntervalFormat.getInstance(intervalSkeleton, locale);
+        result.setLength(0);
+        System.out.println(di.format(from, to, result, new FieldPosition(0)));
     }
 }
