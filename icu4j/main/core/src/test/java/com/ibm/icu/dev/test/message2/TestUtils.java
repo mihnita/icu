@@ -7,8 +7,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -191,29 +192,17 @@ public class TestUtils {
     }
 
     static Reader jsonReader(String jsonFileName) throws URISyntaxException, IOException {
+        InputStream asStream = TestUtils.class.getResourceAsStream(jsonFileName);
+        if (asStream != null) {
+        	return new InputStreamReader(asStream, StandardCharsets.UTF_8);
+        }
         Path json = getTestFile(TestUtils.class, jsonFileName);
         return Files.newBufferedReader(json, StandardCharsets.UTF_8);
     }
 
     private static Path getTestFile(Class<?> cls, String fileName) throws URISyntaxException, IOException {
-        String packageName = cls.getPackage().getName().replace('.', '/');
-        URI getPath = cls.getClassLoader().getResource(packageName).toURI();
-        Path filePath = Paths.get(getPath);
-        Path json = Paths.get(fileName);
-        // First, check the top level of the source directory,
-        // in case we're in a source tarball
-        Path icuTestdataInSourceDir = filePath.resolve("../../../../../../../../../../../testdata/message2/").normalize();
-        Path icuTestdataDir = icuTestdataInSourceDir;
-        if (!Files.isDirectory(icuTestdataInSourceDir)) {
-            // If that doesn't exist, check one directory higher, in case we're
-            // in a checked-out repo
-            Path icuTestdataInRepo = Paths.get("../").resolve(icuTestdataInSourceDir).normalize();
-            if (!Files.isDirectory(icuTestdataInRepo)) {
-                throw new java.io.FileNotFoundException("Test data directory does not exist: tried "
-                                                        + icuTestdataInSourceDir + " and "
-                                                        + icuTestdataInRepo);
-            }
-            icuTestdataDir = icuTestdataInSourceDir;
-        }
-        return icuTestdataDir.resolve(json);
-    }}
+    	Path filePath = Paths.get(fileName);
+    	Path myPath = Paths.get(cls.getResource("/").toURI());
+    	return myPath.resolve("../../../../../testdata/src/main/resources").resolve(filePath).normalize();
+    }
+}
