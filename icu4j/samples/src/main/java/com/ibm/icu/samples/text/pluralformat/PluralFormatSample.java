@@ -7,13 +7,13 @@
  *******************************************************************************
  */
 package com.ibm.icu.samples.text.pluralformat;
-// ---PluralFormatExample
+// @start region=PluralFormatExample
 import java.text.FieldPosition;
 
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.PluralFormat;
 import com.ibm.icu.util.ULocale;
-// ---PluralFormatExample
+// @end region=PluralFormatExample
 
 public class PluralFormatSample {
 
@@ -29,7 +29,7 @@ public class PluralFormatSample {
       System.out.println(" Use PluralFormat and Messageformat to get appropriate Plural Form for languages below:");
       System.out.println(" English, Slovenian");
       System.out.println("=======================================================================================");
-      // ---PluralFormatExample
+      // @start region=PluralFormatExample
       ULocale locEn = new ULocale("en");
       ULocale locSl = new ULocale("sl");
 
@@ -92,6 +92,6 @@ public class PluralFormatSample {
         102             102 dogs        102 psa
 
        *******************************************************************/
-      // ---PluralFormatExample
+      // @end region=PluralFormatExample
   }
 }

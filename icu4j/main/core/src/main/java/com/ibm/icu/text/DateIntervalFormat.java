@@ -570,7 +570,7 @@ public class DateIntervalFormat extends UFormat {
      * This is a convenient override of
      * getInstance(String skeleton, ULocale locale)
      *
-     * <p>Example code:{@.jcite com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:---dtitvfmtPreDefinedExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/text/dateintervalformat/DateIntervalFormatSample.java' region=dtitvfmtPreDefinedExample}
      * @param skeleton  the skeleton on which interval format based.
      * @param locale    the given locale
      * @return          a date time interval formatter.
@@ -650,7 +650,7 @@ public class DateIntervalFormat extends UFormat {
      * This is a convenient override of
      * getInstance(String skeleton, ULocale locale, DateIntervalInfo dtitvinf)
      *
-     * <p>Example code:{@.jcite com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:---dtitvfmtCustomizedExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/text/dateintervalformat/DateIntervalFormatSample.java' region=dtitvfmtCustomizedExample}
      * @param skeleton  the skeleton on which interval format based.
      * @param locale    the given locale
      * @param dtitvinf  the DateIntervalInfo object to be adopted.

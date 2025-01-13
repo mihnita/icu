@@ -35,7 +35,7 @@ public abstract class BasicTimeZone extends TimeZone {
 
     /**
      * {@icu} Returns the first time zone transition after the base time.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getNextTransitionExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/util/timezone/BasicTimeZoneExample.java' region=getNextTransitionExample}
      *
      * @param base      The base time.
      * @param inclusive Whether the base time is inclusive or not.
@@ -50,7 +50,7 @@ public abstract class BasicTimeZone extends TimeZone {
 
     /**
      * {@icu} Returns the last time zone transition before the base time.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getPreviousTransitionExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/util/timezone/BasicTimeZoneExample.java' region=getPreviousTransitionExample}
      *
      * @param base      The base time.
      * @param inclusive Whether the base time is inclusive or not.
@@ -68,7 +68,7 @@ public abstract class BasicTimeZone extends TimeZone {
      * This method returns true when all of transition times, from/to standard
      * offsets and DST savings used by this time zone match the other in the
      * time range.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---hasEquivalentTransitionsExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/util/timezone/BasicTimeZoneExample.java' region=hasEquivalentTransitionsExample}
      *
      * @param tz    The instance of <code>TimeZone</code>
      * @param start The start time of the evaluated time range (inclusive)
@@ -227,7 +227,7 @@ public abstract class BasicTimeZone extends TimeZone {
      * instance for the initial rule.  The rest will be either
      * <code>AnnualTimeZoneRule</code> or <code>TimeArrayTimeZoneRule</code>
      * instances representing transitions.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getTimeZoneRulesExample}
+     * <p>Example code:{@snippet file='com/ibm/icu/samples/util/timezone/BasicTimeZoneExample.java' region=getTimeZoneRulesExample}
      *
      * @param start The start time (inclusive).
      * @return  The array of <code>TimeZoneRule</code> which represents this

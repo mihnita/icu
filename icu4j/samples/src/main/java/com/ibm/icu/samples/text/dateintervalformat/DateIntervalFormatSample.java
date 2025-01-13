@@ -9,7 +9,7 @@
 package com.ibm.icu.samples.text.dateintervalformat;
 
 
-// ---dtitvfmtPreDefinedExample 
+// @start region=dtitvfmtPreDefinedExample 
 import java.util.Date;
 
 import com.ibm.icu.text.DateFormat;
@@ -19,7 +19,7 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.DateInterval;
 import com.ibm.icu.util.GregorianCalendar;
 import com.ibm.icu.util.ULocale;
-// ---dtitvfmtPreDefinedExample
+// @end region=dtitvfmtPreDefinedExample
 public class DateIntervalFormatSample{
 
     public static void main (String[] args){
@@ -37,7 +37,7 @@ public class DateIntervalFormatSample{
         System.out.println(" Use DateIntervalFormat to get Date interval format for pre-defined skeletons:");
         System.out.println(" yMMMd, MMMd per locale");
         System.out.println("==============================================================================");
-        // ---dtitvfmtPreDefinedExample  
+        // @start region=dtitvfmtPreDefinedExample  
         final Date date[] = {
                 new GregorianCalendar(2007,10,10,10,10,10).getTime(),
                 new GregorianCalendar(2008,10,10,10,10,10).getTime(),
@@ -71,7 +71,7 @@ public class DateIntervalFormatSample{
          jm             Wed Dec 10 10:10:10 EST 2008       Wed Dec 10 15:10:10 EST 2008       10:10 AM – 3:10 PM                 10:10～15:10
 
          *********************************************************************************************************************************************************/
-        // ---dtitvfmtPreDefinedExample
+        // @end region=dtitvfmtPreDefinedExample
 }
     public static void dtitvfmtCustomized()
     {
@@ -80,7 +80,7 @@ public class DateIntervalFormatSample{
         System.out.println();
         System.out.println(" Use DateIntervalFormat to create customized date interval format for yMMMd, Hm");
         System.out.println("================================================================================");
-        // ---dtitvfmtCustomizedExample 
+        // @start region=dtitvfmtCustomizedExample 
         final Date date[] = {
                 new GregorianCalendar(2007,9,10,10,10,10).getTime(),
                 new GregorianCalendar(2007,10,10,10,10,10).getTime(),
@@ -119,7 +119,7 @@ public class DateIntervalFormatSample{
           Hm             Wed Oct 10 10:10:10 EDT 2007       Sat Nov 10 10:10:10 EST 2007       10/10/2007, 10:10 ~~~ 11/10/2007, 10:10      2007/10/10 10:10 ~~~ 2007/11/10 10:10
           Hm             Sat Nov 10 10:10:10 EST 2007       Sat Nov 10 22:10:10 EST 2007       2007 Nov 10 10:10 ~ 22:10                    2007 11月 10 10:10 ~ 22:10
          *************************************************************************************************************************************************************************/
-      // ---dtitvfmtCustomizedExample
+      // @end region=dtitvfmtCustomizedExample
 
     }
 }

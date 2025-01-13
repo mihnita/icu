@@ -31,7 +31,7 @@ public class BasicTimeZoneExample {
     }
 
     public static void nextTransitionExample() {
-        // ---getNextTransitionExample
+        // @start region=getNextTransitionExample
         System.out.println("### Iterates time zone transitions in America/Los_Angeles starting 2005-01-01 and forward");
 
         // A TimeZone instance created by getTimeZone with TIMEZONE_ICU is always a BasicTimeZone
@@ -54,11 +54,11 @@ public class BasicTimeZoneExample {
             // Update start time for next transition
             start = transTime;
         }
-        // ---getNextTransitionExample
+        // @end region=getNextTransitionExample
     }
 
     public static void previousTransitionExample() {
-        // ---getPreviousTransitionExample
+        // @start region=getPreviousTransitionExample
         System.out.println("### Iterates time zone transitions in America/Los_Angeles starting 2010-01-01 and backward");
 
         // A TimeZone instance created by getTimeZone with TIMEZONE_ICU is always a BasicTimeZone
@@ -81,11 +81,11 @@ public class BasicTimeZoneExample {
             // Update start time for next transition
             start = transTime;
         }
-        // ---getPreviousTransitionExample
+        // @end region=getPreviousTransitionExample
     }
 
     public static void timeZoneRulesExample() {
-        // ---getTimeZoneRulesExample
+        // @start region=getTimeZoneRulesExample
         System.out.println("### Extracts time zone rules used by America/Los_Angeles since year 2005");
 
         // A TimeZone instance created by getTimeZone with TIMEZONE_ICU is always a BasicTimeZone
@@ -96,11 +96,11 @@ public class BasicTimeZoneExample {
         for (int i = 1; i < rules.length; i++) {
             System.out.println("Rule: " + rules[i]);
         }
-        // ---getTimeZoneRulesExample
+        // @end region=getTimeZoneRulesExample
     }
 
     public static void equivalentTransitionsExample() {
-        // ---hasEquivalentTransitionsExample
+        // @start region=hasEquivalentTransitionsExample
         System.out.println("### Compare America/New_York and America/Detroit since year 1970");
 
         // A TimeZone instance created by getTimeZone with TIMEZONE_ICU is always a BasicTimeZone
@@ -126,6 +126,6 @@ public class BasicTimeZoneExample {
             boolean isEquivalent = tzNewYork.hasEquivalentTransitions(tzDetroit, start, end);
             System.out.println(startYear + "-" + endYear + ": " + isEquivalent);
         }
-        // ---hasEquivalentTransitionsExample
+        // @end region=hasEquivalentTransitionsExample
     }
 }

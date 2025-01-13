@@ -7,7 +7,7 @@
  *******************************************************************************
  */
 package com.ibm.icu.samples.text.datetimepatterngenerator;
-// ---getBestPatternExample
+// @start region=getBestPatternExample
 import java.util.Date;
 
 import com.ibm.icu.text.DateFormat;
@@ -16,7 +16,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.GregorianCalendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
-// ---getBestPatternExample
+// @end region=getBestPatternExample
 /**
  * com.ibm.icu.text.DateTimePatternGenerator Sample Code
  */
@@ -35,7 +35,7 @@ public class DateTimePatternGeneratorSample {
         System.out.println(" Use DateTimePatternGenerator to create customized date/time pattern:");
         System.out.println(" yQQQQ,yMMMM, MMMMd, hhmm, jjmm per locale");
         System.out.println("========================================================================");
-     // ---getBestPatternExample
+     // @start region=getBestPatternExample
         final String[] skeletons = {
                 "yQQQQ", // year + full name of quarter, i.e., 4th quarter 1999
                 "yMMMM", // year + full name of month, i.e., October 1999
@@ -108,7 +108,7 @@ public class DateTimePatternGeneratorSample {
 
          MMMMd               October 13                         13 octobre                         10月13日 
          ************************************************************************************************************/
-// ---getBestPatternExample
+// @end region=getBestPatternExample
 }
 
     public static void addPatternExample() {
@@ -117,7 +117,7 @@ public class DateTimePatternGeneratorSample {
         System.out.println();
         System.out.println(" Use addPattern API to add new '. von' to existing pattern");
         System.out.println("========================================================================");
-    // ---addPatternExample
+    // @start region=addPatternExample
         Date date= new GregorianCalendar(1999,9,13,23,58,59).getTime();
         ULocale locale = ULocale.FRANCE;
         // Create an DateTimePatternGenerator instance for the given locale
@@ -137,7 +137,7 @@ public class DateTimePatternGeneratorSample {
          Date Time in new Pattern: 13. von octobre 23:58
      
         *************************************************************************************************/
-    // ---addPatternExample
+    // @end region=addPatternExample
 }
 
     public static void replaceFieldTypesExample() {
@@ -147,7 +147,7 @@ public class DateTimePatternGeneratorSample {
         System.out.println();
         System.out.println(" Use replaceFieldTypes API to replace zone 'zzzz' with 'vvvv");
         System.out.println("========================================================================");
-    // ---replaceFieldTypesExample
+    // @start region=replaceFieldTypesExample
         Date date= new GregorianCalendar(1999,9,13,23,58,59).getTime();
         TimeZone zone = TimeZone.getTimeZone("Europe/Paris");
         ULocale locale = ULocale.FRANCE;
@@ -180,6 +180,6 @@ public class DateTimePatternGeneratorSample {
          jeudi 14 octobre 1999 05:58:59 heure de l’Europe centrale
 
         **************************************************************************************************/
- // ---replaceFieldTypesExample
+ // @end region=replaceFieldTypesExample
     }
 }
