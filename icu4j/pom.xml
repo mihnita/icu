@@ -380,7 +380,6 @@
             <doctitle>${icu4j.api.doc.window.title}</doctitle>
             <header>${icu4j.api.doc.header}</header>
             <bottom>${icu4j.api.doc.copyright.footer}</bottom>
-            <!-- <stylesheetfile>${icu4j.api.doc.root.dir}/stylesheet8.css</stylesheetfile> -->
             <encoding>UTF-8</encoding>
             <docencoding>UTF-8</docencoding>
             <charset>UTF-8</charset>
@@ -388,7 +387,7 @@
             <use>true</use>
             <maxmemory>256m</maxmemory>
             <minmemory>256m</minmemory>
-            <verbose>true</verbose>
+            <!-- <verbose>true</verbose> -->
 <!--
             <doclet>org.apidesign.javadoc.codesnippet.Doclet</doclet>
             <docletArtifact>
@@ -397,36 +396,27 @@
               <version>1.0</version>
             </docletArtifact>
 -->
-            <!-- <additionalOptions>- -snippet-path src/test/java</additionalOptions> -->
             <additionalOptions>
-<!--              <additionalOption>- -snippet-path src/test/java</additionalOption> -->
-<!--              <additionalOption>${project.build.directory}/site/doccheck</additionalOption> -->
-              <!-- <additionalOption>- -snippet-path ${project.build.testSourceDirectory}</additionalOption> -->
-              <!-- <additionalOption>- -snippet-path /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/src/test/java</additionalOption> -->
-              <!-- This one works!! -->
-              <!-- <additionalOption>- -snippet-path ${icu4j.api.doc.root.dir}/main/core/src/test/java</additionalOption> -->
-              <!-- This one works!! -->
-              <!-- <additionalOption>- -snippet-path ${icu4j.api.doc.root.dir}/samples/src/main/java</additionalOption> -->
               <additionalOption>--snippet-path ${rootlocation}/samples/src/main/java</additionalOption>
             </additionalOptions>
             <additionalJOptions>
               <additionalJOption>-J-Dfile.encoding=UTF-8</additionalJOption>
             </additionalJOptions>
-            <!--
+            <!-- TODO: fix this to use JDK 9+ javadoc APIs
             <taglets>
               <taglet>
                 <tagletClass>com.ibm.icu.dev.tool.docs.ICUTaglet</tagletClass>
               </taglet>
             </taglets>
+            -->
             <tagletArtifacts>
-              <! - - To handle the ICU custom taglets (@icu, @draft, @stable, etc - ->
+              <!-- To handle the ICU custom taglets (@icu, @draft, @stable, etc -->
               <tagletArtifact>
                 <groupId>com.ibm.icu</groupId>
                 <artifactId>tools_build</artifactId>
                 <version>${project.version}</version>
               </tagletArtifact>
             </tagletArtifacts>
-            -->
             <tags>
               <tag>
                 <name>category</name>
