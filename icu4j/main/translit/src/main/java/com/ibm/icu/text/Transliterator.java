@@ -674,9 +674,9 @@ public abstract class Transliterator implements StringTransform  {
 
     /**
      * This transliterator's filter.  Any character for which
-     * <tt>filter.contains()</tt> returns <tt>false</tt> will not be
-     * altered by this transliterator.  If <tt>filter</tt> is
-     * <tt>null</tt> then no filtering is applied.
+     * <code>filter.contains()</code> returns <code>false</code> will not be
+     * altered by this transliterator.  If <code>filter</code> is
+     * <code>null</code> then no filtering is applied.
      */
     private UnicodeSet filter;
 
@@ -742,9 +742,9 @@ public abstract class Transliterator implements StringTransform  {
      * Default constructor.
      * @param ID the string identifier for this transliterator
      * @param filter the filter.  Any character for which
-     * <tt>filter.contains()</tt> returns <tt>false</tt> will not be
-     * altered by this transliterator.  If <tt>filter</tt> is
-     * <tt>null</tt> then no filtering is applied.
+     * <code>filter.contains()</code> returns <code>false</code> will not be
+     * altered by this transliterator.  If <code>filter</code> is
+     * <code>null</code> then no filtering is applied.
      * @stable ICU 2.0
      */
     protected Transliterator(String ID, UnicodeFilter filter) {
@@ -1530,7 +1530,7 @@ public abstract class Transliterator implements StringTransform  {
     }
 
     /**
-     * Returns the filter used by this transliterator, or <tt>null</tt>
+     * Returns the filter used by this transliterator, or <code>null</code>
      * if this transliterator uses no filter.
      * @stable ICU 2.0
      */
@@ -1540,7 +1540,7 @@ public abstract class Transliterator implements StringTransform  {
 
     /**
      * Changes the filter used by this transliterator.  If the filter
-     * is set to <tt>null</tt> then no filtering will occur.
+     * is set to <code>null</code> then no filtering will occur.
      *
      * <p>Callers must take care if a transliterator is in use by
      * multiple threads.  The filter should not be changed by one

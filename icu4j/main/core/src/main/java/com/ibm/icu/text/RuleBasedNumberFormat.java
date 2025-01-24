@@ -44,11 +44,11 @@ import com.ibm.icu.util.UResourceBundleIterator;
  * spells out a value in words (123 is &quot;one hundred twenty-three&quot;); ordinal, which
  * appends an ordinal suffix to the end of a numeral (123 is &quot;123rd&quot;); and
  * duration, which shows a duration in seconds as hours, minutes, and seconds (123 is
- * &quot;2:03&quot;).&nbsp; The client can also define more specialized <tt>RuleBasedNumberFormat</tt>s
+ * &quot;2:03&quot;).&nbsp; The client can also define more specialized <code>RuleBasedNumberFormat</code>s
  * by supplying programmer-defined rule sets.</p>
  *
- * <p>The behavior of a <tt>RuleBasedNumberFormat</tt> is specified by a textual description
- * that is either passed to the constructor as a <tt>String</tt> or loaded from a resource
+ * <p>The behavior of a <code>RuleBasedNumberFormat</code> is specified by a textual description
+ * that is either passed to the constructor as a <code>String</code> or loaded from a resource
  * bundle. In its simplest form, the description consists of a semicolon-delimited list of <em>rules.</em>
  * Each rule has a string of output text and a value or range of values it is applicable to.
  * In a typical spellout rule set, the first twenty rules are the words for the numbers from
@@ -187,20 +187,20 @@ import com.ibm.icu.util.UResourceBundleIterator;
  *
  * <hr>
  *
- * <p>The description of a <tt>RuleBasedNumberFormat</tt>'s behavior consists of one or more <em>rule
+ * <p>The description of a <code>RuleBasedNumberFormat</code>'s behavior consists of one or more <em>rule
  * sets.</em> Each rule set consists of a name, a colon, and a list of <em>rules.</em> A rule
  * set name must begin with a % sign. Rule sets with names that begin with a single % sign
  * are <em>public:</em> the caller can specify that they be used to format and parse numbers.
  * Rule sets with names that begin with %% are <em>private:</em> they exist only for the use
  * of other rule sets. If a formatter only has one rule set, the name may be omitted.</p>
  *
- * <p>The user can also specify a special &quot;rule set&quot; named <tt>%%lenient-parse</tt>.
- * The body of <tt>%%lenient-parse</tt> isn't a set of number-formatting rules, but a <tt>RuleBasedCollator</tt>
+ * <p>The user can also specify a special &quot;rule set&quot; named <code>%%lenient-parse</code>.
+ * The body of <code>%%lenient-parse</code> isn't a set of number-formatting rules, but a <code>RuleBasedCollator</code>
  * description which is used to define equivalences for lenient parsing. For more information
- * on the syntax, see <tt>RuleBasedCollator</tt>. For more information on lenient parsing,
- * see <tt>setLenientParse()</tt>. <em>Note:</em> symbols that have syntactic meaning
+ * on the syntax, see <code>RuleBasedCollator</code>. For more information on lenient parsing,
+ * see <code>setLenientParse()</code>. <em>Note:</em> symbols that have syntactic meaning
  * in collation rules, such as '&amp;', have no particular meaning when appearing outside
- * of the <tt>lenient-parse</tt> rule set.</p>
+ * of the <code>lenient-parse</code> rule set.</p>
  *
  * <p>The body of a rule set consists of an ordered, semicolon-delimited list of <em>rules.</em>
  * Internally, every rule has a base value, a divisor, rule text, and zero, one, or two <em>substitutions.</em>
@@ -313,8 +313,8 @@ import com.ibm.icu.util.UResourceBundleIterator;
  * algorithms: If the rule set is a regular rule set, do the following:
  *
  * <ul>
- *   <li>If the rule set includes a default rule (and the number was passed in as a <tt>double</tt>),
- *     use the default rule.&nbsp; (If the number being formatted was passed in as a <tt>long</tt>,
+ *   <li>If the rule set includes a default rule (and the number was passed in as a <code>double</code>),
+ *     use the default rule.&nbsp; (If the number being formatted was passed in as a <code>long</code>,
  *     the default rule is ignored.)</li>
  *   <li>If the number is negative, use the negative-number rule.</li>
  *   <li>If the number has a fractional part and is greater than 1, use the improper fraction

@@ -19,8 +19,8 @@ import com.ibm.icu.impl.Grego;
  * {@icu} BasicTimeZone extends <code>TimeZone</code> with additional methods to access
  * time zone transitions and rules.  All ICU <code>TimeZone</code> concrete subclasses
  * extend this class. APIs added to <code>java.util.TimeZone</code> by
- * <code>BasicTimeZone</code> are annotated with <strong>'<font
- * style="color:red">[icu]</font>'</strong>.
+ * <code>BasicTimeZone</code> are annotated with <strong>'<span
+ * style="color:red">[icu]</span>'</strong>.
  *
  * @see com.ibm.icu.util.TimeZoneRule
  * @see com.ibm.icu.util.TimeZoneTransition
@@ -35,7 +35,6 @@ public abstract class BasicTimeZone extends TimeZone {
 
     /**
      * {@icu} Returns the first time zone transition after the base time.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getNextTransitionExample}
      *
      * @param base      The base time.
      * @param inclusive Whether the base time is inclusive or not.
@@ -50,7 +49,6 @@ public abstract class BasicTimeZone extends TimeZone {
 
     /**
      * {@icu} Returns the last time zone transition before the base time.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getPreviousTransitionExample}
      *
      * @param base      The base time.
      * @param inclusive Whether the base time is inclusive or not.
@@ -68,7 +66,6 @@ public abstract class BasicTimeZone extends TimeZone {
      * This method returns true when all of transition times, from/to standard
      * offsets and DST savings used by this time zone match the other in the
      * time range.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---hasEquivalentTransitionsExample}
      *
      * @param tz    The instance of <code>TimeZone</code>
      * @param start The start time of the evaluated time range (inclusive)
@@ -227,7 +224,6 @@ public abstract class BasicTimeZone extends TimeZone {
      * instance for the initial rule.  The rest will be either
      * <code>AnnualTimeZoneRule</code> or <code>TimeArrayTimeZoneRule</code>
      * instances representing transitions.
-     * <p>Example code:{@.jcite com.ibm.icu.samples.util.timezone.BasicTimeZoneExample:---getTimeZoneRulesExample}
      *
      * @param start The start time (inclusive).
      * @return  The array of <code>TimeZoneRule</code> which represents this

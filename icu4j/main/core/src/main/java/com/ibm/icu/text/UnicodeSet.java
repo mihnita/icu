@@ -908,9 +908,9 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <code>true</code> if this set contains no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements.
+     * @return <code>true</code> if this set contains no elements.
      * @stable ICU 2.0
      */
     public boolean isEmpty() {
@@ -926,9 +926,9 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
     }
 
     /**
-     * Implementation of UnicodeMatcher API.  Returns <tt>true</tt> if
+     * Implementation of UnicodeMatcher API.  Returns <code>true</code> if
      * this set contains any character whose low byte is the given
-     * value.  This is used by <tt>RuleBasedTransliterator</tt> for
+     * value.  This is used by <code>RuleBasedTransliterator</code> for
      * indexing.
      * @stable ICU 2.0
      */
@@ -1980,10 +1980,10 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the given
+     * Returns <code>true</code> if this set contains the given
      * multicharacter string.
      * @param s string to be checked for containment
-     * @return <tt>true</tt> if this set contains the specified string
+     * @return <code>true</code> if this set contains the specified string
      * @stable ICU 2.0
      */
     public final boolean contains(CharSequence s) {
@@ -2455,13 +2455,13 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
 
     /**
      * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the specified object is also a set, the two sets
+     * <code>true</code> if the specified object is also a set, the two sets
      * have the same size, and every member of the specified set is
      * contained in this set (or equivalently, every member of this set is
      * contained in the specified set).
      *
      * @param o Object to be compared for equality with this set.
-     * @return <tt>true</tt> if the specified Object is equal to this set.
+     * @return <code>true</code> if the specified Object is equal to this set.
      * @stable ICU 2.0
      */
     @Override

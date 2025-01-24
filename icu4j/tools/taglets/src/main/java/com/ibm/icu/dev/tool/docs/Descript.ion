@@ -1,0 +1,8 @@
+﻿ICUDiscouragedTaglet.java [  13] ICUDiscouragedTaglet.toString(discouraged,false)
+ICUDraftTaglet.java       [ 258] ICUDraftTaglet.toString(draft,false)
+ICUEnhancedTaglet.java    [ 111] ICUEnhancedTaglet.toString(icuenhanced,true)
+ICUInternalTaglet.java    [ 660] ICUInternalTaglet.toString(internal,false)
+ICUNewTaglet.java         [1866] ICUNewTaglet.toString(icu,true)
+ICUNoteTaglet.java        [  23] ICUNoteTaglet.toString(icunote,true)
+ICUObsoleteTaglet.java    [   1] ICUObsoleteTaglet.toString(obsolete,false)
+ICUStableTaglet.java      [6234] ICUStableTaglet.toString(stable,false)

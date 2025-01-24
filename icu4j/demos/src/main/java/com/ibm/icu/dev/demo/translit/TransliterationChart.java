@@ -136,7 +136,7 @@ public class TransliterationChart {
                 } 
                 String backup = item.equals("") ? "&nbsp;" : item;
                 pw.print("<td" + classString + " title='" + getName(item, "; ") + "'>" 
-                    + backup + "<br><tt>" + Utility.hex(item) + "</tt></td>");
+                    + backup + "<br><code>" + Utility.hex(item) + "</code></td>");
             }
             /*
             Iterator sit = equivs.iterator();

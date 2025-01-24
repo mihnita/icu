@@ -123,7 +123,7 @@ public class WriteIndicCharts {
                             if(temp[j].indexOf(":FALLBACK")>=0){
                                 str = temp[j].substring(0,temp[j].indexOf(":"));
                                 fallback=true;
-                               // os.write("            <td bgcolor=#FFFF00 align=center title=\""++"\">"+str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                               // os.write("            <td bgcolor=#FFFF00 align=center title=\""++"\">"+str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             }
                             if(temp[j].indexOf(":UNASSIGNED")>=0){
                                 str = temp[j].substring(0,temp[j].indexOf(":"));
@@ -149,34 +149,34 @@ public class WriteIndicCharts {
                             if(fallback){
 
                                 if(UCharacter.getExtendedName(UTF16.charAt(str,0)).indexOf("unassigned")>0){
-                                    os.write("            <td  width=9% bgcolor=#BBBBFF align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td  width=9% bgcolor=#BBBBFF align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }else{
-                                    os.write("            <td width=9% bgcolor=#BBBBFF align=center title=\""+name+"\">"+ str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td width=9% bgcolor=#BBBBFF align=center title=\""+name+"\">"+ str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }
                             }else if(unmapped){
-                                os.write("            <td bgcolor=#FF9999 align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                os.write("            <td bgcolor=#FF9999 align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             }else if(unassigned){
                                 if(UCharacter.getExtendedName(UTF16.charAt(str,0)).indexOf("unassigned")>0){
-                                    os.write("            <td width=9% bgcolor=#00FFFF align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td width=9% bgcolor=#00FFFF align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }else{
-                                    os.write("            <td width=9% bgcolor=#00FFFF align=center title=\""+name+"\">"+ str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td width=9% bgcolor=#00FFFF align=center title=\""+name+"\">"+ str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }
                             }else if(consumed){
                                  if(UCharacter.getExtendedName(UTF16.charAt(str,0)).indexOf("unassigned")>0){
-                                    os.write("            <td width=9% bgcolor=#FFFF55 align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td width=9% bgcolor=#FFFF55 align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }else{
-                                    os.write("            <td width=9% bgcolor=#FFFF55 align=center title=\""+""+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                    os.write("            <td width=9% bgcolor=#FFFF55 align=center title=\""+""+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 }
                             }else if(name.indexOf("private")!=-1){
                                 String s = t10.transliterate(str);
-                                os.write("            <td width=9% bgcolor=#FFBBBB  align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                os.write("            <td width=9% bgcolor=#FFBBBB  align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                                 if(!s.equals(str)){
                                     os.write("            <td width=9%  bgcolor=#CCEEDD align=center>"+s +"</td>");
                                 }else{
                                     os.write("            <td width=9% bgcolor=#CCEEDD align=center>&nbsp;</td>");
                                 }
                             }else{
-                               os.write("            <td width=9% align=center title=\""+name+"\">"+ str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                               os.write("            <td width=9% align=center title=\""+name+"\">"+ str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             } 
                         }else{
                              os.write("           <td width=9% >&nbsp</td>\n");
@@ -262,20 +262,20 @@ public class WriteIndicCharts {
                             if(temp[j].indexOf(":FALLBACK")>=0){
                                 str = temp[j].substring(0,temp[j].indexOf(":"));
                                 fallback=true;
-                               // os.write("            <td bgcolor=#FFFF00 align=center title=\""++"\">"+str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                               // os.write("            <td bgcolor=#FFFF00 align=center title=\""++"\">"+str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             }
                             String name = UCharacter.getExtendedName(UTF16.charAt(str,0));
                             if(fallback){
-                                os.write("            <td bgcolor=#BBBBFF align=center title=\""+name+"\">"+ str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                os.write("            <td bgcolor=#BBBBFF align=center title=\""+name+"\">"+ str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             }else if(name.indexOf("unassigned")!=-1){
-                                os.write("            <td bgcolor=#CCCCCC align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                os.write("            <td bgcolor=#CCCCCC align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             }else if(name.indexOf("private")!=-1){
 
                                 
-                                os.write("            <td bgcolor=#FFBBBB align=center title=\""+name+"\">"+"&nbsp<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                                os.write("            <td bgcolor=#FFBBBB align=center title=\""+name+"\">"+"&nbsp<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
 
                             }else{
-                               os.write("            <td align=center title=\""+name+"\">"+ str+"<br><tt>"+Utility.hex(str)+"</tt>"+"</td>\n");
+                               os.write("            <td align=center title=\""+name+"\">"+ str+"<br><code>"+Utility.hex(str)+"</code>"+"</td>\n");
                             } 
                         }else{
                              os.write("           <td>&nbsp</td>\n");

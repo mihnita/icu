@@ -50,35 +50,35 @@ import java.util.Iterator;
 public final class UnicodeSetIterator {
 
     /**
-     * Value of <tt>codepoint</tt> if the iterator points to a string.
-     * If <tt>codepoint == IS_STRING</tt>, then examine
-     * <tt>string</tt> for the current iteration result.
+     * Value of <code>codepoint</code> if the iterator points to a string.
+     * If <code>codepoint == IS_STRING</code>, then examine
+     * <code>string</code> for the current iteration result.
      * @stable ICU 2.0
      */
     public static final int IS_STRING = -1;
 
     /**
-     * Current code point, or the special value <tt>IS_STRING</tt>, if
+     * Current code point, or the special value <code>IS_STRING</code>, if
      * the iterator points to a string.
      * @stable ICU 2.0
      */
     public int codepoint;
 
     /**
-     * When iterating over ranges using <tt>nextRange()</tt>,
-     * <tt>codepointEnd</tt> contains the inclusive end of the
-     * iteration range, if <tt>codepoint != IS_STRING</tt>.  If
-     * iterating over code points using <tt>next()</tt>, or if
-     * <tt>codepoint == IS_STRING</tt>, then the value of
-     * <tt>codepointEnd</tt> is undefined.
+     * When iterating over ranges using <code>nextRange()</code>,
+     * <code>codepointEnd</code> contains the inclusive end of the
+     * iteration range, if <code>codepoint != IS_STRING</code>.  If
+     * iterating over code points using <code>next()</code>, or if
+     * <code>codepoint == IS_STRING</code>, then the value of
+     * <code>codepointEnd</code> is undefined.
      * @stable ICU 2.0
      */
     public int codepointEnd;
 
     /**
-     * If <tt>codepoint == IS_STRING</tt>, then <tt>string</tt> points
-     * to the current string.  If <tt>codepoint != IS_STRING</tt>, the
-     * value of <tt>string</tt> is undefined.
+     * If <code>codepoint == IS_STRING</code>, then <code>string</code> points
+     * to the current string.  If <code>codepoint != IS_STRING</code>, the
+     * value of <code>string</code> is undefined.
      * @stable ICU 2.0
      */
     public String string;
@@ -93,8 +93,8 @@ public final class UnicodeSetIterator {
     }
 
     /**
-     * Create an iterator over nothing.  <tt>next()</tt> and
-     * <tt>nextRange()</tt> return false. This is a convenience
+     * Create an iterator over nothing.  <code>next()</code> and
+     * <code>nextRange()</code> return false. This is a convenience
      * constructor allowing the target to be set later.
      * @stable ICU 2.0
      */
@@ -122,16 +122,16 @@ public final class UnicodeSetIterator {
     /**
      * Returns the next element in the set, either a single code point
      * or a string.  If there are no more elements in the set, return
-     * false.  If <tt>codepoint == IS_STRING</tt>, the value is a
-     * string in the <tt>string</tt> field.  Otherwise the value is a
-     * single code point in the <tt>codepoint</tt> field.
+     * false.  If <code>codepoint == IS_STRING</code>, the value is a
+     * string in the <code>string</code> field.  Otherwise the value is a
+     * single code point in the <code>codepoint</code> field.
      *
      * <p>The order of iteration is all code points in sorted order,
-     * followed by all strings sorted order.  <tt>codepointEnd</tt> is
-     * undefined after calling this method.  <tt>string</tt> is
-     * undefined unless <tt>codepoint == IS_STRING</tt>.  Do not mix
-     * calls to <tt>next()</tt> and <tt>nextRange()</tt> without
-     * calling <tt>reset()</tt> between them.  The results of doing so
+     * followed by all strings sorted order.  <code>codepointEnd</code> is
+     * undefined after calling this method.  <code>string</code> is
+     * undefined unless <code>codepoint == IS_STRING</code>.  Do not mix
+     * calls to <code>next()</code> and <code>nextRange()</code> without
+     * calling <code>reset()</code> between them.  The results of doing so
      * are undefined.
      * <p><b>Warning: </b>For speed, UnicodeSet iteration does not check for concurrent modification.
      * Do not alter the UnicodeSet while iterating.
@@ -166,17 +166,17 @@ public final class UnicodeSetIterator {
     /**
      * Returns the next element in the set, either a code point range
      * or a string.  If there are no more elements in the set, return
-     * false.  If <tt>codepoint == IS_STRING</tt>, the value is a
-     * string in the <tt>string</tt> field.  Otherwise the value is a
-     * range of one or more code points from <tt>codepoint</tt> to
-     * <tt>codepointeEnd</tt> inclusive.
+     * false.  If <code>codepoint == IS_STRING</code>, the value is a
+     * string in the <code>string</code> field.  Otherwise the value is a
+     * range of one or more code points from <code>codepoint</code> to
+     * <code>codepointeEnd</code> inclusive.
      *
      * <p>The order of iteration is all code points ranges in sorted
      * order, followed by all strings sorted order.  Ranges are
-     * disjoint and non-contiguous.  <tt>string</tt> is undefined
-     * unless <tt>codepoint == IS_STRING</tt>.  Do not mix calls to
-     * <tt>next()</tt> and <tt>nextRange()</tt> without calling
-     * <tt>reset()</tt> between them.  The results of doing so are
+     * disjoint and non-contiguous.  <code>string</code> is undefined
+     * unless <code>codepoint == IS_STRING</code>.  Do not mix calls to
+     * <code>next()</code> and <code>nextRange()</code> without calling
+     * <code>reset()</code> between them.  The results of doing so are
      * undefined.
      *
      * @return true if there was another element in the set and this
@@ -214,7 +214,7 @@ public final class UnicodeSetIterator {
     /**
      * Sets this iterator to visit the elements of the given set and
      * resets it to the start of that set.  The iterator is valid only
-     * so long as <tt>set</tt> is valid.
+     * so long as <code>set</code> is valid.
      * @param uset the set to iterate over.
      * @stable ICU 2.0
      */
