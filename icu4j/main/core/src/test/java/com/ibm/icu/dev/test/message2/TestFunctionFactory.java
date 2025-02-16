@@ -20,7 +20,7 @@ import com.ibm.icu.text.FormattedValue;
 
 /**
  * Locale-independent functions for formatting and selection.
- * Implements the functionality required by `:test:function`, `:test:format`, and `:test:select`.  
+ * Implements the functionality required by `:test:function`, `:test:format`, and `:test:select`.
  * Used only for testing (see test/README.md in the MF2 repository).
  */
 public class TestFunctionFactory implements FormatterFactory, SelectorFactory {
@@ -145,7 +145,8 @@ public class TestFunctionFactory implements FormatterFactory, SelectorFactory {
 
             option = getStringOption(options, "fails", "never");
             if (option == null) {
-                System.out.println("WTF?");
+                // `getStringOption` returns the default value ("never") if the key does not exist
+                throw new IllegalArgumentException("The `fails` option cannot be null.");
             }
             switch (option) {
                 case "never":

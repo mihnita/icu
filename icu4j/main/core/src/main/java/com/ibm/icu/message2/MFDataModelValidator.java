@@ -162,10 +162,9 @@ class MFDataModelValidator {
             function = fe.function;
         }
 
-        if (function instanceof Function) {
-            Function fa = (Function) function;
-            if (fa.options != null) {
-                for (Option opt : fa.options.values()) {
+        if (function != null) {
+            if (function.options != null) {
+                for (Option opt : function.options.values()) {
                     LiteralOrVariableRef val = opt.value;
                     if (val instanceof VariableRef) {
                         // We had something like {:f option=$val}, it means we's seen `val`

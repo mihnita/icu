@@ -132,7 +132,7 @@ public class TestUtils {
         if (params == null) {
             return null;
         }
-        TreeMap<String, Object> result = new TreeMap<String, Object>();
+        TreeMap<String, Object> result = new TreeMap<>();
         for (Param pair : params) {
             result.put(pair.name, pair.value);
         }
@@ -226,7 +226,7 @@ public class TestUtils {
         return Files.newBufferedReader(json, StandardCharsets.UTF_8);
     }
 
-    private static Path getTestFile(Class<?> cls, String fileName) throws URISyntaxException, IOException {
+    private static Path getTestFile(Class<?> cls, String fileName) throws URISyntaxException {
         String packageName = cls.getPackage().getName().replace('.', '/');
         URI getPath = cls.getClassLoader().getResource(packageName).toURI();
         Path filePath = Paths.get(getPath);

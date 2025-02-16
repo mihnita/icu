@@ -60,7 +60,6 @@ class DateTimeFormatterFactory implements FormatterFactory {
     @Override
     public Formatter createFormatter(Locale locale, Map<String, Object> fixedOptions) {
         locale = OptUtils.getBestLocale(fixedOptions, locale);
-        Directionality dir = OptUtils.getBestDirectionality(fixedOptions, locale);
 
         boolean reportErrors = OptUtils.reportErrors(fixedOptions);
         int dateStyle = DateFormat.NONE;

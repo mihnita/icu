@@ -284,11 +284,10 @@ public class MFParser {
         MFDataModel.Function function = getFunction(false);
         List<MFDataModel.Attribute> attributes = getAttributes();
 
-        if (function instanceof MFDataModel.Function) {
-            return new MFDataModel.FunctionExpression(
-                    (MFDataModel.Function) function, attributes);
+        if (function != null) {
+            return new MFDataModel.FunctionExpression(function, attributes);
         } else {
-            error("Unexpected function : " + function);
+            error("Unexpected, function is null");
         }
         return null;
     }
@@ -314,9 +313,8 @@ public class MFParser {
             input.readCodePoint();
         }
 
-        if (function instanceof MFDataModel.Function) {
-            MFDataModel.Function fa = (MFDataModel.Function) function;
-            return new MFDataModel.Markup(kind, fa.name, fa.options, attributes);
+        if (function != null) {
+            return new MFDataModel.Markup(kind, function.name, function.options, attributes);
         }
 
         return null;
@@ -515,7 +513,6 @@ public class MFParser {
      * abnf: s = *bidi ws o
      */
     private int skipRequiredWhitespaces() throws MFParseException {
-        int position = input.getPosition();
         skipOptionalBidi();
         int count = skipWhitespaces();
         checkCondition(count > 0, "Space expected");

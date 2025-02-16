@@ -183,14 +183,10 @@ public class MFSerializer {
         if (function == null) {
             return;
         }
-        if (function instanceof Function) {
-            addSpaceIfNeeded();
-            result.append(":");
-            result.append(((Function) function).name);
-            optionsToString(((Function) function).options);
-        } else {
-            errorType("Function", function);
-        }
+        addSpaceIfNeeded();
+        result.append(":");
+        result.append(function.name);
+        optionsToString(function.options);
     }
 
     private void variableExpressionToString(VariableExpression ve) {

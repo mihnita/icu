@@ -200,15 +200,11 @@ class MFDataModelFormatter {
             } else if (fph.getInput() instanceof MFDataModel.VariableExpression) {
                 MFDataModel.VariableExpression ve = (MFDataModel.VariableExpression) fph.getInput();
                 argument = resolveLiteralOrVariable(ve.arg, variables, arguments);
-                if (ve.function instanceof Function) {
-                    functionName = ((Function) ve.function).name;
-                }
+                functionName = ve.function.name;
             } else if (fph.getInput() instanceof LiteralExpression) {
                 LiteralExpression le = (LiteralExpression) fph.getInput();
                 argument = le.arg;
-                if (le.function instanceof Function) {
-                    functionName = ((Function) le.function).name;
-                }
+                functionName = le.function.name;
             }
             SelectorFactory funcFactory = standardFunctions.getSelector(functionName);
             if (funcFactory == null) {
@@ -560,10 +556,9 @@ class MFDataModelFormatter {
             }
         }
 
-        if (function instanceof Function) {
-            Function fa = (Function) function;
-            functionName = fa.name;
-            MapWithNfcKeys newOptions = convertOptions(fa.options, variables, arguments);
+        if (function != null) {
+            functionName = function.name;
+            MapWithNfcKeys newOptions = convertOptions(function.options, variables, arguments);
             options.putAll(newOptions.getMap());
         }
 

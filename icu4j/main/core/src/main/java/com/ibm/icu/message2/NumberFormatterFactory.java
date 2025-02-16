@@ -87,8 +87,6 @@ class NumberFormatterFactory implements FormatterFactory, SelectorFactory {
         NumberFormatterImpl(Locale locale, Map<String, Object> fixedOptions, String kind) {
             this.locale = OptUtils.getBestLocale(fixedOptions, locale);
             this.fixedOptions = new HashMap<>(fixedOptions);
-            String skeleton = OptUtils.getString(fixedOptions, "icu:skeleton");
-            boolean fancy = skeleton != null;
             this.icuFormatter = formatterForOptions(this.locale, fixedOptions, kind);
             this.kind = kind;
         }
@@ -454,7 +452,10 @@ class NumberFormatterFactory implements FormatterFactory, SelectorFactory {
             strOption = OptUtils.getString(fixedOptions, "currencySign", "standard");
             switch (strOption) {
                 case "accounting":
-                case "standard":
+                    nf = nf.sign(SignDisplay.ACCOUNTING);
+                    break;
+                case "standard": // OK to fallback, default sign handling for currency
+                default:
                     break;
             }
             strOption = OptUtils.getString(fixedOptions, "currencyDisplay", "symbol");
