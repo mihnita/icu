@@ -44,6 +44,7 @@
     <module>demos</module>
     <module>samples</module>
     <module>tools/misc</module>
+    <module>tools/build</module>
     <module>perf-tests</module>
   </modules>
 
@@ -51,6 +52,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.release>8</maven.compiler.release>
 
     <maven-central-repo-url>https://oss.sonatype.org</maven-central-repo-url>
     <maven-central-releases-repo-url>${maven-central-repo-url}/service/local/staging/deploy/maven2</maven-central-releases-repo-url>
@@ -205,6 +207,7 @@
           <configuration>
             <source>${maven.compiler.source}</source>
             <target>${maven.compiler.target}</target>
+            <release>${maven.compiler.release}</release>
           </configuration>
         </plugin>
         <plugin>
@@ -613,47 +616,8 @@
                 <additionalOption>-output ${project.build.directory}/icu4j${icu4j.api.report.version}.api3</additionalOption>
                 <additionalOption>-internal</additionalOption>
                 <additionalOption>-version</additionalOption>
-                <additionalOption>-gzip</additionalOption>
+                <!-- <additionalOption>-gzip</additionalOption> -->
               </additionalOptions>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- The tools/build module depends on the old tools.jar (jdk 1.8)
-      The com.sun.javadoc package was deprecated in Java 11, and has been removed for Java 17.
-      JDK 11 does not include tools.jar anymore. The code must be updated, see migration guide at
-        https://docs.oracle.com/en/java/javase/11/docs/api/jdk.javadoc/jdk/javadoc/doclet/package-summary.html#migration
-    -->
-    <profile>
-      <id>old_jdk_taglet</id>
-      <activation>
-        <jdk>[1.7,1.8]</jdk>
-      </activation>
-      <modules>
-         <module>tools/build</module>
-      </modules>
-    </profile>
-
-    <!-- Starting with JDK 9, the Java compiler supports the −−release version.
-      Unlike source (checking the language features) and target (the version of the classes generated),
-      this option also checks that newer APIs are not used.
-        https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-release.html
-      Would be nice if the maven-compiler-plugin would filter this out below JDK 9, but it does not.
-      So we must use an auto-activated profile for this option.
-    -->
-    <profile>
-      <id>newer_jdk</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <release>8</release>
             </configuration>
           </plugin>
         </plugins>

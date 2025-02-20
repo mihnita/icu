@@ -11,8 +11,8 @@ fi
 # ====================================================================================
 # The start of the script proper
 
-reportTitle "Checking the JDK version (must be 8)"
-checkThatJdk8IsDefault
+reportTitle "Checking the JDK version (must be newer than 8)"
+#todo checkThatJdk11IsDefault
 
 # ====================================================================================
 

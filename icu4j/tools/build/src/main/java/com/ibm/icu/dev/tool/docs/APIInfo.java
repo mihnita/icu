@@ -174,7 +174,15 @@ class APIInfo {
             case EXC: return exc;
             }
         }
+        if (typ >= shifts.length) {
+            System.out.println("WTF: " + typ);
+            return "WTF";
+        }
         int val = (info >>> shifts[typ]) & masks[typ];
+        if (val >= vals.length) {
+            System.out.printf("wtf: 0x%x ::: %d%n", info, typ);
+            return sig;
+        }
         return vals[val];
     }
 
@@ -274,6 +282,19 @@ class APIInfo {
             throw re;
         }
     }
+    
+    public void writelnX(BufferedWriter w) {
+        try {
+            String s = String.format("ApiInfo { info:0x%x pack:'%s' cls:'%s' name:'%s' sig:'%s' exc:'%s' stver:'%s' }", info, pack, cls, name, sig, exc, stver);
+            w.write(s);
+            w.newLine();
+        } catch (IOException e) {
+            RuntimeException re = new RuntimeException("IO Error");
+            re.initCause(e);
+            throw re;
+        }
+    }
+    
 
     /**
      * Read a record from the input and initialize this APIInfo.
