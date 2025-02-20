@@ -282,11 +282,10 @@ class APIInfo {
             throw re;
         }
     }
-    
+
     public void writelnX(BufferedWriter w) {
         try {
-            String s = String.format("ApiInfo { info:0x%x pack:'%s' cls:'%s' name:'%s' sig:'%s' exc:'%s' stver:'%s' }", info, pack, cls, name, sig, exc, stver);
-            w.write(s);
+            w.write(toStringX());
             w.newLine();
         } catch (IOException e) {
             RuntimeException re = new RuntimeException("IO Error");
@@ -294,7 +293,10 @@ class APIInfo {
             throw re;
         }
     }
-    
+
+    public String toStringX() {
+        return String.format("ApiInfo { pack:'%s' cls:'%s' name:'%s' sig:'%s' exc:'%s' stver:'%s' info:0x%x }", pack, cls, name, sig, exc, stver, info);
+    }
 
     /**
      * Read a record from the input and initialize this APIInfo.

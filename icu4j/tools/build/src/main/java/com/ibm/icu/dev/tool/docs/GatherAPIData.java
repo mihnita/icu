@@ -50,6 +50,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -65,14 +66,23 @@ import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.Reporter;
 
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.Parameterizable;
+import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.util.Elements;
+
+import com.sun.source.doctree.BlockTagTree;
+import com.sun.source.doctree.DocCommentTree;
+import com.sun.source.doctree.DocTree;
+import com.sun.source.tree.Tree;
+import com.sun.source.util.DocTrees;
+import com.sun.source.util.TreePath;
 
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -80,11 +90,12 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.DeclaredType;
 
 @SupportedAnnotationTypes("*")
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedSourceVersion(SourceVersion.RELEASE_9)
 public class GatherAPIData implements Doclet {
+    private Elements elementUtils;
+    private DocTrees docTrees;
     private TreeSet<APIInfo> results = new TreeSet<>(APIInfo.defaultComparator());
     private String srcName = "Current"; // default source name
     private String output; // name of output file to write
@@ -119,14 +130,20 @@ public class GatherAPIData implements Doclet {
     @Override
     public SourceVersion getSupportedSourceVersion() {
         System.out.println("=== SPY === getSupportedSourceVersion()");
+        // The documentation says "usually the latest version"
+        // But even if at this time JDK 23 is already released, we
+        // want to be able to compile / use this doclet with at least JDK 11.
+        // So anything above RELEASE_11 is undefined 
         return SourceVersion.RELEASE_11;
     }
 
     @Override
     public boolean run(DocletEnvironment environment) {
         System.out.println("=== SPY === run(DocletEnvironment)");
+        elementUtils = environment.getElementUtils();
+        docTrees = environment.getDocTrees();
+
         initFromOptions();
-        eu = environment.getElementUtils();
         doDocs(environment.getIncludedElements());
 
         OutputStream os = System.out;
@@ -269,8 +286,8 @@ public class GatherAPIData implements Doclet {
         if (doc == null) return true;
         if (doc.getModifiers().contains(Modifier.PRIVATE) || doc.getModifiers().contains(Modifier.DEFAULT)) return true;
         //todo if (doc.getKind() == ElementKind.FIELD && doc.getModifiers().contains(Modifier.SYNTHETIC)) return true;
-        if (doc.getKind() == ElementKind.PACKAGE) return true;
-        if (doc.getKind() == ElementKind.FIELD) return true;
+//        if (doc.getKind() == ElementKind.PACKAGE) return true;
+//        if (doc.getKind() == ElementKind.FIELD) return true;
         if (doc.toString().contains(".misc")) {
             System.out.println("misc: " + doc.toString()); return true;
         }
@@ -298,9 +315,9 @@ public class GatherAPIData implements Doclet {
         //todo: }
 
         if (!internal) { // debug
-            List<? extends AnnotationMirror> tags = doc.getAnnotationMirrors();
-            for (AnnotationMirror tag : tags) {
-                if (tagKindIndex(tag.getAnnotationType()) == INTERNAL) { return true; }
+            List<BlockTagTree> tags = getTags(doc);
+            for (BlockTagTree tag : tags) {
+                if (tagKindIndex(tag) == INTERNAL) { return true; }
             }
         }
         if (pat != null && (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE)) {
@@ -319,15 +336,19 @@ public class GatherAPIData implements Doclet {
     }
 
     private String trimBase(String arg) {
+        String orgArg = arg;
         if (base != null) {
             for (int n = arg.indexOf(base); n != -1; n = arg.indexOf(base, n)) {
                 arg = arg.substring(0, n) + arg.substring(n+base.length());
             }
         }
+        System.out.println(  "trimBase('" + orgArg + "') = '" + arg + "'");
         return arg;
     }
 
     public APIInfo createInfo(Element doc) {
+        System.out.println("=============");
+        dumpElement(doc);
 
         // Doc. name
         // Doc. isField, isMethod, isConstructor, isClass, isInterface
@@ -343,25 +364,33 @@ public class GatherAPIData implements Doclet {
         // MethodDoc isAbstract, returnType
 
         APIInfo info = new APIInfo();
+        System.out.println("ai1:" + info.toStringX());
         if (version) {
             info.includeStatusVersion(true);
         }
+        System.out.println("ai2:" + info.toStringX());
 
         // status
         String[] version = new String[1];
         info.setType(APIInfo.STA, tagStatus(doc, version));
         info.setStatusVersion(version[0]);
+        System.out.println("ai22:" + info.toStringX());
 
         // visibility
         if (doc.getModifiers().contains(Modifier.PUBLIC)) {
+            System.out.println("ai30:" + info.toStringX());
             info.setPublic();
         } else if (doc.getModifiers().contains(Modifier.PROTECTED)) {
+            System.out.println("ai31:" + info.toStringX());
             info.setProtected();
         } else if (doc.getModifiers().contains(Modifier.PRIVATE)) {
+            System.out.println("ai32:" + info.toStringX());
             info.setPrivate();
         } else {
+            System.out.println("ai33:" + info.toStringX());
             // default is package
         }
+        System.out.println("ai3X:" + info.toStringX());
 
         // static
         if (doc.getModifiers().contains(Modifier.STATIC)) {
@@ -394,7 +423,7 @@ public class GatherAPIData implements Doclet {
             info.setEnumConstant();
         }
 
-        PackageElement packageElement = eu.getPackageOf(doc);
+        PackageElement packageElement = elementUtils.getPackageOf(doc);
         info.setPackage(trimBase(packageElement.getQualifiedName().toString()));
 
         String className = (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE || doc.getEnclosingElement() == null)
@@ -413,14 +442,18 @@ public class GatherAPIData implements Doclet {
             if (!name.contains(".") && dotIdx > 0) {
                 name = className.substring(0, dotIdx + 1) + name;
             }
+            // The constructor name is always `<init>`, so we use the class name instead
+            name = className;
         }
         info.setName(name);
 
-//        tryAll(doc);
+        System.out.println("ai4:" + info.toStringX());
         if (doc.getKind() == ElementKind.FIELD) {
             VariableElement fdoc = (VariableElement)doc;
+            System.out.println("aiA:" + info.toStringX());
             info.setSignature(trimBase(fdoc.asType().toString()));
-        } else if (doc.getKind() == ElementKind.CLASS) {
+        } else if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
+            System.out.println("aiB:" + info.toStringX());
             TypeElement cdoc = (TypeElement)doc;
 
             if (cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
@@ -449,6 +482,7 @@ public class GatherAPIData implements Doclet {
             }
             info.setSignature(trimBase(buf.toString()));
         } else if (doc.getKind() == ElementKind.METHOD || doc.getKind() == ElementKind.CONSTRUCTOR) {
+            System.out.println("aiC:" + info.toStringX());
             ExecutableElement emdoc = (ExecutableElement)doc;
             if (emdoc.getModifiers().contains(Modifier.SYNCHRONIZED)) {
                 info.setSynchronized();
@@ -465,17 +499,64 @@ public class GatherAPIData implements Doclet {
                         info.setAbstract();
                     }
                 }
-                info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString()));
+                info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
             } else {
                 // constructor
                 info.setSignature(trimBase(emdoc.toString()));
             }
         } else {
+            System.out.println("aiD:" + info.toStringX());
 //            System.out.println("=== SPYSPY: TO_FIX " + doc.getKind());
             info.setSignature("TO_FIX_" + doc.getKind());
         }
 
+        System.out.println("final:" + info.toStringX());
+        
         return info;
+    }
+
+    private void dumpElement(Element doc) {
+        String extras = "";
+        switch (doc.getKind()) {
+            case CLASS:
+            case ENUM:
+            case INTERFACE:
+            case ANNOTATION_TYPE:
+                TypeElement te = (TypeElement) doc;
+                extras = String.format("te.enclos:'%s' te.inter:'%s'"
+                        + " te.nest:'%s' te.qual:'%s' te.simp:'%s'"
+                        + " te.supr:'%s' te.typparam:'%s' ", 
+                    te.getEnclosingElement(),
+                    te.getInterfaces(),
+                    te.getNestingKind(),
+                    te.getQualifiedName(),
+                    te.getSimpleName(),
+                    te.getSuperclass(),
+                    te.getTypeParameters());
+                break;
+            case CONSTRUCTOR:
+            case METHOD:
+                ExecutableElement ee = (ExecutableElement) doc;
+                extras = String.format("ee.param:'%s' ee.rcvr:'%s'"
+                        + " ee.ret:'%s' ee.simp:'%s' ee.throw:'%s'"
+                        + " ee.typparam:'%s' ",
+                    ee.getParameters(),
+                    ee.getReceiverType(),
+                    ee.getReturnType(),
+                    ee.getSimpleName(),
+                    ee.getThrownTypes(),    
+                    ee.getTypeParameters());
+                break;
+        }
+        System.out.printf("Element { kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
+                doc.getKind(),
+                doc.getModifiers(),
+                doc.getSimpleName(),
+                doc.getClass(),
+                doc.getEnclosingElement(),
+                elementUtils.getPackageOf(doc).getQualifiedName(),
+                extras
+        );
     }
 
     private int tagStatus(final Element doc, String[] version) {
@@ -538,12 +619,13 @@ public class GatherAPIData implements Doclet {
             }
         }
 
-        List<? extends AnnotationMirror> tags = doc.getAnnotationMirrors();
+        List<BlockTagTree> tags = getTags(doc);
+        System.out.println("tags:" + tags);
         Result result = new Result();
         String statusVer = "";
-        for (AnnotationMirror tag : tags) {
-            String kind = tag.getAnnotationType().toString();
-            int ix = tagKindIndex(tag.getAnnotationType());
+        for (BlockTagTree tag : tags) {
+            int ix = tagKindIndex(tag);
+            System.out.println("  tag:" + tag + " // " + ix);
 
             switch (ix) {
             case INTERNAL:
@@ -584,7 +666,7 @@ public class GatherAPIData implements Doclet {
                 break;
 
             default:
-                throw new RuntimeException("unknown index " + ix + " for tag: " + kind);
+                throw new RuntimeException("unknown index " + ix + " for tag: " + tag);
             }
         }
 
@@ -594,7 +676,7 @@ public class GatherAPIData implements Doclet {
         return result.get();
     }
 
-    private String getStatusVersion(AnnotationMirror tag) {
+    private String getStatusVersion(BlockTagTree tag) {
         String text = tag.toString();
         if (text != null && text.length() > 0) {
             // Extract version string
@@ -633,21 +715,34 @@ public class GatherAPIData implements Doclet {
     private static final int EXCEPTION = 12;
     private static final int SERIAL = 13;
 
-    private static int tagKindIndex(DeclaredType declaredType) {
+    private static String getTagName(BlockTagTree tag) {
+        return "@" + tag.getTagName();
+    }
+
+    private static String getTagText(BlockTagTree tag) {
+        String name = getTagName(tag);
+        String fullText = tag.toString();
+        if (fullText.startsWith(name)) {
+            return fullText.substring(name.length());
+        }
+        return fullText;
+    }
+    
+    private static int tagKindIndex(BlockTagTree tag) {
         final String[] tagKinds = {
             "@internal", "@draft", "@stable", "@since", "@deprecated", "@author", "@see",
             "@version", "@param", "@return", "@throws", "@obsolete", "@exception", "@serial"
         };
 
+        System.out.println("declaredType:" + tag);
         for (int i = 0; i < tagKinds.length; ++i) {
-            if (declaredType.toString().equals(tagKinds[i])) {
+            if (getTagName(tag).equals(tagKinds[i])) {
                 return i;
             }
         }
         return UNKNOWN;
     }
     
-    Elements eu;
     private final static Set<Option> SUPPORTED_OPTIONS = new HashSet<>();
     static {
         SUPPORTED_OPTIONS.add(new GatherApiDataOption(1, "-name", "the_name", "the description of name"));
@@ -701,7 +796,7 @@ public class GatherAPIData implements Doclet {
 
     @Override
     public void init(Locale locale, Reporter reporter) {
-        System.out.println("=== SPY === init(" + locale.toLanguageTag() + ")");
+        System.out.println("\n\n=== SPY === init(" + locale.toLanguageTag() + ")");
     }
 
     @Override
@@ -803,12 +898,50 @@ public class GatherAPIData implements Doclet {
         try { VariableElement ve = (VariableElement) doc;System.out.println(" SUCCESS: VariableElement"); return; } catch (Exception e) {}
         System.out.println(" FAILURE");
     }
+
+    private List<BlockTagTree> getTags(Element element) {
+        List<BlockTagTree> result = new ArrayList<>();
+        DocCommentTree dct = docTrees.getDocCommentTree(element);
+        if (dct != null && dct.getBlockTags() != null) {
+            for (DocTree btags : dct.getBlockTags()) {
+                BlockTagTree tag = (BlockTagTree) btags;
+                result.add((BlockTagTree) btags);
+            }
+        }
+        ExecutableElement ee; // METHOD, CONSTRUCTOR ::: Element, Parameterizable
+        // getEnclosingElement(), getNestingKind(), getSuperclass(), getTypeParameters()
+        TypeElement te; // CLASS, INTERFACE, ENUM ::: Element, Parameterizable, QualifiedNameable
+        ModuleElement me; // MODULE ::: Element, QualifiedNameable
+        PackageElement pe; // PACKAGE ::: Element, QualifiedNameable
+        VariableElement ve; // ::: Element
+        Parameterizable pr; // ::: Element
+        QualifiedNameable qn; // getQualifiedName() ::: Element
+        TypeParameterElement tpe; // ::: Element
+
+//        isInterface => INTERFACE || ANNOTATION_TYPE
+//        isClass() => CLASS || ENUM
+//        isField() => FIELD || ENUM_CONSTANT
+//        ANNOTATION_TYPE;
+//        ENUM_CONSTANT;
+//        EXCEPTION_PARAMETER;
+//        FIELD;
+//        LOCAL_VARIABLE;
+//        OTHER;
+//        PACKAGE;
+//        PARAMETER;
+//        RESOURCE_VARIABLE;
+//        STATIC_INIT; // ?
+//        TYPE_PARAMETER;
+        
+        
+        return result;
+    }
+
 }
 /*
-[      890] === SPYSPY: CLASS ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
+[      890] === SPYSPY: CLASS       ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
+[      362] === SPYSPY: ENUM        ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
+[      164] === SPYSPY: INTERFACE   ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
 [     1258] === SPYSPY: CONSTRUCTOR ::: com.sun.tools.javac.code.Symbol$MethodSymbol => SUCCESS: ExecutableElement
-[      362] === SPYSPY: ENUM ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
-[      164] === SPYSPY: INTERFACE ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
-[     8068] === SPYSPY: METHOD ::: com.sun.tools.javac.code.Symbol$MethodSymbol => SUCCESS: ExecutableElement
-[      164] === SPYSPY: TO_FIX
+[     8068] === SPYSPY: METHOD      ::: com.sun.tools.javac.code.Symbol$MethodSymbol => SUCCESS: ExecutableElement
 */
