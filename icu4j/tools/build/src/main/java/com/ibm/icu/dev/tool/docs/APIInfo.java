@@ -44,9 +44,13 @@ class APIInfo {
     public static final int NUM_TYPES = 11;
 
     // the separator between tokens in the data file
-    public int[] masks = { 0x7, 0x3, 0x1, 0x1, 0x1, 0x1, 0x7 };
-    public int[] shifts = { 0, 3, 5, 6, 7, 8, 9 };
+    //                      STA    VIS   STK  FIN  SYN  ABS  CAT
+    public int[] masks  = { 0b111, 0b11, 0b1, 0b1, 0b1, 0b1, 0b111 };
+    public int[] shifts = {     0,    3,   5,   6,   7,   8,     9 };
 
+    // good 0xa69  1010.0110.1001  101.0.0.1.1.01.001 CAT_ENUM_CONSTANT   STA_STABLE
+    // me   0x268  0010.0110.1000  001.0.0.1.1.01.000 CAT_FIELD           STA_DRAFT
+    
     public static final char SEP = ';';
 
     // Internal State
@@ -295,7 +299,8 @@ class APIInfo {
     }
 
     public String toStringX() {
-        return String.format("ApiInfo { pack:'%s' cls:'%s' name:'%s' sig:'%s' exc:'%s' stver:'%s' info:0x%x }", pack, cls, name, sig, exc, stver, info);
+        return String.format("ApiInfo { pack:'%s' cls:'%s' name:'%s' sig:'%s' exc:'%s' stver:'%s' info:0x%x }",
+                pack, cls, name, sig, exc, stver, info);
     }
 
     /**

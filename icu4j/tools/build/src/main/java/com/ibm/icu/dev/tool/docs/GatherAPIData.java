@@ -97,7 +97,7 @@ public class GatherAPIData implements Doclet {
     private Elements elementUtils;
     private DocTrees docTrees;
     private TreeSet<APIInfo> results = new TreeSet<>(APIInfo.defaultComparator());
-    private String srcName = "Current"; // default source name
+    private String srcName = ""; // default source name
     private String output; // name of output file to write
     private String base; // strip this prefix
     private Pattern pat;
@@ -105,27 +105,6 @@ public class GatherAPIData implements Doclet {
     private boolean gzip;
     private boolean internal;
     private boolean version;
-
-    public static int optionLength(String option) {
-        if (option.equals("-name")) {
-            return 2;
-        } else if (option.equals("-output")) {
-            return 2;
-        } else if (option.equals("-base")) {
-            return 2;
-        } else if (option.equals("-filter")) {
-            return 2;
-        } else if (option.equals("-zip")) {
-            return 1;
-        } else if (option.equals("-gzip")) {
-            return 1;
-        } else if (option.equals("-internal")) {
-            return 1;
-        } else if (option.equals("-version")) {
-            return 1;
-        }
-        return 0;
-    }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
@@ -221,11 +200,9 @@ public class GatherAPIData implements Doclet {
 //        System.out.println("    ==== SPY: " + eu.getPackageOf(doc) + "..." + doc);
         if (ignore(doc)) return;
 
-        if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
+        if (doc.getKind().isClass() || doc.getKind().isInterface()) {
             TypeElement cdoc = (TypeElement)doc;
-            indent++;
             doDocs(cdoc.getEnclosedElements());
-            indent--;
             //todo doDocs(cdoc.fields());
             //todo doDocs(cdoc.constructors());
             //todo doDocs(cdoc.methods());
@@ -364,33 +341,33 @@ public class GatherAPIData implements Doclet {
         // MethodDoc isAbstract, returnType
 
         APIInfo info = new APIInfo();
-        System.out.println("ai1:" + info.toStringX());
+        // System.out.println("ai1:" + info.toStringX());
         if (version) {
             info.includeStatusVersion(true);
         }
-        System.out.println("ai2:" + info.toStringX());
+        // System.out.println("ai2:" + info.toStringX());
 
         // status
         String[] version = new String[1];
         info.setType(APIInfo.STA, tagStatus(doc, version));
         info.setStatusVersion(version[0]);
-        System.out.println("ai22:" + info.toStringX());
+        // System.out.println("ai22:" + info.toStringX());
 
         // visibility
         if (doc.getModifiers().contains(Modifier.PUBLIC)) {
-            System.out.println("ai30:" + info.toStringX());
+            // System.out.println("ai30:" + info.toStringX());
             info.setPublic();
         } else if (doc.getModifiers().contains(Modifier.PROTECTED)) {
-            System.out.println("ai31:" + info.toStringX());
+            // System.out.println("ai31:" + info.toStringX());
             info.setProtected();
         } else if (doc.getModifiers().contains(Modifier.PRIVATE)) {
-            System.out.println("ai32:" + info.toStringX());
+            // System.out.println("ai32:" + info.toStringX());
             info.setPrivate();
         } else {
-            System.out.println("ai33:" + info.toStringX());
+            // System.out.println("ai33:" + info.toStringX());
             // default is package
         }
-        System.out.println("ai3X:" + info.toStringX());
+        // System.out.println("ai3X:" + info.toStringX());
 
         // static
         if (doc.getModifiers().contains(Modifier.STATIC)) {
@@ -413,7 +390,7 @@ public class GatherAPIData implements Doclet {
             info.setMethod();
         } else if (doc.getKind() == ElementKind.CONSTRUCTOR) {
             info.setConstructor();
-        } else if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
+        } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
             if (doc.getKind() == ElementKind.ENUM) {
                 info.setEnum();
             } else {
@@ -426,43 +403,38 @@ public class GatherAPIData implements Doclet {
         PackageElement packageElement = elementUtils.getPackageOf(doc);
         info.setPackage(trimBase(packageElement.getQualifiedName().toString()));
 
-        String className = (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE || doc.getEnclosingElement() == null)
+        String className = (doc.getKind().isClass() || doc.getKind().isInterface() || doc.getEnclosingElement() == null)
                 ? ""
-                : doc.getEnclosingElement().getSimpleName().toString();
+                : withoutPackage(doc.getEnclosingElement());
         info.setClassName(className);
 
         String name = doc.getSimpleName().toString();
         if (doc.getKind() == ElementKind.CONSTRUCTOR) {
-            // Workaround for Javadoc incompatibility between 7 and 8.
-            // Javadoc 7 prepends enclosing class name for a nested
-            // class's constructor. We need to generate the same format
-            // because existing ICU API signature were generated with
-            // Javadoc 7 or older verions.
-            int dotIdx = className.lastIndexOf('.');
-            if (!name.contains(".") && dotIdx > 0) {
-                name = className.substring(0, dotIdx + 1) + name;
-            }
-            // The constructor name is always `<init>`, so we use the class name instead
+            // The constructor name is always `<init>` with the javax.lang APIs.
+            // So for backward compatibility with older generated files
+            // we use the class name instead
             name = className;
+        } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
+            name = withoutPackage(doc);
         }
         info.setName(name);
 
-        System.out.println("ai4:" + info.toStringX());
-        if (doc.getKind() == ElementKind.FIELD) {
+        // System.out.println("ai4:" + info.toStringX());
+        if (doc.getKind().isField()) {
             VariableElement fdoc = (VariableElement)doc;
-            System.out.println("aiA:" + info.toStringX());
+            // System.out.println("aiA:" + info.toStringX());
             info.setSignature(trimBase(fdoc.asType().toString()));
-        } else if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
-            System.out.println("aiB:" + info.toStringX());
+        } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
+            // System.out.println("aiB:" + info.toStringX());
             TypeElement cdoc = (TypeElement)doc;
 
-            if (cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
+            if (doc.getKind().isClass() && cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
                 // interfaces are abstract by default, don't mark them as abstract
                 info.setAbstract();
             }
 
             StringBuffer buf = new StringBuffer();
-            if (cdoc.getKind() == ElementKind.CLASS) {
+            if (cdoc.getKind().isClass()) {
                 buf.append("extends ");
                 buf.append(cdoc.getSuperclass().toString());
             }
@@ -482,7 +454,7 @@ public class GatherAPIData implements Doclet {
             }
             info.setSignature(trimBase(buf.toString()));
         } else if (doc.getKind() == ElementKind.METHOD || doc.getKind() == ElementKind.CONSTRUCTOR) {
-            System.out.println("aiC:" + info.toStringX());
+            // System.out.println("aiC:" + info.toStringX());
             ExecutableElement emdoc = (ExecutableElement)doc;
             if (emdoc.getModifiers().contains(Modifier.SYNCHRONIZED)) {
                 info.setSynchronized();
@@ -502,10 +474,11 @@ public class GatherAPIData implements Doclet {
                 info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
             } else {
                 // constructor
+                info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
                 info.setSignature(trimBase(emdoc.toString()));
             }
         } else {
-            System.out.println("aiD:" + info.toStringX());
+            // System.out.println("aiD:" + info.toStringX());
 //            System.out.println("=== SPYSPY: TO_FIX " + doc.getKind());
             info.setSignature("TO_FIX_" + doc.getKind());
         }
@@ -513,6 +486,29 @@ public class GatherAPIData implements Doclet {
         System.out.println("final:" + info.toStringX());
         
         return info;
+    }
+
+    private String withoutPackage(Element enclosingElement) {
+        System.out.print("SPY: withoutPackage('" + enclosingElement + "') = ");
+        if (enclosingElement == null) {
+            System.out.println("''");
+            return "";
+        }
+
+        String result = enclosingElement.toString();
+
+        PackageElement pack = this.elementUtils.getPackageOf(enclosingElement);
+        if (pack == null) {
+            System.out.println("'" + result + "'");
+            return result;
+        }
+        // Takes something like "com.ibm.icu.charset.CharsetCallback.Decoder"
+        // and removes the package, resulting in "CharsetCallback.Decoder"
+        // This can't really be done just by looking at the string form.
+        String packName = pack.getQualifiedName().toString() + ".";
+        result = result.startsWith(packName) ? result.substring(packName.length()) : result;
+        System.out.println("'" + result + "'");
+        return result;
     }
 
     private void dumpElement(Element doc) {
@@ -548,7 +544,8 @@ public class GatherAPIData implements Doclet {
                     ee.getTypeParameters());
                 break;
         }
-        System.out.printf("Element { kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
+        System.out.printf("Element { toStr:'%s' kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
+                doc.toString(),
                 doc.getKind(),
                 doc.getModifiers(),
                 doc.getSimpleName(),
@@ -620,12 +617,12 @@ public class GatherAPIData implements Doclet {
         }
 
         List<BlockTagTree> tags = getTags(doc);
-        System.out.println("tags:" + tags);
+        // System.out.println("tags:" + tags);
         Result result = new Result();
         String statusVer = "";
         for (BlockTagTree tag : tags) {
             int ix = tagKindIndex(tag);
-            System.out.println("  tag:" + tag + " // " + ix);
+            // System.out.println("  tag:" + tag + " // " + ix);
 
             switch (ix) {
             case INTERNAL:
@@ -733,8 +730,7 @@ public class GatherAPIData implements Doclet {
             "@internal", "@draft", "@stable", "@since", "@deprecated", "@author", "@see",
             "@version", "@param", "@return", "@throws", "@obsolete", "@exception", "@serial"
         };
-
-        System.out.println("declaredType:" + tag);
+        // System.out.println("declaredType:" + tag);
         for (int i = 0; i < tagKinds.length; ++i) {
             if (getTagName(tag).equals(tagKinds[i])) {
                 return i;
@@ -761,13 +757,13 @@ public class GatherAPIData implements Doclet {
             System.out.println("    === SPY === option(" + option.getName() + " = " + option.getStringValue(null) + "/" + option.getBooleanValue(null) + ")");
             switch (option.getName()) {
                 case "-name":
-                    this.srcName = option.getStringValue("defaultName");
+                    this.srcName = option.getStringValue("");
                     break;
                 case "-output":
-                    this.output = option.getStringValue("defaultOutput");
+                    this.output = option.getStringValue(null);
                     break;
                 case "-base":
-                    this.base = option.getStringValue("defaultBase"); // should not include '.'
+                    this.base = option.getStringValue(null); // should not include '.'
                     break;
                 case "-filter":
                     String filt = option.getStringValue(null);
