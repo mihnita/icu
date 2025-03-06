@@ -342,6 +342,9 @@ public class GatherAPIData {
         // ConstructorDoc qualifiedName
         // MethodDoc isAbstract, returnType
 
+        SpyTools.logToFile("==========================\n");
+        SpyTools.logToFile(SpyTools.toSpyString(doc));
+
         APIInfo info = new APIInfo();
         if (version) {
             info.includeStatusVersion(true);
@@ -470,6 +473,10 @@ public class GatherAPIData {
                 info.setSignature(trimBase(emdoc.signature()));
             }
         }
+
+        SpyTools.logToFile(SpyTools.toSpyStringJson(info)); // json-like
+        SpyTools.logToFile(SpyTools.toSpyString(info, false)); // long
+        SpyTools.logToFile(SpyTools.toSpyString(info, true)); // brief
 
         return info;
     }
