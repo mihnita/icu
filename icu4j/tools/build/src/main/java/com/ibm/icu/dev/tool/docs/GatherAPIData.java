@@ -69,20 +69,14 @@ import jdk.javadoc.doclet.Reporter;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.ModuleElement;
 import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.Parameterizable;
-import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.util.Elements;
 
 import com.sun.source.doctree.BlockTagTree;
 import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.doctree.DocTree;
-import com.sun.source.tree.Tree;
 import com.sun.source.util.DocTrees;
-import com.sun.source.util.TreePath;
 
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -108,7 +102,6 @@ public class GatherAPIData implements Doclet {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        System.out.println("=== SPY === getSupportedSourceVersion()");
         // The documentation says "usually the latest version"
         // But even if at this time JDK 23 is already released, we
         // want to be able to compile / use this doclet with at least JDK 11.
@@ -118,27 +111,37 @@ public class GatherAPIData implements Doclet {
 
     @Override
     public boolean run(DocletEnvironment environment) {
-        System.out.println("=== SPY === run(DocletEnvironment)");
         elementUtils = environment.getElementUtils();
         docTrees = environment.getDocTrees();
 
         initFromOptions();
-        doDocs(environment.getIncludedElements());
+
+//        for (Element e : environment.getIncludedElements()) {
+//            SpyTools.doTheVisit(e, "");
+//        }
+//        for (Element e : environment.getSpecifiedElements()) {
+//            SpyTools.doTheVisit(e, "");
+//        }
+        
+//        SpyTools.logToFile("===<<< getIncludedElements >>>===");
+//        doDocs(environment.getIncludedElements()); // AICI
+//        SpyTools.logToFile("===<<< getSpecifiedElements >>>===");
+//        doDocs(environment.getSpecifiedElements());
+        for (Element rootElement : environment.getIncludedElements()) {
+            SpyTools.doTheVisit(rootElement, "");
+        }
 
         OutputStream os = System.out;
         if (output != null) {
             ZipOutputStream zos = null;
             try {
                 if (zip) {
-                    System.out.println("SPY OUT_FILE: " + output + ".zip");
                     zos = new ZipOutputStream(new FileOutputStream(output + ".zip"));
                     zos.putNextEntry(new ZipEntry(output));
                     os = zos;
                 } else if (gzip) {
-                    System.out.println("SPY OUT_FILE: " + output + ".gz");
                     os = new GZIPOutputStream(new FileOutputStream(output + ".gz"));
                 } else {
-                    System.out.println("SPY OUT_FILE: " + output);
                     os = new FileOutputStream(output);
                 }
             }
@@ -188,28 +191,15 @@ public class GatherAPIData implements Doclet {
         }
     }
 
-    int indent = 0;
-    void indent() {
-        for (int i = 0; i < indent; i++) {
-            System.out.print("    ");
-        }
-    }
-
     private void doDoc(Element doc) {
-//        indent();
-//        System.out.println("    ==== SPY: " + eu.getPackageOf(doc) + "..." + doc);
         if (ignore(doc)) return;
 
-        if (doc.getKind().isClass() || doc.getKind().isInterface()) {
-            TypeElement cdoc = (TypeElement)doc;
-            doDocs(cdoc.getEnclosedElements());
-            //todo doDocs(cdoc.fields());
-            //todo doDocs(cdoc.constructors());
-            //todo doDocs(cdoc.methods());
-            //todo doDocs(cdoc.enumConstants());
-            // don't call this to iterate over inner classes,
-            // root.classes already includes them
-            // doDocs(cdoc.innerClasses());
+        // isClass() ==> CLASS || ENUM;
+        // isInterface() ==> INTERFACE || ANNOTATION_TYPE
+//        if (doc.getKind().isClass() || doc.getKind().isInterface()) {
+        if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
+//            TypeElement cdoc = (TypeElement) doc;
+            doDocs(doc.getEnclosedElements());
         }
 
         APIInfo info = createInfo(doc);
@@ -263,8 +253,7 @@ public class GatherAPIData implements Doclet {
         if (doc == null) return true;
         if (doc.getModifiers().contains(Modifier.PRIVATE) || doc.getModifiers().contains(Modifier.DEFAULT)) return true;
         //todo if (doc.getKind() == ElementKind.FIELD && doc.getModifiers().contains(Modifier.SYNTHETIC)) return true;
-//        if (doc.getKind() == ElementKind.PACKAGE) return true;
-//        if (doc.getKind() == ElementKind.FIELD) return true;
+        if (doc.getKind() == ElementKind.PACKAGE) return true;
         if (doc.toString().contains(".misc")) {
             System.out.println("misc: " + doc.toString()); return true;
         }
@@ -276,28 +265,14 @@ public class GatherAPIData implements Doclet {
             return true;
         }
 
-        //todo: if (false && doc.qualifiedName().indexOf("LocaleDisplayNames") != -1) {
-        //todo:   System.err.print("*** " + doc.qualifiedName() + ":");
-        //todo:   if (doc.isClass()) System.err.print(" class");
-        //todo:   if (doc.isConstructor()) System.err.print(" constructor");
-        //todo:   if (doc.isEnum()) System.err.print(" enum");
-        //todo:   if (doc.isEnumConstant()) System.err.print(" enum_constant");
-        //todo:   if (doc.isError()) System.err.print(" error");
-        //todo:   if (doc.isException()) System.err.print(" exception");
-        //todo:   if (doc.isField()) System.err.print(" field");
-        //todo:   if (doc.isInterface()) System.err.print(" interface");
-        //todo:   if (doc.isMethod()) System.err.print(" method");
-        //todo:   if (doc.isOrdinaryClass()) System.err.print(" ordinary_class");
-        //todo:   System.err.println();
-        //todo: }
-
         if (!internal) { // debug
             List<BlockTagTree> tags = getTags(doc);
             for (BlockTagTree tag : tags) {
                 if (tagKindIndex(tag) == INTERNAL) { return true; }
             }
         }
-        if (pat != null && (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE)) {
+        if (pat != null && (doc.getKind().isClass() || doc.getKind().isInterface())) {
+//        if (pat != null && (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE)) {
             if (!pat.matcher(doc.getSimpleName().toString()).matches()) {
                 return true;
             }
@@ -307,8 +282,8 @@ public class GatherAPIData implements Doclet {
 
     private static void writeResults(Collection<APIInfo> c, BufferedWriter w) {
         for (APIInfo info : c) {
-            //todo info.writeln(w);
-            info.writelnX(w);
+            info.writeln(w);
+//            info.writelnX(w);
         }
     }
 
@@ -319,13 +294,23 @@ public class GatherAPIData implements Doclet {
                 arg = arg.substring(0, n) + arg.substring(n+base.length());
             }
         }
-        System.out.println(  "trimBase('" + orgArg + "') = '" + arg + "'");
         return arg;
     }
 
+//    Element { toString:'encodeLoop(java.nio.CharBuffer,java.nio.ByteBuffer,java.nio.IntBuffer,boolean)'
+//        name:'encodeLoop'
+//        pack.name:'com.ibm.icu.charset'
+//        cc.name:'com.ibm.icu.charset.CharsetEncoderICU'
+//        isMethod
+//        (class com.sun.tools.javac.code.Symbol$MethodSymbol).sig:'TODO'
+//        (ExecutableElement).sig:'java.nio.charset.CoderResult::source,target,offsets,flush' }
+
+    
     public APIInfo createInfo(Element doc) {
-        System.out.println("=============");
-        dumpElement(doc);
+        SpyTools.logToFile("==========================\n");
+        SpyTools.logToFile(SpyTools.toSpyString(elementUtils, doc));
+//        SpyTools.logToFile(SpyTools.toSpyStringStock(elementUtils, doc));
+//        dumpElement(doc);
 
         // Doc. name
         // Doc. isField, isMethod, isConstructor, isClass, isInterface
@@ -341,33 +326,25 @@ public class GatherAPIData implements Doclet {
         // MethodDoc isAbstract, returnType
 
         APIInfo info = new APIInfo();
-        // System.out.println("ai1:" + info.toStringX());
         if (version) {
             info.includeStatusVersion(true);
         }
-        // System.out.println("ai2:" + info.toStringX());
 
         // status
         String[] version = new String[1];
         info.setType(APIInfo.STA, tagStatus(doc, version));
         info.setStatusVersion(version[0]);
-        // System.out.println("ai22:" + info.toStringX());
 
         // visibility
         if (doc.getModifiers().contains(Modifier.PUBLIC)) {
-            // System.out.println("ai30:" + info.toStringX());
             info.setPublic();
         } else if (doc.getModifiers().contains(Modifier.PROTECTED)) {
-            // System.out.println("ai31:" + info.toStringX());
             info.setProtected();
         } else if (doc.getModifiers().contains(Modifier.PRIVATE)) {
-            // System.out.println("ai32:" + info.toStringX());
             info.setPrivate();
         } else {
-            // System.out.println("ai33:" + info.toStringX());
             // default is package
         }
-        // System.out.println("ai3X:" + info.toStringX());
 
         // static
         if (doc.getModifiers().contains(Modifier.STATIC)) {
@@ -419,13 +396,10 @@ public class GatherAPIData implements Doclet {
         }
         info.setName(name);
 
-        // System.out.println("ai4:" + info.toStringX());
         if (doc.getKind().isField()) {
             VariableElement fdoc = (VariableElement)doc;
-            // System.out.println("aiA:" + info.toStringX());
-            info.setSignature(trimBase(fdoc.asType().toString()));
+            hackSetSignature(info, trimBase(fdoc.asType().toString()));
         } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
-            // System.out.println("aiB:" + info.toStringX());
             TypeElement cdoc = (TypeElement)doc;
 
             if (doc.getKind().isClass() && cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
@@ -452,9 +426,8 @@ public class GatherAPIData implements Doclet {
                     buf.append(imp.get(i).toString());
                 }
             }
-            info.setSignature(trimBase(buf.toString()));
+            hackSetSignature(info, trimBase(buf.toString()));
         } else if (doc.getKind() == ElementKind.METHOD || doc.getKind() == ElementKind.CONSTRUCTOR) {
-            // System.out.println("aiC:" + info.toStringX());
             ExecutableElement emdoc = (ExecutableElement)doc;
             if (emdoc.getModifiers().contains(Modifier.SYNCHRONIZED)) {
                 info.setSynchronized();
@@ -471,27 +444,29 @@ public class GatherAPIData implements Doclet {
                         info.setAbstract();
                     }
                 }
-                info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
+                hackSetSignature(info, trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
             } else {
                 // constructor
-                info.setSignature(trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
-                info.setSignature(trimBase(emdoc.toString()));
+                hackSetSignature(info, toTheBracket(emdoc.toString()));
             }
         } else {
-            // System.out.println("aiD:" + info.toStringX());
-//            System.out.println("=== SPYSPY: TO_FIX " + doc.getKind());
-            info.setSignature("TO_FIX_" + doc.getKind());
+            hackSetSignature(info, "TO_FIX_" + doc.getKind());
         }
 
-        System.out.println("final:" + info.toStringX());
+        SpyTools.logToFile(SpyTools.toSpyStringJson(info)); // json-like
+//        SpyTools.logToFile(SpyTools.toSpyString(info, false)); // long
+//        SpyTools.logToFile(SpyTools.toSpyString(info, true)); // brief
         
         return info;
     }
 
+    private void hackSetSignature(APIInfo info, String value) {
+        value = value.replace(",", ", ").replace(",  ", ", ");
+        info.setSignature(value);
+    }
+
     private String withoutPackage(Element enclosingElement) {
-        System.out.print("SPY: withoutPackage('" + enclosingElement + "') = ");
         if (enclosingElement == null) {
-            System.out.println("''");
             return "";
         }
 
@@ -499,7 +474,6 @@ public class GatherAPIData implements Doclet {
 
         PackageElement pack = this.elementUtils.getPackageOf(enclosingElement);
         if (pack == null) {
-            System.out.println("'" + result + "'");
             return result;
         }
         // Takes something like "com.ibm.icu.charset.CharsetCallback.Decoder"
@@ -507,8 +481,13 @@ public class GatherAPIData implements Doclet {
         // This can't really be done just by looking at the string form.
         String packName = pack.getQualifiedName().toString() + ".";
         result = result.startsWith(packName) ? result.substring(packName.length()) : result;
-        System.out.println("'" + result + "'");
         return result;
+    }
+
+    private String toTheBracket(String str) {
+        if (str == null) return null;
+        int openBr = str.indexOf('(');
+        return openBr > 1 ? str.substring(openBr) : str;
     }
 
     private void dumpElement(Element doc) {
@@ -544,7 +523,7 @@ public class GatherAPIData implements Doclet {
                     ee.getTypeParameters());
                 break;
         }
-        System.out.printf("Element { toStr:'%s' kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
+        SpyTools.logToFile(String.format("DumpElement { toStr:'%s' kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
                 doc.toString(),
                 doc.getKind(),
                 doc.getModifiers(),
@@ -553,7 +532,7 @@ public class GatherAPIData implements Doclet {
                 doc.getEnclosingElement(),
                 elementUtils.getPackageOf(doc).getQualifiedName(),
                 extras
-        );
+        ));
     }
 
     private int tagStatus(final Element doc, String[] version) {
@@ -607,8 +586,8 @@ public class GatherAPIData implements Doclet {
             }
             int get() {
                 if (res == -1) {
-//todo                    System.err.println("warning: no tag for " + doc);
-//todo                    return 0;
+                    System.err.println("warning: no tag for " + doc);
+                    return 0;
                 } else if (res == APIInfo.STA_INTERNAL && !deprecatedFlag) {
                     System.err.println("warning: no @deprecated tag for @internal API: " + doc);
                 }
@@ -617,12 +596,10 @@ public class GatherAPIData implements Doclet {
         }
 
         List<BlockTagTree> tags = getTags(doc);
-        // System.out.println("tags:" + tags);
         Result result = new Result();
         String statusVer = "";
         for (BlockTagTree tag : tags) {
             int ix = tagKindIndex(tag);
-            // System.out.println("  tag:" + tag + " // " + ix);
 
             switch (ix) {
             case INTERNAL:
@@ -730,7 +707,6 @@ public class GatherAPIData implements Doclet {
             "@internal", "@draft", "@stable", "@since", "@deprecated", "@author", "@see",
             "@version", "@param", "@return", "@throws", "@obsolete", "@exception", "@serial"
         };
-        // System.out.println("declaredType:" + tag);
         for (int i = 0; i < tagKinds.length; ++i) {
             if (getTagName(tag).equals(tagKinds[i])) {
                 return i;
@@ -754,7 +730,6 @@ public class GatherAPIData implements Doclet {
     private void initFromOptions() {
         for (Option opt : SUPPORTED_OPTIONS) {
             GatherApiDataOption option = (GatherApiDataOption) opt;
-            System.out.println("    === SPY === option(" + option.getName() + " = " + option.getStringValue(null) + "/" + option.getBooleanValue(null) + ")");
             switch (option.getName()) {
                 case "-name":
                     this.srcName = option.getStringValue("");
@@ -785,25 +760,19 @@ public class GatherAPIData implements Doclet {
                     break;
             }
         }
-        System.out.printf("SPY CURRENT { srcName:%s, output:%s, base:%s, pat:%s, zip:%s, gzip:%s, internal:%s, version:%s }%n",
-                srcName, output, base, pat, zip, gzip, internal, version);
-            
     }
 
     @Override
     public void init(Locale locale, Reporter reporter) {
-        System.out.println("\n\n=== SPY === init(" + locale.toLanguageTag() + ")");
     }
 
     @Override
     public String getName() {
-        System.out.println("=== SPY === getName()");
         return this.getClass().getSimpleName();
     }
 
     @Override
     public Set<Option> getSupportedOptions() {
-        System.out.println("=== SPY === getSupportedOptions()");
         return SUPPORTED_OPTIONS;
     }
 
@@ -843,21 +812,16 @@ public class GatherAPIData implements Doclet {
 
         @Override
         public List<String> getNames() {
-//            System.out.println("======== SPY: getNames()");
             return List.of(name);
         }
 
         @Override
         public String getParameters() {
-            System.out.println("======== SPY GatherApiDataOption: getParameters()");
             return this.paramName;
         }
 
         @Override
         public boolean process(String option, List<String> arguments) {
-            System.out.printf("======== SPY GatherApiDataOption: %s:%d process(option:'%s', arguments:%s)%n",
-                    name, length,
-                    option, arguments);
             if (!option.equals(name)) {
                 return false;
             }
@@ -885,16 +849,6 @@ public class GatherAPIData implements Doclet {
         }
     }
 
-    private void tryAll(Element doc) {
-        System.out.print("=== SPYSPY: " + doc.getKind() + " ::: " + doc.getClass().getName() + " ::class:" + doc + " => ");
-        try { ExecutableElement ee = (ExecutableElement) doc; System.out.println(" SUCCESS: ExecutableElement"); return; } catch (Exception e) {}
-        try { ModuleElement me = (ModuleElement) doc; System.out.println(" SUCCESS: ModuleElement");return; } catch (Exception e) {}
-        try { PackageElement pe = (PackageElement) doc; System.out.println(" SUCCESS: PackageElement");return; } catch (Exception e) {}
-        try { TypeElement te = (TypeElement) doc; System.out.println(" SUCCESS: TypeElement");return; } catch (Exception e) {}
-        try { VariableElement ve = (VariableElement) doc;System.out.println(" SUCCESS: VariableElement"); return; } catch (Exception e) {}
-        System.out.println(" FAILURE");
-    }
-
     private List<BlockTagTree> getTags(Element element) {
         List<BlockTagTree> result = new ArrayList<>();
         DocCommentTree dct = docTrees.getDocCommentTree(element);
@@ -904,40 +858,7 @@ public class GatherAPIData implements Doclet {
                 result.add((BlockTagTree) btags);
             }
         }
-        ExecutableElement ee; // METHOD, CONSTRUCTOR ::: Element, Parameterizable
-        // getEnclosingElement(), getNestingKind(), getSuperclass(), getTypeParameters()
-        TypeElement te; // CLASS, INTERFACE, ENUM ::: Element, Parameterizable, QualifiedNameable
-        ModuleElement me; // MODULE ::: Element, QualifiedNameable
-        PackageElement pe; // PACKAGE ::: Element, QualifiedNameable
-        VariableElement ve; // ::: Element
-        Parameterizable pr; // ::: Element
-        QualifiedNameable qn; // getQualifiedName() ::: Element
-        TypeParameterElement tpe; // ::: Element
-
-//        isInterface => INTERFACE || ANNOTATION_TYPE
-//        isClass() => CLASS || ENUM
-//        isField() => FIELD || ENUM_CONSTANT
-//        ANNOTATION_TYPE;
-//        ENUM_CONSTANT;
-//        EXCEPTION_PARAMETER;
-//        FIELD;
-//        LOCAL_VARIABLE;
-//        OTHER;
-//        PACKAGE;
-//        PARAMETER;
-//        RESOURCE_VARIABLE;
-//        STATIC_INIT; // ?
-//        TYPE_PARAMETER;
-        
-        
         return result;
     }
 
 }
-/*
-[      890] === SPYSPY: CLASS       ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
-[      362] === SPYSPY: ENUM        ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
-[      164] === SPYSPY: INTERFACE   ::: com.sun.tools.javac.code.Symbol$ClassSymbol => SUCCESS: TypeElement
-[     1258] === SPYSPY: CONSTRUCTOR ::: com.sun.tools.javac.code.Symbol$MethodSymbol => SUCCESS: ExecutableElement
-[     8068] === SPYSPY: METHOD      ::: com.sun.tools.javac.code.Symbol$MethodSymbol => SUCCESS: ExecutableElement
-*/
