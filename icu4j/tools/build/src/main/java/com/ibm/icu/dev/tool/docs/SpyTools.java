@@ -15,7 +15,8 @@ import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.ProgramElementDoc;
 
 public class SpyTools {
-    final static private String SPY_FILE = "D:/spy.log";
+    final static private String SPY_DIR = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/";
+    final static private String SPY_FILE = SPY_DIR + "spy.log";
 
     static String toSpyString(ProgramElementDoc doc) {
         StringBuilder result = new StringBuilder();

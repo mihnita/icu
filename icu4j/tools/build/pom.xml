@@ -16,7 +16,7 @@
 
   <properties>
     <icu4j.api.doc.root.dir>${project.basedir}/../..</icu4j.api.doc.root.dir>
-    <JAVA_HOME>D:\Apps\JavaDev\jdk-8</JAVA_HOME>
+    <!-- <JAVA_HOME>D:\Apps\JavaDev\jdk-8</JAVA_HOME> -->
   </properties>
 
   <dependencies>

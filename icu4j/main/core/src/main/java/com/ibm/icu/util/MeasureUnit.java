@@ -128,14 +128,14 @@ public class MeasureUnit implements Serializable {
         /**
          * SI prefix: quetta, 10^30.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         QUETTA(30, "quetta", 10),
 
         /**
          * SI prefix: ronna, 10^27.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         RONNA(27, "ronna", 10),
 
@@ -289,14 +289,14 @@ public class MeasureUnit implements Serializable {
         /**
          * SI prefix: ronto, 10^-27.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         RONTO(-27, "ronto", 10),
 
         /**
          * SI prefix: quecto, 10^-30.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         QUECTO(-30, "quecto", 10),
 
@@ -545,7 +545,7 @@ public class MeasureUnit implements Serializable {
     /**
      * Creates a new MeasureUnit with a specified constant denominator.
      * <p>
-     * This method is applicable only to COMPOUND & SINGLE units. If invoked on a
+     * This method is applicable only to COMPOUND &amp; SINGLE units. If invoked on a
      * MIXED unit, an exception will be thrown.
      * For further details, refer to {@link Complexity}.
      * <p>
@@ -590,7 +590,7 @@ public class MeasureUnit implements Serializable {
      * zero.</li>
      * </ul>
      * <p>
-     * This method is applicable only to COMPOUND & SINGLE units. If invoked on a
+     * This method is applicable only to COMPOUND &amp; SINGLE units. If invoked on a
      * MIXED unit, an exception will be thrown.
      * For further details, refer to {@link Complexity}.
      * <p>
