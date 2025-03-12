@@ -68,9 +68,11 @@ import jdk.javadoc.doclet.Reporter;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ElementVisitor;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.util.Elements;
 
 import com.sun.source.doctree.BlockTagTree;
@@ -115,21 +117,31 @@ public class GatherAPIData implements Doclet {
         docTrees = environment.getDocTrees();
 
         initFromOptions();
-
+        SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "WTF\n");
+        for (Element e : environment.getIncludedElements()) {
+            SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "INCL: + " + e + "\n");
+        }
+        for (Element e : environment.getSpecifiedElements()) {
+            SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "SPEC: + " + e + "\n");
+        }
+        doDocs(environment.getSpecifiedElements());
 //        for (Element e : environment.getIncludedElements()) {
 //            SpyTools.doTheVisit(e, "");
 //        }
-//        for (Element e : environment.getSpecifiedElements()) {
-//            SpyTools.doTheVisit(e, "");
+        for (Element e : environment.getSpecifiedElements()) {
+            doTheVisit(e, this);
+        }
+//        for (Element e : environment.getIncludedElements()) {
+//            doTheVisit(e, this);
 //        }
         
 //        SpyTools.logToFile("===<<< getIncludedElements >>>===");
 //        doDocs(environment.getIncludedElements()); // AICI
 //        SpyTools.logToFile("===<<< getSpecifiedElements >>>===");
 //        doDocs(environment.getSpecifiedElements());
-        for (Element rootElement : environment.getIncludedElements()) {
-            SpyTools.doTheVisit(rootElement, "");
-        }
+//        for (Element rootElement : environment.getIncludedElements()) {
+//            SpyTools.doTheVisit(rootElement, "");
+//        }
 
         OutputStream os = System.out;
         if (output != null) {
@@ -859,6 +871,96 @@ public class GatherAPIData implements Doclet {
             }
         }
         return result;
+    }
+// ================
+    
+    final static private String SPY_FOLDER = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/";
+    final static private String VISIT_FILE = SPY_FOLDER + "visit.log";
+
+    String indent = "  ";
+
+    public void doTheVisit(Element doc, GatherAPIData context) {
+        MyElementVisitor ev = new MyElementVisitor();
+        doc.accept(ev, this);
+
+        indent = indent + "    ";
+        for (Element e: doc.getEnclosedElements()) {
+            doTheVisit(e, this);
+        }
+    }
+
+    private static class MyElementVisitor implements ElementVisitor<Element, GatherAPIData> {
+        @Override
+        public Element visit(Element e, GatherAPIData context) {
+            // Visits an element.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.visit: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitPackage(PackageElement e, GatherAPIData context) {
+            // Represents a package program element.
+            // Provides access to information about the package and its members.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Package: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitType(TypeElement e, GatherAPIData context) {
+            // Represents a class or interface program element.
+            // Provides access to information about the type and its members.
+            // Note that an enum type is a kind of class and an annotation type
+            // is a kind of interface.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Type: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitVariable(VariableElement e, GatherAPIData context) {
+            // Represents a field, enum constant, method or constructor parameter,
+            // local variable, resource variable, or exception parameter.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Variable: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitExecutable(ExecutableElement e, GatherAPIData context) {
+            // Represents a method, constructor, or initializer (static or instance)
+            // of a class or interface, including annotation type elements.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Executable: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitTypeParameter(TypeParameterElement e, GatherAPIData context) {
+            // Represents a formal type parameter of a generic class, interface, method,
+            // or constructor element. A type parameter declares a TypeVariable.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.TypeParameter: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
+
+        @Override
+        public Element visitUnknown(Element e, GatherAPIData context) {
+            // Visits an unknown kind of element.
+            // This can occur if the language evolves and new kinds of elements
+            // are added to the Element hierarchy.
+            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Unknown: " + e + " ::: " + e.getKind() + "\n");
+            APIInfo info = context.createInfo(e);
+            if (info != null) context.results.add(info);
+            return e;
+        }
     }
 
 }

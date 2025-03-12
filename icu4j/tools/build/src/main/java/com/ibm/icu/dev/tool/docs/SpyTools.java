@@ -23,8 +23,9 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 
 public class SpyTools {
-    final static private String SPY_FILE = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/spy.log";
-    final static private String VISIT_FILE = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/visit.log";
+    final static private String SPY_FOLDER = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/";
+    final static private String SPY_FILE = SPY_FOLDER + "spy.log";
+    final static private String VISIT_FILE = SPY_FOLDER + "visit.log";
 //    final static private String SPY_FILE = "./spy.log";
 
     static String toSpyStringStock(Elements elementUtils, Element doc) {
