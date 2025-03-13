@@ -4,17 +4,17 @@ rm target/icu4j77.api3
 rm spy.log
 
 # echo Clean icu
-# mvn clean -q -o --batch-mode
-# mvn install -q -o --batch-mode -DskipITs -DskipTests -P with_javadoc
+# mvn clean -q --batch-mode
+# mvn install -q --batch-mode -DskipITs -DskipTests -P with_javadoc
 
 # echo Build icu
-# mvn install -q -o --batch-mode -DskipITs -DskipTests
+# mvn install -q --batch-mode -DskipITs -DskipTests
 
 echo Build tools
-mvn install -q -o --batch-mode -DskipITs -DskipTests -f tools/build
+mvn clean install -q --batch-mode -DskipITs -DskipTests -f tools/build
 
 echo Gather API
-mvn site -q -o  --batch-mode -DskipITs -DskipTests -P gatherapi
+mvn clean site -q  --batch-mode -DskipITs -DskipTests -P gatherapi
 
 echo Save results
 mkdir ~/third_party/icu_work/javadoc/jdk11/$1

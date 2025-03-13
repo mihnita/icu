@@ -50,9 +50,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -62,17 +62,29 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import jdk.javadoc.doclet.Doclet;
-import jdk.javadoc.doclet.DocletEnvironment;
-import jdk.javadoc.doclet.Reporter;
-
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ElementVisitor;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ErrorType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.IntersectionType;
+import javax.lang.model.type.NoType;
+import javax.lang.model.type.NullType;
+import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.TypeVisitor;
+import javax.lang.model.type.UnionType;
+import javax.lang.model.type.WildcardType;
 import javax.lang.model.util.Elements;
 
 import com.sun.source.doctree.BlockTagTree;
@@ -80,12 +92,9 @@ import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.doctree.DocTree;
 import com.sun.source.util.DocTrees;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
+import jdk.javadoc.doclet.Doclet;
+import jdk.javadoc.doclet.DocletEnvironment;
+import jdk.javadoc.doclet.Reporter;
 
 @SupportedAnnotationTypes("*")
 @SupportedSourceVersion(SourceVersion.RELEASE_9)
@@ -101,14 +110,29 @@ public class GatherAPIData implements Doclet {
     private boolean gzip;
     private boolean internal;
     private boolean version;
+//    final static private String SPY_FOLDER = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/";
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
         // The documentation says "usually the latest version"
         // But even if at this time JDK 23 is already released, we
         // want to be able to compile / use this doclet with at least JDK 11.
-        // So anything above RELEASE_11 is undefined 
+        // So anything above RELEASE_11 is undefined
         return SourceVersion.RELEASE_11;
+    }
+
+    @Override
+    public void init(Locale locale, Reporter reporter) {
+    }
+
+    @Override
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Override
+    public Set<Option> getSupportedOptions() {
+        return SUPPORTED_OPTIONS;
     }
 
     @Override
@@ -117,68 +141,11 @@ public class GatherAPIData implements Doclet {
         docTrees = environment.getDocTrees();
 
         initFromOptions();
-        SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "WTF\n");
-        for (Element e : environment.getIncludedElements()) {
-            SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "INCL: + " + e + "\n");
-        }
-        for (Element e : environment.getSpecifiedElements()) {
-            SpyTools.logToFile(this.SPY_FOLDER + "foo.log", "SPEC: + " + e + "\n");
-        }
-        doDocs(environment.getSpecifiedElements());
-//        for (Element e : environment.getIncludedElements()) {
-//            SpyTools.doTheVisit(e, "");
-//        }
-        for (Element e : environment.getSpecifiedElements()) {
-            doTheVisit(e, this);
-        }
-//        for (Element e : environment.getIncludedElements()) {
-//            doTheVisit(e, this);
-//        }
-        
-//        SpyTools.logToFile("===<<< getIncludedElements >>>===");
-//        doDocs(environment.getIncludedElements()); // AICI
-//        SpyTools.logToFile("===<<< getSpecifiedElements >>>===");
-//        doDocs(environment.getSpecifiedElements());
-//        for (Element rootElement : environment.getIncludedElements()) {
-//            SpyTools.doTheVisit(rootElement, "");
-//        }
+        doDocs(environment.getIncludedElements());
 
-        OutputStream os = System.out;
-        if (output != null) {
-            ZipOutputStream zos = null;
-            try {
-                if (zip) {
-                    zos = new ZipOutputStream(new FileOutputStream(output + ".zip"));
-                    zos.putNextEntry(new ZipEntry(output));
-                    os = zos;
-                } else if (gzip) {
-                    os = new GZIPOutputStream(new FileOutputStream(output + ".gz"));
-                } else {
-                    os = new FileOutputStream(output);
-                }
-            }
-            catch (IOException e) {
-                RuntimeException re = new RuntimeException(e.getMessage());
-                re.initCause(e);
-                throw re;
-            }
-            finally {
-                if (zos != null) {
-                    try {
-                        zos.close();
-                    } catch (Exception e) {
-                        // ignore
-                    }
-                }
-            }
-        }
-
-        BufferedWriter bw = null;
-        try {
-            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-            bw = new BufferedWriter(osw);
-
-            // writing data file
+        try (OutputStream os = getOutputFileAsStream(output);
+                OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {
+            BufferedWriter bw = new BufferedWriter(osw);
             bw.write(String.valueOf(APIInfo.VERSION) + APIInfo.SEP); // header version
             bw.write(srcName + APIInfo.SEP); // source name
             bw.write((base == null ? "" : base) + APIInfo.SEP); // base
@@ -186,13 +153,27 @@ public class GatherAPIData implements Doclet {
             writeResults(results, bw);
             bw.close(); // should flush, close all, etc
         } catch (IOException e) {
-            try { bw.close(); } catch (IOException e2) {}
-            RuntimeException re = new RuntimeException("write error: " + e.getMessage());
+            RuntimeException re = new RuntimeException(e.getMessage());
             re.initCause(e);
             throw re;
         }
 
         return true;
+    }
+
+    private OutputStream getOutputFileAsStream(String output) throws IOException {
+        if (output == null) {
+            return System.out;
+        }
+        if (zip) {
+            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(output + ".zip"));
+            zos.putNextEntry(new ZipEntry(output));
+            return zos;
+        }
+        if (gzip) {
+            return new GZIPOutputStream(new FileOutputStream(output + ".gz"));
+        }
+        return new FileOutputStream(output);
     }
 
     private void doDocs(Collection<? extends Element> docs) {
@@ -208,9 +189,7 @@ public class GatherAPIData implements Doclet {
 
         // isClass() ==> CLASS || ENUM;
         // isInterface() ==> INTERFACE || ANNOTATION_TYPE
-//        if (doc.getKind().isClass() || doc.getKind().isInterface()) {
-        if (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE) {
-//            TypeElement cdoc = (TypeElement) doc;
+        if (doc.getKind().isClass() || doc.getKind().isInterface()) {
             doDocs(doc.getEnclosedElements());
         }
 
@@ -220,21 +199,8 @@ public class GatherAPIData implements Doclet {
         }
     }
 
-    // Sigh. Javadoc doesn't indicate when the compiler generates
-    // the values and valueOf enum methods.  The position of the
-    // method for these is not always the same as the position of
-    // the class, though it often is, so we can't use that.
-
     private boolean isIgnoredEnumMethod(Element doc) {
         if (doc.getKind() == ElementKind.METHOD && doc.getEnclosingElement().getKind() == ElementKind.ENUM) {
-            // System.out.println("*** " + doc.qualifiedName() + " pos: " +
-            //                    doc.position().line() +
-            //                    " contained by: " +
-            //                    doc.containingClass().name() +
-            //                    " pos: " +
-            //                    doc.containingClass().position().line());
-            // return doc.position().line() == doc.containingClass().position().line();
-
             String name = doc.getSimpleName().toString();
             // assume we don't have enums that overload these method names.
             return "values".equals(name) || "valueOf".equals(name);
@@ -262,13 +228,28 @@ public class GatherAPIData implements Doclet {
     private static final boolean IGNORE_NO_ARG_ABSTRACT_CTOR = false;
 
     private boolean ignore(Element doc) {
-        if (doc == null) return true;
-        if (doc.getModifiers().contains(Modifier.PRIVATE) || doc.getModifiers().contains(Modifier.DEFAULT)) return true;
-        //todo if (doc.getKind() == ElementKind.FIELD && doc.getModifiers().contains(Modifier.SYNTHETIC)) return true;
-        if (doc.getKind() == ElementKind.PACKAGE) return true;
-        if (doc.toString().contains(".misc")) {
-            System.out.println("misc: " + doc.toString()); return true;
+        if (doc == null) {
+            return true;
         }
+
+        if (doc.getModifiers().contains(Modifier.PRIVATE) || doc.getModifiers().contains(Modifier.DEFAULT)) {
+            return true;
+        }
+
+        if (isVisibilityPackage(doc.getModifiers())) {
+            return true;
+        }
+
+        if (doc.getKind() == ElementKind.PACKAGE) {
+            return true;
+        }
+
+        if (doc.toString().contains(".misc")) {
+            System.out.println("misc: " + doc.toString()); {
+                return true;
+            }
+        }
+
         if (isIgnoredEnumMethod(doc)) {
             return true;
         }
@@ -278,24 +259,34 @@ public class GatherAPIData implements Doclet {
         }
 
         if (!internal) { // debug
-            List<BlockTagTree> tags = getTags(doc);
-            for (BlockTagTree tag : tags) {
-                if (tagKindIndex(tag) == INTERNAL) { return true; }
+            for (BlockTagTree tag : getTags(doc)) {
+                if (tagKindIndex(tag) == TagKind.INTERNAL) {
+                    return true;
+                }
             }
         }
+
         if (pat != null && (doc.getKind().isClass() || doc.getKind().isInterface())) {
-//        if (pat != null && (doc.getKind() == ElementKind.CLASS || doc.getKind() == ElementKind.INTERFACE)) {
             if (!pat.matcher(doc.getSimpleName().toString()).matches()) {
                 return true;
             }
         }
+
         return false;
+    }
+
+    private boolean isVisibilityPackage(Set<Modifier> modifiers) {
+        if (modifiers.contains(Modifier.PUBLIC)
+                || modifiers.contains(Modifier.PROTECTED)
+                || modifiers.contains(Modifier.PRIVATE)) {
+            return false;
+        }
+        return true;
     }
 
     private static void writeResults(Collection<APIInfo> c, BufferedWriter w) {
         for (APIInfo info : c) {
             info.writeln(w);
-//            info.writelnX(w);
         }
     }
 
@@ -309,33 +300,8 @@ public class GatherAPIData implements Doclet {
         return arg;
     }
 
-//    Element { toString:'encodeLoop(java.nio.CharBuffer,java.nio.ByteBuffer,java.nio.IntBuffer,boolean)'
-//        name:'encodeLoop'
-//        pack.name:'com.ibm.icu.charset'
-//        cc.name:'com.ibm.icu.charset.CharsetEncoderICU'
-//        isMethod
-//        (class com.sun.tools.javac.code.Symbol$MethodSymbol).sig:'TODO'
-//        (ExecutableElement).sig:'java.nio.charset.CoderResult::source,target,offsets,flush' }
-
-    
-    public APIInfo createInfo(Element doc) {
-        SpyTools.logToFile("==========================\n");
-        SpyTools.logToFile(SpyTools.toSpyString(elementUtils, doc));
-//        SpyTools.logToFile(SpyTools.toSpyStringStock(elementUtils, doc));
-//        dumpElement(doc);
-
-        // Doc. name
-        // Doc. isField, isMethod, isConstructor, isClass, isInterface
-        // ProgramElementDoc. containingClass, containingPackage
-        // ProgramElementDoc. isPublic, isProtected, isPrivate, isPackagePrivate
-        // ProgramElementDoc. isStatic, isFinal
-        // MemberDoc.isSynthetic
-        // ExecutableMemberDoc isSynchronized, signature
-        // Type.toString() // e.g. "String[][]"
-        // ClassDoc.isAbstract, superClass, interfaces, fields, methods, constructors, innerClasses
-        // FieldDoc type
-        // ConstructorDoc qualifiedName
-        // MethodDoc isAbstract, returnType
+    private APIInfo createInfo(Element doc) {
+        if (ignore(doc)) return null;
 
         APIInfo info = new APIInfo();
         if (version) {
@@ -400,8 +366,7 @@ public class GatherAPIData implements Doclet {
         String name = doc.getSimpleName().toString();
         if (doc.getKind() == ElementKind.CONSTRUCTOR) {
             // The constructor name is always `<init>` with the javax.lang APIs.
-            // So for backward compatibility with older generated files
-            // we use the class name instead
+            // For backward compatibility with older generated files we use the class name instead.
             name = className;
         } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
             name = withoutPackage(doc);
@@ -409,12 +374,12 @@ public class GatherAPIData implements Doclet {
         info.setName(name);
 
         if (doc.getKind().isField()) {
-            VariableElement fdoc = (VariableElement)doc;
+            VariableElement fdoc = (VariableElement) doc;
             hackSetSignature(info, trimBase(fdoc.asType().toString()));
         } else if (doc.getKind().isClass() || doc.getKind().isInterface()) {
-            TypeElement cdoc = (TypeElement)doc;
+            TypeElement cdoc = (TypeElement) doc;
 
-            if (doc.getKind().isClass() && cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
+            if (!doc.getKind().isInterface() && cdoc.getModifiers().contains(Modifier.ABSTRACT)) {
                 // interfaces are abstract by default, don't mark them as abstract
                 info.setAbstract();
             }
@@ -425,7 +390,7 @@ public class GatherAPIData implements Doclet {
                 buf.append(cdoc.getSuperclass().toString());
             }
             List<? extends TypeMirror> imp = cdoc.getInterfaces();
-            if (imp != null && imp.size() > 0) {
+            if (!imp.isEmpty()) {
                 if (buf.length() > 0) {
                     buf.append(" ");
                 }
@@ -435,7 +400,11 @@ public class GatherAPIData implements Doclet {
                         buf.append(",");
                     }
                     buf.append(" ");
-                    buf.append(imp.get(i).toString());
+                    buf.append(imp.get(i).toString()
+                            .replaceAll("<[^<>]+>", "") // interfaces with parameters.
+                            .replaceAll("<[^<>]+>", "") // 3 nesting levels should be enough
+                            .replaceAll("<[^<>]+>", "") // max I've seen was 2
+                    );
                 }
             }
             hackSetSignature(info, trimBase(buf.toString()));
@@ -456,20 +425,29 @@ public class GatherAPIData implements Doclet {
                         info.setAbstract();
                     }
                 }
-                hackSetSignature(info, trimBase(emdoc.getReturnType().toString() + emdoc.toString().substring(name.length())));
+
+                String retSig = stringFromTypeMirror(emdoc.getReturnType());
+
+                // Signature, as returned by default, can be something like this: "boolean<T>containsAll(java.util.Iterator<T>)"
+                // The old API returned "boolean(java.util.Iterator<T>)"
+                // Consider using the signature "as is" (including the method name)
+                hackSetSignature(info, trimBase(retSig + toTheBracket(emdoc.toString())));
             } else {
                 // constructor
                 hackSetSignature(info, toTheBracket(emdoc.toString()));
             }
         } else {
+            // TODO: throw here
             hackSetSignature(info, "TO_FIX_" + doc.getKind());
         }
 
-        SpyTools.logToFile(SpyTools.toSpyStringJson(info)); // json-like
-//        SpyTools.logToFile(SpyTools.toSpyString(info, false)); // long
-//        SpyTools.logToFile(SpyTools.toSpyString(info, true)); // brief
-        
         return info;
+    }
+
+    private static String stringFromTypeMirror(TypeMirror rrt) {
+        StringBuilder retSig = new StringBuilder();
+        rrt.accept(new MyTypeVisitor(), retSig);
+        return retSig.toString();
     }
 
     private void hackSetSignature(APIInfo info, String value) {
@@ -488,63 +466,18 @@ public class GatherAPIData implements Doclet {
         if (pack == null) {
             return result;
         }
+
         // Takes something like "com.ibm.icu.charset.CharsetCallback.Decoder"
         // and removes the package, resulting in "CharsetCallback.Decoder"
         // This can't really be done just by looking at the string form.
         String packName = pack.getQualifiedName().toString() + ".";
-        result = result.startsWith(packName) ? result.substring(packName.length()) : result;
-        return result;
+        return result.startsWith(packName) ? result.substring(packName.length()) : result;
     }
 
     private String toTheBracket(String str) {
         if (str == null) return null;
         int openBr = str.indexOf('(');
         return openBr > 1 ? str.substring(openBr) : str;
-    }
-
-    private void dumpElement(Element doc) {
-        String extras = "";
-        switch (doc.getKind()) {
-            case CLASS:
-            case ENUM:
-            case INTERFACE:
-            case ANNOTATION_TYPE:
-                TypeElement te = (TypeElement) doc;
-                extras = String.format("te.enclos:'%s' te.inter:'%s'"
-                        + " te.nest:'%s' te.qual:'%s' te.simp:'%s'"
-                        + " te.supr:'%s' te.typparam:'%s' ", 
-                    te.getEnclosingElement(),
-                    te.getInterfaces(),
-                    te.getNestingKind(),
-                    te.getQualifiedName(),
-                    te.getSimpleName(),
-                    te.getSuperclass(),
-                    te.getTypeParameters());
-                break;
-            case CONSTRUCTOR:
-            case METHOD:
-                ExecutableElement ee = (ExecutableElement) doc;
-                extras = String.format("ee.param:'%s' ee.rcvr:'%s'"
-                        + " ee.ret:'%s' ee.simp:'%s' ee.throw:'%s'"
-                        + " ee.typparam:'%s' ",
-                    ee.getParameters(),
-                    ee.getReceiverType(),
-                    ee.getReturnType(),
-                    ee.getSimpleName(),
-                    ee.getThrownTypes(),    
-                    ee.getTypeParameters());
-                break;
-        }
-        SpyTools.logToFile(String.format("DumpElement { toStr:'%s' kind:'%s' modi:'%s' sn:'%s' cls:'%s' enclos:'%s' pack:'%s' %s}%n",
-                doc.toString(),
-                doc.getKind(),
-                doc.getModifiers(),
-                doc.getSimpleName(),
-                doc.getClass(),
-                doc.getEnclosingElement(),
-                elementUtils.getPackageOf(doc).getQualifiedName(),
-                extras
-        ));
     }
 
     private int tagStatus(final Element doc, String[] version) {
@@ -611,48 +544,48 @@ public class GatherAPIData implements Doclet {
         Result result = new Result();
         String statusVer = "";
         for (BlockTagTree tag : tags) {
-            int ix = tagKindIndex(tag);
+            TagKind ix = tagKindIndex(tag);
 
             switch (ix) {
-            case INTERNAL:
-                result.set(internal ? APIInfo.STA_INTERNAL : -2); // -2 for legacy compatibility
-                statusVer = getStatusVersion(tag);
-                break;
+                case INTERNAL:
+                    result.set(internal ? APIInfo.STA_INTERNAL : -2); // -2 for legacy compatibility
+                    statusVer = getStatusVersion(tag);
+                    break;
 
-            case DRAFT:
-                result.set(APIInfo.STA_DRAFT);
-                statusVer = getStatusVersion(tag);
-                break;
+                case DRAFT:
+                    result.set(APIInfo.STA_DRAFT);
+                    statusVer = getStatusVersion(tag);
+                    break;
 
-            case STABLE:
-                result.set(APIInfo.STA_STABLE);
-                statusVer = getStatusVersion(tag);
-                break;
+                case STABLE:
+                    result.set(APIInfo.STA_STABLE);
+                    statusVer = getStatusVersion(tag);
+                    break;
 
-            case DEPRECATED:
-                result.set(APIInfo.STA_DEPRECATED);
-                statusVer = getStatusVersion(tag);
-                break;
+                case DEPRECATED:
+                    result.set(APIInfo.STA_DEPRECATED);
+                    statusVer = getStatusVersion(tag);
+                    break;
 
-            case OBSOLETE:
-                result.set(APIInfo.STA_OBSOLETE);
-                statusVer = getStatusVersion(tag);
-                break;
+                case OBSOLETE:
+                    result.set(APIInfo.STA_OBSOLETE);
+                    statusVer = getStatusVersion(tag);
+                    break;
 
-            case SINCE:
-            case EXCEPTION:
-            case VERSION:
-            case UNKNOWN:
-            case AUTHOR:
-            case SEE:
-            case PARAM:
-            case RETURN:
-            case THROWS:
-            case SERIAL:
-                break;
+                case SINCE:
+                case EXCEPTION:
+                case VERSION:
+                case UNKNOWN:
+                case AUTHOR:
+                case SEE:
+                case PARAM:
+                case RETURN:
+                case THROWS:
+                case SERIAL:
+                    break;
 
-            default:
-                throw new RuntimeException("unknown index " + ix + " for tag: " + tag);
+                default:
+                    throw new RuntimeException("unknown index " + ix + " for tag: " + tag);
             }
         }
 
@@ -685,60 +618,54 @@ public class GatherAPIData implements Doclet {
         return "";
     }
 
-    private static final int UNKNOWN = -1;
-    private static final int INTERNAL = 0;
-    private static final int DRAFT = 1;
-    private static final int STABLE = 2;
-    private static final int SINCE = 3;
-    private static final int DEPRECATED = 4;
-    private static final int AUTHOR = 5;
-    private static final int SEE = 6;
-    private static final int VERSION = 7;
-    private static final int PARAM = 8;
-    private static final int RETURN = 9;
-    private static final int THROWS = 10;
-    private static final int OBSOLETE = 11;
-    private static final int EXCEPTION = 12;
-    private static final int SERIAL = 13;
+    static private enum TagKind {
+        UNKNOWN("<unknown>"),
+        INTERNAL("internal"),
+        DRAFT("draft"),
+        STABLE("stable"),
+        SINCE("since"),
+        DEPRECATED("deprecated"),
+        AUTHOR("author"),
+        SEE("see"),
+        VERSION("version"),
+        PARAM("param"),
+        RETURN("return"),
+        THROWS("throws"),
+        OBSOLETE("obsolete"),
+        EXCEPTION("exception"),
+        SERIAL("serial");
 
-    private static String getTagName(BlockTagTree tag) {
-        return "@" + tag.getTagName();
-    }
+        private final String value;
 
-    private static String getTagText(BlockTagTree tag) {
-        String name = getTagName(tag);
-        String fullText = tag.toString();
-        if (fullText.startsWith(name)) {
-            return fullText.substring(name.length());
+        TagKind(String value) {
+            this.value = value;
         }
-        return fullText;
+
+        String getValue() {
+            return value;
+        }
     }
-    
-    private static int tagKindIndex(BlockTagTree tag) {
-        final String[] tagKinds = {
-            "@internal", "@draft", "@stable", "@since", "@deprecated", "@author", "@see",
-            "@version", "@param", "@return", "@throws", "@obsolete", "@exception", "@serial"
-        };
-        for (int i = 0; i < tagKinds.length; ++i) {
-            if (getTagName(tag).equals(tagKinds[i])) {
-                return i;
+
+    private static TagKind tagKindIndex(BlockTagTree tag) {
+        for (TagKind tk : TagKind.values()) {
+            if (tk.getValue().equals(tag.getTagName())) {
+                return tk;
             }
         }
-        return UNKNOWN;
+        return TagKind.UNKNOWN;
     }
-    
-    private final static Set<Option> SUPPORTED_OPTIONS = new HashSet<>();
-    static {
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(1, "-name", "the_name", "the description of name"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(1, "-output", "the_output", "the description of output"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(1, "-base", "the_base", "the description of base"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(1, "--filter", "the_filter", "the description of filter"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(0, "-zip", "the description of zip"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(0, "-gzip", "the description of gzip"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(0, "-internal", "the description of internal"));
-        SUPPORTED_OPTIONS.add(new GatherApiDataOption(0, "-version", "the description of version"));
-    }
-    
+
+    private final static Set<Option> SUPPORTED_OPTIONS = Set.of(
+        new GatherApiDataOption(1, "-name", "the_name", "the description of name"),
+        new GatherApiDataOption(1, "-output", "the_output", "the description of output"),
+        new GatherApiDataOption(1, "-base", "the_base", "the description of base"),
+        new GatherApiDataOption(1, "--filter", "the_filter", "the description of filter"),
+        new GatherApiDataOption(0, "-zip", "the description of zip"),
+        new GatherApiDataOption(0, "-gzip", "the description of gzip"),
+        new GatherApiDataOption(0, "-internal", "the description of internal"),
+        new GatherApiDataOption(0, "-version", "the description of version")
+    );
+
     private void initFromOptions() {
         for (Option opt : SUPPORTED_OPTIONS) {
             GatherApiDataOption option = (GatherApiDataOption) opt;
@@ -772,20 +699,6 @@ public class GatherAPIData implements Doclet {
                     break;
             }
         }
-    }
-
-    @Override
-    public void init(Locale locale, Reporter reporter) {
-    }
-
-    @Override
-    public String getName() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
-    public Set<Option> getSupportedOptions() {
-        return SUPPORTED_OPTIONS;
     }
 
     static class GatherApiDataOption implements jdk.javadoc.doclet.Doclet.Option {
@@ -847,7 +760,7 @@ public class GatherAPIData implements Doclet {
             strValue = arguments.get(0);
             return true;
         }
-        
+
         public String getName() {
             return name;
         }
@@ -872,94 +785,86 @@ public class GatherAPIData implements Doclet {
         }
         return result;
     }
-// ================
-    
-    final static private String SPY_FOLDER = "/Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/";
-    final static private String VISIT_FILE = SPY_FOLDER + "visit.log";
 
-    String indent = "  ";
-
-    public void doTheVisit(Element doc, GatherAPIData context) {
-        MyElementVisitor ev = new MyElementVisitor();
-        doc.accept(ev, this);
-
-        indent = indent + "    ";
-        for (Element e: doc.getEnclosedElements()) {
-            doTheVisit(e, this);
-        }
-    }
-
-    private static class MyElementVisitor implements ElementVisitor<Element, GatherAPIData> {
+    static class MyTypeVisitor implements TypeVisitor<StringBuilder, StringBuilder> {
         @Override
-        public Element visit(Element e, GatherAPIData context) {
-            // Visits an element.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.visit: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visit(TypeMirror t, StringBuilder p) {
+            // TODO: throw here and in all other un-handled cases
+            return p.append(":v:TypeMirror:"+t);
         }
 
         @Override
-        public Element visitPackage(PackageElement e, GatherAPIData context) {
-            // Represents a package program element.
-            // Provides access to information about the package and its members.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Package: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitPrimitive(PrimitiveType t, StringBuilder p) {
+            // Happened
+            // return p.append(":v:PrimitiveType:"+t);
+            return p.append(t);
         }
 
         @Override
-        public Element visitType(TypeElement e, GatherAPIData context) {
-            // Represents a class or interface program element.
-            // Provides access to information about the type and its members.
-            // Note that an enum type is a kind of class and an annotation type
-            // is a kind of interface.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Type: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitNull(NullType t, StringBuilder p) {
+            return p.append(":v:NullType:"+t);
         }
 
         @Override
-        public Element visitVariable(VariableElement e, GatherAPIData context) {
-            // Represents a field, enum constant, method or constructor parameter,
-            // local variable, resource variable, or exception parameter.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Variable: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitArray(ArrayType t, StringBuilder p) {
+            // Happened
+            // return p.append(":v:ArrayType:"+t);
+            return p.append(t);
         }
 
         @Override
-        public Element visitExecutable(ExecutableElement e, GatherAPIData context) {
-            // Represents a method, constructor, or initializer (static or instance)
-            // of a class or interface, including annotation type elements.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Executable: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitDeclared(DeclaredType t, StringBuilder p) {
+            // Happened
+            // return p.append(":v:DeclaredType:"+t);
+            return p.append(t);
         }
 
         @Override
-        public Element visitTypeParameter(TypeParameterElement e, GatherAPIData context) {
-            // Represents a formal type parameter of a generic class, interface, method,
-            // or constructor element. A type parameter declares a TypeVariable.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.TypeParameter: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitError(ErrorType t, StringBuilder p) {
+            return p.append(":v:ErrorType:"+t);
         }
 
         @Override
-        public Element visitUnknown(Element e, GatherAPIData context) {
-            // Visits an unknown kind of element.
-            // This can occur if the language evolves and new kinds of elements
-            // are added to the Element hierarchy.
-            SpyTools.logToFile(VISIT_FILE, context.indent + "visit.Unknown: " + e + " ::: " + e.getKind() + "\n");
-            APIInfo info = context.createInfo(e);
-            if (info != null) context.results.add(info);
-            return e;
+        public StringBuilder visitTypeVariable(TypeVariable t, StringBuilder p) {
+            // Happened
+            String upperBound = t.getUpperBound().toString();
+            p.append(t.asElement().getSimpleName());
+            if (!"java.lang.Object".equals(upperBound)) {
+                return p.append(" extends ").append(upperBound);
+            }
+            return p;
+        }
+
+        @Override
+        public StringBuilder visitWildcard(WildcardType t, StringBuilder p) {
+            return p.append(":v:WildcardType:"+t);
+        }
+
+        @Override
+        public StringBuilder visitExecutable(ExecutableType t, StringBuilder p) {
+            return p.append(":v:ExecutableType:"+t);
+        }
+
+        @Override
+        public StringBuilder visitNoType(NoType t, StringBuilder p) {
+            // Happened
+            // return p.append(":v:NoType:"+t);
+            return p.append(t);
+        }
+
+        @Override
+        public StringBuilder visitUnknown(TypeMirror t, StringBuilder p) {
+            return p.append(":v:TypeMirror:"+t);
+        }
+
+        @Override
+        public StringBuilder visitUnion(UnionType t, StringBuilder p) {
+            return p.append(":v:UnionType:"+t);
+        }
+
+        @Override
+        public StringBuilder visitIntersection(IntersectionType t, StringBuilder p) {
+            return p.append(":v:IntersectionType:"+t);
         }
     }
 
