@@ -257,10 +257,11 @@ public class PersonNameFormatterImpl {
         // with the appropriate default script for whatever language and region we have
         ULocale nameULocale = ULocale.forLocale(nameLocale);
         if (NON_DEFAULT_SCRIPTS.contains(nameULocale.getScript())) {
-            ULocale.Builder builder = new ULocale.Builder();
-            builder.setLocale(nameULocale);
-            builder.setScript(null);
-            nameULocale = ULocale.addLikelySubtags(builder.build());
+            ULocale tmpLocale = new ULocale.Builder()
+                    .setLocale(nameULocale)
+                    .setScript(null)
+                    .build();
+            nameULocale = ULocale.addLikelySubtags(tmpLocale);
         }
 
         // now search for the locale in the gnFirstLocales and snFirstLocales lists...

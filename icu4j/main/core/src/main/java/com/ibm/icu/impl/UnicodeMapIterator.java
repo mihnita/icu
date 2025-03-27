@@ -87,7 +87,7 @@ public class UnicodeMapIterator<T> {
      * Create an iterator over the given set.
      * @param set set to iterate over
      */
-    public UnicodeMapIterator(UnicodeMap set) {
+    public UnicodeMapIterator(UnicodeMap<T> set) {
         reset(set);
     }
 
@@ -97,7 +97,7 @@ public class UnicodeMapIterator<T> {
      * constructor allowing the target to be set later.
      */
     public UnicodeMapIterator() {
-        reset(new UnicodeMap());
+        reset(new UnicodeMap<>());
     }
 
     /**
@@ -191,7 +191,7 @@ public class UnicodeMapIterator<T> {
      * so long as {@code set} is valid.
      * @param set the set to iterate over.
      */
-    public void reset(UnicodeMap set) {
+    public void reset(UnicodeMap<T> set) {
         this.map = set;
         reset();
     }
