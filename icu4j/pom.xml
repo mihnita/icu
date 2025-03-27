@@ -43,7 +43,11 @@
 
     <module>demos</module>
     <module>samples</module>
+
+    <module>tools/build</module>
     <module>tools/misc</module>
+    <module>tools/taglets</module>
+
     <module>perf-tests</module>
   </modules>
 
@@ -51,6 +55,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.release>8</maven.compiler.release>
 
     <maven-central-repo-url>https://oss.sonatype.org</maven-central-repo-url>
     <maven-central-releases-repo-url>${maven-central-repo-url}/service/local/staging/deploy/maven2</maven-central-releases-repo-url>
@@ -173,6 +178,10 @@
   </issueManagement>
 
   <distributionManagement>
+    <site>
+      <id>icu.unicode.org</id>
+      <url>https://icu.unicode.org/</url>
+    </site>
     <repository>
       <id>icu4j-maven-repo</id>
       <name>ICU4J Central Repository</name>
@@ -184,6 +193,29 @@
       <url>${maven-central-snapshots-repo-url}</url>
     </snapshotRepository>
   </distributionManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>pl.pragmatists</groupId>
+        <artifactId>JUnitParams</artifactId>
+        <version>${junitparams.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gson.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <pluginManagement>
@@ -323,6 +355,10 @@
                   <requireMavenVersion>
                     <version>3.6.3</version>
                   </requireMavenVersion>
+                  <requireJavaVersion>
+                    <!-- Require JDK 11 or newer -->
+                    <version>[11,)</version>
+                  </requireJavaVersion>
                 </rules>
               </configuration>
             </execution>
@@ -652,34 +688,6 @@
                 <artifactId>tools_build</artifactId>
                 <version>${project.version}</version>
               </docletArtifact>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- Starting with JDK 9, the Java compiler supports the −−release version.
-      Unlike source (checking the language features) and target (the version of the classes generated),
-      this option also checks that newer APIs are not used.
-        https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-release.html
-      Would be nice if the maven-compiler-plugin would filter this out below JDK 9, but it does not.
-      So we must use an auto-activated profile for this option.
-    -->
-    <profile>
-      <id>newer_jdk</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <modules>
-         <module>tools/build</module>
-         <module>tools/taglets</module>
-      </modules>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <release>8</release>
             </configuration>
           </plugin>
         </plugins>
