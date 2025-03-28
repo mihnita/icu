@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 import com.ibm.icu.impl.ICUBinary.Authenticate;
 import com.ibm.icu.text.RuleBasedBreakIterator;
@@ -141,6 +142,17 @@ public final class RBBIDataWrapper {
             if (fLookAheadResultsSize != otherST.fLookAheadResultsSize) return false;
             if (fFlags     != otherST.fFlags)     return false;
             return Arrays.equals(fTable, otherST.fTable);
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result
+                    + Objects.hash(fNumStates, fRowLen, fDictCategoriesStart,
+                            fLookAheadResultsSize, fFlags);
+            result = prime * result + Arrays.hashCode(fTable);
+            return result;
         }
     }
 
