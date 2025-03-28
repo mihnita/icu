@@ -54,7 +54,7 @@ public class CurrencyDemo {
         return result;
     }
         
-    static Map hackData = new HashMap();
+    static Map<String, HackCurrencyInfo> hackData = new HashMap<>();
     static class HackCurrencyInfo {
         int decimals;
         double rounding;

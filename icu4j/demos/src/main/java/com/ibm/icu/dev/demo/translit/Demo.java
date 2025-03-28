@@ -384,23 +384,23 @@ public class Demo extends Frame {
         
         translitMenu.addSeparator();
         
-        Iterator sources = add(new TreeSet(), Transliterator.getAvailableSources()).iterator();
+        Iterator<String> sources = add(new TreeSet<>(), Transliterator.getAvailableSources()).iterator();
         while(sources.hasNext()) {
-            String source = (String) sources.next();
-            Iterator targets = add(new TreeSet(), Transliterator.getAvailableTargets(source)).iterator();
+            String source = sources.next();
+            Iterator<String> targets = add(new TreeSet<>(), Transliterator.getAvailableTargets(source)).iterator();
             Menu targetMenu = new Menu(source);
             while(targets.hasNext()) {
                 String target = (String) targets.next();
-                Set variantSet = add(new TreeSet(), Transliterator.getAvailableVariants(source, target));
+                Set<String> variantSet = add(new TreeSet<>(), Transliterator.getAvailableVariants(source, target));
                 if (variantSet.size() < 2) {
                     mitem = new MenuItem(target);
                     mitem.addActionListener(new TransliterationListener(source + "-" + target));
                     targetMenu.add(mitem);
                 } else {
-                    Iterator variants = variantSet.iterator();
+                    Iterator<String> variants = variantSet.iterator();
                     Menu variantMenu = new Menu(target);
                     while(variants.hasNext()) {
-                        String variant = (String) variants.next();
+                        String variant = variants.next();
                         String menuName = variant.length() == 0 ? "<default>" : variant;
                         //System.out.println("<" + source + "-" + target + "/" + variant + ">, <" + menuName + ">");
                         mitem = new MenuItem(menuName);
@@ -507,11 +507,9 @@ public class Demo extends Frame {
     MenuItem swapSelectionItem = null;
     MenuItem convertTypingItem = null;
     Menu historyMenu;
-    Map historyMap = new HashMap();
-    Set historySet = new TreeSet(new Comparator() {
-            public int compare(Object a, Object b) {
-                MenuItem aa = (MenuItem)a;
-                MenuItem bb = (MenuItem)b;
+    Map<String, MenuItem> historyMap = new HashMap<>();
+    Set<MenuItem> historySet = new TreeSet<MenuItem>(new Comparator<MenuItem>() {
+            public int compare(MenuItem aa, MenuItem bb) {
                 return aa.getLabel().compareTo(bb.getLabel());
             }
         });
@@ -519,7 +517,7 @@ public class Demo extends Frame {
     // ADD Factory since otherwise getInverse blows out
     static class DummyFactory implements Transliterator.Factory {
         static DummyFactory singleton = new DummyFactory();
-        static HashMap m = new HashMap();
+        static HashMap<String, Transliterator> m = new HashMap<>();
 
         // Since Transliterators are immutable, we don't have to clone on set & get
         static void add(String ID, Transliterator t) {
@@ -1223,16 +1221,15 @@ public class Demo extends Frame {
     
     void addHistory(Transliterator trans) {
         String name = trans.getID();
-        MenuItem cmi = (MenuItem) historyMap.get(name);
+        MenuItem cmi = historyMap.get(name);
         if (cmi == null) {
             cmi = new MenuItem(Transliterator.getDisplayName(name));
             cmi.addActionListener(new TransliterationListener(name));
             historyMap.put(name, cmi);
             historySet.add(cmi);
             historyMenu.removeAll();
-            Iterator it = historySet.iterator();
-            while (it.hasNext()) {
-                historyMenu.add((MenuItem)it.next());
+            for (MenuItem menuItem : historySet) {
+                historyMenu.add(menuItem);
             }
         }
     }
@@ -1277,8 +1274,8 @@ public class Demo extends Frame {
             text.setFont(new Font(fontName, Font.PLAIN, fontSize));
         }
     }
-    
-    Set add(Set s, Enumeration enumeration) {
+
+    Set<String> add(Set<String> s, Enumeration<String> enumeration) {
         while(enumeration.hasMoreElements()) {
             s.add(enumeration.nextElement());
         }

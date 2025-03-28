@@ -31,8 +31,8 @@ public class CaseIterator {
     static Transliterator toHex2 = Transliterator.getInstance("[[^\u0021-\u007F]-[,]] Any-Hex");
     
     // global tables (could be precompiled)
-    private static Map fromCaseFold = new HashMap();
-    private static Map toCaseFold = new HashMap();
+    private static Map<String, Set<String>> fromCaseFold = new HashMap<>();
+    private static Map<String, String> toCaseFold = new HashMap<>();
     private static int maxLength = 0;
     
     // This exception list is generated on the console by turning on the GENERATED flag, 
@@ -208,7 +208,7 @@ public class CaseIterator {
         if (!GENERATE) {
             for (int i = 0; i < exceptionList.length; ++i) {
                 String[] exception = exceptionList[i];
-                Set s = new HashSet();
+                Set<String> s = new HashSet<>();
                 // there has to be some method to do the following, but I can't find it in the collections
                 for (int j = 0; j < exception.length; ++j) {
                     s.add(exception[j]);
@@ -233,9 +233,9 @@ public class CaseIterator {
             
             // at this point, have different case folding
             
-            Set s = (Set) fromCaseFold.get(mapped);
+            Set<String> s = fromCaseFold.get(mapped);
             if (s == null) {
-                s = new HashSet();
+                s = new HashSet<>();
                 s.add(mapped); // add the case fold result itself
                 fromCaseFold.put(mapped, s);
             }
@@ -250,12 +250,12 @@ public class CaseIterator {
             System.out.println("maxLength = " + maxLength);
 
             System.out.println("\nfromCaseFold:");
-            Iterator it = fromCaseFold.keySet().iterator();
+            Iterator<String> it = fromCaseFold.keySet().iterator();
             while (it.hasNext()) {
-                Object key = it.next();
+                String key = it.next();
                 System.out.print(" " + toHex2.transliterate((String)key) + ": ");
-                Set s = (Set) fromCaseFold.get(key);
-                Iterator it2 = s.iterator();
+                Set<String> s = fromCaseFold.get(key);
+                Iterator<String> it2 = s.iterator();
                 boolean first = true;
                 while (it2.hasNext()) {
                     if (first) {
@@ -284,13 +284,12 @@ public class CaseIterator {
         // Might be best choice in C.
         
         
-        Map fromCaseFold2 = new HashMap();
-        Iterator it = fromCaseFold.keySet().iterator();
+        Map<String, Set<String>> fromCaseFold2 = new HashMap<>();
+        Iterator<String> it = fromCaseFold.keySet().iterator();
         while (it.hasNext()) {
-            Object key = it.next();
-            Set s = (Set) fromCaseFold.get(key);
-            String[] temp = new String[s.size()];
-            s.toArray(temp);
+            String key = it.next();
+            Set<String> s = fromCaseFold.get(key);
+            Set<String> temp = new TreeSet<String>(s);
             fromCaseFold2.put(key, temp);
         }
         fromCaseFold = fromCaseFold2;
@@ -305,7 +304,7 @@ public class CaseIterator {
 
             // first get small set of items that have multiple characters
             
-            Set multichars = new TreeSet();
+            Set<String> multichars = new TreeSet<>();
             it = fromCaseFold.keySet().iterator();
             while (it.hasNext()) {
                 String key = (String) it.next();
@@ -319,7 +318,7 @@ public class CaseIterator {
             it = multichars.iterator();
             
             while (it.hasNext()) {
-                String key = (String) it.next();
+                String key = it.next();
                 
                 // here is a nasty complication. Take 'ffi' ligature. We
                 // can't just close it, since we would miss the combination
@@ -327,13 +326,13 @@ public class CaseIterator {
                 // so first do a pass through, and add substring combinations
                 // we call this a 'partial closure'
                 
-                Set partialClosure = new TreeSet();
+                Set<String> partialClosure = new TreeSet<>();
                 partialClosure.add(key);
                 
                 if (UTF16.countCodePoint(key) > 2) {
-                    Iterator multiIt2 = multichars.iterator();
+                    Iterator<String> multiIt2 = multichars.iterator();
                     while (multiIt2.hasNext()) {
-                        String otherKey = (String) multiIt2.next();
+                        String otherKey = multiIt2.next();
                         if (otherKey.length() >= key.length()) continue;
                         int pos = -1;
                         while (true) {
@@ -346,10 +345,10 @@ public class CaseIterator {
                             int endPos = pos + otherKey.length();
                             // we know we have a proper substring,
                             // so get the combinations
-                            String[] choices = (String[]) fromCaseFold.get(otherKey);
-                            for (int ii = 0; ii < choices.length; ++ii) {
+                            Set<String> choices = fromCaseFold.get(otherKey);
+                            for (String choice : choices) {
                                 String patchwork = key.substring(0, pos)
-                                    + choices[ii]
+                                    + choice
                                     + key.substring(endPos);
                                 partialClosure.add(patchwork);
                             }
@@ -360,10 +359,10 @@ public class CaseIterator {
                 // now, for each thing in the partial closure, get its
                 // case closure and add it to the final result.
                 
-                Set closure = new TreeSet(); // this will be the real closure
-                Iterator partialIt = partialClosure.iterator();
+                Set<String> closure = new TreeSet<>(); // this will be the real closure
+                Iterator<String> partialIt = partialClosure.iterator();
                 while (partialIt.hasNext()) {
-                    String key2 = (String) partialIt.next();
+                    String key2 = partialIt.next();
                     ci.reset(key2);
                     for (String temp = ci.next(); temp != null; temp = ci.next()) {
                         closure.add(temp);
@@ -382,11 +381,11 @@ public class CaseIterator {
                 
                 // print it out, so that it can be cut and pasted back into this document.
                 
-                Iterator it2 = closure.iterator();
+                Iterator<String> it2 = closure.iterator();
                 System.out.println("\t// " + toName.transliterate(key));
                 System.out.print("\t{\"" + toHex.transliterate(key) + "\",");
                 while (it2.hasNext()) {
-                    String item = (String)it2.next();
+                    String item = it2.next();
                     System.out.print("\"" + toHex.transliterate(item) + "\",");
                 }
                 System.out.println("},");
@@ -452,7 +451,7 @@ public class CaseIterator {
                 piece = UTF16.valueOf(source, i);
                 variants[count++] = new String[] {piece}; // single item string
             } else {
-                variants[count++] = (String[])fromCaseFold.get(caseFold);
+                variants[count++] = fromCaseFold.get(caseFold).toArray(new String[0]);
             }
         }
         reset();

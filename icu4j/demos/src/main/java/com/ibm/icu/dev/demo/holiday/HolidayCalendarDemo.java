@@ -720,7 +720,7 @@ public class HolidayCalendarDemo extends DemoApplet
         private transient int firstDayInMonth;  // Day of week of first day in month
 
         private transient Holiday[] fAllHolidays;
-        private transient Vector    fHolidays = new Vector(5,5);
+        private transient Vector<HolidayInfo> fHolidays = new Vector<>(5,5);
 
         private transient boolean dirty = true;
     }

@@ -10,7 +10,6 @@ package com.ibm.icu.dev.demo.translit;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -248,30 +247,28 @@ public class AnyTransliterator extends Transliterator {
         
         // register Any-Script for every script.
         
-        private static Set scriptList = new HashSet();
+        private static Set<String> scriptList = new HashSet<>();
         
         public static void registerAnyToScript() {
             synchronized (scriptList) {
-                Enumeration sources = Transliterator.getAvailableSources();
+                Enumeration<String> sources = Transliterator.getAvailableSources();
                 while(sources.hasMoreElements()) {
                     String source = (String) sources.nextElement();
                     if (source.equals("Any")) continue; // to keep from looping
                     
-                    Enumeration targets = Transliterator.getAvailableTargets(source);
+                    Enumeration<String> targets = Transliterator.getAvailableTargets(source);
                     while(targets.hasMoreElements()) {
                         String target = (String) targets.nextElement();
                         if (UScript.getCode(target) == null) continue; // SKIP unless we have a script (or locale)
                         if (scriptList.contains(target)) continue; // already encountered
                         scriptList.add(target); // otherwise add for later testing
                         
-                        Set variantSet = add(new TreeSet(), Transliterator.getAvailableVariants(source, target));
+                        Set<String> variantSet = add(new TreeSet<>(), Transliterator.getAvailableVariants(source, target));
                         if (variantSet.size() < 2) {
                             AnyTransliterator at = new AnyTransliterator(target, null);
                             DummyFactory.add(at.getID(), at);
                         } else {
-                            Iterator variants = variantSet.iterator();
-                            while(variants.hasNext()) {
-                                String variant = (String) variants.next();
+                            for (String variant : variantSet) {
                                 AnyTransliterator at = new AnyTransliterator(
                                     (variant.length() > 0) ? target + "/" + variant : target, null);
                                 DummyFactory.add(at.getID(), at);
@@ -284,7 +281,7 @@ public class AnyTransliterator extends Transliterator {
         
         static class DummyFactory implements Transliterator.Factory {
             static DummyFactory singleton = new DummyFactory();
-            static HashMap m = new HashMap();
+            static HashMap<String, Transliterator> m = new HashMap<>();
 
             // Since Transliterators are immutable, we don't have to clone on set & get
             static void add(String ID, Transliterator t) {
@@ -298,7 +295,7 @@ public class AnyTransliterator extends Transliterator {
         }
         
         // Nice little Utility for converting Enumeration to collection
-        static Set add(Set s, Enumeration enumeration) {
+        static Set<String> add(Set<String> s, Enumeration<String> enumeration) {
             while(enumeration.hasMoreElements()) {
                 s.add(enumeration.nextElement());
             }
