@@ -39,9 +39,9 @@ class ErrProneReport {
     }
 
     public static void genReport(String icuDir, String mavenStdOut, String outDir, String baseUrl) throws IOException {
-        String sss = guessIcuDir();
-        System.out.println("GUESSED: " + sss);
-        System.exit(2);
+//        String sss = guessIcuDir();
+//        System.out.println("GUESSED: " + sss);
+//        System.exit(2);
 
         List<ErrorEntry> errors =
                 ParseMavenOutForErrorProne.parse(icuDir, mavenStdOut);
@@ -74,30 +74,29 @@ class ErrProneReport {
         System.out.println("Report generated: " + outFileName.toUri());
         try (PrintStream wrt = new PrintStream(outFileName.toString(), StandardCharsets.UTF_8)) {
             HtmlUtils hu = new HtmlUtils(wrt);
-            hu.openTag("html").nl();
+            hu.openTag("html");
             // head start
-            hu.openTag("head").nl();
+            hu.openTag("head");
 
-            hu.openTag("style").nl();
-            hu.text(" body { font-family: sans-serif; }").nl();
-            hu.text(" td { border: 1px solid black; padding: 0 .5em; }").nl();
-            hu.text(" table, th { border: 2px solid black; border-collapse: collapse; }").nl();
-            hu.text(" th { cursor: pointer; background-color: #aaa; }").nl();
-            hu.text(" table.sortable tbody tr:nth-child(2n) td { background: #ddd; }").nl();
-            hu.text(" table.sortable tbody tr:nth-child(2n+1) td { background: #eee; }").nl();
+            hu.openTag("style");
+            hu.text("  body { font-family: sans-serif; }\n");
+            hu.text("  td { border: 1px solid black; padding: 0 .5em; }\n");
+            hu.text("  table, th { border: 2px solid black; border-collapse: collapse; }\n");
+            hu.text("  th { cursor: pointer; background-color: #aaa; }\n");
+            hu.text("  table.sortable tbody tr:nth-child(2n) td { background: #ddd; }\n");
+            hu.text("  table.sortable tbody tr:nth-child(2n+1) td { background: #eee; }\n");
 
-            hu.text(" .fileName { font-family: monospace; }").nl();
-            hu.text(" .tag, .suggestion { font-family: monospace; white-space: pre; }").nl();
-            hu.text(" .severity_warning { color:#aa0; }").nl();
-            hu.text(" .severity_error { color:#f00; }").nl();
-            hu.text(" .severity_unknown { color:#f0f; }").nl();
+            hu.text("  .fileName { font-family: monospace; }\n");
+            hu.text("  .tag, .suggestion { font-family: monospace; white-space: pre; }\n");
+            hu.text("  .severity_warning { color:#aa0; }\n");
+            hu.text("  .severity_error { color:#f00; }\n");
+            hu.text("  .severity_unknown { color:#f0f; }\n");
 
             // Tinker with the table sortable
-            hu.text(" th::after { content: \" \\23F6\\23F7\"; }").nl();
-            hu.text(" th.sorttable_sorted::after { content: \" \\23F7\"; }").nl();
-            hu.text(" th.sorttable_sorted_reverse::after { content: \" \\23F6\"; }").nl();
-            hu.text(" #sorttable_sortfwdind, #sorttable_sortrevind { display: none; }").nl();
-
+            hu.text("  th::after { content: \" \\23F6\\23F7\"; }\n");
+            hu.text("  th.sorttable_sorted::after { content: \" \\23F7\"; }\n");
+            hu.text("  th.sorttable_sorted_reverse::after { content: \" \\23F6\"; }\n");
+            hu.text("  #sorttable_sortfwdind, #sorttable_sortrevind { display: none; }\n");
             hu.closeTag("style");
 
             hu.openTag("script", Map.of("src", "sorttable.js"));
@@ -106,16 +105,16 @@ class ErrProneReport {
             // head end
 
             // body start
-            hu.openTag("body").nl().nl();
+            hu.openTag("body");
 
             SimpleDateFormat sdf = new SimpleDateFormat("y-MMMM-dd, HH:mm:ss", Locale.US);
             String title = "ErrorProne report, " + sdf.format(new Date());
-            hu.openTag("h1").text(title).closeTag("h1").nl();
+            hu.openTag("h1").text(title).closeTag("h1");
 
-            hu.openTag("table", Map.of("class", "sortable")).nl();
+            hu.openTag("table", Map.of("class", "sortable"));
 
-            hu.openTag("thead").nl();
-            hu.openTag("tr").nl();
+            hu.openTag("thead");
+            hu.openTag("tr");
             hu.openTag("th").text("File and line number").closeTag("th");
             hu.openTag("th").text("Severity").closeTag("th");
             hu.openTag("th").text("Issue type").closeTag("th");
@@ -126,7 +125,7 @@ class ErrProneReport {
 
             for (ErrorEntry error : errors) {
 
-                hu.openTag("tr").nl();
+                hu.openTag("tr");
 
                 String visiblePath = error.path + ":[" + error.line + "," + error.column + "]";
                 String url = baseUrl + "/"
@@ -134,7 +133,7 @@ class ErrProneReport {
                                 + "#L"
                                 + error.line;
                 hu.openTag("td", Map.of("class", "fileName"));
-                hu.openTag("a", Map.of("href", url)).nl().text(visiblePath).closeTag("a");
+                hu.openTag("a", Map.of("href", url)).text(visiblePath).closeTag("a");
                 hu.closeTag("td");
 
                 hu.openTag("td", Map.of("class", "severity_" + error.severity))
@@ -149,11 +148,13 @@ class ErrProneReport {
                 hu.openTag("td", Map.of("class", "desc"));
                 hu.text(error.message);
                 if (error.extra != null) {
-                    hu.tag("hr");
+                    hu.openTag("hr");
                     String extra = error.extra;
                     if (extra.startsWith("Did you mean '") && extra.endsWith("'?")) {
+                        hu.indent();
                         hu.text("Did you mean ");
-                        hu.tag("br").nl();
+                        hu.openTag("br");
+                        hu.indent();
                         hu.openTag("code");
                         extra = extra.substring(14, extra.length() - 2);
                         hu.text(extra);
@@ -167,7 +168,7 @@ class ErrProneReport {
                 hu.closeTag("tr");
             }
 
-            hu.closeTag("table").nl();
+            hu.closeTag("table");
             hu.closeTag("body");
             // body end
 
