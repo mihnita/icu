@@ -64,7 +64,7 @@ jobs:
 
     - name: Run tests
       if: ${{ inputs.runTests }}
-      run: mvn install --file icu4j ${SHARED_MVN_ARGS} --errors --fail-at-end -DskipTests -DskipITs
+      run: mvn install --file icu4j ${SHARED_MVN_ARGS} --errors --fail-at-end
 
     - name: Build javadoc taglets
       run: |
@@ -114,8 +114,7 @@ jobs:
           -DskipITs -DskipTests \
           -P with_full_javadoc
         # Archive the full doc in a jar. Should also be posted to the web as official doc.
-        jar -Mcf ${RELEASE_FOLDER}/icu4j-${ICU_VERSION}-fulljavadoc.jar \
-          -C target/site/apidocs/ .
+        jar -Mcf ${RELEASE_FOLDER}/icu4j-${ICU_VERSION}-fulljavadoc.jar -C target/site/apidocs/ .
         popd # out of icu4j
 
     - name: Upload build results
