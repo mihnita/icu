@@ -84,7 +84,7 @@ jobs:
         fi
         mvn deploy --file icu4j \
           ${SHARED_MVN_ARGS} ${MAVEN_LOCAL} \
-          --settings $GITHUB_WORKSPACE/settings.xml \
+          -X --settings $GITHUB_WORKSPACE/settings.xml \
           --errors --fail-at-end -DdeployAtEnd=true \
           -DskipTests -DskipITs \
           -P with_sources,with_javadoc,with_signature
