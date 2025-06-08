@@ -82,10 +82,11 @@
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
         <!-- We want to deploy this to Maven -->
         <configuration>
-          <skip>false</skip>
+          <skipPublishing>false</skipPublishing>
         </configuration>
       </plugin>
     </plugins>

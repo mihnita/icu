@@ -50,9 +50,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.release>11</maven.compiler.release>
 
-    <maven-central-repo-url>https://oss.sonatype.org</maven-central-repo-url>
-    <maven-central-releases-repo-url>${maven-central-repo-url}/service/local/staging/deploy/maven2</maven-central-releases-repo-url>
-    <maven-central-snapshots-repo-url>${maven-central-repo-url}/content/repositories/snapshots</maven-central-snapshots-repo-url>
+    <maven-central-repo-url>https://central.sonatype.com</maven-central-repo-url>
+    <maven-central-releases-repo-url>${maven-central-repo-url}</maven-central-releases-repo-url>
+    <maven-central-snapshots-repo-url>${maven-central-repo-url}/repository/maven-snapshots/</maven-central-snapshots-repo-url>
 
     <!-- This is the folder where we gather the files to be posted in the Github Release-->
     <release.directory>${project.build.directory}/release_directory</release.directory>
@@ -188,6 +188,24 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <!-- Consuming snapshots via Maven.
+    Snapshots can be observed via the directory listing:
+    https://central.sonatype.com/service/rest/repository/browse/maven-snapshots/
+  -->
+  <repositories>
+    <repository>
+      <name>Central Portal Snapshots</name>
+      <id>central-portal-snapshots</id>
+      <url>${maven-central-snapshots-repo-url}</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -229,10 +247,13 @@
           <version>3.1.3</version>
         </plugin>
         <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.7.0</version>
+          <extensions>true</extensions>
           <configuration>
-            <skip>true</skip>
+            <publishingServerId>icu4j-maven-repo</publishingServerId>
+            <skipPublishing>true</skipPublishing>
           </configuration>
         </plugin>
         <plugin>
