@@ -50,11 +50,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.release>11</maven.compiler.release>
 
-<!--
     <maven-central-repo-url>https://central.sonatype.com</maven-central-repo-url>
     <maven-central-releases-repo-url>${maven-central-repo-url}</maven-central-releases-repo-url>
     <maven-central-snapshots-repo-url>${maven-central-repo-url}/repository/maven-snapshots/</maven-central-snapshots-repo-url>
--->
 
     <!-- This is the folder where we gather the files to be posted in the Github Release-->
     <release.directory>${project.build.directory}/release_directory</release.directory>
@@ -177,7 +175,6 @@
     <url>https://unicode-org.atlassian.net/projects/ICU</url>
   </issueManagement>
 
-<!--
   <distributionManagement>
     <repository>
       <id>icu4j-maven-repo</id>
@@ -190,7 +187,6 @@
       <url>${maven-central-snapshots-repo-url}</url>
     </snapshotRepository>
   </distributionManagement>
--->
 
   <!-- Consuming snapshots via Maven.
     Snapshots can be observed via the directory listing:
@@ -258,7 +254,7 @@
           <version>0.7.0</version>
           <extensions>true</extensions>
           <configuration>
-            <!-- <publishingServerId>icu4j-maven-repo</publishingServerId> -->
+            <publishingServerId>icu4j-maven-repo</publishingServerId>
             <skipPublishing>true</skipPublishing>
           </configuration>
         </plugin>
