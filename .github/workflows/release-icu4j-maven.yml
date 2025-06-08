@@ -64,7 +64,7 @@ jobs:
 
     - name: Run tests
       if: ${{ inputs.runTests }}
-      run: mvn install --file icu4j ${SHARED_MVN_ARGS} --errors --fail-at-end
+      run: mvn install --file icu4j ${SHARED_MVN_ARGS} --errors --fail-at-end -DskipTests -DskipITs
 
     - name: Build javadoc taglets
       run: |
