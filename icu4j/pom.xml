@@ -181,11 +181,13 @@
       <name>ICU4J Central Repository</name>
       <url>${maven-central-releases-repo-url}</url>
     </repository>
+<!--
     <snapshotRepository>
       <id>icu4j-maven-repo</id>
       <name>ICU4J Central Development Repository</name>
       <url>${maven-central-snapshots-repo-url}</url>
     </snapshotRepository>
+-->
   </distributionManagement>
 
   <!-- Consuming snapshots via Maven.
