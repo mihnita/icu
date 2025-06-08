@@ -82,6 +82,9 @@ jobs:
         else
           echo Deploy to Maven Central using Sonatype OSSRH
         fi
+        echo DUMPING $GITHUB_WORKSPACE/settings.xml
+        cat $GITHUB_WORKSPACE/settings.xml
+        echo '===================='
         mvn deploy --file icu4j \
           ${SHARED_MVN_ARGS} ${MAVEN_LOCAL} \
           --settings $GITHUB_WORKSPACE/settings.xml \
