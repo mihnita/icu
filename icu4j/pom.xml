@@ -177,7 +177,7 @@
 
   <distributionManagement>
     <repository>
-      <id>icu4j-maven-repo</id>
+      <id>central</id>
       <name>ICU4J Central Repository</name>
       <url>${maven-central-releases-repo-url}</url>
     </repository>
@@ -189,6 +189,7 @@
     </snapshotRepository>
 -->
   </distributionManagement>
+
 
   <!-- Consuming snapshots via Maven.
     Snapshots can be observed via the directory listing:
@@ -263,7 +264,9 @@
           <version>0.7.0</version>
           <extensions>true</extensions>
           <configuration>
+<!--
             <publishingServerId>icu4j-maven-repo</publishingServerId>
+-->
             <skipPublishing>true</skipPublishing>
           </configuration>
         </plugin>
