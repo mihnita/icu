@@ -183,16 +183,11 @@
     </repository>
     <snapshotRepository>
       <id>central</id>
+      <!-- <id>icu4j-maven-repo</id> -->
       <name>ICU4J Central Development Repository</name>
       <url>${maven-central-releases-repo-url}</url>
+      <!-- <url>${maven-central-snapshots-repo-url}</url> -->
     </snapshotRepository>
-<!--
-    <snapshotRepository>
-      <id>icu4j-maven-repo</id>
-      <name>ICU4J Central Development Repository</name>
-      <url>${maven-central-snapshots-repo-url}</url>
-    </snapshotRepository>
--->
   </distributionManagement>
 
 
