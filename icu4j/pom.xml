@@ -36,10 +36,6 @@
     <module>main/common_tests</module>
     <!-- Shaded jar for publishing to Maven Central -->
     <module>main/icu4j</module>
-    <!-- For publishing to Maven Central. Not shaded, but depends on the shaded artifacts above.
-         Also contains all the project properties (developers, scm, etc) needed for maven publishing.
-    -->
-    <module>main/localespi</module>
 
     <module>demos</module>
     <module>samples</module>
