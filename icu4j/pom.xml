@@ -580,7 +580,7 @@
     </profile>
 
     <!-- This is used to create "merged" javadoc for all modules combined.
-      Matches what is posted on a website (where icu4j / charset / localespi are all in one).
+      Matches what is posted on a website (where icu4j / charset are all in one).
       That's why you need to run this with `site`, but build the artifacts first (for the taglets):
         mvn install -DskipTests -DskipITs
         mvn site -DskipTests -DskipITs -P with_full_javadoc
@@ -758,60 +758,42 @@
                         <overWriteReleases>true</overWriteReleases>
                         <overWriteSnapshots>true</overWriteSnapshots>
                         <artifactItems>
-                        <!-- icu4j -->
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>sources</classifier>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>javadoc</classifier>
-                        </artifactItem>
-                        <!-- icu4j-charset -->
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-charset</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-charset</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>sources</classifier>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-charset</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>javadoc</classifier>
-                        </artifactItem>
-                        <!-- icu4j-localespi -->
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-localespi</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-localespi</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>sources</classifier>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.ibm.icu</groupId>
-                            <artifactId>icu4j-localespi</artifactId>
-                            <version>${project.version}</version>
-                            <classifier>javadoc</classifier>
-                        </artifactItem>
+                            <!-- icu4j -->
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j</artifactId>
+                                <version>${project.version}</version>
+                            </artifactItem>
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>sources</classifier>
+                            </artifactItem>
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>javadoc</classifier>
+                            </artifactItem>
+                            <!-- icu4j-charset -->
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j-charset</artifactId>
+                                <version>${project.version}</version>
+                            </artifactItem>
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j-charset</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>sources</classifier>
+                            </artifactItem>
+                            <artifactItem>
+                                <groupId>com.ibm.icu</groupId>
+                                <artifactId>icu4j-charset</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>javadoc</classifier>
+                            </artifactItem>
                         </artifactItems>
                     </configuration>
                 </plugin>
