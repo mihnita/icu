@@ -125,14 +125,19 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
-<!--
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
           <skip>false</skip>
         </configuration>
       </plugin>
--->
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <configuration>
+          <skipPublishing>false</skipPublishing>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
