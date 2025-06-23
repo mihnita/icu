@@ -1477,7 +1477,7 @@ public class MessageFormat extends UFormat {
 
         other.msgPattern = msgPattern == null ? null : (MessagePattern)msgPattern.clone();
         other.stockDateFormatter =
-                stockDateFormatter == null ? null : (DateFormat) stockDateFormatter.clone();
+                stockDateFormatter == null ? null : stockDateFormatter.clone();
         other.stockNumberFormatter =
                 stockNumberFormatter == null ? null : (NumberFormat) stockNumberFormatter.clone();
 

@@ -637,7 +637,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (dateFormats == null) {
             dateFormats = new DateFormat[DF_LIMIT][DF_LIMIT];
         }
-        dateFormats[dateStyle][timeStyle] = (DateFormat) format.clone(); // for safety
+        dateFormats[dateStyle][timeStyle] = format.clone(); // for safety
         return this;
     }
 
@@ -664,7 +664,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
             result = dateFormats[dateStyle][timeStyle];
         }
         if (result != null) {
-            result = (DateFormat) result.clone(); // clone for safety
+            result = result.clone(); // clone for safety
             // Not sure overriding configuration is what we really want...
             result.setTimeZone(getTimeZone());
         } else {

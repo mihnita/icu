@@ -1884,7 +1884,7 @@ public abstract class DateFormat extends UFormat {
      * @stable ICU 2.0
      */
     @Override
-    public Object clone()
+    public DateFormat clone()
     {
         DateFormat other = (DateFormat) super.clone();
         other.calendar = (Calendar) calendar.clone();

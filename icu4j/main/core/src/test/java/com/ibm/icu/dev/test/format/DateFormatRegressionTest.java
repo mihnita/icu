@@ -1547,7 +1547,7 @@ public class DateFormatRegressionTest extends CoreTestFmwk {
             cal.add(Calendar.SECOND, 1);
             cal.add(Calendar.MILLISECOND, 1);
             Date d = cal.getTime();
-            SimpleDateFormat fmt = (SimpleDateFormat)fmt0.clone();
+            SimpleDateFormat fmt = fmt0.clone();
             threads[i] = new TestThread(fmt, d);
         }
 

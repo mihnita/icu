@@ -270,7 +270,7 @@ import com.ibm.icu.util.UResourceBundle;
  * @stable ICU 4.0
  */
 
-public class DateIntervalFormat extends UFormat {
+public class DateIntervalFormat extends UFormat implements Cloneable {
 
     /**
      * An immutable class containing the result of a date interval formatting operation.
@@ -798,7 +798,7 @@ public class DateIntervalFormat extends UFormat {
     {
         // clone. If it is frozen, clone returns itself, otherwise, clone
         // returns a copy.
-        dtitvinf = (DateIntervalInfo)dtitvinf.clone();
+        dtitvinf = dtitvinf.clone();
         DateTimePatternGenerator generator = DateTimePatternGenerator.getInstance(locale);
         return new DateIntervalFormat(skeleton, dtitvinf, new SimpleDateFormat(generator.getBestPattern(skeleton), locale));
     }
@@ -810,13 +810,13 @@ public class DateIntervalFormat extends UFormat {
      * @stable ICU 4.0
      */
     @Override
-    public synchronized Object clone()
+    public synchronized DateIntervalFormat clone()
     {
         DateIntervalFormat other = (DateIntervalFormat) super.clone();
-        other.fDateFormat = (SimpleDateFormat) fDateFormat.clone();
-        other.fInfo = (DateIntervalInfo) fInfo.clone();
-        other.fFromCalendar = (Calendar) fFromCalendar.clone();
-        other.fToCalendar = (Calendar) fToCalendar.clone();
+        other.fDateFormat = fDateFormat.clone();
+        other.fInfo = fInfo.clone();
+        other.fFromCalendar = fFromCalendar.clone();
+        other.fToCalendar = fToCalendar.clone();
         other.fDatePattern = fDatePattern;
         other.fTimePattern = fTimePattern;
         other.fDateTimeFormat = fDateTimeFormat;
@@ -1339,7 +1339,7 @@ public class DateIntervalFormat extends UFormat {
      */
     public DateIntervalInfo getDateIntervalInfo()
     {
-        return (DateIntervalInfo)fInfo.clone();
+        return fInfo.clone();
     }
 
 
@@ -1352,7 +1352,7 @@ public class DateIntervalFormat extends UFormat {
     {
         // clone it. If it is frozen, the clone returns itself.
         // Otherwise, clone returns a copy
-        fInfo = (DateIntervalInfo)newItvPattern.clone();
+        fInfo = newItvPattern.clone();
         this.isDateIntervalInfoDefault = false;
         fInfo.freeze(); // freeze it
         if ( fDateFormat != null ) {
@@ -1439,7 +1439,7 @@ public class DateIntervalFormat extends UFormat {
      */
     public synchronized DateFormat getDateFormat()
     {
-        return (DateFormat)fDateFormat.clone();
+        return fDateFormat.clone();
     }
 
 

@@ -384,7 +384,7 @@ import com.ibm.icu.util.UResourceBundle;
  * @author       Mark Davis, Chen-Lieh Huang, Alan Liu
  * @stable ICU 2.0
  */
-public class SimpleDateFormat extends DateFormat {
+public class SimpleDateFormat extends DateFormat implements Cloneable {
 
     // the official serial version ID which says cryptically
     // which version we're compatible with
@@ -709,7 +709,7 @@ public class SimpleDateFormat extends DateFormat {
      */
     public SimpleDateFormat(String pattern, DateFormatSymbols formatData)
     {
-        this(pattern, (DateFormatSymbols)formatData.clone(), null, null, null, true, null);
+        this(pattern, formatData.clone(), null, null, null, true, null);
     }
 
     /**
@@ -719,7 +719,7 @@ public class SimpleDateFormat extends DateFormat {
     @Deprecated
     public SimpleDateFormat(String pattern, DateFormatSymbols formatData, ULocale loc)
     {
-        this(pattern, (DateFormatSymbols)formatData.clone(), null, null, loc, true,null);
+        this(pattern, formatData.clone(), null, null, loc, true,null);
     }
 
     /**
@@ -730,7 +730,7 @@ public class SimpleDateFormat extends DateFormat {
      */
     SimpleDateFormat(String pattern, DateFormatSymbols formatData, Calendar calendar, ULocale locale,
                      boolean useFastFormat, String override) {
-        this(pattern, (DateFormatSymbols)formatData.clone(), (Calendar)calendar.clone(), null, locale, useFastFormat,override);
+        this(pattern, formatData.clone(), calendar.clone(), null, locale, useFastFormat,override);
     }
 
     /*
@@ -3747,7 +3747,7 @@ public class SimpleDateFormat extends DateFormat {
      */
     public DateFormatSymbols getDateFormatSymbols()
     {
-        return (DateFormatSymbols)formatData.clone();
+        return formatData.clone();
     }
 
     /**
@@ -3757,7 +3757,7 @@ public class SimpleDateFormat extends DateFormat {
      */
     public void setDateFormatSymbols(DateFormatSymbols newFormatSymbols)
     {
-        this.formatData = (DateFormatSymbols)newFormatSymbols.clone();
+        this.formatData = newFormatSymbols.clone();
     }
 
     /**
@@ -3801,9 +3801,9 @@ public class SimpleDateFormat extends DateFormat {
      * @stable ICU 2.0
      */
     @Override
-    public Object clone() {
+    public SimpleDateFormat clone() {
         SimpleDateFormat other = (SimpleDateFormat) super.clone();
-        other.formatData = (DateFormatSymbols) formatData.clone();
+        other.formatData = formatData.clone();
         // We must create a new copy of work buffer used by
         // the fast numeric field format code.
         if (this.decimalBuf != null) {

@@ -4777,7 +4777,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @stable ICU 2.0
      */
     @Override
-    public Object clone()
+    public Calendar clone()
     {
         try {
             Calendar other = (Calendar) super.clone();
