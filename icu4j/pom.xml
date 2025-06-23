@@ -57,6 +57,12 @@
     <!-- This is the folder where we gather the files to be posted in the Github Release-->
     <release.directory>${project.build.directory}/release_directory</release.directory>
 
+    <!-- 2.31.0 is the last version that supports JDK 11, so we make it default.
+         The latest version is overriden in the `errorprone_new` profile, which is auto-activated for JDK 17 and newer.
+     -->
+    <errorprone.version>2.31.0</errorprone.version>
+    <errorprone.jdk17.version>2.38.0</errorprone.jdk17.version>
+
     <junit.version>4.13.2</junit.version>
     <junitparams.version>1.1.1</junitparams.version>
     <gson.version>2.11.0</gson.version>
@@ -674,8 +680,20 @@
     </profile>
 
     <profile>
+      <id>errorprone_new</id>
+      <activation>
+        <jdk>[17,)</jdk>
+      </activation>
+      <properties>
+        <!-- <maven.compiler.release>17</maven.compiler.release> -->
+        <errorprone.version>${errorprone.jdk17.version}</errorprone.version>
+        <errorprone.extra.arg>--should-stop=ifError=FLOW</errorprone.extra.arg>
+      </properties>
+    </profile>
+
+    <profile>
       <!-- mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone
-           mvn exec:java -f tools/build/ -P errorprone_report -DlogFile=/tmp/errorprone.log
+           mvn exec:java -f tools/build/ -DlogFile=/tmp/errorprone.log -P errorprone_report
       Then inspect the content of the errorprone.log file.
       We will have some script to convert that to a more friendly format (likely html) -->
       <id>errorprone</id>
@@ -699,6 +717,7 @@
                     The drawback is that there are not errors now, they get mixed with the real warnings.
                 -->
                 <arg>-Xplugin:ErrorProne -XepAllErrorsAsWarnings -Xep:UnicodeEscape:OFF</arg>
+                <arg>${errorprone.extra.arg}</arg>
                 <arg>-Xmaxerrs</arg>
                 <arg>10000</arg>
                 <arg>-J-Dfile.encoding=UTF-8</arg>
@@ -717,7 +736,7 @@
                 <path>
                   <groupId>com.google.errorprone</groupId>
                   <artifactId>error_prone_core</artifactId>
-                  <version>2.25.0</version>
+                  <version>${errorprone.version}</version>
                 </path>
               </annotationProcessorPaths>
             </configuration>
