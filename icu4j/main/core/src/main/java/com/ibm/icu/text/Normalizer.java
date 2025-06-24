@@ -632,7 +632,7 @@ public final class Normalizer implements Cloneable {
      */
     @Deprecated
     @Override
-    public Object clone() {
+    public Normalizer clone() {
         try {
             Normalizer copy = (Normalizer) super.clone();
             copy.text = text.clone();
