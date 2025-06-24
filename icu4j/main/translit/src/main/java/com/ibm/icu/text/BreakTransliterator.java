@@ -390,10 +390,10 @@ final class BreakTransliterator extends Transliterator implements Cloneable {
         * @return A copy of this
         */
         @Override
-        public BreakTransliterator clone()
+        public ReplaceableCharacterIterator clone()
         {
             try {
-                return (BreakTransliterator) super.clone();
+                return (ReplaceableCharacterIterator) super.clone();
             }
             catch (CloneNotSupportedException e) {
                 throw new ICUCloneNotSupportedException();
