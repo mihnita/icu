@@ -201,7 +201,7 @@ public class IntlTestDateFormatAPI extends CoreTestFmwk
         }
 
         final NumberFormat nf = def.getNumberFormat();
-        NumberFormat newNf = (NumberFormat) nf.clone();
+        NumberFormat newNf = nf.clone();
         de.setNumberFormat(newNf);
         it.setNumberFormat(newNf);
         if( ! de.getNumberFormat().equals(it.getNumberFormat())) {

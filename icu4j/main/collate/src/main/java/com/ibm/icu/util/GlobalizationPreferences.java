@@ -691,7 +691,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
             result = numberFormats[style];
         }
         if (result != null) {
-            result = (NumberFormat) result.clone(); // clone for safety (later optimize)
+            result = result.clone(); // clone for safety (later optimize)
         } else {
             result = guessNumberFormat(style);
         }
@@ -713,7 +713,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (numberFormats == null) {
             numberFormats = new NumberFormat[NF_LIMIT];
         }
-        numberFormats[style] = (NumberFormat) format.clone(); // for safety
+        numberFormats[style] = format.clone(); // for safety
         return this;
     }
 

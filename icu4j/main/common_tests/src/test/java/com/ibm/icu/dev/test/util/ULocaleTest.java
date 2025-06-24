@@ -152,8 +152,7 @@ public class ULocaleTest extends CoreTestFmwk {
             }
             @Override
             public NumberFormat createFormat(ULocale loc, int formatType) {
-                return (NumberFormat) (locale.equals(loc) ?
-                        proto.clone() : null);
+                return locale.equals(loc) ? proto.clone() : (NumberFormat) null;
             }
         }
 

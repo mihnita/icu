@@ -1479,7 +1479,7 @@ public class MessageFormat extends UFormat {
         other.stockDateFormatter =
                 stockDateFormatter == null ? null : stockDateFormatter.clone();
         other.stockNumberFormatter =
-                stockNumberFormatter == null ? null : (NumberFormat) stockNumberFormatter.clone();
+                stockNumberFormatter == null ? null : stockNumberFormatter.clone();
 
         other.pluralProvider = null;
         other.ordinalProvider = null;
