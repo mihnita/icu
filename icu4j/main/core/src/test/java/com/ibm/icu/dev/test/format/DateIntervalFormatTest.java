@@ -1116,8 +1116,8 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
             FieldPosition pos = new FieldPosition(0);
             StringBuffer str = new StringBuffer("");
             DateFormat dtfmt = dtitvfmt.getDateFormat();
-            Calendar fromCalendar = (Calendar) dtfmt.getCalendar().clone();
-            Calendar toCalendar = (Calendar) dtfmt.getCalendar().clone();
+            Calendar fromCalendar = dtfmt.getCalendar().clone();
+            Calendar toCalendar = dtfmt.getCalendar().clone();
             fromCalendar.setTimeInMillis(dtitv.getFromDate());
             toCalendar.setTimeInMillis(dtitv.getToDate());
             dtitvfmt.format(fromCalendar, toCalendar, str, pos);
@@ -1289,8 +1289,8 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
                 SimpleDateFormat dtfmt = (SimpleDateFormat) DateFormat.getDateInstance(style, loc);
                 FieldPosition pos = new FieldPosition(0);
                 StringBuffer str = new StringBuffer("");
-                Calendar fromCalendar = (Calendar) dtfmt.getCalendar().clone();
-                Calendar toCalendar = (Calendar) dtfmt.getCalendar().clone();
+                Calendar fromCalendar = dtfmt.getCalendar().clone();
+                Calendar toCalendar = dtfmt.getCalendar().clone();
                 fromCalendar.setTimeInMillis(dtitv.getFromDate());
                 toCalendar.setTimeInMillis(dtitv.getToDate());
                 dtfmt.intervalFormatByAlgorithm(fromCalendar, toCalendar, str, pos);

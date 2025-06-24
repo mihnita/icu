@@ -4786,8 +4786,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
             other.stamp = new byte[fields.length];
             System.arraycopy(this.fields, 0, other.fields, 0, fields.length);
             System.arraycopy(this.stamp, 0, other.stamp, 0, fields.length);
-
-            other.zone = (TimeZone) zone.clone();
+            other.zone = zone.clone();
             return other;
         }
         catch (CloneNotSupportedException e) {

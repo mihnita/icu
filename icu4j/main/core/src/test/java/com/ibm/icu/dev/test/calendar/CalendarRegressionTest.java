@@ -998,7 +998,7 @@ public class CalendarRegressionTest extends CoreTestFmwk {
             errln("Calendar hash code unequal for cloned objects");
         }
         TimeZone atz1 = a.getTimeZone();
-        TimeZone atz2 = (TimeZone)atz1.clone();
+        TimeZone atz2 = atz1.clone();
         if(!atz1.equals(atz2)){
             errln("The clone timezones are not equal");
         }

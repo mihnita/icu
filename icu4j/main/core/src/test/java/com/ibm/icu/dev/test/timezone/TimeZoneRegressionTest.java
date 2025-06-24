@@ -1119,7 +1119,7 @@ public class TimeZoneRegressionTest extends CoreTestFmwk {
                 errln("FAIL: Modified zone(" + tz.getID() + ") - useDaylightTime has changed from " + useDst + " to " + newDst);
             }
             // Make sure the offset is preserved in a clone
-            TimeZone tzClone = (TimeZone)tz.clone();
+            TimeZone tzClone = tz.clone();
             int offsetC = tzClone.getRawOffset();
             if (offsetC != newRawOffset) {
                 if (isJdkZone) {

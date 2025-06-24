@@ -209,7 +209,7 @@ public class IntlTestDateFormatAPI extends CoreTestFmwk
         }
 
         final TimeZone tz = def.getTimeZone();
-        TimeZone newTz = (TimeZone) tz.clone();
+        TimeZone newTz = tz.clone();
         de.setTimeZone(newTz);
         it.setTimeZone(newTz);
         if( ! de.getTimeZone().equals(it.getTimeZone())) {

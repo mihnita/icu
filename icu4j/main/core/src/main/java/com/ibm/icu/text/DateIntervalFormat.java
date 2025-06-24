@@ -1371,7 +1371,7 @@ public class DateIntervalFormat extends UFormat implements Cloneable {
             // Here we clone, like other getters here, but unlike
             // DateFormat.getTimeZone() and Calendar.getTimeZone()
             // which return the TimeZone from the Calendar's zone variable
-            return (TimeZone)(fDateFormat.getTimeZone().clone());
+            return fDateFormat.getTimeZone().clone();
         }
         // If fDateFormat is null (unexpected), return default timezone.
         return TimeZone.getDefault();
@@ -1386,7 +1386,7 @@ public class DateIntervalFormat extends UFormat implements Cloneable {
     public void setTimeZone(TimeZone zone)
     {
         // zone is cloned once for all three usages below:
-        TimeZone zoneToSet = (TimeZone)zone.clone();
+        TimeZone zoneToSet = zone.clone();
         if (fDateFormat != null) {
             fDateFormat.setTimeZone(zoneToSet);
         }

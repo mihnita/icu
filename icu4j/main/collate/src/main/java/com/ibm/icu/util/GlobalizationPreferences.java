@@ -426,7 +426,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (isFrozen()) {
             throw new UnsupportedOperationException("Attempt to modify immutable object");
         }
-        this.timezone = (TimeZone) timezone.clone(); // clone for safety;
+        this.timezone = timezone.clone(); // clone for safety;
         return this;
     }
 

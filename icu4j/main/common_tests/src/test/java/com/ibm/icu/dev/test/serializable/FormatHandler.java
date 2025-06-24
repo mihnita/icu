@@ -1957,8 +1957,7 @@ public class FormatHandler
                 // with certain symbols from b. Fixed in ICU 60.
                 DateFormatSymbols dfsb = ((SimpleDateFormat)dfb).getDateFormatSymbols();
                 DateFormatSymbols tmp = ((SimpleDateFormat)dfa).getDateFormatSymbols().clone();
-
-                TimeZoneFormat tmptzf = (TimeZoneFormat)((SimpleDateFormat)dfb).getTimeZoneFormat().clone();
+                TimeZoneFormat tmptzf = ((SimpleDateFormat)dfb).getTimeZoneFormat().clone();
 
                 tmp.setMonths(dfsb.getMonths());
                 tmp.setShortMonths(dfsb.getShortMonths());

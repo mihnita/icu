@@ -278,7 +278,7 @@ public class CompatibilityTest extends CoreTestFmwk {
         int tzoffset = 123400;
 
         SimpleTimeZone zone = new SimpleTimeZone(tzoffset, tzid);
-        Calendar cal = Calendar.getInstance((SimpleTimeZone)zone.clone());
+        Calendar cal = Calendar.getInstance(zone.clone());
 
         if (!zone.equals(cal.getTimeZone())) errln("FAIL: Calendar.getTimeZone failed");
 
