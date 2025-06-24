@@ -1455,7 +1455,7 @@ public class ULocaleTest extends CoreTestFmwk {
             errln("ULocale.ULocale(String a, String b)");
         }
 
-        ULocale loc5 = (ULocale) loc4.clone();
+        ULocale loc5 = loc4.clone();
         if (!loc5.equals(loc4)){
             errln("ULocale.clone should get the same ULocale");
         }

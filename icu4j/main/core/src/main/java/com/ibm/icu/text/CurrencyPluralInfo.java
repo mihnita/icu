@@ -197,7 +197,7 @@ public class CurrencyPluralInfo implements Cloneable, Serializable {
         try {
             CurrencyPluralInfo other = (CurrencyPluralInfo) super.clone();
             // locale is immutable
-            other.ulocale = (ULocale)ulocale.clone();
+            other.ulocale = ulocale.clone();
             // plural rule is immutable
             //other.pluralRules = pluralRules;
             // clone content
