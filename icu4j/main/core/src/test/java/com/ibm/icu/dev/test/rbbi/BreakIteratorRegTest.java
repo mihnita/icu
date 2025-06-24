@@ -39,9 +39,9 @@ public class BreakIteratorRegTest extends CoreTestFmwk
 
     assertTrue(!BreakIterator.unregister(""), "unregister before register"); // coverage
 
-    Object key0 = BreakIterator.registerInstance((BreakIterator)twbi.clone(), foo_locale, BreakIterator.KIND_WORD);
+    Object key0 = BreakIterator.registerInstance(twbi.clone(), foo_locale, BreakIterator.KIND_WORD);
     Object key1 = BreakIterator.registerInstance(sbi, Locale.US, BreakIterator.KIND_WORD);
-    Object key2 = BreakIterator.registerInstance((BreakIterator)twbi.clone(), Locale.US, BreakIterator.KIND_WORD);
+    Object key2 = BreakIterator.registerInstance(twbi.clone(), Locale.US, BreakIterator.KIND_WORD);
 
     {
         BreakIterator test0 = BreakIterator.getWordInstance(Locale.JAPAN);

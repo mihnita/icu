@@ -526,8 +526,8 @@ public class DateIntervalFormat extends UFormat implements Cloneable {
         fSkeleton = skeleton;
         fInfo = dtItvInfo;
         isDateIntervalInfoDefault = false;
-        fFromCalendar = (Calendar) fDateFormat.getCalendar().clone();
-        fToCalendar = (Calendar) fDateFormat.getCalendar().clone();
+        fFromCalendar = fDateFormat.getCalendar().clone();
+        fToCalendar = fDateFormat.getCalendar().clone();
         initializePattern(null);
     }
 
@@ -538,8 +538,8 @@ public class DateIntervalFormat extends UFormat implements Cloneable {
         fSkeleton = skeleton;
         fInfo = new DateIntervalInfo(locale).freeze();
         isDateIntervalInfoDefault = true;
-        fFromCalendar = (Calendar) fDateFormat.getCalendar().clone();
-        fToCalendar = (Calendar) fDateFormat.getCalendar().clone();
+        fFromCalendar = fDateFormat.getCalendar().clone();
+        fToCalendar = fDateFormat.getCalendar().clone();
         initializePattern(LOCAL_PATTERN_CACHE);
 }
 

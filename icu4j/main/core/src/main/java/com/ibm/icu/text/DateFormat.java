@@ -1887,7 +1887,7 @@ public abstract class DateFormat extends UFormat {
     public DateFormat clone()
     {
         DateFormat other = (DateFormat) super.clone();
-        other.calendar = (Calendar) calendar.clone();
+        other.calendar = calendar.clone();
         if (numberFormat != null) {
             other.numberFormat = numberFormat.clone();
         }

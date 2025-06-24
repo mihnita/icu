@@ -926,7 +926,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
         defaultCenturyBase = baseTime;
         // clone to avoid messing up date stored in calendar object
         // when this method is called while parsing
-        Calendar tmpCal = (Calendar)calendar.clone();
+        Calendar tmpCal = calendar.clone();
         tmpCal.setTimeInMillis(baseTime);
         tmpCal.add(Calendar.YEAR, -80);
         defaultCenturyStart = tmpCal.getTime();
@@ -2349,7 +2349,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 // stop working if Calendar.clone() is ever rewritten to call complete().
                 Calendar copy;
                 if (ambiguousYear[0]) { // the two-digit year == the default start year
-                    copy = (Calendar)cal.clone();
+                    copy = cal.clone();
                     Date parsedDate = copy.getTime();
                     if (parsedDate.before(getDefaultCenturyStart())) {
                         // We can't use add here because that does a complete() first.
@@ -2357,7 +2357,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     }
                 }
                 if (tztype != TimeType.UNKNOWN) {
-                    copy = (Calendar)cal.clone();
+                    copy = cal.clone();
                     TimeZone tz = copy.getTimeZone();
                     BasicTimeZone btz = null;
                     if (tz instanceof BasicTimeZone) {

@@ -193,7 +193,7 @@ public class IntlTestDateFormatAPI extends CoreTestFmwk
         }
 
         final Calendar cal = def.getCalendar();
-        Calendar newCal = (Calendar) cal.clone();
+        Calendar newCal = cal.clone();
         de.setCalendar(newCal);
         it.setCalendar(newCal);
         if( ! de.getCalendar().equals(it.getCalendar())) {

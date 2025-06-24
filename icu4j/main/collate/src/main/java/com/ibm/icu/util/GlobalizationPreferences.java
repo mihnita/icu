@@ -395,7 +395,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (isFrozen()) {
             throw new UnsupportedOperationException("Attempt to modify immutable object");
         }
-        this.calendar = (Calendar) calendar.clone(); // clone for safety
+        this.calendar = calendar.clone(); // clone for safety
         return this;
     }
 
@@ -409,7 +409,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (calendar == null) {
             return guessCalendar();
         }
-        Calendar temp = (Calendar) calendar.clone(); // clone for safety
+        Calendar temp = calendar.clone(); // clone for safety
         temp.setTimeZone(getTimeZone());
         temp.setTimeInMillis(System.currentTimeMillis());
         return temp;
@@ -1457,7 +1457,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
     @Override
     public GlobalizationPreferences cloneAsThawed() {
         try {
-            GlobalizationPreferences result = (GlobalizationPreferences) clone();
+            GlobalizationPreferences result = (GlobalizationPreferences) super.clone();
             result.frozen = false;
             return result;
         } catch (CloneNotSupportedException e) {
