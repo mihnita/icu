@@ -32,7 +32,7 @@ public class BreakIteratorRegTest extends CoreTestFmwk
     BreakIterator twbi = BreakIterator.getWordInstance(thailand_locale);
     BreakIterator rwbi = BreakIterator.getWordInstance(new Locale("", "", ""));
 
-    BreakIterator sbi = (BreakIterator)usbi.clone();
+    BreakIterator sbi = usbi.clone();
     // todo: this will cause the test to fail, no way to set a breakiterator to null text so can't fix yet.
     // String text = "This is some test, by golly. Boy, they don't make tests like they used to, do they?  This here test ain't worth $2.50.  Nope.";
     // sbi.setText(text);

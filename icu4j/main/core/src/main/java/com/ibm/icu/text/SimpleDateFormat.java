@@ -1757,7 +1757,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 }
                 // Note, the call to UCharacter.toTitleCase below is the only place that
                 // (the clone of) capitalizationBrkIter is actually used.
-                BreakIterator mutableCapitalizationBrkIter = (BreakIterator)capitalizationBrkIter.clone();
+                BreakIterator mutableCapitalizationBrkIter = capitalizationBrkIter.clone();
                 String firstField = buf.substring(bufstart); // bufstart or beginOffset, should be the same
                 String firstFieldTitleCase = UCharacter.toTitleCase(locale, firstField, mutableCapitalizationBrkIter,
                                                      UCharacter.TITLECASE_NO_LOWERCASE | UCharacter.TITLECASE_NO_BREAK_ADJUSTMENT);

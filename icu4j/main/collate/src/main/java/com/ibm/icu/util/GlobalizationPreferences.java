@@ -494,7 +494,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         if (breakIterators == null || breakIterators[type] == null) {
             return guessBreakIterator(type);
         }
-        return (BreakIterator) breakIterators[type].clone(); // clone for safety
+        return breakIterators[type].clone(); // clone for safety
     }
 
     /**
@@ -514,7 +514,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
         }
         if (breakIterators == null)
             breakIterators = new BreakIterator[BI_LIMIT];
-        breakIterators[type] = (BreakIterator) iterator.clone(); // clone for safety
+        breakIterators[type] = iterator.clone(); // clone for safety
         return this;
     }
 

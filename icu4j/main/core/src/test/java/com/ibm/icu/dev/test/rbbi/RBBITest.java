@@ -518,7 +518,7 @@ public class RBBITest extends CoreTestFmwk {
         private static final BreakIterator BREAK_ITERATOR_CACHE = BreakIterator.getWordInstance(ULocale.ROOT);
         public static List<Integer> getBoundary(String toParse) {
             List<Integer> retVal = new ArrayList<>();
-            BreakIterator bi = (BreakIterator) BREAK_ITERATOR_CACHE.clone();
+            BreakIterator bi = BREAK_ITERATOR_CACHE.clone();
             bi.setText(toParse);
             for (int boundary=bi.first(); boundary != BreakIterator.DONE; boundary = bi.next()) {
                 retVal.add(boundary);
