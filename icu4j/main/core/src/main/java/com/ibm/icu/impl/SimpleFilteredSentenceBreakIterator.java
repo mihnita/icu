@@ -205,7 +205,7 @@ public class SimpleFilteredSentenceBreakIterator extends BreakIterator {
                 other.delegate = (BreakIterator) delegate.clone();
             }
             if (text != null) {
-                other.text = (UCharacterIterator) text.clone();
+                other.text = text.clone();
             }
             if (backwardsTrie != null) {
                 other.backwardsTrie = backwardsTrie.clone();

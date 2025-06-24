@@ -168,7 +168,7 @@ public class RuleBasedBreakIterator extends BreakIterator {
         RuleBasedBreakIterator result;
         result = (RuleBasedBreakIterator)super.clone();
         if (fText != null) {
-            result.fText = (CharacterIterator)(fText.clone());
+            result.fText = (CharacterIterator)fText.clone();
         }
         result.fLookAheadMatches = new int[fRData.fFTable.fLookAheadResultsSize];
         result.fBreakCache = result.new BreakCache(fBreakCache);
