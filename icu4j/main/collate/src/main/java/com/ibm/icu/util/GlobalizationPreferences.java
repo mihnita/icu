@@ -455,7 +455,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
             return guessCollator();
         }
         try {
-            return (Collator) collator.clone();  // clone for safety
+            return collator.clone();  // clone for safety
         } catch (CloneNotSupportedException e) {
             throw new ICUCloneNotSupportedException("Error in cloning collator", e);
         }
@@ -472,7 +472,7 @@ public class GlobalizationPreferences implements Freezable<GlobalizationPreferen
             throw new UnsupportedOperationException("Attempt to modify immutable object");
         }
         try {
-            this.collator = (Collator) collator.clone(); // clone for safety
+            this.collator = collator.clone(); // clone for safety
         } catch (CloneNotSupportedException e) {
                 throw new ICUCloneNotSupportedException("Error in cloning collator", e);
         }
