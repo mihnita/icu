@@ -21,6 +21,7 @@ public class PluralFormatSample {
       PluralFormatExample();
       }
 
+  @SuppressWarnings("JdkObsolete") // Because of MessageFormat.format(...,StringBuffer,...)
   private static void PluralFormatExample(){
 
       System.out.println("=======================================================================================");
@@ -47,7 +48,7 @@ public class PluralFormatSample {
       System.out.println("Output by using PluralFormat and MessageFormat API\n");
       System.out.printf("%-16s%-16s%-16s\n", "Number", "English", "Slovenian");
  
-      // Use MessageFormat.format () to format the objects and appends to the given StringBuffer
+      // Use MessageFormat.format () to format the objects and appends to the given StringBuilder
       for (int num : numbers) {
           StringBuffer msgEn = new StringBuffer();
           StringBuffer msgSl = new StringBuffer();

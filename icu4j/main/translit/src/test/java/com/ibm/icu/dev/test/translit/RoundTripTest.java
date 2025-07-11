@@ -278,6 +278,7 @@ public class RoundTripTest extends TestFmwk {
 
 
     @Test
+    @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
     public void TestHan() throws UnsupportedEncodingException, FileNotFoundException {
         try{
             UnicodeSet exemplars = LocaleData.getExemplarSet(new ULocale("zh"),0);
@@ -1623,7 +1624,7 @@ public class RoundTripTest extends TestFmwk {
         }
 
         final String info(String s) {
-            StringBuffer result = new StringBuffer();
+            StringBuilder result = new StringBuilder();
             result.append("\u200E").append(s).append("\u200E (").append(TestUtility.hex(s)).append("/");
             if (false) { // append age, as a check
                 int cp = 0;

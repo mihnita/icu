@@ -47,6 +47,7 @@ class NameUnicodeTransliterator extends Transliterator {
      * Implements {@link Transliterator#handleTransliterate}.
      */
     @Override
+    @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
     protected void handleTransliterate(Replaceable text,
                                        Position offsets, boolean isIncremental) {
 

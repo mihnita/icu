@@ -75,7 +75,7 @@ class TransliteratorParser {
      * rule.  segmentStandins.charAt(0) is the standin for "$1" and corresponds
      * to StringMatcher object segmentObjects.elementAt(0), etc.
      */
-    private StringBuffer segmentStandins;
+    private StringBuilder segmentStandins;
 
     /**
      * Vector of StringMatcher objects for segments.  Used during the
@@ -406,6 +406,7 @@ class TransliteratorParser {
          * @return the index after the terminating character, or
          * if limit was reached, limit
          */
+        @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
         public int parse(String rule, int pos, int limit,
                          TransliteratorParser parser) {
             int start = pos;
@@ -443,6 +444,7 @@ class TransliteratorParser {
          * @return the index after the terminating character, or
          * if limit was reached, limit
          */
+        @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
         private int parseSection(String rule, int pos, int limit,
                                  TransliteratorParser parser,
                                  StringBuffer buf,
@@ -1142,7 +1144,7 @@ class TransliteratorParser {
         char operator = 0;
 
         // Set up segments data
-        segmentStandins = new StringBuffer();
+        segmentStandins = new StringBuilder();
         segmentObjects = new ArrayList<>();
 
         RuleHalf left  = new RuleHalf();
@@ -1535,9 +1537,10 @@ class TransliteratorParser {
 
     /**
      * Append the value of the given variable name to the given
-     * StringBuffer.
+     * StringBuilder.
      * @exception IllegalIcuArgumentException if the name is unknown.
      */
+    @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
     private void appendVariableDef(String name, StringBuffer buf) {
         char[] ch = variableNames.get(name);
         if (ch == null) {

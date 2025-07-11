@@ -38,7 +38,7 @@ public final class TestUtility {
     }
     
     public static String replace(String source, String toBeReplaced, String replacement) {
-        StringBuffer results = new StringBuffer();
+        StringBuilder results = new StringBuilder();
         int len = toBeReplaced.length();
         for (int i = 0; i < source.length(); ++i) {
             if (source.regionMatches(false, i, toBeReplaced, 0, len)) {
@@ -50,8 +50,9 @@ public final class TestUtility {
         }
         return results.toString();
     }
-    
+
     public static String replaceAll(String source, UnicodeSet set, String replacement) {
+        @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
         StringBuffer results = new StringBuffer();
         int cp;
         for (int i = 0; i < source.length(); i += UTF16.getCharCount(cp)) {

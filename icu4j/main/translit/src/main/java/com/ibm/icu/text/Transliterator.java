@@ -1093,9 +1093,9 @@ public abstract class Transliterator implements StringTransform  {
         // characters (which are ignored) and a subsequent run of
         // unfiltered characters (which are transliterated).
 
-        StringBuffer log = null;
+        StringBuilder log = null;
         if (DEBUG) {
-            log = new StringBuffer();
+            log = new StringBuilder();
         }
 
         for (;;) {
@@ -1594,7 +1594,7 @@ public abstract class Transliterator implements StringTransform  {
      */
     public static Transliterator getInstance(String ID,
                                              int dir) {
-        StringBuffer canonID = new StringBuffer();
+        StringBuilder canonID = new StringBuilder();
         List<SingleID> list = new ArrayList<>();
         UnicodeSet[] globalFilter = new UnicodeSet[1];
         if (!TransliteratorIDParser.parseCompoundID(ID, dir, canonID, list, globalFilter)) {
@@ -1635,7 +1635,7 @@ public abstract class Transliterator implements StringTransform  {
      * invalid.
      */
     static Transliterator getBasicInstance(String id, String canonID) {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         Transliterator t = registry.get(id, s);
         if (s.length() != 0) {
             // assert(t==0);
@@ -1743,6 +1743,7 @@ public abstract class Transliterator implements StringTransform  {
      * backslash-'U'.
      * @stable ICU 2.0
      */
+    @SuppressWarnings("JdkObsolete") // Because of UTF16.append(StringBuffer,...)
     protected final String baseToRules(boolean escapeUnprintable) {
         // The base class implementation of toRules munges the ID into
         // the correct format.  That is: foo => ::foo
