@@ -16,7 +16,7 @@ import com.ibm.icu.util.Freezable;
 
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class Row<C0, C1, C2, C3, C4> implements java.lang.Comparable, Cloneable,
+public class Row<C0, C1, C2, C3, C4> implements java.lang.Comparable<Row<C0, C1, C2, C3, C4>>, Cloneable,
                                         Freezable<Row<C0, C1, C2, C3, C4>>{
     protected Object[] items;
     protected volatile boolean frozen;
@@ -132,7 +132,7 @@ public class Row<C0, C1, C2, C3, C4> implements java.lang.Comparable, Cloneable,
     }
 
     @Override
-    public int compareTo(Object other) {
+    public int compareTo(Row<C0, C1, C2, C3, C4> other) {
         int result;
         Row<C0, C1, C2, C3, C4> that = (Row<C0, C1, C2, C3, C4>)other;
         result = items.length - that.items.length;

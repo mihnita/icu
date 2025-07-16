@@ -68,6 +68,7 @@
         on 3.5.1 or higher, we can remove this override.
     -->
     <plexus-io.version>3.5.1</plexus-io.version>
+    <error-prone.version>2.25.0</error-prone.version>
 
     <proj-title>International Components for Unicode for Java</proj-title>
     <proj.displayname>${project.artifactId}</proj.displayname>
@@ -491,18 +492,20 @@
           <configuration>
             <rulesets>
               <!-- Hand-picked rules -->
+<!--
               <ruleset>tools/pmd/src/main/resources/icu4j/pmd-ruleset.xml</ruleset>
+-->
               <!-- Uncomment the block below to enable all known checks.
                 All of these rulesets can be specified in pmd-ruleset.xml instead.
               -->
               <!--
+              -->
               <ruleset>/category/java/bestpractices.xml</ruleset>
               <ruleset>/category/java/codestyle.xml</ruleset>
               <ruleset>/category/java/design.xml</ruleset>
               <ruleset>/category/java/errorprone.xml</ruleset>
               <ruleset>/category/java/multithreading.xml</ruleset>
               <ruleset>/category/java/performance.xml</ruleset>
-              -->
             </rulesets>
           </configuration>
         </plugin>
@@ -718,22 +721,22 @@
     </profile>
 
     <profile>
-      <!-- mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone
+      <!-- Run
+           mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone_report
            mvn exec:java -f tools/build/ -P errorprone_report -DlogFile=/tmp/errorprone.log
-      Then inspect the content of the errorprone.log file.
-      We will have some script to convert that to a more friendly format (likely html) -->
-      <id>errorprone</id>
+      You can inspect the content of the errorprone.log file.
+      Or the errorprone*.html, errorprone.md, errorprone.tsv, in the in target folder -->
+      <id>errorprone_report</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
+              <encoding>UTF-8</encoding>
+              <fork>true</fork>
               <showWarnings>true</showWarnings>
               <failOnError>false</failOnError>
-              <fork>true</fork>
-              <encoding>UTF-8</encoding>
-              <!-- Use <compilerArg> to pass flags to errorprone. See https://errorprone.info/docs/flags -->
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
                 <!--
@@ -761,7 +764,64 @@
                 <path>
                   <groupId>com.google.errorprone</groupId>
                   <artifactId>error_prone_core</artifactId>
-                  <version>2.25.0</version>
+                  <version>${error-prone.version}</version>
+                </path>
+              </annotationProcessorPaths>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <!-- mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone_ci -->
+      <id>errorprone_ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <!-- NOTE: using multi-line <arg>s does not work on Windows when <fork> is enabled,
+                   see https://github.com/google/error-prone/issues/4256 -->
+              <fork>false</fork>
+              <showWarnings>true</showWarnings>
+              <compilerArgs>
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xplugin:ErrorProne
+                  -Xep:UnicodeEscape:OFF
+                  -Xep:InvalidBlockTag:OFF
+                  -Xep:InvalidInlineTag:OFF
+<!--
+                  -Xep:ArrayToString:OFF
+                  -Xep:EqualsHashCode:OFF
+                  -Xep:MisusedDayOfYear:OFF
+                  -Xep:MisusedWeekYear:OFF
+                  -Xep:ReturnValueIgnored:OFF
+                  -Xep:SelfComparison:OFF
+                  -Xep:SelfEquals:OFF
+-->
+                </arg>
+                <arg>-Xmaxerrs</arg>
+                <arg>10000</arg>
+                <arg>-J-Dfile.encoding=UTF-8</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+              </compilerArgs>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>com.google.errorprone</groupId>
+                  <artifactId>error_prone_core</artifactId>
+                  <version>${error-prone.version}</version>
                 </path>
               </annotationProcessorPaths>
             </configuration>

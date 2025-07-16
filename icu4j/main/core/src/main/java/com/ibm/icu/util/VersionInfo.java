@@ -310,10 +310,10 @@ public final class VersionInfo implements Comparable<VersionInfo>
                 count ++;
             }
             else {
-                c -= '0';
-                if (c < 0 || c > 9) {
+                if (c < '0' || c > '9') {
                     throw new IllegalArgumentException(INVALID_VERSION_NUMBER_);
                 }
+                c -= '0';
                 array[count] *= 10;
                 array[count] += c;
             }
@@ -321,7 +321,7 @@ public final class VersionInfo implements Comparable<VersionInfo>
         }
         if (index != length) {
             throw new IllegalArgumentException(
-                                               "Invalid version number: String '" + version + "' exceeds version format");
+                    "Invalid version number: String '" + version + "' exceeds version format");
         }
         for (int i = 0; i < 4; i ++) {
             if (array[i] < 0 || array[i] > 255) {
