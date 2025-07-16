@@ -492,20 +492,18 @@
           <configuration>
             <rulesets>
               <!-- Hand-picked rules -->
-<!--
               <ruleset>tools/pmd/src/main/resources/icu4j/pmd-ruleset.xml</ruleset>
--->
               <!-- Uncomment the block below to enable all known checks.
                 All of these rulesets can be specified in pmd-ruleset.xml instead.
               -->
               <!--
-              -->
               <ruleset>/category/java/bestpractices.xml</ruleset>
               <ruleset>/category/java/codestyle.xml</ruleset>
               <ruleset>/category/java/design.xml</ruleset>
               <ruleset>/category/java/errorprone.xml</ruleset>
               <ruleset>/category/java/multithreading.xml</ruleset>
               <ruleset>/category/java/performance.xml</ruleset>
+              -->
             </rulesets>
           </configuration>
         </plugin>
