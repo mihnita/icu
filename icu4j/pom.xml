@@ -62,6 +62,7 @@
     <junit.version>4.13.2</junit.version>
     <junitparams.version>1.1.1</junitparams.version>
     <gson.version>2.11.0</gson.version>
+    <error-prone.version>2.25.0</error-prone.version>
     <commons-cli.version>1.9.0</commons-cli.version>
     <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109.
         Once we upgrade maven-source-plugin and maven-jar-plugin to versions new enough to depend
@@ -718,21 +719,23 @@
     </profile>
 
     <profile>
-      <!-- mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone
+      <!-- Run
+           mvn clean test -ntp -DskipTests -DskipITs -l /tmp/errorprone.log -P errorprone_report
            mvn exec:java -f tools/build/ -P errorprone_report -DlogFile=/tmp/errorprone.log
-      Then inspect the content of the errorprone.log file.
-      We will have some script to convert that to a more friendly format (likely html) -->
-      <id>errorprone</id>
+        On Windows you can use %TEMP%\errorprone.log for the temporary folder.
+        You can then inspect the content of the errorprone.log file,
+        or the errorprone*.html, errorprone.md, errorprone.tsv, reports in the in target folder -->
+      <id>errorprone_report</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
+              <encoding>UTF-8</encoding>
+              <fork>true</fork>
               <showWarnings>true</showWarnings>
               <failOnError>false</failOnError>
-              <fork>true</fork>
-              <encoding>UTF-8</encoding>
               <!-- Use <compilerArg> to pass flags to errorprone. See https://errorprone.info/docs/flags -->
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
@@ -741,9 +744,12 @@
                     If we let errors be errors they fail and stop the build, so we don't get a full report.
                     So we force them all to be reported as warning.
                     The drawback is that there are not errors now, they get mixed with the real warnings.
+                    The proper severity level is then restored by the tool generating the reports.
                 -->
                 <arg>-Xplugin:ErrorProne -XepAllErrorsAsWarnings -Xep:UnicodeEscape:OFF</arg>
                 <arg>-Xmaxerrs</arg>
+                <arg>10000</arg>
+                <arg>-Xmaxwarns</arg>
                 <arg>10000</arg>
                 <arg>-J-Dfile.encoding=UTF-8</arg>
                 <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
@@ -761,7 +767,101 @@
                 <path>
                   <groupId>com.google.errorprone</groupId>
                   <artifactId>error_prone_core</artifactId>
-                  <version>2.25.0</version>
+                  <version>${error-prone.version}</version>
+                </path>
+              </annotationProcessorPaths>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <!-- Then is intended to fail in CI, to be executed for PRs.
+        mvn clean test -ntp -DskipTests -DskipITs -P errorprone_ci
+      -->
+      <id>errorprone_ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <!-- NOTE: using multi-line <arg>s does not work on Windows when <fork> is enabled,
+                   see https://github.com/google/error-prone/issues/4256 -->
+              <fork>false</fork>
+              <showWarnings>false</showWarnings>
+              <compilerArgs>
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xplugin:ErrorProne
+                  -Xep:UnicodeEscape:OFF <!-- keep: ICU policy is to not escape Unicode characters -->
+                  -Xep:InvalidBlockTag:OFF <!-- keep: complains about the custom ICU taglets -->
+                  -Xep:InvalidInlineTag:OFF <!-- keep: complains about the custom ICU taglets -->
+                  <!-- These are errors by default, need to fix and remove them from here -->
+                  -Xep:ArrayToString:OFF
+                  -Xep:EqualsHashCode:OFF
+                  -Xep:IdentityBinaryExpression:OFF
+                  -Xep:MisusedDayOfYear:OFF
+                  -Xep:MisusedWeekYear:OFF
+                  -Xep:ReturnValueIgnored:OFF
+                  -Xep:SelfComparison:OFF
+                  -Xep:SelfEquals:OFF
+                  <!-- Voted to fix. Fix and make them errors so that they fail, preventing them from comming back. -->
+                  <!-- -Xep:DefaultCharset:ERROR -->
+                  <!-- -Xep:Finally:ERROR -->
+                  <!-- -Xep:JdkObsolete:ERROR -->
+                  <!-- -Xep:MissingFail:ERROR -->
+                  <!-- -Xep:MutablePublicArray:ERROR -->
+                  <!-- -Xep:ObjectToString:ERROR -->
+                  <!-- -Xep:OperatorPrecedence:ERROR -->
+                  <!-- -Xep:ReferenceEquality:ERROR -->
+                  <!-- -Xep:StringSplitter:ERROR -->
+                  <!-- -Xep:SynchronizeOnNonFinalField:ERROR -->
+                  <!-- -Xep:UnusedMethod:ERROR -->
+                  <!-- -Xep:UnusedVariable:ERROR -->
+                  <!-- -Xep:AlmostJavadoc:ERROR -->
+                  <!-- -Xep:BadImport:ERROR -->
+                  <!-- -Xep:ClassCanBeStatic:ERROR -->
+                  <!-- -Xep:EmptyCatch:ERROR -->
+                  <!-- -Xep:EqualsGetClass:ERROR -->
+                  <!-- -Xep:EqualsUnsafeCast:ERROR -->
+                  <!-- -Xep:FallThrough:ERROR -->
+                  <!-- -Xep:Finalize:ERROR -->
+                  <!-- -Xep:FloatingPointLiteralPrecision:ERROR -->
+                  <!-- -Xep:IncrementInForLoopAndHeader:ERROR -->
+                  <!-- -Xep:JavaUtilDate:ERROR -->
+                  <!-- -Xep:LabelledBreakTarget:ERROR -->
+                  <!-- -Xep:LockOnNonEnclosingClassLiteral:ERROR -->
+                  <!-- -Xep:NarrowCalculation:ERROR -->
+                  <!-- -Xep:NarrowingCompoundAssignment:ERROR -->
+                  <!-- -Xep:ShortCircuitBoolean:ERROR -->
+                  <!-- -Xep:StringCaseLocaleUsage:ERROR -->
+                  <!-- -Xep:StringCharset:ERROR -->
+                  <!-- -Xep:UndefinedEquals:ERROR -->
+                  <!-- -Xep:UnnecessaryStringBuilder:ERROR -->
+                </arg>
+                <arg>-Xmaxerrs</arg>
+                <arg>10000</arg>
+                <arg>-Xmaxwarns</arg>
+                <arg>10000</arg>
+                <arg>-J-Dfile.encoding=UTF-8</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+              </compilerArgs>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>com.google.errorprone</groupId>
+                  <artifactId>error_prone_core</artifactId>
+                  <version>${error-prone.version}</version>
                 </path>
               </annotationProcessorPaths>
             </configuration>

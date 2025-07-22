@@ -15,8 +15,6 @@
   <artifactId>tools_build</artifactId>
 
   <properties>
-    <error_prone.version>2.25.0</error_prone.version>
-
     <!-- Arguments for the errorprone report generation -->
     <logFile>/tmp/errorprone.log</logFile>
     <srcBaseUrl>https://github.com/unicode-org/icu/blob/main/</srcBaseUrl>
@@ -26,7 +24,7 @@
     <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_core</artifactId>
-      <version>${error_prone.version}</version>
+      <version>${error-prone.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-cli</groupId>
