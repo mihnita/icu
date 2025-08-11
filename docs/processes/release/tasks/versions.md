@@ -215,7 +215,7 @@ The command requires a version number string that follows the typical Java / Mav
 5. Update the following variables in `icu4j/releases_tools/shared.sh`
 
     * `artifact_version` - The version used in the Maven `pom.xml` files. You can alternatively produce this value by running `mvn help:evaluate -Dexpression=project.version -q -DforceStdout`.
-    * `github_rel_version` - The version used in the name of the GitHub downloadable artifacts. For example "73_2" or "74rc".
+    * `github_rel_version` - The version used in the name of the GitHub downloadable artifacts. For example "78.2" or "78.1rc".
     * `api_report_version` - The major version of the new version. Change during RC BRS.
     * `api_report_prev_version`  - The major version of the previous version. Change during RC BRS.
 
@@ -282,7 +282,7 @@ For updating ICU version numbers, follow the steps below.
         releases, use <2-digit major version> + "m" + <milestone number>, e.g.
         "55m1". For release candidate, use <2-digit major version> + "rc", e.g.
         54rc. For official releases, use full version numbers using under bar as the
-        separator, e.g. "54_1", "54_1_1".
+        separator, e.g. "54.1", "54.1.1".
     *   api.doc.version: The version displayed in API reference doc - use full
         version number such as "60.1" for official and RC releases, "60 Milestone 1" for
         milestone 1.

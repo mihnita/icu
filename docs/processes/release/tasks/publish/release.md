@@ -62,7 +62,7 @@ Here you should use the release tag.
    * The icu4c data files (`icu4c-{icuver}-data.zip`,
      `icu4c-{icuver}-data-bin-b.zip`, `icu4c-{icuver}-data-bin-l.zip`)
    * The icu4c source archives (`icu4c-{icuver}-src.tgz` and `icu4c-{icuver}-src.zip`)
-   * The ICU4C documentation (`icu4c-76_1-docs.zip`) \
+   * The ICU4C documentation (`icu4c-{icuver}-docs.zip`) \
    **WARNING:** this is also the one to be published (unpacked) for web access
 
 1. **Release - ICU4J publish to Maven Central** (`release-icu4j-maven.yml`) \

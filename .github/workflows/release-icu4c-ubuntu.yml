@@ -58,10 +58,8 @@ jobs:
         source /etc/os-release
         # Get the ICU version in artifact_version
         source icu4j/releases_tools/shared.sh
-        # Convert 77.1 to 77_1
-        underscore_version=$(echo $artifact_version | sed 's/\./_/g')
         pushd ${RELEASE_FOLDER}
-        tar -czf icu4c-${underscore_version}-Ubuntu${VERSION_ID}-x64.tgz icu
+        tar -czf icu4c-${artifact_version}-Ubuntu${VERSION_ID}-x64.tgz icu
         rm -fr icu
         popd
         mv icu4c/source/dist/icu4c-77_1-d*    ${RELEASE_FOLDER}

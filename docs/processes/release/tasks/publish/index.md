@@ -102,7 +102,7 @@ Use the GitHub GUI to create both the "release" and the "tag" at the same time:
 
 <https://github.com/unicode-org/icu/releases/new>
 
-1. Fill in the tag name, such as `release-63-rc` or `release-63-1`, and make the
+1. Fill in the tag name, such as `release-63-1rc` or `release-63-1`, and make the
 target the "maint/maint-xx" branch (such as `maint/maint-63`).
 1. Set the title to `ICU 63 RC` or `ICU 63.1`.
 1. Fill in the description using the
@@ -320,9 +320,9 @@ That new flow overlaps with _"Using the output from the build bots"_ below.
         *   Navigate into the folder with the same name.
         *   Check and verify the names of the zip file are appropriate:
             *   Ex: The x64 zip for version 76.1 should be named
-                "icu4c-76_1-Win64-MSVC2022.zip"
+                "icu4c-76.1-Win64-MSVC2022.zip"
             *   Ex: The x86 zip for version 76.1 should be named
-                "icu4c-76_1-Win32-MSVC2022.zip"
+                "icu4c-76.1-Win32-MSVC2022.zip"
         *   Note: For RC releases the name looked like this:
             "icu4c-76rc-Win64-MSVC2022"
 *   ~~AIX Bin:~~ (AIX is broken and ignored for now.)

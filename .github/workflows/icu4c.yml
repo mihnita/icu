@@ -459,9 +459,9 @@ jobs:
         $minorVersion = $icuVersion.Split('.')[1]
         # Determine the new file name based on the version
         if ($minorVersion -eq "0") {
-          $newZipName = "icu4c-${majorVersion}rc-${{ matrix.win_ver }}-MSVC2022"
+          $newZipName = "icu4c-${majorVersion}.1rc-${{ matrix.win_ver }}-MSVC2022"
         } else {
-          $newZipName = "icu4c-${majorVersion}_${minorVersion}-${{ matrix.win_ver }}-MSVC2022"
+          $newZipName = "icu4c-${majorVersion}.${minorVersion}-${{ matrix.win_ver }}-MSVC2022"
         }
         # Debugging: Print the new zip name
         Write-Host "New Zip Name: $newZipName"
@@ -929,21 +929,23 @@ jobs:
       - name: Zip
         run: |
           cd icu4c/source/icuexportdata
-          zip -r ../../../icuexportdata_${{ inputs.gitReleaseFilename }}.zip .
+          zip -r ../../../icu4x-exportdata_${{ inputs.gitReleaseFilename }}.zip .
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
         with:
           name: icuexportdata_output
-          path: icuexportdata_*.zip
+          path: icu4x-exportdata_*.zip
       - name: Upload to release tag
         if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'release-') }}
         run: |
-          gh release upload ${{ inputs.gitReleaseTag }} icuexportdata_*.zip --clobber
+          zipVer=$(echo ${{ inputs.gitReleaseTag }} | sed 's/^release-//')
+          mv icu4x-exportdata_*.zip icu4x-exportdata-${zipVer}.zip
+          gh release upload ${{ inputs.gitReleaseTag }} icu4x-exportdata-*.zip --clobber
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Upload to icu4x tag
         if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'icu4x/') }}
         run: |
-          gh release upload ${{ inputs.gitReleaseTag }} icuexportdata_*.zip --clobber
+          gh release upload ${{ inputs.gitReleaseTag }} icu4x-exportdata_*.zip --clobber
         env:
           GH_TOKEN: ${{ github.token }}

@@ -326,7 +326,7 @@ javadoc files. Create icu4c-X_X_X-docs.zip
 3.  The generated API docs are in <path>/icu4c/source/doc/html/<br>
     `cd <path>/icu4c/source/doc/html/`
 4.  Create a zip file, e.g.,<br>
-    `tar cvfz /tmp/icu4c72rc.tar.gz * # Note: label the file apropriately for the release.
+    `tar cvfz /tmp/icu4c78.1rc.tar.gz * # Note: label the file apropriately for the release.
 5.  Edit [README.md in icu-docs](https://github.com/unicode-org/icu-docs/blob/main/README.md).
 6.  Update the table under "API docs" at the top of README.md with the new version in column "C" in row "Dev" for the release candidate or "Released" for the final release.
 7.  Add the updated README.md to the pull request with the new API documentation.
@@ -346,8 +346,8 @@ javadoc files. Create icu4c-X_X_X-docs.zip
 
     d. Be sure that you are in the right directory. Then, remove all the files
         in this directory, e.g., `rm -rf *`. (Remember "git restore" is a good friend!)
-     
-    e. Unzip the tar file from above, replacing all documentation. Ex: `tar xvfz /tmp/icu4c72rc.tar.gz`
+
+    e. Unzip the tar file from above, replacing all documentation. Ex: `tar xvfz /tmp/icu4c-78.1rc.tar.gz`
 
     e. Remove the zip file if it's in the folder.
 
