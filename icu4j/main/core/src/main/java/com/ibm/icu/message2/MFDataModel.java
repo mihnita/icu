@@ -3,6 +3,11 @@
 
 package com.ibm.icu.message2;
 
+import com.ibm.icu.impl.number.parse.ValidationMatcher;
+import com.ibm.icu.text.MessagePatternUtil;
+import com.ibm.icu.text.StringPrepParseException;
+import jdk.nashorn.api.tree.FunctionExpressionTree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +33,22 @@ public class MFDataModel {
     // Messages
 
     /**
+     * Provides a common type for {@link PatternMessage} and {@link SelectMessage}.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface Message {
-        // Provides a common type for PatternMessage and SelectMessage.
+        default Type getType() {
+            throw new UnsupportedOperationException();
+        }
+        default PatternMessage getAsPatternMessage() {
+            throw new UnsupportedOperationException();
+        }
+        default SelectMessage getAsSelectMessage() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -51,8 +66,17 @@ public class MFDataModel {
          */
         @Deprecated
         public PatternMessage(List<Declaration> declarations, Pattern pattern) {
-            this.declarations = declarations;
+            this.declarations = List.copyOf(declarations);
             this.pattern = pattern;
+        }
+
+        @Override
+        public Type getType() {
+            return Type.PATTERN_MESSAGE;
+        }
+        @Override
+        public PatternMessage getAsPatternMessage() {
+            return this;
         }
     }
 
@@ -75,19 +99,38 @@ public class MFDataModel {
                 List<Declaration> declarations,
                 List<Expression> selectors,
                 List<Variant> variants) {
-            this.declarations = declarations;
-            this.selectors = selectors;
-            this.variants = variants;
+            this.declarations = List.copyOf(declarations);
+            this.selectors = List.copyOf(selectors);
+            this.variants = List.copyOf(variants);
+        }
+
+        @Override
+        public Type getType() {
+            return Type.SELECT_MESSAGE;
+        }
+        @Override
+        public SelectMessage getAsSelectMessage() {
+            return this;
         }
     }
 
     /**
+     * Provides a common type for {@link InputDeclaration}, and {@link LocalDeclaration}.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface Declaration {
-        // Provides a common type for InputDeclaration, and LocalDeclaration
+        default Type getType() {
+            throw new UnsupportedOperationException();
+        }
+        default InputDeclaration getAsInputDeclaration() {
+            throw new UnsupportedOperationException();
+        }
+        default LocalDeclaration getAsLocalDeclaration() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -107,6 +150,15 @@ public class MFDataModel {
         public InputDeclaration(String name, VariableExpression value) {
             this.name = name;
             this.value = value;
+        }
+
+        @Override
+        public Type getType() {
+            return Type.INPUT_DECLARATION;
+        }
+        @Override
+        public InputDeclaration getAsInputDeclaration() {
+            return this;
         }
     }
 
@@ -128,15 +180,38 @@ public class MFDataModel {
             this.name = name;
             this.value = value;
         }
+
+        @Override
+        public Type getType() {
+            return Type.LOCAL_DECLARATION;
+        }
+        @Override
+        public LocalDeclaration getAsLocalDeclaration() {
+            return this;
+        }
     }
 
     /**
+     * Provides a common type for the selection keys: {@link Variant},
+     * {@link Literal}, or {@link CatchallKey}.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface LiteralOrCatchallKey {
-        // Provides a common type for the selection keys: Variant, Literal, or CatchallKey.
+        default Type getType() {
+            throw new UnsupportedOperationException();
+        }
+        default Variant getAsVariant() {
+            throw new UnsupportedOperationException();
+        }
+        default Literal getAsLiteral() {
+            throw new UnsupportedOperationException();
+        }
+        default CatchallKey getAsCatchallKey() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -154,8 +229,17 @@ public class MFDataModel {
          */
         @Deprecated
         public Variant(List<LiteralOrCatchallKey> keys, Pattern value) {
-            this.keys = keys;
+            this.keys = List.copyOf(keys);
             this.value = value;
+        }
+
+        @Override
+        public Type getType() {
+            return Type.VARIANT;
+        }
+        @Override
+        public Variant getAsVariant() {
+            return this;
         }
     }
 
@@ -170,6 +254,15 @@ public class MFDataModel {
 
         public static boolean isCatchAll(String key) {
             return AS_KEY_STRING.equals(key);
+        }
+
+        @Override
+        public Type getType() {
+            return Type.CATCH_ALL;
+        }
+        @Override
+        public CatchallKey getAsCatchallKey() {
+            return this;
         }
     }
 
@@ -190,12 +283,22 @@ public class MFDataModel {
     }
 
     /**
+     * Provides a common type for {@link StringPart} and {@link Expression}.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface PatternPart {
-        // Provides a common type for StringPart and Expression.
+        default Type getType() {
+            throw new UnsupportedOperationException();
+        }
+        default StringPart getAsStringPart() {
+            throw new UnsupportedOperationException();
+        }
+        default Expression getAsExpression() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -209,16 +312,47 @@ public class MFDataModel {
         StringPart(String value) {
             this.value = value;
         }
+
+        @Override
+        public Type getType() {
+            return Type.STRING_PART;
+        }
+        @Override
+        public StringPart getAsStringPart() {
+            return this;
+        }
     }
 
     /**
+     * Provides a common type for all kinds of expressions:
+     * {@link LiteralExpression}, {@link VariableExpression}, {@link FunctionExpression},
+     * {@link Markup}.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface Expression extends PatternPart {
-        // Provides a common type for all kind of expressions:
-        // LiteralExpression, VariableExpression, FunctionExpression, Markup
+        default LiteralExpression getAsLiteralExpression() {
+            throw new UnsupportedOperationException();
+        }
+        default VariableExpression getAsVariableExpression() {
+            throw new UnsupportedOperationException();
+        }
+        default FunctionExpression getAsFunctionExpression() {
+            throw new UnsupportedOperationException();
+        }
+        default Markup getAsMarkup() {
+            throw new UnsupportedOperationException();
+        }
+
+        default Type getType() {
+            return Type.EXPRESSION;
+        }
+        @Override
+        default Expression getAsExpression() {
+            return this;
+        }
     }
 
     /**
@@ -239,7 +373,16 @@ public class MFDataModel {
         public LiteralExpression(Literal arg, Function function, List<Attribute> attributes) {
             this.arg = arg;
             this.function = function;
-            this.attributes = attributes;
+            this.attributes = List.copyOf(attributes);
+        }
+
+        @Override
+        public Type getType() {
+            return Type.LITERAL_EXPRESSION;
+        }
+        @Override
+        public LiteralExpression getAsLiteralExpression() {
+            return this;
         }
     }
 
@@ -262,7 +405,16 @@ public class MFDataModel {
                 VariableRef arg, Function function, List<Attribute> attributes) {
             this.arg = arg;
             this.function = function;
-            this.attributes = attributes;
+            this.attributes = List.copyOf(attributes);
+        }
+
+        @Override
+        public Type getType() {
+            return Type.VARIABLE_EXPRESSION;
+        }
+        @Override
+        public VariableExpression getAsVariableExpression() {
+            return this;
         }
     }
 
@@ -282,7 +434,7 @@ public class MFDataModel {
         @Deprecated
         public Function(String name, Map<String, Option> options) {
             this.name = name;
-            this.options = options;
+            this.options = Map.copyOf(options);
         }
     }
 
@@ -302,7 +454,16 @@ public class MFDataModel {
         @Deprecated
         public FunctionExpression(Function function, List<Attribute> attributes) {
             this.function = function;
-            this.attributes = attributes;
+            this.attributes = List.copyOf(attributes);
+        }
+
+        @Override
+        public Type getType() {
+            return Type.FUNCTION_EXPRESSION;
+        }
+        @Override
+        public FunctionExpression getAsFunctionExpression() {
+            return this;
         }
     }
 
@@ -329,14 +490,24 @@ public class MFDataModel {
     // Expressions
 
     /**
+     * Provides a common type for {@link Literal} and {@link VariableRef},
+     * to represent things like {@code foo} / {@code |foo|} / {@code 1234} (literals)
+     * and {@code $foo} ({@code VariableRef}), as argument for placeholders or value in options.
+     *
      * @internal ICU 72 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public interface LiteralOrVariableRef {
-        // Provides a common type for Literal and VariableRef,
-        // to represent things like `foo` / `|foo|` / `1234` (literals)
-        // and `$foo` (VariableRef), as argument for placeholders or value in options.
+        default Type getType() {
+            throw new UnsupportedOperationException();
+        }
+        default Literal getAsLiteral() {
+            throw new UnsupportedOperationException();
+        }
+        default VariableRef getAsVariableRef() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -355,6 +526,15 @@ public class MFDataModel {
         public Literal(String value) {
             this.value = value;
         }
+
+        @Override
+        public Type getType() {
+            return Type.LITERAL;
+        }
+        @Override
+        public Literal getAsLiteral() {
+            return this;
+        }
     }
 
     /**
@@ -372,6 +552,15 @@ public class MFDataModel {
         @Deprecated
         public VariableRef(String name) {
             this.name = name;
+        }
+
+        @Override
+        public Type getType() {
+            return Type.VARIABLE_REF;
+        }
+        @Override
+        public VariableRef getAsVariableRef() {
+            return this;
         }
     }
 
@@ -423,8 +612,25 @@ public class MFDataModel {
                 Kind kind, String name, Map<String, Option> options, List<Attribute> attributes) {
             this.kind = kind;
             this.name = name;
-            this.options = options;
-            this.attributes = attributes;
+            this.options = Map.copyOf(options);
+            this.attributes = List.copyOf(attributes);
         }
+
+        @Override
+        public Type getType() {
+            return Type.MARKUP;
+        }
+        @Override
+        public Markup getAsMarkup() {
+            return this;
+        }
+    }
+
+    public enum Type {
+        PATTERN_MESSAGE, SELECT_MESSAGE,
+        INPUT_DECLARATION, LOCAL_DECLARATION,
+        VARIANT, LITERAL, CATCH_ALL, VARIABLE_REF,
+        STRING_PART, EXPRESSION,
+        LITERAL_EXPRESSION, VARIABLE_EXPRESSION, FUNCTION_EXPRESSION, MARKUP
     }
 }

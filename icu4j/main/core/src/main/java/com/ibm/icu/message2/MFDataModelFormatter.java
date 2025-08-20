@@ -109,44 +109,52 @@ class MFDataModelFormatter {
         MapWithNfcKeys nfcArguments = new MapWithNfcKeys(arguments);
 
         MapWithNfcKeys variables;
-        if (dm instanceof MFDataModel.PatternMessage) {
-            MFDataModel.PatternMessage pm = (MFDataModel.PatternMessage) dm;
-            variables = resolveDeclarations(pm.declarations, nfcArguments);
-            if (pm.pattern == null) {
-                fatalFormattingError("The PatternMessage is null.");
-            }
-            patternToRender = pm.pattern;
-        } else if (dm instanceof MFDataModel.SelectMessage) {
-            MFDataModel.SelectMessage sm = (MFDataModel.SelectMessage) dm;
-            variables = resolveDeclarations(sm.declarations, nfcArguments);
-            patternToRender = findBestMatchingPattern(sm, variables, nfcArguments);
-            if (patternToRender == null) {
-                fatalFormattingError("Cannor find a match for the selector.");
-            }
-        } else {
-            fatalFormattingError("Unknown message type.");
-            // formattingError throws, so the return does not actually happen
-            return "ERROR!";
+        switch (dm.getType()) {
+            case PATTERN_MESSAGE:
+                MFDataModel.PatternMessage pm = dm.getAsPatternMessage();
+                variables = resolveDeclarations(pm.declarations, nfcArguments);
+                if (pm.pattern == null) {
+                    fatalFormattingError("The PatternMessage is null.");
+                }
+                patternToRender = pm.pattern;
+                break;
+            case SELECT_MESSAGE:
+                MFDataModel.SelectMessage sm = dm.getAsSelectMessage();
+                variables = resolveDeclarations(sm.declarations, nfcArguments);
+                patternToRender = findBestMatchingPattern(sm, variables, nfcArguments);
+                if (patternToRender == null) {
+                    fatalFormattingError("Cannor find a match for the selector.");
+                }
+                break;
+            default:
+                fatalFormattingError("Unknown message type.");
+                // formattingError throws, so the return does not actually happen
+                return "ERROR!";
         }
 
         Directionality msgdir = Directionality.LTR;
         StringBuilder result = new StringBuilder();
         for (MFDataModel.PatternPart part : patternToRender.parts) {
-            if (part instanceof MFDataModel.StringPart) {
-                MFDataModel.StringPart strPart = (StringPart) part;
-                result.append(strPart.value);
-            } else if (part instanceof MFDataModel.Expression) {
-                FormattedPlaceholder formattedExpression =
-                        formatExpression((Expression) part, variables, nfcArguments);
-                if (this.bidiIsolation == BidiIsolation.DEFAULT) {
-                    implementBiDiDefault(result, msgdir, formattedExpression);
-                } else {
-                    result.append(formattedExpression.getFormattedValue().toString());
-                }
-            } else if (part instanceof MFDataModel.Markup) {
-                // Ignore, we don't output markup to string
-            } else {
-                fatalFormattingError("Unknown part type: " + part);
+            switch (part.getType()) {
+                case STRING_PART:
+                    MFDataModel.StringPart strPart = part.getAsStringPart();
+                    result.append(strPart.value);
+                    break;
+                case EXPRESSION:
+                    FormattedPlaceholder formattedExpression =
+                        formatExpression(part.getAsExpression(), variables, nfcArguments);
+                    if (this.bidiIsolation == BidiIsolation.DEFAULT) {
+                        implementBiDiDefault(result, msgdir, formattedExpression);
+                    } else {
+                        result.append(formattedExpression.getFormattedValue().toString());
+                    }
+                    break;
+                case MARKUP:
+                    // Ignore, we don't output markup to string
+                    break;
+                default:
+                    fatalFormattingError("Unknown part type: " + part);
+                    break;
             }
         }
         return result.toString();
@@ -249,16 +257,19 @@ class MFDataModelFormatter {
                 // spec: Let `key` be the `var` key at position `i`.
                 LiteralOrCatchallKey key = var.keys.get(i);
                 // spec: If `key` is not the catch-all key `'*'`:
-                if (key instanceof CatchallKey) {
-                    keys.add(CatchallKey.AS_KEY_STRING);
-                } else if (key instanceof Literal) {
-                    // spec: Assert that `key` is a _literal_.
-                    // spec: Let `ks` be the resolved value of `key`.
-                    String ks = ((Literal) key).value;
-                    // spec: Append `ks` as the last element of the list `keys`.
-                    keys.add(ks);
-                } else {
-                    fatalFormattingError("Literal expected, but got " + key);
+                switch (key.getType()) {
+                    case CATCH_ALL:
+                        keys.add(CatchallKey.AS_KEY_STRING);
+                        break;
+                    case LITERAL:
+                        // spec: Assert that `key` is a _literal_.
+                        // spec: Let `ks` be the resolved value of `key`.
+                        String ks = key.getAsLiteral().value;
+                        // spec: Append `ks` as the last element of the list `keys`.
+                        keys.add(ks);
+                        break;
+                    default:
+                        fatalFormattingError("Literal expected, but got " + key);
                 }
             }
             // spec: Let `rv` be the resolved value at index `i` of `res`.
@@ -283,17 +294,17 @@ class MFDataModelFormatter {
                 // spec: Let `key` be the `var` key at position `i`.
                 LiteralOrCatchallKey key = var.keys.get(i);
                 // spec: If `key` is the catch-all key `'*'`:
-                if (key instanceof CatchallKey) {
+                if (key.getType() == MFDataModel.Type.CATCH_ALL) {
                     // spec: Continue the inner loop on `pref`.
                     found++;
                     continue;
                 }
                 // spec: Assert that `key` is a _literal_.
-                if (!(key instanceof Literal)) {
+                if (key.getType() != MFDataModel.Type.LITERAL) {
                     fatalFormattingError("Literal expected");
                 }
                 // spec: Let `ks` be the resolved value of `key`.
-                String ks = ((Literal) key).value;
+                String ks = key.getAsLiteral().value;
                 // spec: Let `matches` be the list of strings at index `i` of `pref`.
                 List<String> matches = pref.get(i);
                 // spec: If `matches` includes `ks`:
@@ -342,13 +353,13 @@ class MFDataModelFormatter {
                 // spec: Let `key` be the `tuple` _variant_ key at position `i`.
                 LiteralOrCatchallKey key = tuple.variant.keys.get(i);
                 // spec: If `key` is not the catch-all key `'*'`:
-                if (!(key instanceof CatchallKey)) {
+                if (key.getType() != MFDataModel.Type.CATCH_ALL) {
                     // spec: Assert that `key` is a _literal_.
-                    if (!(key instanceof Literal)) {
+                    if (key.getType() != MFDataModel.Type.LITERAL) {
                         fatalFormattingError("Literal expected");
                     }
                     // spec: Let `ks` be the resolved value of `key`.
-                    String ks = ((Literal) key).value;
+                    String ks = key.getAsLiteral().value;
                     // spec: Let `matchpref` be the integer position of `ks` in `matches`.
                     matchpref = matches.indexOf(ks);
                 }
@@ -401,8 +412,10 @@ class MFDataModelFormatter {
         for (int i = 0; i < v1.size(); i++) {
             LiteralOrCatchallKey k1 = v1.get(i);
             LiteralOrCatchallKey k2 = v2.get(i);
-            String s1 = k1 instanceof Literal ? ((Literal) k1).value : CatchallKey.AS_KEY_STRING;
-            String s2 = k2 instanceof Literal ? ((Literal) k2).value : CatchallKey.AS_KEY_STRING;
+            String s1 = k1.getType() == MFDataModel.Type.LITERAL
+                ? k1.getAsLiteral().value : CatchallKey.AS_KEY_STRING;
+            String s2 = k2.getType() == MFDataModel.Type.LITERAL
+                ? k2.getAsLiteral().value : CatchallKey.AS_KEY_STRING;
             int cmp = s1.compareTo(s2);
             if (cmp != 0) {
                 return cmp;
@@ -474,21 +487,23 @@ class MFDataModelFormatter {
             LiteralOrVariableRef value,
             MapWithNfcKeys localVars,
             MapWithNfcKeys arguments) {
-        if (value instanceof Literal) {
-            String val = ((Literal) value).value;
-            // "The resolution of a text or literal MUST resolve to a string."
-            // https://github.com/unicode-org/message-format-wg/blob/main/spec/formatting.md#literal-resolution
-            return val;
-        } else if (value instanceof VariableRef) {
-            String varName = ((VariableRef) value).name;
-            Object val = localVars.get(varName);
-            if (val == null) {
-                val = localVars.get(varName);
-            }
-            if (val == null) {
-                val = arguments.get(StringUtils.toNfc(varName));
-            }
-            return val;
+        switch (value.getType()) {
+            case LITERAL:
+                // "The resolution of a text or literal MUST resolve to a string."
+                // https://github.com/unicode-org/message-format-wg/blob/main/spec/formatting.md#literal-resolution
+                return value.getAsLiteral().value;
+            case VARIABLE_REF:
+                String varName = value.getAsVariableRef().name;
+                Object val = localVars.get(varName);
+                if (val == null) {
+                    val = localVars.get(varName);
+                }
+                if (val == null) {
+                    val = arguments.get(StringUtils.toNfc(varName));
+                }
+                return val;
+            default:
+                break;
         }
         return value;
     }
@@ -520,44 +535,45 @@ class MFDataModelFormatter {
         Map<String, Object> options = new HashMap<>();
         String fallbackString = "{\uFFFD}";
 
-        if (expression instanceof MFDataModel.VariableExpression) {
-            MFDataModel.VariableExpression varPart = (MFDataModel.VariableExpression) expression;
-            fallbackString = "{$" + varPart.arg.name + "}";
-            function = varPart.function; // function name & options
-            Object resolved = resolveLiteralOrVariable(varPart.arg, variables, arguments);
-            if (resolved instanceof FormattedPlaceholder) {
-                Object input = ((FormattedPlaceholder) resolved).getInput();
-                if (input instanceof ResolvedExpression) {
-                    ResolvedExpression re = (ResolvedExpression) input;
-                    toFormat = re.argument;
-                    functionName = re.functionName;
-                    options.putAll(re.options);
+        if (expression == null) {
+            fatalFormattingError("unexpected null expression");
+        }
+        switch (expression.getType()) {
+            case VARIABLE_EXPRESSION:
+                MFDataModel.VariableExpression varPart = expression.getAsVariableExpression();
+                fallbackString = "{$" + varPart.arg.name + "}";
+                function = varPart.function; // function name & options
+                Object resolved = resolveLiteralOrVariable(varPart.arg, variables, arguments);
+                if (resolved instanceof FormattedPlaceholder) {
+                    Object input = ((FormattedPlaceholder) resolved).getInput();
+                    if (input instanceof ResolvedExpression) {
+                        ResolvedExpression re = (ResolvedExpression) input;
+                        toFormat = re.argument;
+                        functionName = re.functionName;
+                        options.putAll(re.options);
+                    } else {
+                        toFormat = input;
+                    }
                 } else {
-                    toFormat = input;
+                    toFormat = resolved;
                 }
-            } else {
-                toFormat = resolved;
-            }
-        } else if (expression
-                instanceof MFDataModel.FunctionExpression) { // Function without arguments
-            MFDataModel.FunctionExpression fe = (FunctionExpression) expression;
-            fallbackString = "{:" + fe.function.name + "}";
-            function = fe.function;
-        } else if (expression instanceof MFDataModel.LiteralExpression) {
-            MFDataModel.LiteralExpression le = (LiteralExpression) expression;
-            function = le.function;
-            fallbackString = "{|" + le.arg.value + "|}";
-            toFormat = resolveLiteralOrVariable(le.arg, variables, arguments);
-        } else if (expression instanceof MFDataModel.Markup) {
-            // No output on markup, for now (we only format to string)
-            return new FormattedPlaceholder(expression, new PlainStringFormattedValue(""));
-        } else {
-            if (expression == null) {
-                fatalFormattingError("unexpected null expression");
-            } else {
-                fatalFormattingError("unknown expression type "
-                        + expression.getClass().getName());
-            }
+                break;
+            case FUNCTION_EXPRESSION:
+                MFDataModel.FunctionExpression fe = expression.getAsFunctionExpression();
+                fallbackString = "{:" + fe.function.name + "}";
+                function = fe.function;
+                break;
+            case LITERAL_EXPRESSION:
+                MFDataModel.LiteralExpression le = expression.getAsLiteralExpression();
+                function = le.function;
+                fallbackString = "{|" + le.arg.value + "|}";
+                toFormat = resolveLiteralOrVariable(le.arg, variables, arguments);
+                break;
+            case MARKUP:
+                // No output on markup, for now (we only format to string)
+                return new FormattedPlaceholder(expression, new PlainStringFormattedValue(""));
+            default:
+                fatalFormattingError("unknown expression type " + expression.getClass().getName());
         }
 
         if (function instanceof Function) {
@@ -621,14 +637,17 @@ class MFDataModelFormatter {
         Expression value;
         if (declarations != null) {
             for (Declaration declaration : declarations) {
-                if (declaration instanceof InputDeclaration) {
-                    name = ((InputDeclaration) declaration).name;
-                    value = ((InputDeclaration) declaration).value;
-                } else if (declaration instanceof LocalDeclaration) {
-                    name = ((LocalDeclaration) declaration).name;
-                    value = ((LocalDeclaration) declaration).value;
-                } else {
-                    continue;
+                switch (declaration.getType()) {
+                    case INPUT_DECLARATION:
+                        name = declaration.getAsInputDeclaration().name;
+                        value = declaration.getAsInputDeclaration().value;
+                        break;
+                    case LOCAL_DECLARATION:
+                        name = declaration.getAsLocalDeclaration().name;
+                        value = declaration.getAsLocalDeclaration().value;
+                        break;
+                    default:
+                        continue;
                 }
                 try {
                     // There it no need to succeed in solving everything.
