@@ -15,7 +15,14 @@ import com.ibm.icu.message2.MFDataModel.CatchallKey;
  * Creates a {@link Selector} doing literal selection, similar to <code>{exp, select}</code>
  * in {@link com.ibm.icu.text.MessageFormat}.
  */
-class TextSelectorFactory implements SelectorFactory {
+class TextSelectorFactory implements FormatterFactory, SelectorFactory {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Formatter createFormatter(Locale locale, Map<String, Object> fixedOptions) {
+        return new TextSelector();
+    }
 
     /**
      * {@inheritDoc}
@@ -25,7 +32,19 @@ class TextSelectorFactory implements SelectorFactory {
         return new TextSelector();
     }
 
-    private static class TextSelector implements Selector {
+    private static class TextSelector implements Formatter, Selector {
+        @Override
+        public String formatToString(Object toFormat, Map<String, Object> variableOptions) {
+            // TODO: Unify with IdentityFormatterFactory
+            throw new IllegalArgumentException("Formatting not implemented by this class");
+        }
+
+        @Override
+        public FormattedPlaceholder format(Object toFormat, Map<String, Object> variableOptions) {
+            // TODO: Unify with IdentityFormatterFactory
+            throw new IllegalArgumentException("Formatting not implemented by this class");
+        }
+
         /**
          * {@inheritDoc}
          */

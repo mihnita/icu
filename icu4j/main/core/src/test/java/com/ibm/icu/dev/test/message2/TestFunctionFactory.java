@@ -37,10 +37,11 @@ public class TestFunctionFactory implements FormatterFactory, SelectorFactory {
 
     @Override
     public Selector createSelector(Locale locale, Map<String, Object> fixedOptions) {
-        return new TestSelectorImpl(kind, fixedOptions);
+        return new TestFormatterImpl(kind, fixedOptions);
     }
 
-    private static class TestFormatterImpl implements Formatter {
+    private static class TestFormatterImpl implements Formatter, Selector {
+        private static final String NO_MATCH = "\uFFFDNO_MATCH\uFFFE"; // Unlikely to show in a key
         private final String kind;
         private final ParsedOptions parsedOptions;
 
@@ -61,17 +62,6 @@ public class TestFunctionFactory implements FormatterFactory, SelectorFactory {
         public FormattedPlaceholder format(Object toFormat, Map<String, Object> variableOptions) {
             return TestFunctionFactory.formatImpl(toFormat, parsedOptions);
         }
-    }
-
-    private static class TestSelectorImpl implements Selector {
-        private static final String NO_MATCH = "\uFFFDNO_MATCH\uFFFE"; // Unlikely to show in a key
-        private final String kind;
-        private final ParsedOptions parsedOptions;
-
-        public TestSelectorImpl(String kind, Map<String, Object> fixedOptions) {
-            this.kind = kind;
-            this.parsedOptions = ParsedOptions.of(fixedOptions);
-        }
 
         @Override
         public List<String> matches(Object value, List<String> keys, Map<String, Object> variableOptions) {
@@ -90,7 +80,7 @@ public class TestFunctionFactory implements FormatterFactory, SelectorFactory {
                 }
             }
 
-            result.sort(TestSelectorImpl::testComparator);
+            result.sort(TestFormatterImpl::testComparator);
             return result;
         }
 
