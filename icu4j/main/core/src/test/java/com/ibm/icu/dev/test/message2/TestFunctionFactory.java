@@ -20,7 +20,7 @@ import com.ibm.icu.text.FormattedValue;
 
 /**
  * Locale-independent functions for formatting and selection.
- * Implements the functionality required by `:test:function`, `:test:format`, and `:test:select`.  
+ * Implements the functionality required by `:test:function`, `:test:format`, and `:test:select`.
  * Used only for testing (see test/README.md in the MF2 repository).
  */
 public class TestFunctionFactory implements FormatterFactory, SelectorFactory {

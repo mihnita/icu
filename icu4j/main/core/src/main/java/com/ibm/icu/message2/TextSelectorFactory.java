@@ -21,7 +21,7 @@ class TextSelectorFactory implements FormatterFactory, SelectorFactory {
      */
     @Override
     public Formatter createFormatter(Locale locale, Map<String, Object> fixedOptions) {
-        return new TextSelector();
+        return new TextFormatterImpl(OptUtils.getDirectionality(fixedOptions));
     }
 
     /**
@@ -29,20 +29,32 @@ class TextSelectorFactory implements FormatterFactory, SelectorFactory {
      */
     @Override
     public Selector createSelector(Locale locale, Map<String, Object> fixedOptions) {
-        return new TextSelector();
+        return new TextFormatterImpl(OptUtils.getDirectionality(fixedOptions));
     }
 
-    private static class TextSelector implements Formatter, Selector {
-        @Override
-        public String formatToString(Object toFormat, Map<String, Object> variableOptions) {
-            // TODO: Unify with IdentityFormatterFactory
-            throw new IllegalArgumentException("Formatting not implemented by this class");
+    private static class TextFormatterImpl implements Formatter, Selector {
+        private final Directionality directionality;
+
+        public TextFormatterImpl(Directionality directionality) {
+            this.directionality = directionality == null ? Directionality.INHERIT : directionality;
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String formatToString(Object toFormat, Map<String, Object> variableOptions) {
+            return format(toFormat, variableOptions).toString();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public FormattedPlaceholder format(Object toFormat, Map<String, Object> variableOptions) {
-            // TODO: Unify with IdentityFormatterFactory
-            throw new IllegalArgumentException("Formatting not implemented by this class");
+            return new FormattedPlaceholder(
+                    toFormat, new PlainStringFormattedValue(Objects.toString(toFormat)),
+                    directionality, true);
         }
 
         /**

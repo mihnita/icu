@@ -91,7 +91,7 @@ class MFDataModelFormatter {
                         .setDefaultFormatterNameForType(CurrencyAmount.class, "currency")
 
                         // Format that returns "to string"
-                        .setFormatter("string", new IdentityFormatterFactory())
+                        .setFormatter("string", new TextSelectorFactory())
                         .setDefaultFormatterNameForType(String.class, "string")
                         .setDefaultFormatterNameForType(CharSequence.class, "string")
 
