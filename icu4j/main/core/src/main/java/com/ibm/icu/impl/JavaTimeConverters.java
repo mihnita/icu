@@ -270,7 +270,7 @@ public class JavaTimeConverters {
      * with a day of week field only.<br>
      * That means that {@code c}-{@code cccccc} patterns are recommended, {@code E}-{@code EEEEEE}
      * and {@code e}-{@code eeeeee} are likely wrong (because they are not stand-alone).
-     * Anything else is clearly wrong.<br> 
+     * Anything else is clearly wrong.<br>
      * It does not make sense to format a {@code DayOfWeek} as {@code "MMMM d, y"}.<br>
      * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-weekday}.
      *
@@ -298,15 +298,14 @@ public class JavaTimeConverters {
      * <b>Note:</b> this should only be used to format it using a pattern or skeleton
      * with a day of month field only.<br>
      * That means that {@code L}-{@code LLLLL} patterns are recommended, {@code E}-{@code MMMMM}
-     * is likely wrong (because it is not stand-alone). Anything else is clearly wrong.<br> 
-     * It does not make sense to format a {@code Month} as {@code "MMMM d, y"}.<br> 
+     * is likely wrong (because it is not stand-alone). Anything else is clearly wrong.<br>
+     * It does not make sense to format a {@code Month} as {@code "MMMM d, y"}.<br>
      * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-month}.
      *
      * <p>
-     * <b>Note:</b> only use this method for the Gregorian calendar and related calendars, given that
-     * the {@link Month} documentation, states that the {@link Month} enum
-     * "... may be used
-     * by any calendar system that has the month-of-year concept defined exactly
+     * <b>Note:</b> only use this method for the Gregorian calendar and related calendars,
+     * given that the {@link Month} documentation, states that the {@link Month} enum
+     * "... may be used * by any calendar system that has the month-of-year concept defined
      * equivalent to the ISO-8601 calendar system".</i>
      *
      * @param month The {@link Month} to convert.
