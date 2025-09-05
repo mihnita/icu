@@ -291,8 +291,9 @@ public class JavaTimeConverters {
      * It not very useful to format a month with a style / pattern / skeleton
      * that shows more than the month field.
      * <p>
-     * Also, this only makes sense for Gregorian calendars.
-     * Quoting the {@link Month} documentation, <i>"As such, this enum may be used
+     * Note: only use this method for the Gregorian calendar and related calendars, given that
+     * the {@link Month} documentation, states that the {@link Month} enum
+     * "... may be used
      * by any calendar system that has the month-of-year concept defined exactly
      * equivalent to the ISO-8601 calendar system".</i>
      *
