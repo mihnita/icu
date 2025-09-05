@@ -49,7 +49,7 @@ public class JavaTimeConverters {
     // Milliseconds per hour
     private static final long MILLIS_PER_HOUR = 60 * 60 * 1_000;
     // Milliseconds per day
-    private static final long MILLIS_PER_DAY = 24 * MILLI_PER_HOUR;
+    private static final long MILLIS_PER_DAY = 24 * MILLIS_PER_HOUR;
 
     private JavaTimeConverters() {
         // Prevent instantiation, making this an utility class
@@ -264,9 +264,15 @@ public class JavaTimeConverters {
      * This method creates a {@link Calendar} instance that represents
      * a day that is the same day of week as specified by {@link DayOfWeek}.
      * It is set somewhere close to epoch time.
+     *
      * <p>
-     * So it not very useful to format a day of week with a style / pattern / skeleton
-     * that shows more than the day of week field.
+     * <b>Note:</b> this should only be used to format it using a pattern or skeleton
+     * with a day of week field only.<br>
+     * That means that {@code c}-{@code cccccc} patterns are recommended, {@code E}-{@code EEEEEE}
+     * and {@code e}-{@code eeeeee} are likely wrong (because they are not stand-alone).
+     * Anything else is clearly wrong.<br> 
+     * It dies not make sense to format a {@code DayOfWeek} as {@code "MMMM d, y"}.<br>
+     * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-weekday}.
      *
      * @param dow The {@link DayOfWeek} to convert.
      * @return A {@link Calendar} instance representing the same day of week
@@ -277,7 +283,7 @@ public class JavaTimeConverters {
     @Deprecated
     @SuppressWarnings("JavaTimeDefaultTimeZone")
     public static Calendar dayOfWeekToCalendar(DayOfWeek dow) {
-        return millisToCalendar(dayOfWeekToMilli(dow));
+        return millisToCalendar(dayOfWeekToMillis(dow));
     }
 
     /**
@@ -287,11 +293,17 @@ public class JavaTimeConverters {
      * This method creates a {@link Calendar} instance that represents
      * the same month as specified by {@link Month}.
      * It is set somewhere close to epoch time.
+     *
      * <p>
-     * It not very useful to format a month with a style / pattern / skeleton
-     * that shows more than the month field.
+     * <b>Note:</b> this should only be used to format it using a pattern or skeleton
+     * with a day of month field only.<br>
+     * That means that {@code L}-{@code LLLLL} patterns are recommended, {@code E}-{@code MMMMM}
+     * is likely wrong (because it is not stand-alone). Anything else is clearly wrong.<br> 
+     * It dies not make sense to format a {@code Month} as {@code "MMMM d, y"}.<br> 
+     * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-month}.
+     *
      * <p>
-     * Note: only use this method for the Gregorian calendar and related calendars, given that
+     * <b>Note:</b> only use this method for the Gregorian calendar and related calendars, given that
      * the {@link Month} documentation, states that the {@link Month} enum
      * "... may be used
      * by any calendar system that has the month-of-year concept defined exactly
@@ -325,7 +337,7 @@ public class JavaTimeConverters {
         // Epoch time was 1970-01-01 00:00:00, and was a Thursday.
         // Add 12 hours, so we are in the middle of the day and have no surprises.
         // Then add 3 days to get a Monday (in fact 4, but DayOfWeek value is 1 based).
-        return MILLI_PER_HOUR * 12 + (3 + dow.getValue()) * MILLIS_PER_DAY;
+        return MILLIS_PER_HOUR * 12 + (3 + dow.getValue()) * MILLIS_PER_DAY;
     }
 
     /* Fails for non-Gregoran calendars. */
@@ -334,6 +346,6 @@ public class JavaTimeConverters {
         // Add 12 hours, so we are in the middle of the day and have no surprises.
         // Then add 31 for each month. 31 days is safe, even if some months are shorter.
         // We start from Jan 1, Feb 1, Mar 4, Apr 4, May 5, ..., Dec 8.
-        return MILLI_PER_HOUR * 12 + (month.getValue() - 1) * MILLIS_PER_DAY * 31;
+        return MILLIS_PER_HOUR * 12 + (month.getValue() - 1) * MILLIS_PER_DAY * 31;
     }
 }
