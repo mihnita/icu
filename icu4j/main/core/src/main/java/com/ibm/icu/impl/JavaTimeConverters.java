@@ -261,7 +261,7 @@ public class JavaTimeConverters {
      * Converts a {@link DayOfWeek} to a {@link Calendar}.
      *
      * <p>
-     * This method creates a {@link Calendar} instance that represents the
+     * This method creates a {@link Calendar} instance that represents
      * a day that is the same day of week as specified by {@link DayOfWeek}.
      * It is set somewhere close to epoch time.
      * <p>
