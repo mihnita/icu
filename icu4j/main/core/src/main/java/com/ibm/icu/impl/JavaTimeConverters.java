@@ -324,7 +324,7 @@ public class JavaTimeConverters {
     private static long dayOfWeekToMillis(DayOfWeek dow) {
         // Epoch time was 1970-01-01 00:00:00, and was a Thursday.
         // Add 12 hours, so we are in the middle of the day and have no surprises.
-        // Then add 3 days to get a Monday ( in fact 4, but DayOfWeek value is 1 based).
+        // Then add 3 days to get a Monday (in fact 4, but DayOfWeek value is 1 based).
         return MILLI_PER_HOUR * 12 + (3 + dow.getValue()) * MILLIS_PER_DAY;
     }
 
