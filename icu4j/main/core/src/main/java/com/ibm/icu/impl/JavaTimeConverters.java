@@ -271,7 +271,7 @@ public class JavaTimeConverters {
      * That means that {@code c}-{@code cccccc} patterns are recommended, {@code E}-{@code EEEEEE}
      * and {@code e}-{@code eeeeee} are likely wrong (because they are not stand-alone).
      * Anything else is clearly wrong.<br> 
-     * It dies not make sense to format a {@code DayOfWeek} as {@code "MMMM d, y"}.<br>
+     * It does not make sense to format a {@code DayOfWeek} as {@code "MMMM d, y"}.<br>
      * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-weekday}.
      *
      * @param dow The {@link DayOfWeek} to convert.
