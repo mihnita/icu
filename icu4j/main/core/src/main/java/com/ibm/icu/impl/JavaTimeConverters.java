@@ -47,7 +47,7 @@ import com.ibm.icu.util.ULocale;
 @Deprecated
 public class JavaTimeConverters {
     // Milliseconds per hour
-    private static final long MILLI_PER_HOUR = 60 * 60 * 1_000;
+    private static final long MILLIS_PER_HOUR = 60 * 60 * 1_000;
     // Milliseconds per day
     private static final long MILLIS_PER_DAY = 24 * MILLI_PER_HOUR;
 
