@@ -284,8 +284,8 @@ public class JavaTimeConverters {
      * Converts a {@link Month} to a {@link Calendar}.
      *
      * <p>
-     * This method creates a {@link Calendar} instance that represents the
-     * a month that is the same month as specified by {@link Month}.
+     * This method creates a {@link Calendar} instance that represents
+     * the same month as specified by {@link Month}.
      * It is set somewhere close to epoch time.
      * <p>
      * It not very useful to format a month with a style / pattern / skeleton
