@@ -299,7 +299,7 @@ public class JavaTimeConverters {
      * with a day of month field only.<br>
      * That means that {@code L}-{@code LLLLL} patterns are recommended, {@code E}-{@code MMMMM}
      * is likely wrong (because it is not stand-alone). Anything else is clearly wrong.<br> 
-     * It dies not make sense to format a {@code Month} as {@code "MMMM d, y"}.<br> 
+     * It does not make sense to format a {@code Month} as {@code "MMMM d, y"}.<br> 
      * See {@link https://unicode.org/reports/tr35/tr35-dates.html#dfst-month}.
      *
      * <p>
