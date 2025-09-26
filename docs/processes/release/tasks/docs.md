@@ -190,7 +190,7 @@ API change report.
 
 1.  Run `releases_tools/api_reports.sh` at `<icu4j_root>`
 2.  Resolve any warnings before proceeding.
-3.  The output file `icu4j<ver>.api3.gz` is created in `<icu4j_root>/out` directory.
+3.  The output file `icu4j<ver>.api3.gz` is created in `<icu4j_root>/target` directory.
 4.  Copy the output .gz file to `<icu4j_root>/tools/build` directory and check in the
     file to the repository.
 5.  You may delete very old versions of the API signature files. We keep last 5

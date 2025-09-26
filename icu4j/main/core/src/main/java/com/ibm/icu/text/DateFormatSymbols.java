@@ -1926,6 +1926,7 @@ public class DateFormatSymbols implements Serializable, Cloneable {
      * @internal
      * @deprecated This API is ICU internal only.
      */
+    @Deprecated
     protected String[] initEras(String erasKey, Map<String, Map<String, String>> maps,
             ICUResourceBundle calBundle, int maxEra) {
         Map<String, String> eraNamesTable = maps.get(erasKey);
