@@ -39,9 +39,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Cache local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -61,9 +61,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -91,7 +91,7 @@ jobs:
     if: github.repository == 'unicode-org/icu' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Build ICU libraries
         run: |
@@ -101,7 +101,7 @@ jobs:
           cd lib;
           cp -Ps ../tools/ctestfw/libicutest* .
       - name: Upload ICU libraries
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: icu-perf-libs
           path: icu4c/source/lib
@@ -132,11 +132,11 @@ jobs:
 
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: icu-perf-libs
           path: icu4c/source/lib
@@ -206,11 +206,11 @@ jobs:
 
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: icu-perf-libs
           path: icu4c/source/lib
@@ -271,11 +271,11 @@ jobs:
 
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: icu-perf-libs
           path: icu4c/source/lib
@@ -321,9 +321,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -375,9 +375,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -431,9 +431,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -492,9 +492,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -623,9 +623,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -698,9 +698,9 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Lookup read-only cache of local Maven repository
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -753,7 +753,7 @@ jobs:
     needs: [icu4c-performance-tests, icu4c-performance-tests-with-files, icu4c-strsrchperf, icu4j-unicodesetperf, icu4j-ucharacterperf, icu4j-decimalformatperf, icu4j-normperf, icu4j-converterperf, icu4j-dateformatperf]
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Switch to benchmark data storage branch.
         run: |
@@ -783,7 +783,7 @@ jobs:
           - arch: x64
             platform: x64
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
       - name: Build Solution
@@ -814,9 +814,9 @@ jobs:
       - name: Configure Git to checkout with Unix line endings (LF)
         run: |
           git config --global core.autocrlf input
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Restore Cygwin cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ${{ env.CYG_CACHE }}
           key: ${{ hashFiles('.github/workflows/icu_merge_ci.yml') }}
