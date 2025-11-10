@@ -5,7 +5,6 @@
  * Copyright (C) 2005-2012, International Business Machines Corporation and    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
- *
  */
 
 package com.ibm.icu.dev.tool.docs;

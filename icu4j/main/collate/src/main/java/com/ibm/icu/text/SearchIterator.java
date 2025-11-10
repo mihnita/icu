@@ -6,7 +6,6 @@
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-
 package com.ibm.icu.text;
 
 import java.text.CharacterIterator;

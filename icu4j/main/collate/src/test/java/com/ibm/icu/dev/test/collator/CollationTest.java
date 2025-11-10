@@ -1,11 +1,16 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-/**
- * ****************************************************************************** Copyright (C)
- * 2001-2015, International Business Machines Corporation and others. All Rights Reserved.
- * ******************************************************************************
- * CollationTest.java, ported from collationtest.cpp C++ version created on: 2012apr27 created by:
- * Markus W. Scherer
+/*
+ *******************************************************************************
+ * Copyright (C) 2001-2015, International Business Machines Corporation and
+ * others. All Rights Reserved.
+ *******************************************************************************
+ */
+
+/*
+ * CollationTest.java, ported from collationtest.cpp
+ * C++ version created on: 2012apr27
+ * created by: Markus W. Scherer
  */
 package com.ibm.icu.dev.test.collator;
 

@@ -1,12 +1,13 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-/**
- * ****************************************************************************** Copyright (C)
- * 2004-2015, International Business Machines Corporation and * others. All Rights Reserved. *
- * ******************************************************************************
+/*
+ *******************************************************************************
+ * Copyright (C) 2004-2015, International Business Machines Corporation and    *
+ * others. All Rights Reserved.                                                *
+ *******************************************************************************
  */
 
-/** Represent a file of APIInfo records. */
+/* Represent a file of APIInfo records. */
 package com.ibm.icu.dev.tool.docs;
 
 import java.io.BufferedReader;

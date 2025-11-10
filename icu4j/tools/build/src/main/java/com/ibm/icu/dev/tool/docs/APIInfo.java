@@ -1,9 +1,10 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-/**
- * ****************************************************************************** Copyright (C)
- * 2005-2013, International Business Machines Corporation and * others. All Rights Reserved. *
- * ******************************************************************************
+/*
+ *******************************************************************************
+ * Copyright (C) 2005-2013, International Business Machines Corporation and    *
+ * others. All Rights Reserved.                                                *
+ *******************************************************************************
  */
 
 /** Represents the API information on a doc element. */

@@ -5,10 +5,7 @@
  * Copyright (C) 2006-2015, International Business Machines Corporation and
  * others. All Rights Reserved.
  *******************************************************************************
- *
- *******************************************************************************
  */
-
 package com.ibm.icu.charset;
 
 import com.ibm.icu.impl.ICUBinary;

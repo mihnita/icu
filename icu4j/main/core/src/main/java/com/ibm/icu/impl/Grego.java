@@ -1,16 +1,22 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-/**
- * ****************************************************************************** Copyright (C)
- * 2003-2014, International Business Machines Corporation and others. All Rights Reserved.
- * ****************************************************************************** Partial port from
- * ICU4C's Grego class in i18n/gregoimp.h.
+/*
+ *******************************************************************************
+ * Copyright (C) 2003-2014, International Business Machines Corporation and
+ * others. All Rights Reserved.
+ *******************************************************************************
+ */
+
+/*
+ * Partial port from ICU4C's Grego class in i18n/gregoimp.h.
  *
- * <p>Methods ported, or moved here from OlsonTimeZone, initially for work on Jitterbug 5470:
- * tzdata2006n Brazil incorrect fall-back date 2009-mar-01 Only the methods necessary for that work
- * are provided - this is not a full port of ICU4C's Grego class (yet).
+ * Methods ported, or moved here from OlsonTimeZone, initially
+ * for work on Jitterbug 5470:
+ *   tzdata2006n Brazil incorrect fall-back date 2009-mar-01
+ * Only the methods necessary for that work are provided - this is not a full
+ * port of ICU4C's Grego class (yet).
  *
- * <p>These utilities are used by both OlsonTimeZone and SimpleTimeZone.
+ * These utilities are used by both OlsonTimeZone and SimpleTimeZone.
  */
 package com.ibm.icu.impl;
 
