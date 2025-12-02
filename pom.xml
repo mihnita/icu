@@ -44,11 +44,38 @@
     <junitparams.version>1.1.1</junitparams.version>
     <gson.version>2.11.0</gson.version>
     <commons-cli.version>1.9.0</commons-cli.version>
+
+    <!-- Plugin versions -->
+    <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+    <exec-maven-plugin.version>3.4.1</exec-maven-plugin.version>
+    <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+    <google-java-style.version>1.32.0</google-java-style.version>
+    <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+    <maven-dependency-plugin.version>3.8.0</maven-dependency-plugin.version>
+    <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
+    <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+    <maven-failsafe-plugin.version>3.4.0</maven-failsafe-plugin.version>
+    <maven-gpg-plugin.version>3.2.5</maven-gpg-plugin.version>
+    <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-pmd-plugin.version>3.27.0</maven-pmd-plugin.version>
+    <maven-project-info-reports-plugin.version>3.7.0</maven-project-info-reports-plugin.version>
+    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+    <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+    <maven-site-plugin.version>4.0.0-M16</maven-site-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.4.0</maven-surefire-plugin.version>
     <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109.
         Once we upgrade maven-source-plugin and maven-jar-plugin to versions new enough to depend
         on 3.5.1 or higher, we can remove this override.
     -->
     <plexus-io.version>3.5.1</plexus-io.version>
+    <spotless-maven-plugin.version>3.0.0</spotless-maven-plugin.version>
 
     <proj-title>International Components for Unicode for Java</proj-title>
     <proj.displayname>${project.artifactId}</proj.displayname>
@@ -59,8 +86,6 @@
 
     <!-- Version update! -->
     <icu.major.version>79</icu.major.version>
-
-    <maven-pmd-plugin.version>3.27.0</maven-pmd-plugin.version>
 
     <!-- Variables used to generate the javadoc -->
     <!-- Version update! -->
@@ -98,8 +123,6 @@
     <mf.Bundle-ManifestVersion>2</mf.Bundle-ManifestVersion>
     <mf.Bundle-Copyright>© 2016 and later: Unicode, Inc. and others. License &amp; terms of use: http://www.unicode.org/copyright.html</mf.Bundle-Copyright>
 
-    <formatter.plugin.spotless.version>3.0.0</formatter.plugin.spotless.version>
-    <formatter.google-java-style.version>1.32.0</formatter.google-java-style.version>
   </properties>
 
   <licenses>
@@ -189,19 +212,19 @@
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>${maven-clean-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-resources-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.0</version>
+          <version>${maven-compiler-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>${maven-surefire-plugin.version}</version>
           <configuration>
             <includes>
               <!-- Some test files start with "IntlTest...". Many don't fit
@@ -218,15 +241,15 @@
         </plugin>
         <plugin>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>${maven-failsafe-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>${maven-install-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>${maven-deploy-plugin.version}</version>
           <configuration>
             <skip>true</skip>
           </configuration>
@@ -235,7 +258,7 @@
           <!-- https://central.sonatype.org/publish/publish-portal-maven/ -->
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
-          <version>0.8.0</version>
+          <version>${central-publishing-maven-plugin.version}</version>
           <extensions>true</extensions>
           <configuration>
             <checksums>required</checksums>
@@ -243,11 +266,11 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M16</version>
+          <version>${maven-site-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-source-plugin.version}</version>
           <dependencies>
             <!-- Do not remove, see the plexus-io.version comment in the properties section -->
             <dependency>
@@ -259,28 +282,28 @@
         </plugin>
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.5</version>
+          <version>${maven-gpg-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.7.0</version>
+          <version>${maven-project-info-reports-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>${maven-shade-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>${maven-assembly-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>${maven-dependency-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>${build-helper-maven-plugin.version}</version>
           <executions>
             <execution>
               <id>root-location</id>
@@ -293,12 +316,12 @@
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-release-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
-          <version>1.6.0</version>
+          <version>${flatten-maven-plugin.version}</version>
           <configuration>
             <flattenMode>ossrh</flattenMode>
           </configuration>
@@ -321,7 +344,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>${maven-enforcer-plugin.version}</version>
           <executions>
             <execution>
               <id>enforce-maven</id>
@@ -343,7 +366,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <configuration>
             <excludePackageNames>com.ibm.icu.impl,com.ibm.icu.impl.*,com.ibm.icu.dev.*,com.ibm.icu.samples,com.ibm.icu.samples.*</excludePackageNames>
             <!--
@@ -426,7 +449,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
+          <version>${maven-jar-plugin.version}</version>
           <configuration>
             <archive>
               <manifest>
@@ -466,7 +489,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>${exec-maven-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -498,7 +521,7 @@
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
-          <version>${formatter.plugin.spotless.version}</version>
+          <version>${spotless-maven-plugin.version}</version>
           <configuration>
             <!-- optional: limit format enforcement to just the files changed by this feature branch -->
             <!-- You can explicitly disable ratchet functionality by providing the value 'NONE': -->
