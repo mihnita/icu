@@ -18,6 +18,7 @@
   </properties>
 
   <dependencies>
+    <!-- Test only -->
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>framework</artifactId>
@@ -29,20 +30,14 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>pl.pragmatists</groupId>
       <artifactId>JUnitParams</artifactId>
-      <version>${junitparams.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>${gson.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

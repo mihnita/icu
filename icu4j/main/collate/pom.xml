@@ -24,7 +24,7 @@
       <version>${project.version}</version>
     </dependency>
 
-    <!-- Test -->
+    <!-- Test only -->
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>core</artifactId>
@@ -61,8 +61,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
