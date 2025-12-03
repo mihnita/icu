@@ -22,7 +22,6 @@
   </scm>
 
   <properties>
-    <icu4j.api.doc.root.dir>${project.basedir}/../..</icu4j.api.doc.root.dir>
     <module-name>charset</module-name>
     <proj.displayname>charset</proj.displayname>
   </properties>

@@ -39,6 +39,12 @@
     <!-- This is the folder where we gather the files to be posted in the Github Release-->
     <release.directory>${project.build.directory}/release_directory</release.directory>
 
+    <!-- 
+      Report dependencies and plugins that have updates:
+        mvn versions:display-property-updates -Dmaven.version.ignore=".*alpha.*,.*beta.*" | grep ' -> ' | sort -u
+      Please update the maven.version.ignore if some other non-release versions show up.
+    -->
+
     <!-- Dependencies versions -->
     <commons-cli.version>1.9.0</commons-cli.version>
     <error_prone.version>2.25.0</error_prone.version>
@@ -103,7 +109,6 @@
     <icu4j.api.doc.copyright.footer>&lt;font size=-1&gt;Copyright © 2016 Unicode, Inc. and others.&lt;/font&gt;</icu4j.api.doc.copyright.footer>
 
     <!-- Needs to be overriden in sub-modules -->
-    <icu4j.api.doc.root.dir>${project.basedir}</icu4j.api.doc.root.dir>
     <icu4j.api.report.version>${icu.major.version}</icu4j.api.report.version>
 
     <!-- Used for the .jar Manifest files -->
@@ -418,7 +423,11 @@
               <configuration>
                 <rules>
                   <requireMavenVersion>
-                    <version>3.6.3</version>
+                    <!-- From the Maven web site, Dec. 2025 (https://maven.apache.org/docs/history.html)
+                      "Maven 3.8.9 and before has now reached its end of life and is no longer supported in any way.
+                       New plugin releases will require Maven 3.9.0 or later."
+                    -->
+                    <version>3.9.0</version>
                   </requireMavenVersion>
                   <requireJavaVersion>
                     <version>[11,)</version>

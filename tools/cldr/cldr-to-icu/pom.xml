@@ -31,6 +31,34 @@
         <mf.Automatic-Module-Name>org.unicode.icu.cldr_to_icu</mf.Automatic-Module-Name>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>
+                                org.unicode.icu.tool.cldrtoicu.Cldr2Icu
+                            </mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- ICU4J - which should be kept as up-to-date as possible. -->
         <dependency>
