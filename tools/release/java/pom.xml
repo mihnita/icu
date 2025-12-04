@@ -22,6 +22,10 @@
 
   <name>icu4c-apireport</name>
 
+  <properties>
+    <module-name>icu4c_apireport</module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>xml-apis</groupId>
