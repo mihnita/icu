@@ -86,10 +86,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
           lookup-only: true
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       - name: Check Java style
         run: |
           cd icu4j;
-          mvn -version
           mvn spotless:check || (echo "Style checker failed. Formatting changes can be applied by 'mvn spotless:apply'" && exit 1)
 
   # ICU4J build and unit test using Maven
