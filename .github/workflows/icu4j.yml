@@ -89,6 +89,7 @@ jobs:
       - name: Check Java style
         run: |
           cd icu4j;
+          mvn -version
           mvn spotless:check || (echo "Style checker failed. Formatting changes can be applied by 'mvn spotless:apply'" && exit 1)
 
   # ICU4J build and unit test using Maven
