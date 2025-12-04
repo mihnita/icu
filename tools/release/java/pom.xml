@@ -37,7 +37,7 @@
     <dependency>
       <groupId>xalan</groupId>
       <artifactId>serializer</artifactId>
-      <version>${xerces.version}</version>
+      <version>${xalan.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
