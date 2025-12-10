@@ -1,0 +1,1801 @@
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: D:\Apps\JavaDev\maven
+Java version: 21.0.9, vendor: Eclipse Adoptium, runtime: D:\Apps\JavaDev\jdk-21
+Default locale: en_US, platform encoding: UTF-8
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.graph < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.util < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.event.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Created adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: color
+[DEBUG] Message styles: debug info warning error success failure strong mojo project
+[DEBUG] Reading global settings from D:\Apps\JavaDev\maven\conf\settings.xml
+[DEBUG] Reading user settings from C:\Users\mihai\.m2\settings.xml
+[DEBUG] Reading global toolchains from D:\Apps\JavaDev\maven\conf\toolchains.xml
+[DEBUG] Reading user toolchains from C:\Users\mihai\.m2\toolchains.xml
+[DEBUG] Using local repository at C:\Users\mihai\.m2\repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for C:\Users\mihai\.m2\repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project com.ibm.icu:icu4j-root:pom:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:framework:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:core:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:icu4j-charset:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:collate:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:currdata:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:langdata:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:regiondata:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:translit:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:common_tests:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:icu4j:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:demos:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:samples:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:tools_build:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:tools_misc:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:tools_taglets:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:tools_pmd:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project com.ibm.icu:perf-tests:jar:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] International Components for Unicode for Java (icu4j-root)         [pom]
+[INFO] framework                                                          [jar]
+[INFO] tools_taglets                                                      [jar]
+[INFO] core                                                               [jar]
+[INFO] langdata                                                           [jar]
+[INFO] regiondata                                                         [jar]
+[INFO] currdata                                                           [jar]
+[INFO] collate                                                            [jar]
+[INFO] translit                                                           [jar]
+[INFO] ICU4J                                                              [jar]
+[INFO] ICU4J Charset Provider                                             [jar]
+[INFO] common_tests                                                       [jar]
+[INFO] demos                                                              [jar]
+[INFO] samples                                                            [jar]
+[INFO] tools_build                                                        [jar]
+[INFO] tools_misc                                                         [jar]
+[INFO] tools_pmd                                                          [jar]
+[INFO] perf-tests                                                         [jar]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: com.ibm.icu:icu4j-root:pom:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:framework:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:tools_taglets:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:core:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:langdata:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:regiondata:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:currdata:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:collate:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:translit:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:icu4j:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:icu4j-charset:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:common_tests:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:demos:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:samples:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:tools_build:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:tools_misc:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:tools_pmd:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Project: com.ibm.icu:perf-tests:jar:79.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] -----------------------< com.ibm.icu:icu4j-root >-----------------------
+[INFO] Building International Components for Unicode for Java (icu4j-root) 79.0.1-SNAPSHOT [1/18]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Creating adapter using nameMapper 'gav' and factory 'rwlock-local'
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.ibm.icu:icu4j-root:79.0.1-SNAPSHOT
+[DEBUG] Dependencies (collect): [test]
+[DEBUG] Dependencies (resolve): []
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce (enforce-maven)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <commandLineRules>${rules}</commandLineRules>
+  <fail default-value="true">${enforcer.fail}</fail>
+  <failFast default-value="false">${enforcer.failFast}</failFast>
+  <failIfNoRules default-value="true">${enforcer.failIfNoRules}</failIfNoRules>
+  <ignoreCache default-value="false">${enforcer.ignoreCache}</ignoreCache>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <project default-value="${project}"/>
+  <rules>
+    <requireMavenVersion>
+      <version>3.6.3</version>
+    </requireMavenVersion>
+    <requireJavaVersion>
+      <version>[11,)</version>
+    </requireJavaVersion>
+  </rules>
+  <rulesToExecute>${enforcer.rules}</rulesToExecute>
+  <rulesToSkip>${enforcer.skipRules}</rulesToSkip>
+  <session default-value="${session}"/>
+  <skip default-value="false">${enforcer.skip}</skip>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation (root-location)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <project default-value="${project}"/>
+  <rootLocationProperty default-value="rootlocation"/>
+  <runOnlyAtExecutionRoot default-value="false">${buildhelper.runOnlyAtExecutionRoot}</runOnlyAtExecutionRoot>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=16000, ConflictMarker.markTime=22100, ConflictMarker.nodeCount=1, ConflictIdSorter.graphTime=6600, ConflictIdSorter.topsortTime=389900, ConflictIdSorter.conflictIdCount=0, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=1248200, ConflictResolver.conflictItemCount=0, DfDependencyCollector.collectTime=65400, DfDependencyCollector.transformTime=2842700}
+[DEBUG] com.ibm.icu:icu4j-root:pom:79.0.1-SNAPSHOT
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ icu4j-root ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=824400, ConflictMarker.markTime=22500, ConflictMarker.nodeCount=2, ConflictIdSorter.graphTime=65200, ConflictIdSorter.topsortTime=9600, ConflictIdSorter.conflictIdCount=2, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=1792500, ConflictResolver.conflictItemCount=2, DfDependencyCollector.collectTime=14185200, DfDependencyCollector.transformTime=2726100}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.4.0
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.4.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = F:\git\icu_work\icu.mihnita.bld\icu4j\target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\target\classes
+[DEBUG]   (f) reportDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\target\classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\target\test-classes
+[DEBUG] -- end configuration --
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\target
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\target\classes
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\target\test-classes
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\target\classes
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-maven) @ icu4j-root ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=39100, ConflictMarker.markTime=25100, ConflictMarker.nodeCount=14, ConflictIdSorter.graphTime=9200, ConflictIdSorter.topsortTime=9400, ConflictIdSorter.conflictIdCount=11, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=319900, ConflictResolver.conflictItemCount=14, DfDependencyCollector.collectTime=62216200, DfDependencyCollector.transformTime=416600}
+[DEBUG] org.apache.maven.plugins:maven-enforcer-plugin:jar:3.5.0
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-xml:jar:3.0.0:compile
+[DEBUG]    org.apache.maven.enforcer:enforcer-api:jar:3.5.0:compile
+[DEBUG]    org.apache.maven.enforcer:enforcer-rules:jar:3.5.0:compile
+[DEBUG]       org.apache.maven.resolver:maven-resolver-util:jar:1.4.1:compile (version managed from default)
+[DEBUG]          org.apache.maven.resolver:maven-resolver-api:jar:1.4.1:provided (scope managed from default) (version managed from default)
+[DEBUG]       org.apache.commons:commons-lang3:jar:3.14.0:compile (version managed from default)
+[DEBUG]       commons-codec:commons-codec:jar:1.17.0:compile (version managed from default)
+[DEBUG]       commons-io:commons-io:jar:2.16.1:compile (version managed from default)
+[DEBUG]       org.apache-extras.beanshell:bsh:jar:2.0b6:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-enforcer-plugin:3.5.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-enforcer-plugin:3.5.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-enforcer-plugin:3.5.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-enforcer-plugin:jar:3.5.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.0
+[DEBUG]   Included: org.apache.maven.enforcer:enforcer-api:jar:3.5.0
+[DEBUG]   Included: org.apache.maven.enforcer:enforcer-rules:jar:3.5.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.14.0
+[DEBUG]   Included: commons-codec:commons-codec:jar:1.17.0
+[DEBUG]   Included: commons-io:commons-io:jar:2.16.1
+[DEBUG]   Included: org.apache-extras.beanshell:bsh:jar:2.0b6
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-enforcer-plugin:3.5.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce:enforce-maven' with basic configurator -->
+[DEBUG]   (s) commandLineRules = []
+[DEBUG]   (s) fail = true
+[DEBUG]   (s) failFast = false
+[DEBUG]   (s) failIfNoRules = true
+[DEBUG]   (f) ignoreCache = false
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce {execution: enforce-maven}
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:icu4j-root:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\pom.xml
+[DEBUG]   (f) rules = <rules><requireMavenVersion><version>3.6.3</version>
+</requireMavenVersion>
+<requireJavaVersion><version>[11,)</version>
+</requireJavaVersion>
+</rules>
+
+[DEBUG]   (s) rulesToExecute = []
+[DEBUG]   (s) rulesToSkip = []
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG] -- end configuration --
+[DEBUG] Executing Rule 0: EnforcerRuleDesc[name=requireMavenVersion, rule=RequireMavenVersion[message=null, version=3.6.3], level=ERROR]
+[DEBUG] Check cache for class org.apache.maven.enforcer.rules.version.RequireMavenVersion with id 48523328
+[DEBUG] Add cache class org.apache.maven.enforcer.rules.version.RequireMavenVersion with id 48523328
+[DEBUG] Detected Maven Version: 3.9.11
+[DEBUG] Detected Maven Version: 3.9.11 is allowed in the range [3.6.3,).
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[DEBUG] Finish Rule 0: org.apache.maven.enforcer.rules.version.RequireMavenVersion takes 0 ms
+[DEBUG] Executing Rule 1: EnforcerRuleDesc[name=requireJavaVersion, rule=RequireJavaVersion[message=null, version=[11,), display=false], level=ERROR]
+[DEBUG] Check cache for class org.apache.maven.enforcer.rules.version.RequireJavaVersion with id 85548664
+[DEBUG] Add cache class org.apache.maven.enforcer.rules.version.RequireJavaVersion with id 85548664
+[DEBUG] Detected Java Version: '21.0.9'
+[DEBUG] Normalized Java Version: '21.0.9'
+[DEBUG] Parsed Version: Major: 21 Minor: 0 Incremental: 9 Build: 0 Qualifier: null
+[DEBUG] Detected JDK Version: 21.0.9 is allowed in the range [11,).
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[DEBUG] Finish Rule 1: org.apache.maven.enforcer.rules.version.RequireJavaVersion takes 8 ms
+[INFO] 
+[INFO] --- build-helper:3.6.0:rootlocation (root-location) @ icu4j-root ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=78500, ConflictMarker.markTime=34300, ConflictMarker.nodeCount=8, ConflictIdSorter.graphTime=14900, ConflictIdSorter.topsortTime=6700, ConflictIdSorter.conflictIdCount=6, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=98100, ConflictResolver.conflictItemCount=8, DfDependencyCollector.collectTime=23013200, DfDependencyCollector.transformTime=251600}
+[DEBUG] org.codehaus.mojo:build-helper-maven-plugin:jar:3.6.0
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[DEBUG]    org.apache-extras.beanshell:bsh:jar:2.0b6:compile
+[DEBUG]    org.apache.maven.shared:file-management:jar:3.1.0:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG] Created new class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:3.6.0
+[DEBUG] Importing foreign packages into class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:3.6.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:3.6.0
+[DEBUG]   Included: org.codehaus.mojo:build-helper-maven-plugin:jar:3.6.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[DEBUG]   Included: org.apache-extras.beanshell:bsh:jar:2.0b6
+[DEBUG]   Included: org.apache.maven.shared:file-management:jar:3.1.0
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG] Loading mojo org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation from plugin realm ClassRealm[plugin>org.codehaus.mojo:build-helper-maven-plugin:3.6.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation:root-location' with basic configurator -->
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:icu4j-root:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\pom.xml
+[DEBUG]   (f) rootLocationProperty = rootlocation
+[DEBUG]   (f) runOnlyAtExecutionRoot = false
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG] -- end configuration --
+[DEBUG] Checking to see if F:\git\icu_work\icu.mihnita.bld is an aggregator parent
+[DEBUG] Checking to see if F:\git\icu_work is an aggregator parent
+[DEBUG] Checking to see if F:\git is an aggregator parent
+[DEBUG] Checking to see if F:\ is an aggregator parent
+[DEBUG] Local aggregation root is F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] define property rootlocation = "F:\git\icu_work\icu.mihnita.bld\icu4j"
+[INFO] 
+[INFO] -----------------------< com.ibm.icu:framework >------------------------
+[INFO] Building framework 79.0.1-SNAPSHOT                                [2/18]
+[INFO]   from main\framework\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.ibm.icu:framework:79.0.1-SNAPSHOT
+[DEBUG] Dependencies (collect): [test]
+[DEBUG] Dependencies (resolve): [compile, runtime, test]
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce (enforce-maven)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <commandLineRules>${rules}</commandLineRules>
+  <fail default-value="true">${enforcer.fail}</fail>
+  <failFast default-value="false">${enforcer.failFast}</failFast>
+  <failIfNoRules default-value="true">${enforcer.failIfNoRules}</failIfNoRules>
+  <ignoreCache default-value="false">${enforcer.ignoreCache}</ignoreCache>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <project default-value="${project}"/>
+  <rules>
+    <requireMavenVersion>
+      <version>3.6.3</version>
+    </requireMavenVersion>
+    <requireJavaVersion>
+      <version>[11,)</version>
+    </requireJavaVersion>
+  </rules>
+  <rulesToExecute>${enforcer.rules}</rulesToExecute>
+  <rulesToSkip>${enforcer.skipRules}</rulesToSkip>
+  <session default-value="${session}"/>
+  <skip default-value="false">${enforcer.skip}</skip>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation (root-location)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <project default-value="${project}"/>
+  <rootLocationProperty default-value="rootlocation"/>
+  <runOnlyAtExecutionRoot default-value="false">${buildhelper.runOnlyAtExecutionRoot}</runOnlyAtExecutionRoot>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_core</artifactId>
+      <version>2.25.0</version>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerArgs>
+    <arg>-XDcompilePolicy=simple</arg>
+    <arg>-Xplugin:ErrorProne -Xep:UnicodeEscape:OFF -Xep:InvalidBlockTag:OFF ^
+                     -Xep:ComparableType:WARN -Xep:EqualsHashCode:WARN -Xep:SelfEquals:WARN ^
+                     -Xep:ReturnValueIgnored:WARN -Xep:ArrayToString:WARN -Xep:MisusedDayOfYear:WARN ^
+                     -Xep:SelfComparison:WARN -Xep:MisusedWeekYear:WARN -Xep:IdentityBinaryExpression:WARN</arg>
+    <arg>-Xmaxerrs</arg>
+    <arg>10000</arg>
+    <arg>-Xmaxwarns</arg>
+    <arg>10000</arg>
+    <arg>-J-Dfile.encoding=UTF-8</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+    <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+    <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+  </compilerArgs>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">UTF-8</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">false</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <moduleVersion default-value="${project.version}">${maven.compiler.moduleVersion}</moduleVersion>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}">${maven.compiler.outputDirectory}</outputDirectory>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">${maven.compiler.parameters}</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">true</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">${maven.compiler.target}</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <resources default-value="${project.testResources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile (default-testCompile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_core</artifactId>
+      <version>2.25.0</version>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerArgs>
+    <arg>-XDcompilePolicy=simple</arg>
+    <arg>-Xplugin:ErrorProne -Xep:UnicodeEscape:OFF -Xep:InvalidBlockTag:OFF ^
+                     -Xep:ComparableType:WARN -Xep:EqualsHashCode:WARN -Xep:SelfEquals:WARN ^
+                     -Xep:ReturnValueIgnored:WARN -Xep:ArrayToString:WARN -Xep:MisusedDayOfYear:WARN ^
+                     -Xep:SelfComparison:WARN -Xep:MisusedWeekYear:WARN -Xep:IdentityBinaryExpression:WARN</arg>
+    <arg>-Xmaxerrs</arg>
+    <arg>10000</arg>
+    <arg>-Xmaxwarns</arg>
+    <arg>10000</arg>
+    <arg>-J-Dfile.encoding=UTF-8</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+    <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+    <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+  </compilerArgs>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac-test"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">UTF-8</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">false</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">${maven.compiler.parameters}</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">true</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">${maven.compiler.target}</target>
+  <testPath default-value="${project.testClasspathElements}"/>
+  <testRelease>${maven.compiler.testRelease}</testRelease>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <useModulePath default-value="true"/>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.4.0:test (default-test)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <additionalClasspathDependencies>${maven.test.additionalClasspathDependencies}</additionalClasspathDependencies>
+  <additionalClasspathElements>${maven.test.additionalClasspath}</additionalClasspathElements>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <classpathDependencyExcludes>${maven.test.dependency.excludes}</classpathDependencyExcludes>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <dependenciesToScan>${dependenciesToScan}</dependenciesToScan>
+  <disableXmlReport default-value="false">${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <enableOutErrElements default-value="true">${enableOutErrElements}</enableOutErrElements>
+  <enableProcessChecker>${surefire.enableProcessChecker}</enableProcessChecker>
+  <enablePropertiesElement default-value="true">${enablePropertiesElement}</enablePropertiesElement>
+  <encoding default-value="${project.reporting.outputEncoding}">${surefire.encoding}</encoding>
+  <excludeJUnit5Engines>${surefire.excludeJUnit5Engines}</excludeJUnit5Engines>
+  <excludedEnvironmentVariables>${surefire.excludedEnvironmentVariables}</excludedEnvironmentVariables>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <excludes>${surefire.excludes}</excludes>
+  <excludesFile>${surefire.excludesFile}</excludesFile>
+  <failIfNoSpecifiedTests default-value="true">${surefire.failIfNoSpecifiedTests}</failIfNoSpecifiedTests>
+  <failIfNoTests default-value="false">${failIfNoTests}</failIfNoTests>
+  <failOnFlakeCount default-value="0">${surefire.failOnFlakeCount}</failOnFlakeCount>
+  <forkCount default-value="1">${forkCount}</forkCount>
+  <forkNode>${surefire.forkNode}</forkNode>
+  <forkedProcessExitTimeoutInSeconds default-value="30">${surefire.exitTimeout}</forkedProcessExitTimeoutInSeconds>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <includeJUnit5Engines>${surefire.includeJUnit5Engines}</includeJUnit5Engines>
+  <includes>
+    <include>**/*.java</include>${surefire.includes}</includes>
+  <includesFile>${surefire.includesFile}</includesFile>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <parallelOptimized default-value="true">${parallelOptimized}</parallelOptimized>
+  <parallelTestsTimeoutForcedInSeconds>${surefire.parallel.forcedTimeout}</parallelTestsTimeoutForcedInSeconds>
+  <parallelTestsTimeoutInSeconds>${surefire.parallel.timeout}</parallelTestsTimeoutInSeconds>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <pluginDescriptor default-value="${plugin}"/>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <project default-value="${project}"/>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <projectBuildDirectory default-value="${project.build.directory}"/>
+  <promoteUserPropertiesToSystemProperties default-value="true"/>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <rerunFailingTestsCount default-value="0">${surefire.rerunFailingTestsCount}</rerunFailingTestsCount>
+  <reuseForks default-value="true">${reuseForks}</reuseForks>
+  <runOrder default-value="filesystem">${surefire.runOrder}</runOrder>
+  <runOrderRandomSeed>${surefire.runOrder.random.seed}</runOrderRandomSeed>
+  <session default-value="${session}"/>
+  <shutdown default-value="exit">${surefire.shutdown}</shutdown>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipAfterFailureCount default-value="0">${surefire.skipAfterFailureCount}</skipAfterFailureCount>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">${skipTests}</skipTests>
+  <suiteXmlFiles>${surefire.suiteXmlFiles}</suiteXmlFiles>
+  <systemPropertiesFile>${surefire.systemPropertiesFile}</systemPropertiesFile>
+  <tempDir default-value="surefire">${tempDir}</tempDir>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <threadCountClasses default-value="0">${threadCountClasses}</threadCountClasses>
+  <threadCountMethods default-value="0">${threadCountMethods}</threadCountMethods>
+  <threadCountSuites default-value="0">${threadCountSuites}</threadCountSuites>
+  <trimStackTrace default-value="false">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useModulePath default-value="true">${surefire.useModulePath}</useModulePath>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-jar-plugin:3.4.2:jar (default-jar)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <archive>
+    <manifestEntries>
+      <Main-Class>com.ibm.icu.dev.test.TestAll</Main-Class>
+      <Automatic-Module-Name>com.ibm.icu.framework</Automatic-Module-Name>
+      <Bundle-Copyright>© 2016 and later: Unicode, Inc. and others. License &amp; terms of use: http://www.unicode.org/copyright.html</Bundle-Copyright>
+      <Specification-Title>International Components for Unicode for Java (framework)</Specification-Title>
+      <Specification-Version>79</Specification-Version>
+      <Specification-Vendor>Unicode, Inc.</Specification-Vendor>
+      <Implementation-Title>International Components for Unicode for Java (framework)</Implementation-Title>
+      <Implementation-Version>79.0.1-SNAPSHOT</Implementation-Version>
+      <Implementation-Vendor>Unicode, Inc.</Implementation-Vendor>
+      <Implementation-Vendor-Id>org.unicode</Implementation-Vendor-Id>
+      <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+      <Bundle-Name>ICU4J framework</Bundle-Name>
+      <Bundle-Description>International Components for Unicode for Java (framework)</Bundle-Description>
+      <Bundle-SymbolicName>com.ibm.icu.framework</Bundle-SymbolicName>
+      <Bundle-Version>79.0.1-SNAPSHOT</Bundle-Version>
+      <Bundle-Vendor>Unicode, Inc.</Bundle-Vendor>
+      <Bundle-Copyright>© 2016 and later: Unicode, Inc. and others. License &amp; terms of use: http://www.unicode.org/copyright.html</Bundle-Copyright>
+      <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+    </manifestEntries>
+    <manifest>
+      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+    </manifest>
+  </archive>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <detectMultiReleaseJar default-value="true">${maven.jar.detectMultiReleaseJar}</detectMultiReleaseJar>
+  <finalName default-value="${project.build.finalName}"/>
+  <forceCreation default-value="false">${maven.jar.forceCreation}</forceCreation>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skipIfEmpty default-value="false"/>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-jar-plugin:3.4.2:test-jar (default)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <archive>
+    <manifestEntries>
+      <Main-Class>com.ibm.icu.dev.test.TestAll</Main-Class>
+      <Automatic-Module-Name>com.ibm.icu.framework</Automatic-Module-Name>
+      <Bundle-Copyright>© 2016 and later: Unicode, Inc. and others. License &amp; terms of use: http://www.unicode.org/copyright.html</Bundle-Copyright>
+      <Specification-Title>International Components for Unicode for Java (framework)</Specification-Title>
+      <Specification-Version>79</Specification-Version>
+      <Specification-Vendor>Unicode, Inc.</Specification-Vendor>
+      <Implementation-Title>International Components for Unicode for Java (framework)</Implementation-Title>
+      <Implementation-Version>79.0.1-SNAPSHOT</Implementation-Version>
+      <Implementation-Vendor>Unicode, Inc.</Implementation-Vendor>
+      <Implementation-Vendor-Id>org.unicode</Implementation-Vendor-Id>
+      <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+      <Bundle-Name>ICU4J framework</Bundle-Name>
+      <Bundle-Description>International Components for Unicode for Java (framework)</Bundle-Description>
+      <Bundle-SymbolicName>com.ibm.icu.framework</Bundle-SymbolicName>
+      <Bundle-Version>79.0.1-SNAPSHOT</Bundle-Version>
+      <Bundle-Vendor>Unicode, Inc.</Bundle-Vendor>
+      <Bundle-Copyright>© 2016 and later: Unicode, Inc. and others. License &amp; terms of use: http://www.unicode.org/copyright.html</Bundle-Copyright>
+      <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+    </manifestEntries>
+    <manifest>
+      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+    </manifest>
+  </archive>
+  <classifier default-value="tests"/>
+  <detectMultiReleaseJar default-value="true">${maven.jar.detectMultiReleaseJar}</detectMultiReleaseJar>
+  <finalName default-value="${project.build.finalName}"/>
+  <forceCreation default-value="false">${maven.jar.forceCreation}</forceCreation>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skip>${maven.test.skip}</skip>
+  <skipIfEmpty default-value="false"/>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=11300, ConflictMarker.markTime=18800, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=5200, ConflictIdSorter.topsortTime=5300, ConflictIdSorter.conflictIdCount=2, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=214900, ConflictResolver.conflictItemCount=2, DfDependencyCollector.collectTime=7755000, DfDependencyCollector.transformTime=282900}
+[DEBUG] com.ibm.icu:framework:jar:79.0.1-SNAPSHOT
+[DEBUG]    junit:junit:jar:4.13.2:test
+[DEBUG]       org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ framework ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG]   (f) reportDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target
+[INFO] Deleting file F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev\test\package.html
+[INFO] Deleting file F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev\test\manifest.test.stub
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev\test
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[INFO] Deleting file F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\maven-status\maven-compiler-plugin\testCompile\default-testCompile\inputFiles.lst
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\maven-status\maven-compiler-plugin\testCompile\default-testCompile
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\maven-status\maven-compiler-plugin\testCompile
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\maven-status\maven-compiler-plugin
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\maven-status
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources
+[INFO] Deleting directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[DEBUG] Skipping non-existing directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-maven) @ framework ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-enforcer-plugin:3.5.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce:enforce-maven' with basic configurator -->
+[DEBUG]   (s) commandLineRules = []
+[DEBUG]   (s) fail = true
+[DEBUG]   (s) failFast = false
+[DEBUG]   (s) failIfNoRules = true
+[DEBUG]   (f) ignoreCache = false
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce {execution: enforce-maven}
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (f) rules = <rules><requireMavenVersion><version>3.6.3</version>
+</requireMavenVersion>
+<requireJavaVersion><version>[11,)</version>
+</requireJavaVersion>
+</rules>
+
+[DEBUG]   (s) rulesToExecute = []
+[DEBUG]   (s) rulesToSkip = []
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG] -- end configuration --
+[DEBUG] Executing Rule 0: EnforcerRuleDesc[name=requireMavenVersion, rule=RequireMavenVersion[message=null, version=3.6.3], level=ERROR]
+[DEBUG] Check cache for class org.apache.maven.enforcer.rules.version.RequireMavenVersion with id 48523328
+[DEBUG] Already cached class org.apache.maven.enforcer.rules.version.RequireMavenVersion with id 48523328
+[DEBUG] Finish Rule 0: org.apache.maven.enforcer.rules.version.RequireMavenVersion takes 0 ms
+[DEBUG] Executing Rule 1: EnforcerRuleDesc[name=requireJavaVersion, rule=RequireJavaVersion[message=null, version=[11,), display=false], level=ERROR]
+[DEBUG] Check cache for class org.apache.maven.enforcer.rules.version.RequireJavaVersion with id 85548664
+[DEBUG] Already cached class org.apache.maven.enforcer.rules.version.RequireJavaVersion with id 85548664
+[DEBUG] Finish Rule 1: org.apache.maven.enforcer.rules.version.RequireJavaVersion takes 0 ms
+[INFO] 
+[INFO] --- build-helper:3.6.0:rootlocation (root-location) @ framework ---
+[DEBUG] Loading mojo org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation from plugin realm ClassRealm[plugin>org.codehaus.mojo:build-helper-maven-plugin:3.6.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.codehaus.mojo:build-helper-maven-plugin:3.6.0:rootlocation:root-location' with basic configurator -->
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (f) rootLocationProperty = rootlocation
+[DEBUG]   (f) runOnlyAtExecutionRoot = false
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG] -- end configuration --
+[DEBUG] Checking to see if F:\git\icu_work\icu.mihnita.bld\icu4j\main is an aggregator parent
+[DEBUG] Checking to see if F:\git\icu_work\icu.mihnita.bld\icu4j is an aggregator parent
+[DEBUG] Extension realms for project com.ibm.icu:icu4j-root:pom:79.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] F:\git\icu_work\icu.mihnita.bld\icu4j is an aggregator parent of current project 
+[DEBUG] Checking to see if F:\git\icu_work\icu.mihnita.bld is an aggregator parent
+[DEBUG] Checking to see if F:\git\icu_work is an aggregator parent
+[DEBUG] Checking to see if F:\git is an aggregator parent
+[DEBUG] Checking to see if F:\ is an aggregator parent
+[DEBUG] Local aggregation root is F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] define property rootlocation = "F:\git\icu_work\icu.mihnita.bld\icu4j"
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ framework ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=31900, ConflictMarker.markTime=24900, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=8900, ConflictIdSorter.topsortTime=7000, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=146200, ConflictResolver.conflictItemCount=13, DfDependencyCollector.collectTime=23949500, DfDependencyCollector.transformTime=245500}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources:default-resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\main\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] api.doc.version: 79
+[DEBUG] classworlds.conf: D:\Apps\JavaDev\maven\bin\m2.conf
+[DEBUG] commons-cli.version: 1.9.0
+[DEBUG] env.=::: ::\
+[DEBUG] env.=C:: C:\Users\mihai\.m2
+[DEBUG] env.=D:: D:\Apps\e.cfg\2025-12\old
+[DEBUG] env.=EXITCODE: 00000000
+[DEBUG] env.=F:: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.ALLUSERSPROFILE: C:\ProgramData
+[DEBUG] env.ANSICON: 226x32766 (226x41)
+[DEBUG] env.ANSICON_DEF: 7
+[DEBUG] env.ANT_ARGS: -logger org.apache.tools.ant.listener.AnsiColorLogger
+[DEBUG] env.ANT_HOME: D:\Apps\JavaDev\ant
+[DEBUG] env.APPDATA: C:\Users\mihai\AppData\Roaming
+[DEBUG] env.BAT_CONFIG_DIR: C:\Users\mihai\scoop\apps\bat\current
+[DEBUG] env.CHOCOLATEYINSTALL: C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey
+[DEBUG] env.CLASSWORLDS_JAR: "D:\Apps\JavaDev\maven\boot\plexus-classworlds-2.9.0.jar"
+[DEBUG] env.CLASSWORLDS_LAUNCHER: org.codehaus.plexus.classworlds.launcher.Launcher
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMMONPROGRAMFILES: C:\Program Files\Common Files
+[DEBUG] env.COMMONPROGRAMFILES(X86): C:\Program Files (x86)\Common Files
+[DEBUG] env.COMMONPROGRAMW6432: C:\Program Files\Common Files
+[DEBUG] env.COMPUTERNAME: MIHAIWIN11
+[DEBUG] env.COMSPEC: C:\WINDOWS\system32\cmd.exe
+[DEBUG] env.CONEMUANSI: ON
+[DEBUG] env.CONEMUANSILOG: 
+[DEBUG] env.CONEMUARGS: 
+[DEBUG] env.CONEMUARGS2: 
+[DEBUG] env.CONEMUBACKHWND: 0x0013065C
+[DEBUG] env.CONEMUBASEDIR: C:\Program Files\ConEmu\ConEmu
+[DEBUG] env.CONEMUBASEDIRSHORT: C:\PROGRA~1\ConEmu\ConEmu
+[DEBUG] env.CONEMUBUILD: 230724
+[DEBUG] env.CONEMUCFGDIR: C:\Users\mihai\AppData\Roaming
+[DEBUG] env.CONEMUCONFIG: 
+[DEBUG] env.CONEMUDIR: C:\Program Files\ConEmu
+[DEBUG] env.CONEMUDRAWHWND: 0x006F0864
+[DEBUG] env.CONEMUDRIVE: C:
+[DEBUG] env.CONEMUHOOKS: Enabled
+[DEBUG] env.CONEMUHWND: 0x003107EA
+[DEBUG] env.CONEMUPALETTE: <Default Windows scheme>
+[DEBUG] env.CONEMUPID: 21796
+[DEBUG] env.CONEMUSERVERPID: 10520
+[DEBUG] env.CONEMUTASK: {Far}
+[DEBUG] env.CONEMUWORKDIR: C:\Users\mihai
+[DEBUG] env.CONEMUWORKDRIVE: C:
+[DEBUG] env.DOTNET_CLI_TELEMETRY_OPTOUT: 1
+[DEBUG] env.DOTNET_TELEMETRY_OPTOUT: 1
+[DEBUG] env.DRIVERDATA: C:\Windows\System32\Drivers\DriverData
+[DEBUG] env.EFC_11368_1262719628: 1
+[DEBUG] env.EFC_11368_1592913036: 1
+[DEBUG] env.EFC_11368_2283032206: 1
+[DEBUG] env.EFC_11368_2775293581: 1
+[DEBUG] env.EFC_11368_3789132940: 1
+[DEBUG] env.ERROR_CODE: 0
+[DEBUG] env.EXEC_DIR: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.FARHOME: C:\Program Files\Far Manager
+[DEBUG] env.FARLANG: English
+[DEBUG] env.FARLOCALPROFILE: C:\Users\mihai\AppData\Local\Far Manager\Profile
+[DEBUG] env.FARPROFILE: C:\Users\mihai\AppData\Roaming\Far Manager\Profile
+[DEBUG] env.FPS_BROWSER_APP_PROFILE_STRING: Internet Explorer
+[DEBUG] env.FPS_BROWSER_USER_PROFILE_STRING: Default
+[DEBUG] env.GITBRANCH:  (mihai_errprone_check)
+[DEBUG] env.GIT_LFS_PATH: C:\Program Files\Git LFS
+[DEBUG] env.GRADLE_HOME: D:\Apps\JavaDev\gradle
+[DEBUG] env.HOMEDRIVE: C:
+[DEBUG] env.HOMEPATH: \Users\mihai
+[DEBUG] env.INTEL_DEV_REDIST: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\
+[DEBUG] env.JAVACMD: D:\Apps\JavaDev\jdk-21\bin\java.exe
+[DEBUG] env.JAVA_HOME: D:\Apps\JavaDev\jdk-21
+[DEBUG] env.JVMCONFIG: \.mvn\jvm.config
+[DEBUG] env.LOCALAPPDATA: C:\Users\mihai\AppData\Local
+[DEBUG] env.LOGONSERVER: \\MIHAIWIN11
+[DEBUG] env.M2_HOME: D:\Apps\JavaDev\maven
+[DEBUG] env.MAVEN_CMD_LINE_ARGS: clean package -X -ntp -DskipTests -DskipITs -P errorprone
+[DEBUG] env.MAVEN_HOME: D:\Apps\JavaDev\maven
+[DEBUG] env.MAVEN_OPTS: --enable-native-access=ALL-UNNAMED 
+[DEBUG] env.MAVEN_PROJECTBASEDIR: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.MIC_LD_LIBRARY_PATH: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\intel64_win_mic
+[DEBUG] env.NUMBER_OF_PROCESSORS: 24
+[DEBUG] env.ONEDRIVE: C:\Users\mihai\OneDrive
+[DEBUG] env.OS: Windows_NT
+[DEBUG] env.PATH: D:\Apps\JavaDev\jdk-21\bin;D:\Apps\JavaDev\maven\bin;D:\Apps\JavaDev\ant\bin;D:\Apps\JavaDev\gradle\bin;C:\Program Files\ConEmu;C:\Program Files\ConEmu\ConEmu;D:\!;C:\Perl64\site\bin;C:\Perl64\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git LFS;C:\Program Files\Calibre2\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Program Files (x86)\Bitvise SSH Client;C:\Program Files\PowerShell\7\;C:\Program Files\Neovim\bin;C:\Program Files\Git\cmd;C:\Program Files\PowerToys\DSCModules\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\mihai\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\mihai\AppData\Local\Programs\Python\Python313\;C:\Users\mihai\scoop\apps\jbang\current\bin;C:\Users\mihai\scoop\apps\gsudo\current;C:\Users\mihai\AppData\Local\Programs\Python\Launcher\;C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey\bin;C:\Users\mihai\AppData\Local\Programs\WingetUI\choco-cli\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Users\mihai\.cargo\bin;C:\Users\mihai\scoop\shims;D:\Apps\JavaDev\jdk\bin;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mihai\.dotnet\tools;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Roaming\Amazon;D:\Apps\JavaDev\mvnd\bin
+[DEBUG] env.PATHEXT: .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[DEBUG] env.PLPATH: D:\!\AWKPROG
+[DEBUG] env.POWERSHELL_CLI_TELEMETRY_OPTOUT: 1
+[DEBUG] env.POWERSHELL_DISTRIBUTION_CHANNEL: MSI:Windows 10 Pro
+[DEBUG] env.POWERSHELL_TELEMETRY_OPTOUT: 1
+[DEBUG] env.PROCESSOR_ARCHITECTURE: AMD64
+[DEBUG] env.PROCESSOR_IDENTIFIER: Intel64 Family 6 Model 151 Stepping 2, GenuineIntel
+[DEBUG] env.PROCESSOR_LEVEL: 6
+[DEBUG] env.PROCESSOR_REVISION: 9702
+[DEBUG] env.PROGRAMDATA: C:\ProgramData
+[DEBUG] env.PROGRAMFILES: C:\Program Files
+[DEBUG] env.PROGRAMFILES(X86): C:\Program Files (x86)
+[DEBUG] env.PROGRAMW6432: C:\Program Files
+[DEBUG] env.PROMPT: $P$G
+[DEBUG] env.PSMODULEPATH: C:\Users\mihai\scoop\modules;C:\Users\mihai\Documents\WindowsPowerShell\Modules
+[DEBUG] env.PUBLIC: C:\Users\Public
+[DEBUG] env.SESSIONNAME: Console
+[DEBUG] env.SYSTEMDRIVE: C:
+[DEBUG] env.SYSTEMROOT: C:\WINDOWS
+[DEBUG] env.TEALDEER_CONFIG_DIR: C:\Users\mihai\scoop\apps\tealdeer\current
+[DEBUG] env.TEMP: C:\Users\mihai\AppData\Local\Temp
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TMP: C:\Users\mihai\AppData\Local\Temp
+[DEBUG] env.USERDOMAIN: MIHAIWIN11
+[DEBUG] env.USERDOMAIN_ROAMINGPROFILE: MIHAIWIN11
+[DEBUG] env.USERNAME: mihai
+[DEBUG] env.USERPROFILE: C:\Users\mihai
+[DEBUG] env.WDIR: F:\
+[DEBUG] env.WINDIR: C:\WINDOWS
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: \
+[DEBUG] formatter.google-java-style.version: 1.32.0
+[DEBUG] formatter.plugin.spotless.version: 3.0.0
+[DEBUG] gson.version: 2.11.0
+[DEBUG] icu.major.version: 79
+[DEBUG] icu4j.api.doc.copyright.footer: <font size=-1>Copyright © 2016 Unicode, Inc. and others.</font>
+[DEBUG] icu4j.api.doc.header: ICU4J 79
+[DEBUG] icu4j.api.doc.root.dir: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework/../..
+[DEBUG] icu4j.api.doc.window.title: ICU4J 79
+[DEBUG] icu4j.api.report.version: 79
+[DEBUG] java.class.path: D:\Apps\JavaDev\maven\boot\plexus-classworlds-2.9.0.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: D:\Apps\JavaDev\jdk-21
+[DEBUG] java.io.tmpdir: C:\Users\mihai\AppData\Local\Temp\
+[DEBUG] java.library.path: D:\Apps\JavaDev\jdk-21\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\Apps\JavaDev\jdk-21\bin;D:\Apps\JavaDev\maven\bin;D:\Apps\JavaDev\ant\bin;D:\Apps\JavaDev\gradle\bin;C:\Program Files\ConEmu;C:\Program Files\ConEmu\ConEmu;D:\!;C:\Perl64\site\bin;C:\Perl64\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git LFS;C:\Program Files\Calibre2\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Program Files (x86)\Bitvise SSH Client;C:\Program Files\PowerShell\7\;C:\Program Files\Neovim\bin;C:\Program Files\Git\cmd;C:\Program Files\PowerToys\DSCModules\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\mihai\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\mihai\AppData\Local\Programs\Python\Python313\;C:\Users\mihai\scoop\apps\jbang\current\bin;C:\Users\mihai\scoop\apps\gsudo\current;C:\Users\mihai\AppData\Local\Programs\Python\Launcher\;C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey\bin;C:\Users\mihai\AppData\Local\Programs\WingetUI\choco-cli\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Users\mihai\.cargo\bin;C:\Users\mihai\scoop\shims;D:\Apps\JavaDev\jdk\bin;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mihai\.dotnet\tools;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Roaming\Amazon;D:\Apps\JavaDev\mvnd\bin;.
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.9+10-LTS
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Eclipse Adoptium
+[DEBUG] java.vendor.url: https://adoptium.net/
+[DEBUG] java.vendor.url.bug: https://github.com/adoptium/adoptium-support/issues
+[DEBUG] java.vendor.version: Temurin-21.0.9+10
+[DEBUG] java.version: 21.0.9
+[DEBUG] java.version.date: 2025-10-21
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Eclipse Adoptium
+[DEBUG] java.vm.version: 21.0.9+10-LTS
+[DEBUG] jdk.debug: release
+[DEBUG] jmh.version: 1.37
+[DEBUG] junit.version: 4.13.2
+[DEBUG] junitparams.version: 1.1.1
+[DEBUG] library.jansi.path: D:\Apps\JavaDev\maven\lib\jansi-native
+[DEBUG] line.separator: 
+
+[DEBUG] maven-central-releases-repo-url: https://central.sonatype.com
+[DEBUG] maven-central-repo-url: https://central.sonatype.com
+[DEBUG] maven-central-snapshots-repo-url: https://central.sonatype.com/repository/maven-snapshots/
+[DEBUG] maven-pmd-plugin.version: 3.27.0
+[DEBUG] maven.build.timestamp: 2025-12-10T21:19:09Z
+[DEBUG] maven.build.version: Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+[DEBUG] maven.compiler.release: 11
+[DEBUG] maven.conf: D:\Apps\JavaDev\maven/conf
+[DEBUG] maven.home: D:\Apps\JavaDev\maven
+[DEBUG] maven.multiModuleProjectDirectory: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] maven.version: 3.9.11
+[DEBUG] mf.Automatic-Module-Name: com.ibm.icu.framework
+[DEBUG] mf.Bundle-Copyright: © 2016 and later: Unicode, Inc. and others. License & terms of use: http://www.unicode.org/copyright.html
+[DEBUG] mf.Bundle-Description: International Components for Unicode for Java (framework)
+[DEBUG] mf.Bundle-ManifestVersion: 2
+[DEBUG] mf.Bundle-Name: ICU4J framework
+[DEBUG] mf.Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+[DEBUG] mf.Bundle-SymbolicName: com.ibm.icu.framework
+[DEBUG] mf.Bundle-Vendor: Unicode, Inc.
+[DEBUG] mf.Bundle-Version: 79.0.1-SNAPSHOT
+[DEBUG] mf.Implementation-Title: International Components for Unicode for Java (framework)
+[DEBUG] mf.Implementation-Vendor: Unicode, Inc.
+[DEBUG] mf.Implementation-Vendor-Id: org.unicode
+[DEBUG] mf.Implementation-Version: 79.0.1-SNAPSHOT
+[DEBUG] mf.Manifest-Version: 1.0
+[DEBUG] mf.Specification-Title: International Components for Unicode for Java (framework)
+[DEBUG] mf.Specification-Vendor: Unicode, Inc.
+[DEBUG] mf.Specification-Version: 79
+[DEBUG] module-name: framework
+[DEBUG] native.encoding: Cp1252
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Windows 11
+[DEBUG] os.version: 10.0
+[DEBUG] path.separator: ;
+[DEBUG] plexus-io.version: 3.5.1
+[DEBUG] proj-title: International Components for Unicode for Java
+[DEBUG] proj.displayname: framework
+[DEBUG] proj.scm.connection: scm:git:git://github.com/unicode-org/icu.git
+[DEBUG] proj.scm.developerConnection: scm:git:git@github.com:unicode-org/icu.git
+[DEBUG] proj.scm.url: https://github.com/unicode-org/icu
+[DEBUG] proj.url: https://icu.unicode.org/
+[DEBUG] project.baseUri: file:/F:/git/icu_work/icu.mihnita.bld/icu4j/main/framework/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] project.reporting.outputEncoding: UTF-8
+[DEBUG] release.directory: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target/release_directory
+[DEBUG] rootlocation: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] skipITs: true
+[DEBUG] skipTests: true
+[DEBUG] stderr.encoding: Cp1252
+[DEBUG] stdout.encoding: Cp1252
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: D:\Apps\JavaDev\jdk-21\bin
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.cpu.isalist: amd64
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher clean package -X -ntp -DskipTests -DskipITs -P errorprone
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: Cp1252
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] sun.os.patch.level: 
+[DEBUG] user.country: US
+[DEBUG] user.dir: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] user.home: C:\Users\mihai
+[DEBUG] user.language: en
+[DEBUG] user.name: mihai
+[DEBUG] user.script: 
+[DEBUG] user.variant: 
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\main\resources
+excludes []
+includes []
+[INFO] skip non existing resourceDirectory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\main\resources
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ framework ---
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for apache.snapshots (http://repository.apache.org/snapshots).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=133900, ConflictMarker.markTime=33600, ConflictMarker.nodeCount=22, ConflictIdSorter.graphTime=15300, ConflictIdSorter.topsortTime=9900, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=746600, ConflictResolver.conflictItemCount=22, DfDependencyCollector.collectTime=39416500, DfDependencyCollector.transformTime=954200}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.14.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.4.0:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.7.1:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.2.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.1:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.14.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.4.0
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.7.1
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.2.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile:default-compile' with basic configurator -->
+[DEBUG]   (s) groupId = com.google.errorprone
+[DEBUG]   (s) artifactId = error_prone_core
+[DEBUG]   (s) version = 2.25.0
+[DEBUG]   (f) annotationProcessorPaths = [com.google.errorprone:error_prone_core:2.25.0.jar]
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework
+[DEBUG]   (f) buildDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target
+[DEBUG]   (f) compilePath = [F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes]
+[DEBUG]   (f) compileSourceRoots = [F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\main\java]
+[DEBUG]   (f) compilerArgs = [-XDcompilePolicy=simple, -Xplugin:ErrorProne -Xep:UnicodeEscape:OFF -Xep:InvalidBlockTag:OFF ^
+                     -Xep:ComparableType:WARN -Xep:EqualsHashCode:WARN -Xep:SelfEquals:WARN ^
+                     -Xep:ReturnValueIgnored:WARN -Xep:ArrayToString:WARN -Xep:MisusedDayOfYear:WARN ^
+                     -Xep:SelfComparison:WARN -Xep:MisusedWeekYear:WARN -Xep:IdentityBinaryExpression:WARN, -Xmaxerrs, 10000, -Xmaxwarns, 10000, -J-Dfile.encoding=UTF-8, -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED, -J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED, -J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-sources\annotations
+[DEBUG]   (f) moduleVersion = 79.0.1-SNAPSHOT
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (f) projectArtifact = com.ibm.icu:framework:jar:79.0.1-SNAPSHOT
+[DEBUG]   (s) release = 11
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.8
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 1.8
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ framework ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources:default-testResources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] api.doc.version: 79
+[DEBUG] classworlds.conf: D:\Apps\JavaDev\maven\bin\m2.conf
+[DEBUG] commons-cli.version: 1.9.0
+[DEBUG] env.=::: ::\
+[DEBUG] env.=C:: C:\Users\mihai\.m2
+[DEBUG] env.=D:: D:\Apps\e.cfg\2025-12\old
+[DEBUG] env.=EXITCODE: 00000000
+[DEBUG] env.=F:: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.ALLUSERSPROFILE: C:\ProgramData
+[DEBUG] env.ANSICON: 226x32766 (226x41)
+[DEBUG] env.ANSICON_DEF: 7
+[DEBUG] env.ANT_ARGS: -logger org.apache.tools.ant.listener.AnsiColorLogger
+[DEBUG] env.ANT_HOME: D:\Apps\JavaDev\ant
+[DEBUG] env.APPDATA: C:\Users\mihai\AppData\Roaming
+[DEBUG] env.BAT_CONFIG_DIR: C:\Users\mihai\scoop\apps\bat\current
+[DEBUG] env.CHOCOLATEYINSTALL: C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey
+[DEBUG] env.CLASSWORLDS_JAR: "D:\Apps\JavaDev\maven\boot\plexus-classworlds-2.9.0.jar"
+[DEBUG] env.CLASSWORLDS_LAUNCHER: org.codehaus.plexus.classworlds.launcher.Launcher
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMMONPROGRAMFILES: C:\Program Files\Common Files
+[DEBUG] env.COMMONPROGRAMFILES(X86): C:\Program Files (x86)\Common Files
+[DEBUG] env.COMMONPROGRAMW6432: C:\Program Files\Common Files
+[DEBUG] env.COMPUTERNAME: MIHAIWIN11
+[DEBUG] env.COMSPEC: C:\WINDOWS\system32\cmd.exe
+[DEBUG] env.CONEMUANSI: ON
+[DEBUG] env.CONEMUANSILOG: 
+[DEBUG] env.CONEMUARGS: 
+[DEBUG] env.CONEMUARGS2: 
+[DEBUG] env.CONEMUBACKHWND: 0x0013065C
+[DEBUG] env.CONEMUBASEDIR: C:\Program Files\ConEmu\ConEmu
+[DEBUG] env.CONEMUBASEDIRSHORT: C:\PROGRA~1\ConEmu\ConEmu
+[DEBUG] env.CONEMUBUILD: 230724
+[DEBUG] env.CONEMUCFGDIR: C:\Users\mihai\AppData\Roaming
+[DEBUG] env.CONEMUCONFIG: 
+[DEBUG] env.CONEMUDIR: C:\Program Files\ConEmu
+[DEBUG] env.CONEMUDRAWHWND: 0x006F0864
+[DEBUG] env.CONEMUDRIVE: C:
+[DEBUG] env.CONEMUHOOKS: Enabled
+[DEBUG] env.CONEMUHWND: 0x003107EA
+[DEBUG] env.CONEMUPALETTE: <Default Windows scheme>
+[DEBUG] env.CONEMUPID: 21796
+[DEBUG] env.CONEMUSERVERPID: 10520
+[DEBUG] env.CONEMUTASK: {Far}
+[DEBUG] env.CONEMUWORKDIR: C:\Users\mihai
+[DEBUG] env.CONEMUWORKDRIVE: C:
+[DEBUG] env.DOTNET_CLI_TELEMETRY_OPTOUT: 1
+[DEBUG] env.DOTNET_TELEMETRY_OPTOUT: 1
+[DEBUG] env.DRIVERDATA: C:\Windows\System32\Drivers\DriverData
+[DEBUG] env.EFC_11368_1262719628: 1
+[DEBUG] env.EFC_11368_1592913036: 1
+[DEBUG] env.EFC_11368_2283032206: 1
+[DEBUG] env.EFC_11368_2775293581: 1
+[DEBUG] env.EFC_11368_3789132940: 1
+[DEBUG] env.ERROR_CODE: 0
+[DEBUG] env.EXEC_DIR: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.FARHOME: C:\Program Files\Far Manager
+[DEBUG] env.FARLANG: English
+[DEBUG] env.FARLOCALPROFILE: C:\Users\mihai\AppData\Local\Far Manager\Profile
+[DEBUG] env.FARPROFILE: C:\Users\mihai\AppData\Roaming\Far Manager\Profile
+[DEBUG] env.FPS_BROWSER_APP_PROFILE_STRING: Internet Explorer
+[DEBUG] env.FPS_BROWSER_USER_PROFILE_STRING: Default
+[DEBUG] env.GITBRANCH:  (mihai_errprone_check)
+[DEBUG] env.GIT_LFS_PATH: C:\Program Files\Git LFS
+[DEBUG] env.GRADLE_HOME: D:\Apps\JavaDev\gradle
+[DEBUG] env.HOMEDRIVE: C:
+[DEBUG] env.HOMEPATH: \Users\mihai
+[DEBUG] env.INTEL_DEV_REDIST: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\
+[DEBUG] env.JAVACMD: D:\Apps\JavaDev\jdk-21\bin\java.exe
+[DEBUG] env.JAVA_HOME: D:\Apps\JavaDev\jdk-21
+[DEBUG] env.JVMCONFIG: \.mvn\jvm.config
+[DEBUG] env.LOCALAPPDATA: C:\Users\mihai\AppData\Local
+[DEBUG] env.LOGONSERVER: \\MIHAIWIN11
+[DEBUG] env.M2_HOME: D:\Apps\JavaDev\maven
+[DEBUG] env.MAVEN_CMD_LINE_ARGS: clean package -X -ntp -DskipTests -DskipITs -P errorprone
+[DEBUG] env.MAVEN_HOME: D:\Apps\JavaDev\maven
+[DEBUG] env.MAVEN_OPTS: --enable-native-access=ALL-UNNAMED 
+[DEBUG] env.MAVEN_PROJECTBASEDIR: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] env.MIC_LD_LIBRARY_PATH: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\intel64_win_mic
+[DEBUG] env.NUMBER_OF_PROCESSORS: 24
+[DEBUG] env.ONEDRIVE: C:\Users\mihai\OneDrive
+[DEBUG] env.OS: Windows_NT
+[DEBUG] env.PATH: D:\Apps\JavaDev\jdk-21\bin;D:\Apps\JavaDev\maven\bin;D:\Apps\JavaDev\ant\bin;D:\Apps\JavaDev\gradle\bin;C:\Program Files\ConEmu;C:\Program Files\ConEmu\ConEmu;D:\!;C:\Perl64\site\bin;C:\Perl64\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git LFS;C:\Program Files\Calibre2\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Program Files (x86)\Bitvise SSH Client;C:\Program Files\PowerShell\7\;C:\Program Files\Neovim\bin;C:\Program Files\Git\cmd;C:\Program Files\PowerToys\DSCModules\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\mihai\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\mihai\AppData\Local\Programs\Python\Python313\;C:\Users\mihai\scoop\apps\jbang\current\bin;C:\Users\mihai\scoop\apps\gsudo\current;C:\Users\mihai\AppData\Local\Programs\Python\Launcher\;C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey\bin;C:\Users\mihai\AppData\Local\Programs\WingetUI\choco-cli\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Users\mihai\.cargo\bin;C:\Users\mihai\scoop\shims;D:\Apps\JavaDev\jdk\bin;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mihai\.dotnet\tools;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Roaming\Amazon;D:\Apps\JavaDev\mvnd\bin
+[DEBUG] env.PATHEXT: .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+[DEBUG] env.PLPATH: D:\!\AWKPROG
+[DEBUG] env.POWERSHELL_CLI_TELEMETRY_OPTOUT: 1
+[DEBUG] env.POWERSHELL_DISTRIBUTION_CHANNEL: MSI:Windows 10 Pro
+[DEBUG] env.POWERSHELL_TELEMETRY_OPTOUT: 1
+[DEBUG] env.PROCESSOR_ARCHITECTURE: AMD64
+[DEBUG] env.PROCESSOR_IDENTIFIER: Intel64 Family 6 Model 151 Stepping 2, GenuineIntel
+[DEBUG] env.PROCESSOR_LEVEL: 6
+[DEBUG] env.PROCESSOR_REVISION: 9702
+[DEBUG] env.PROGRAMDATA: C:\ProgramData
+[DEBUG] env.PROGRAMFILES: C:\Program Files
+[DEBUG] env.PROGRAMFILES(X86): C:\Program Files (x86)
+[DEBUG] env.PROGRAMW6432: C:\Program Files
+[DEBUG] env.PROMPT: $P$G
+[DEBUG] env.PSMODULEPATH: C:\Users\mihai\scoop\modules;C:\Users\mihai\Documents\WindowsPowerShell\Modules
+[DEBUG] env.PUBLIC: C:\Users\Public
+[DEBUG] env.SESSIONNAME: Console
+[DEBUG] env.SYSTEMDRIVE: C:
+[DEBUG] env.SYSTEMROOT: C:\WINDOWS
+[DEBUG] env.TEALDEER_CONFIG_DIR: C:\Users\mihai\scoop\apps\tealdeer\current
+[DEBUG] env.TEMP: C:\Users\mihai\AppData\Local\Temp
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TMP: C:\Users\mihai\AppData\Local\Temp
+[DEBUG] env.USERDOMAIN: MIHAIWIN11
+[DEBUG] env.USERDOMAIN_ROAMINGPROFILE: MIHAIWIN11
+[DEBUG] env.USERNAME: mihai
+[DEBUG] env.USERPROFILE: C:\Users\mihai
+[DEBUG] env.WDIR: F:\
+[DEBUG] env.WINDIR: C:\WINDOWS
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: \
+[DEBUG] formatter.google-java-style.version: 1.32.0
+[DEBUG] formatter.plugin.spotless.version: 3.0.0
+[DEBUG] gson.version: 2.11.0
+[DEBUG] icu.major.version: 79
+[DEBUG] icu4j.api.doc.copyright.footer: <font size=-1>Copyright © 2016 Unicode, Inc. and others.</font>
+[DEBUG] icu4j.api.doc.header: ICU4J 79
+[DEBUG] icu4j.api.doc.root.dir: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework/../..
+[DEBUG] icu4j.api.doc.window.title: ICU4J 79
+[DEBUG] icu4j.api.report.version: 79
+[DEBUG] java.class.path: D:\Apps\JavaDev\maven\boot\plexus-classworlds-2.9.0.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: D:\Apps\JavaDev\jdk-21
+[DEBUG] java.io.tmpdir: C:\Users\mihai\AppData\Local\Temp\
+[DEBUG] java.library.path: D:\Apps\JavaDev\jdk-21\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\Apps\JavaDev\jdk-21\bin;D:\Apps\JavaDev\maven\bin;D:\Apps\JavaDev\ant\bin;D:\Apps\JavaDev\gradle\bin;C:\Program Files\ConEmu;C:\Program Files\ConEmu\ConEmu;D:\!;C:\Perl64\site\bin;C:\Perl64\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git LFS;C:\Program Files\Calibre2\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Program Files (x86)\Bitvise SSH Client;C:\Program Files\PowerShell\7\;C:\Program Files\Neovim\bin;C:\Program Files\Git\cmd;C:\Program Files\PowerToys\DSCModules\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\mihai\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\mihai\AppData\Local\Programs\Python\Python313\;C:\Users\mihai\scoop\apps\jbang\current\bin;C:\Users\mihai\scoop\apps\gsudo\current;C:\Users\mihai\AppData\Local\Programs\Python\Launcher\;C:\Users\mihai\AppData\Local\UniGetUI\Chocolatey\bin;C:\Users\mihai\AppData\Local\Programs\WingetUI\choco-cli\bin;C:\Python310\Scripts\;C:\Python310\;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Users\mihai\.cargo\bin;C:\Users\mihai\scoop\shims;D:\Apps\JavaDev\jdk\bin;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mihai\.dotnet\tools;C:\Users\mihai\AppData\Local\Microsoft\WindowsApps;C:\Users\mihai\AppData\Roaming\Amazon;D:\Apps\JavaDev\mvnd\bin;.
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.9+10-LTS
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Eclipse Adoptium
+[DEBUG] java.vendor.url: https://adoptium.net/
+[DEBUG] java.vendor.url.bug: https://github.com/adoptium/adoptium-support/issues
+[DEBUG] java.vendor.version: Temurin-21.0.9+10
+[DEBUG] java.version: 21.0.9
+[DEBUG] java.version.date: 2025-10-21
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Eclipse Adoptium
+[DEBUG] java.vm.version: 21.0.9+10-LTS
+[DEBUG] jdk.debug: release
+[DEBUG] jmh.version: 1.37
+[DEBUG] junit.version: 4.13.2
+[DEBUG] junitparams.version: 1.1.1
+[DEBUG] library.jansi.path: D:\Apps\JavaDev\maven\lib\jansi-native
+[DEBUG] line.separator: 
+
+[DEBUG] maven-central-releases-repo-url: https://central.sonatype.com
+[DEBUG] maven-central-repo-url: https://central.sonatype.com
+[DEBUG] maven-central-snapshots-repo-url: https://central.sonatype.com/repository/maven-snapshots/
+[DEBUG] maven-pmd-plugin.version: 3.27.0
+[DEBUG] maven.build.timestamp: 2025-12-10T21:19:09Z
+[DEBUG] maven.build.version: Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+[DEBUG] maven.compiler.release: 11
+[DEBUG] maven.conf: D:\Apps\JavaDev\maven/conf
+[DEBUG] maven.home: D:\Apps\JavaDev\maven
+[DEBUG] maven.multiModuleProjectDirectory: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] maven.version: 3.9.11
+[DEBUG] mf.Automatic-Module-Name: com.ibm.icu.framework
+[DEBUG] mf.Bundle-Copyright: © 2016 and later: Unicode, Inc. and others. License & terms of use: http://www.unicode.org/copyright.html
+[DEBUG] mf.Bundle-Description: International Components for Unicode for Java (framework)
+[DEBUG] mf.Bundle-ManifestVersion: 2
+[DEBUG] mf.Bundle-Name: ICU4J framework
+[DEBUG] mf.Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+[DEBUG] mf.Bundle-SymbolicName: com.ibm.icu.framework
+[DEBUG] mf.Bundle-Vendor: Unicode, Inc.
+[DEBUG] mf.Bundle-Version: 79.0.1-SNAPSHOT
+[DEBUG] mf.Implementation-Title: International Components for Unicode for Java (framework)
+[DEBUG] mf.Implementation-Vendor: Unicode, Inc.
+[DEBUG] mf.Implementation-Vendor-Id: org.unicode
+[DEBUG] mf.Implementation-Version: 79.0.1-SNAPSHOT
+[DEBUG] mf.Manifest-Version: 1.0
+[DEBUG] mf.Specification-Title: International Components for Unicode for Java (framework)
+[DEBUG] mf.Specification-Vendor: Unicode, Inc.
+[DEBUG] mf.Specification-Version: 79
+[DEBUG] module-name: framework
+[DEBUG] native.encoding: Cp1252
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Windows 11
+[DEBUG] os.version: 10.0
+[DEBUG] path.separator: ;
+[DEBUG] plexus-io.version: 3.5.1
+[DEBUG] proj-title: International Components for Unicode for Java
+[DEBUG] proj.displayname: framework
+[DEBUG] proj.scm.connection: scm:git:git://github.com/unicode-org/icu.git
+[DEBUG] proj.scm.developerConnection: scm:git:git@github.com:unicode-org/icu.git
+[DEBUG] proj.scm.url: https://github.com/unicode-org/icu
+[DEBUG] proj.url: https://icu.unicode.org/
+[DEBUG] project.baseUri: file:/F:/git/icu_work/icu.mihnita.bld/icu4j/main/framework/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] project.reporting.outputEncoding: UTF-8
+[DEBUG] release.directory: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target/release_directory
+[DEBUG] rootlocation: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] skipITs: true
+[DEBUG] skipTests: true
+[DEBUG] stderr.encoding: Cp1252
+[DEBUG] stdout.encoding: Cp1252
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: D:\Apps\JavaDev\jdk-21\bin
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.cpu.isalist: amd64
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher clean package -X -ntp -DskipTests -DskipITs -P errorprone
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: Cp1252
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] sun.os.patch.level: 
+[DEBUG] user.country: US
+[DEBUG] user.dir: F:\git\icu_work\icu.mihnita.bld\icu4j
+[DEBUG] user.home: C:\Users\mihai
+[DEBUG] user.language: en
+[DEBUG] user.name: mihai
+[DEBUG] user.script: 
+[DEBUG] user.variant: 
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 2 resources from src\test\resources to target\test-classes
+[DEBUG] Copying file com\ibm\icu\dev\test\manifest.test.stub
+[DEBUG] file manifest.test.stub has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'manifest.test.stub'.
+[DEBUG] copy F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\resources\com\ibm\icu\dev\test\manifest.test.stub to F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev\test\manifest.test.stub
+[DEBUG] Copying file com\ibm\icu\dev\test\package.html
+[DEBUG] file package.html has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'package.html'.
+[DEBUG] copy F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\resources\com\ibm\icu\dev\test\package.html to F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes\com\ibm\icu\dev\test\package.html
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ framework ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.14.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile:default-testCompile' with basic configurator -->
+[DEBUG]   (s) groupId = com.google.errorprone
+[DEBUG]   (s) artifactId = error_prone_core
+[DEBUG]   (s) version = 2.25.0
+[DEBUG]   (f) annotationProcessorPaths = [com.google.errorprone:error_prone_core:2.25.0.jar]
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework
+[DEBUG]   (f) buildDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target
+[DEBUG]   (f) compileSourceRoots = [F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java]
+[DEBUG]   (f) compilerArgs = [-XDcompilePolicy=simple, -Xplugin:ErrorProne -Xep:UnicodeEscape:OFF -Xep:InvalidBlockTag:OFF ^
+                     -Xep:ComparableType:WARN -Xep:EqualsHashCode:WARN -Xep:SelfEquals:WARN ^
+                     -Xep:ReturnValueIgnored:WARN -Xep:ArrayToString:WARN -Xep:MisusedDayOfYear:WARN ^
+                     -Xep:SelfComparison:WARN -Xep:MisusedWeekYear:WARN -Xep:IdentityBinaryExpression:WARN, -Xmaxerrs, 10000, -Xmaxwarns, 10000, -J-Dfile.encoding=UTF-8, -J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED, -J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED, -J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED, -J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac-test
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedTestSourcesDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile {execution: default-testCompile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.ibm.icu:framework:79.0.1-SNAPSHOT @ F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\pom.xml
+[DEBUG]   (s) release = 11
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@316a598d
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.8
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 1.8
+[DEBUG]   (f) testPath = [F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes, F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes, C:\Users\mihai\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar, C:\Users\mihai\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar]
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) useModulePath = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations to test-compile source roots:
+  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java
+[DEBUG] New test-compile source roots:
+  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java
+  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=110000, ConflictMarker.markTime=65600, ConflictMarker.nodeCount=49, ConflictIdSorter.graphTime=27700, ConflictIdSorter.topsortTime=10800, ConflictIdSorter.conflictIdCount=23, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=590900, ConflictResolver.conflictItemCount=36, DfDependencyCollector.collectTime=62608200, DfDependencyCollector.transformTime=820400}
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestUtil.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestFmwk.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestLog.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\UnicodeKnownIssues.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\UTF16Util.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\AbstractTestLog.java
+[INFO] 	Stale source detected: F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\util\Timer.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\AbstractTestLog.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestFmwk.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestLog.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\TestUtil.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\UnicodeKnownIssues.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\test\UTF16Util.java
+[INFO] 	Input tree files (+): F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java\com\ibm\icu\dev\util\Timer.java
+[INFO] Recompiling the module because of changed source code.
+[DEBUG] Classpath:
+[DEBUG]  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes
+[DEBUG]  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes
+[DEBUG]  C:\Users\mihai\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar
+[DEBUG]  C:\Users\mihai\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar
+[DEBUG] Source roots:
+[DEBUG]  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java
+[DEBUG]  F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations
+[DEBUG] Command line options:
+[DEBUG] -d F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes -classpath F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\test-classes;F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\classes;C:\Users\mihai\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\mihai\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar; -sourcepath F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\src\test\java;F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations; -s F:\git\icu_work\icu.mihnita.bld\icu4j\main\framework\target\generated-test-sources\test-annotations -processorpath C:\Users\mihai\.m2\repository\com\google\errorprone\error_prone_core\2.25.0\error_prone_core-2.25.0.jar;C:\Users\mihai\.m2\repository\com\google\errorprone\error_prone_annotation\2.25.0\error_prone_annotation-2.25.0.jar;C:\Users\mihai\.m2\repository\com\google\errorprone\error_prone_type_annotations\2.25.0\error_prone_type_annotations-2.25.0.jar;C:\Users\mihai\.m2\repository\com\google\errorprone\error_prone_check_api\2.25.0\error_prone_check_api-2.25.0.jar;C:\Users\mihai\.m2\repository\io\github\java-diff-utils\java-diff-utils\4.12\java-diff-utils-4.12.jar;C:\Users\mihai\.m2\repository\com\github\kevinstern\software-and-algorithms\1.0\software-and-algorithms-1.0.jar;C:\Users\mihai\.m2\repository\com\github\ben-manes\caffeine\caffeine\3.0.5\caffeine-3.0.5.jar;C:\Users\mihai\.m2\repository\com\google\inject\guice\5.1.0\guice-5.1.0.jar;C:\Users\mihai\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\mihai\.m2\repository\org\pcollections\pcollections\4.0.1\pcollections-4.0.1.jar;C:\Users\mihai\.m2\repository\com\google\guava\guava\32.1.1-jre\guava-32.1.1-jre.jar;C:\Users\mihai\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar;C:\Users\mihai\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\mihai\.m2\repository\org\checkerframework\checker-qual\3.33.0\checker-qual-3.33.0.jar;C:\Users\mihai\.m2\repository\com\google\j2objc\j2objc-annotations\2.8\j2objc-annotations-2.8.jar;C:\Users\mihai\.m2\repository\com\google\auto\auto-common\1.2.2\auto-common-1.2.2.jar;C:\Users\mihai\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\mihai\.m2\repository\io\github\eisop\dataflow-errorprone\3.41.0-eisop1\dataflow-errorprone-3.41.0-eisop1.jar;C:\Users\mihai\.m2\repository\com\google\auto\value\auto-value-annotations\1.9\auto-value-annotations-1.9.jar;C:\Users\mihai\.m2\repository\com\google\errorprone\error_prone_annotations\2.25.0\error_prone_annotations-2.25.0.jar;C:\Users\mihai\.m2\repository\com\google\protobuf\protobuf-java\3.19.6\protobuf-java-3.19.6.jar;C:\Users\mihai\.m2\repository\com\google\auto\service\auto-service-annotations\1.0.1\auto-service-annotations-1.0.1.jar;C:\Users\mihai\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar; -g --release 11 -encoding UTF-8 -XDcompilePolicy=simple -Xplugin:ErrorProne -Xep:UnicodeEscape:OFF -Xep:InvalidBlockTag:OFF ^
+                     -Xep:ComparableType:WARN -Xep:EqualsHashCode:WARN -Xep:SelfEquals:WARN ^
+                     -Xep:ReturnValueIgnored:WARN -Xep:ArrayToString:WARN -Xep:MisusedDayOfYear:WARN ^
+                     -Xep:SelfComparison:WARN -Xep:MisusedWeekYear:WARN -Xep:IdentityBinaryExpression:WARN -Xmaxerrs 10000 -Xmaxwarns 10000 -XDuseUnsharedTable=true
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 7 source files with javac [debug release 11] to target\test-classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] An unknown compilation problem occurred
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for International Components for Unicode for Java (icu4j-root) 79.0.1-SNAPSHOT:
+[INFO] 
+[INFO] International Components for Unicode for Java (icu4j-root) SUCCESS [  0.342 s]
+[INFO] framework .......................................... FAILURE [  0.725 s]
+[INFO] tools_taglets ...................................... SKIPPED
+[INFO] core ............................................... SKIPPED
+[INFO] langdata ........................................... SKIPPED
+[INFO] regiondata ......................................... SKIPPED
+[INFO] currdata ........................................... SKIPPED
+[INFO] collate ............................................ SKIPPED
+[INFO] translit ........................................... SKIPPED
+[INFO] ICU4J .............................................. SKIPPED
+[INFO] ICU4J Charset Provider ............................. SKIPPED
+[INFO] common_tests ....................................... SKIPPED
+[INFO] demos .............................................. SKIPPED
+[INFO] samples ............................................ SKIPPED
+[INFO] tools_build ........................................ SKIPPED
+[INFO] tools_misc ......................................... SKIPPED
+[INFO] tools_pmd .......................................... SKIPPED
+[INFO] perf-tests ......................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.229 s
+[INFO] Finished at: 2025-12-10T13:19:09-08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile (default-testCompile) on project framework: Compilation failure
+[ERROR] An unknown compilation problem occurred
+[ERROR] 
+[ERROR] -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile (default-testCompile) on project framework: Compilation failure
+An unknown compilation problem occurred
+
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:333)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:906)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:283)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:206)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.apache.maven.plugin.compiler.CompilationFailureException: Compilation failure
+An unknown compilation problem occurred
+
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1309)
+    at org.apache.maven.plugin.compiler.TestCompilerMojo.execute (TestCompilerMojo.java:208)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:906)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:283)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:206)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :framework
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory
