@@ -18,11 +18,10 @@ import java.io.InputStream;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.*;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
+import java.util.regex.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,7 +38,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -70,6 +68,7 @@ To use the utility
 
 /**
  * CLI tool to report the status change between two ICU releases
+ *
  * @author Raymond Yang
  */
 public class StableAPI {
@@ -83,9 +82,11 @@ public class StableAPI {
     private static final String UVERSIONB = "uversion_8h.xml";
     private static final String U_ICU_VERSION = "U_ICU_VERSION";
     /* ICU 4.4+ */
-    private static final String ICU_VERSION_XPATHA = "/doxygen/compounddef[@id='uvernum_8h'][@kind='file']/sectiondef[@kind='define']";
+    private static final String ICU_VERSION_XPATHA =
+            "/doxygen/compounddef[@id='uvernum_8h'][@kind='file']/sectiondef[@kind='define']";
     /* ICU <4.4 */
-    private static final String ICU_VERSION_XPATHB = "/doxygen/compounddef[@id='uversion_8h'][@kind='file']/sectiondef[@kind='define']";
+    private static final String ICU_VERSION_XPATHB =
+            "/doxygen/compounddef[@id='uversion_8h'][@kind='file']/sectiondef[@kind='define']";
     private static String ICU_VERSION_XPATH = ICU_VERSION_XPATHA;
 
     private String leftVer;
@@ -131,17 +132,25 @@ public class StableAPI {
         return output;
     }
 
-    final private static String notFound = "(missing)";
+    private static final String notFound = "(missing)";
 
-    public static void main(String[] args) throws TransformerException, ParserConfigurationException, SAXException,
-            IOException, XPathExpressionException {
+    public static void main(String[] args)
+            throws TransformerException,
+                    ParserConfigurationException,
+                    SAXException,
+                    IOException,
+                    XPathExpressionException {
 
         StableAPI t = new StableAPI();
         t.run(args);
     }
 
-    private void run(String[] args) throws XPathExpressionException, TransformerException, ParserConfigurationException,
-            SAXException, IOException {
+    private void run(String[] args)
+            throws XPathExpressionException,
+                    TransformerException,
+                    ParserConfigurationException,
+                    SAXException,
+                    IOException {
         this.parseArgs(args);
         Set<JoinedFunction> full = new TreeSet<JoinedFunction>();
 
@@ -222,13 +231,24 @@ public class StableAPI {
                 System.out.println("Loaded file " + argFile.getName());
             } catch (IOException ioe) {
                 throw new RuntimeException(
-                        "Error: Could not load " + argName + " " + argFile.getPath() + " - " + ioe.toString(), ioe);
+                        "Error: Could not load "
+                                + argName
+                                + " "
+                                + argFile.getPath()
+                                + " - "
+                                + ioe.toString(),
+                        ioe);
             }
         } else {
             stream = StableAPI.class.getResourceAsStream(name);
             if (stream == null) {
-                throw new InternalError("No resource found for " + StableAPI.class.getPackage().getName() + "/" + name
-                        + " -   use " + argName);
+                throw new InternalError(
+                        "No resource found for "
+                                + StableAPI.class.getPackage().getName()
+                                + "/"
+                                + name
+                                + " -   use "
+                                + argName);
             } else {
                 System.out.println("Loaded resource " + name);
             }
@@ -266,7 +286,8 @@ public class StableAPI {
             System.out.println("--" + whichVer + "dir not set.");
             printUsage(); /* exits */
         } else if (!dir.exists() || !dir.isDirectory()) {
-            System.out.println("--" + whichVer + "dir=" + dir + " does not exist or is not a directory.");
+            System.out.println(
+                    "--" + whichVer + "dir=" + dir + " does not exist or is not a directory.");
             printUsage(); /* exits */
         }
         String result = null;
@@ -285,10 +306,14 @@ public class StableAPI {
             DOMSource uvernum_h = new DOMSource(doc);
             XPath xpath = XPathFactory.newInstance().newXPath();
 
-            Node defines = (Node) xpath.evaluate(ICU_VERSION_XPATH, uvernum_h.getNode(), XPathConstants.NODE);
+            Node defines =
+                    (Node)
+                            xpath.evaluate(
+                                    ICU_VERSION_XPATH, uvernum_h.getNode(), XPathConstants.NODE);
 
             if (defines == null) {
-                System.err.println("can't load from " + verFile.getName() + ":" + ICU_VERSION_XPATH);
+                System.err.println(
+                        "can't load from " + verFile.getName() + ":" + ICU_VERSION_XPATH);
             }
 
             NodeList nList = defines.getChildNodes();
@@ -298,25 +323,22 @@ public class StableAPI {
                     continue;
                 }
                 Node name = (Node) xpath.evaluate(NAME_XPATH, ln, XPathConstants.NODE);
-                if (name == null)
-                    continue;
+                if (name == null) continue;
 
                 // System.err.println("Gotta node: " + name);
 
                 Node nameVal = name.getFirstChild();
-                if (nameVal == null)
-                    nameVal = name;
+                if (nameVal == null) nameVal = name;
 
                 String nameStr = nameVal.getNodeValue();
-                if (nameStr == null)
-                    continue;
+                if (nameStr == null) continue;
 
                 // System.err.println("Gotta name: " + nameStr);
 
                 if (nameStr.trim().equals(U_ICU_VERSION)) {
-                    Node initializer = (Node) xpath.evaluate(INITIALIZER_XPATH, ln, XPathConstants.NODE);
-                    if (initializer == null)
-                        System.err.println("initializer with no value");
+                    Node initializer =
+                            (Node) xpath.evaluate(INITIALIZER_XPATH, ln, XPathConstants.NODE);
+                    if (initializer == null) System.err.println("initializer with no value");
                     Node initVal = initializer.getFirstChild();
                     // if(initVal==null) initVal = initializer;
                     String initStr = initVal.getNodeValue().trim().replaceAll("\"", "");
@@ -334,27 +356,49 @@ public class StableAPI {
                         int micr = vers.length > 2 ? Integer.parseInt(vers[2]) : 0;
                         int patch = vers.length > 3 ? Integer.parseInt(vers[3]) : 0;
                         System.err.println(
-                                " == [" + vers.toString() + "] " + maj + " . " + min + " . " + micr + " . " + patch);
+                                " == ["
+                                        + vers.toString()
+                                        + "] "
+                                        + maj
+                                        + " . "
+                                        + min
+                                        + " . "
+                                        + micr
+                                        + " . "
+                                        + patch);
                         if (maj >= 49) {
                             // new scheme: 49 and following.
                             String truncVersion = "ICU " + maj;
                             if (min == 0) {
                                 milestoneOf = " (m" + micr + ")";
-                                System.err.println("    .. " + milestoneOf + " is a milestone towards " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is a milestone towards "
+                                                + truncVersion);
                             } else if (min == 1) {
                                 // Don't denote as milestone
                                 result = "ICU " + (maj);
-                                System.err.println("    .. " + milestoneOf + " is the release of " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is the release of "
+                                                + truncVersion);
                             } else {
-                                milestoneOf = " (update #" + (min - 1) + ": " + result.substring(4) + ")";
+                                milestoneOf =
+                                        " (update #" + (min - 1) + ": " + result.substring(4) + ")";
                                 result = "ICU " + (maj);
-                                System.err.println("    .. " + milestoneOf + " is an update to  " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is an update to  "
+                                                + truncVersion);
                             }
                             // always truncate to major # for comparing tags.
                             result = truncVersion;
                             if (maj >= 71) {
-                              // Clear minor and micro version in API change report.
-                              milestoneOf = "";
+                                // Clear minor and micro version in API change report.
+                                milestoneOf = "";
                             }
                         } else {
                             // old scheme - 1.0.* .. 4.8.*
@@ -362,12 +406,24 @@ public class StableAPI {
                             if ((min % 2) == 1) {
                                 milestoneOf = " (" + maj + "." + (min + 1) + "m" + micr + ")";
                                 truncVersion = "ICU " + (maj) + "." + (min + 1);
-                                System.err.println("    .. " + milestoneOf + " is a milestone towards " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is a milestone towards "
+                                                + truncVersion);
                             } else if (micr == 0 && patch == 0) {
-                                System.err.println("    .. " + milestoneOf + " is the release of " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is the release of "
+                                                + truncVersion);
                             } else {
                                 milestoneOf = " (update " + micr + "." + patch + ")";
-                                System.err.println("    .. " + milestoneOf + " is an update to " + truncVersion);
+                                System.err.println(
+                                        "    .. "
+                                                + milestoneOf
+                                                + " is an update to "
+                                                + truncVersion);
                             }
                             result = truncVersion;
                         }
@@ -378,25 +434,32 @@ public class StableAPI {
                         }
                     }
                 }
-
             }
             // dumpNode(defines,"");
         } catch (Throwable t) {
             t.printStackTrace();
             System.err.println(
-                    "Warning: Couldn't get " + whichVer + " version from " + UVERSION + " - reverting to " + prevVer);
+                    "Warning: Couldn't get "
+                            + whichVer
+                            + " version from "
+                            + UVERSION
+                            + " - reverting to "
+                            + prevVer);
             result = prevVer;
         }
 
-        if (result != null) {
-
-        }
+        if (result != null) {}
 
         if (prevVer != null) {
             if (result != null) {
                 if (!result.equals(prevVer)) {
-                    System.err.println("Note: Detected " + result + " version but we'll use your requested --"
-                            + whichVer + "ver " + prevVer);
+                    System.err.println(
+                            "Note: Detected "
+                                    + result
+                                    + " version but we'll use your requested --"
+                                    + whichVer
+                                    + "ver "
+                                    + prevVer);
                     result = prevVer;
                     if (!rightMilestone.isEmpty() && whichVer.equals("new")) {
                         System.err.println(" .. ignoring milestone indicator " + rightMilestone);
@@ -406,12 +469,19 @@ public class StableAPI {
                         leftMilestone = "";
                     }
                 } else {
-                    System.err.println("Note: You don't need to use  '--" + whichVer + "ver " + result
-                            + "' anymore - we detected it correctly.");
+                    System.err.println(
+                            "Note: You don't need to use  '--"
+                                    + whichVer
+                                    + "ver "
+                                    + result
+                                    + "' anymore - we detected it correctly.");
                 }
             } else {
                 System.err.println(
-                        "Note: Didn't detect version so we'll use your requested --" + whichVer + "ver " + prevVer);
+                        "Note: Didn't detect version so we'll use your requested --"
+                                + whichVer
+                                + "ver "
+                                + prevVer);
                 result = prevVer;
                 if (!rightMilestone.isEmpty() && whichVer.equals("new")) {
                     System.err.println(" .. ignoring milestone indicator " + rightMilestone);
@@ -425,10 +495,16 @@ public class StableAPI {
 
         if (result == null) {
             System.err.println("prevVer=" + prevVer);
-            System.err.println("Error: You'll need to use the option  \"--" + whichVer
-                    + "ver\"  because we could not detect an ICU version in " + UVERSION);
-            throw new InternalError("Error: You'll need to use the option  \"--" + whichVer
-                    + "ver\"  because we could not detect an ICU version in " + UVERSION);
+            System.err.println(
+                    "Error: You'll need to use the option  \"--"
+                            + whichVer
+                            + "ver\"  because we could not detect an ICU version in "
+                            + UVERSION);
+            throw new InternalError(
+                    "Error: You'll need to use the option  \"--"
+                            + whichVer
+                            + "ver\"  because we could not detect an ICU version in "
+                            + UVERSION);
         }
 
         return result;
@@ -463,8 +539,16 @@ public class StableAPI {
         } catch (NullPointerException npe) {
             if (node.getAttributes() == null) {
                 throw new InternalError(
-                        "[no attributes Can't get attr " + attrName + " out of node " + node.getNodeName() + ":"
-                                + node.getNodeType() + ":" + node.getNodeValue() + "@" + node.getTextContent());
+                        "[no attributes Can't get attr "
+                                + attrName
+                                + " out of node "
+                                + node.getNodeName()
+                                + ":"
+                                + node.getNodeType()
+                                + ":"
+                                + node.getNodeValue()
+                                + "@"
+                                + node.getTextContent());
             } else if (node.getAttributes().getNamedItem(attrName) == null) {
                 return null;
                 // throw new InternalError("No attribute named: "+attrName);
@@ -513,7 +597,8 @@ public class StableAPI {
             // Modify the prototype here, but don't display it to the user. ( Char16Ptr -->
             // char16_t* etc )
             for (int i = 0; i < aliasList.length; i += 2) {
-                f.comparablePrototype = f.comparablePrototype.replaceAll(aliasList[i + 0], aliasList[i + 1]);
+                f.comparablePrototype =
+                        f.comparablePrototype.replaceAll(aliasList[i + 0], aliasList[i + 1]);
             }
 
             if (f.file == null) {
@@ -527,7 +612,7 @@ public class StableAPI {
 
         /**
          * Convert string to basename.
-         * 
+         *
          * @param str
          * @return
          */
@@ -537,50 +622,74 @@ public class StableAPI {
             return str;
         }
 
-        static private String replList[] = { "[ ]*\\([ ]*void[ ]*\\)", "() ", // (void) => ()
-                "[ ]*,", ", ", // No spaces preceding commas.
-                "[ ]*\\*[ ]*", "* ", // No spaces preceding '*'.
-                "[ ]*=[ ]*0[ ]*$", "=0 ", // No spaces in " = 0".
-                "[ ]{2,}", " ", "\n", " " // Multiple spaces collapse to single.
+        private static String replList[] = {
+            "[ ]*\\([ ]*void[ ]*\\)",
+            "() ", // (void) => ()
+            // No spaces preceding commas.
+            "[ ]*,",
+            ", ",
+            // No spaces preceding '*'.
+            "[ ]*\\*[ ]*",
+            "* ",
+            // No spaces in " = 0".
+            "[ ]*=[ ]*0[ ]*$",
+            "=0 ",
+            // Multiple spaces collapse to single.
+            "[ ]{2,}",
+            " ",
+            "\n",
+            " "
+        };
+
+        /** these are noted as deltas. */
+        private static String simplifyList[] = {
+            // TODO: notify about this difference, separately
+            "[ ]*=[ ]*0[ ]*$", "",
+            // remove U_NOEXCEPT (this was fixed in Doxyfile, but fixing here so it is retroactive)
+            "[ ]*U_NOEXCEPT", "",
+            "[ ]*noexcept", "",
+            // remove U_OVERRIDE and override
+            "[ ]*(override|U_OVERRIDE)", "",
+
+            // Simplify possibly-covariant functions to void*
+            "^([^\\* ]+)\\*(.*)::(clone|safeClone|cloneAsThawed|freeze|createBufferClone)\\((.*)",
+                    "void*$2::$3($4",
+            // remove trailing spaces.
+            "\\s+$", "",
+            // Bug in processing of uspoof.h
+            "^U_NAMESPACE_END ", "",
+            "\\bUBool\\b", "bool"
         };
 
         /**
-         * these are noted as deltas.
+         * This list is applied only for comparisons. The resulting string is NOT shown to the user.
+         * These should be ignored as far as changes go. func(UChar) === func(char16_t)
          */
-        static private String simplifyList[] = {
-                "[ ]*=[ ]*0[ ]*$", "",// remove pure virtual
-                                      //  TODO: notify about this difference, separately
-                "[ ]*U_NOEXCEPT", "", // remove U_NOEXCEPT (this was fixed in Doxyfile, but fixing here so it is
-                                      //  retroactive)
-                "[ ]*noexcept", "",
-                "[ ]*(override|U_OVERRIDE)", "", // remove U_OVERRIDE and override
-
-                // Simplify possibly-covariant functions to void*
-                "^([^\\* ]+)\\*(.*)::(clone|safeClone|cloneAsThawed|freeze|createBufferClone)\\((.*)", "void*$2::$3($4",
-                "\\s+$", "", // remove trailing spaces.
-                "^U_NAMESPACE_END ", "", // Bug in processing of uspoof.h
-                "\\bUBool\\b", "bool"
+        private static String aliasList[] = {
+            "UChar", "char16_t", "ConstChar16Ptr", "const char16_t*", "Char16Ptr", "char16_t*",
         };
-
-        /**
-         * This list is applied only for comparisons. The resulting string is NOT shown
-         * to the user. These should be ignored as far as changes go. func(UChar) ===
-         * func(char16_t)
-         */
-        static private String aliasList[] = { "UChar", "char16_t", "ConstChar16Ptr", "const char16_t*", "Char16Ptr",
-                "char16_t*", };
 
         /**
          * Special cases:
          *
-         * Remove the status attribute embedded in the C prototype
+         * <p>Remove the status attribute embedded in the C prototype
          *
-         * Remove the virtual keyword in Cpp prototype
+         * <p>Remove the virtual keyword in Cpp prototype
          */
         private void purifyPrototype() {
             // refer to 'umachine.h'
-            String statusList[] = { "U_CAPI", "U_STABLE", "U_DRAFT", "U_DEPRECATED", "U_OBSOLETE", "U_INTERNAL",
-                    "virtual", "U_EXPORT2", "U_I18N_API", "U_COMMON_API" };
+            String statusList[] = {
+                "U_CAPI",
+                "U_STABLE",
+                "U_DRAFT",
+                "U_DEPRECATED",
+                "U_OBSOLETE",
+                "U_INTERNAL",
+                "virtual",
+                "U_EXPORT2",
+                "U_I18N_API",
+                "U_COMMON_API"
+            };
             for (int i = 0; i < statusList.length; i++) {
                 String s = statusList[i];
                 prototype = prototype.replaceAll(s, "");
@@ -599,23 +708,19 @@ public class StableAPI {
             int openParen = in.indexOf("(");
             int closeParen = in.lastIndexOf(")");
 
-            if (openParen == -1 || closeParen == -1)
-                return; // exit, malformed?
-            if (openParen + 1 == closeParen)
-                return; // exit: ()
+            if (openParen == -1 || closeParen == -1) return; // exit, malformed?
+            if (openParen + 1 == closeParen) return; // exit: ()
 
             out.append(in, 0, openParen + 1); // prelude
 
-            for (int left = openParen + 1; left < closeParen;) {
+            for (int left = openParen + 1; left < closeParen; ) {
                 int right = in.indexOf(",", left + 1); // right edge
-                if (right >= closeParen || right == -1)
-                    right = closeParen; // found last comma
+                if (right >= closeParen || right == -1) right = closeParen; // found last comma
 
                 // System.err.println("Considering " + left + " / " + right + " - " + closeParen
                 // + " : " + in.substring(left, right));
 
-                if (left == right)
-                    continue;
+                if (left == right) continue;
 
                 // find variable name
                 int rightCh = right - 1;
@@ -629,7 +734,8 @@ public class StableAPI {
                     nameEndCh--;
                 }
                 int nameStartCh = nameEndCh;
-                while (nameStartCh > left && Character.isJavaIdentifierPart(in.charAt(nameStartCh))) {
+                while (nameStartCh > left
+                        && Character.isJavaIdentifierPart(in.charAt(nameStartCh))) {
                     nameStartCh--;
                 }
 
@@ -656,7 +762,10 @@ public class StableAPI {
                     if (out.length() > p) {
                         // any trailings to delete?
                         char curr = out.charAt(p);
-                        if (curr == ',' || curr == ')' || curr == '*' || curr == '&') { // delete spaces before these.
+                        if (curr == ','
+                                || curr == ')'
+                                || curr == '*'
+                                || curr == '&') { // delete spaces before these.
                             out.deleteCharAt(--p);
                             continue;
                         }
@@ -737,8 +846,7 @@ public class StableAPI {
         }
 
         static JoinedFunction fromTwoFun(Function left, Function right) {
-            if (!left.equals(right))
-                throw new Error();
+            if (!left.equals(right)) throw new Error();
             JoinedFunction u = new JoinedFunction();
             u.prototype = left.prototype;
             u.leftRefId = left.id;
@@ -797,7 +905,8 @@ public class StableAPI {
             t = transFac.newTransformer(ss);
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
-            throw new InternalError("Couldn't make transformer for " + name + " - " + e.getMessageAndLocation());
+            throw new InternalError(
+                    "Couldn't make transformer for " + name + " - " + e.getMessageAndLocation());
         }
         if (t == null) {
             throw new InternalError("Couldn't make transformer for " + name);
@@ -811,7 +920,9 @@ public class StableAPI {
         // report.setParameter("leftStatus", leftStatus);
         report.setParameter("leftVer", leftVer);
         // report.setParameter("rightStatus", rightStatus);
-        report.setParameter("ourYear", Integer.valueOf(new java.util.GregorianCalendar().get(java.util.Calendar.YEAR)));
+        report.setParameter(
+                "ourYear",
+                Integer.valueOf(new java.util.GregorianCalendar().get(java.util.Calendar.YEAR)));
         report.setParameter("rightVer", rightVer);
         report.setParameter("rightMilestone", rightMilestone);
         report.setParameter("leftMilestone", leftMilestone);
@@ -827,8 +938,11 @@ public class StableAPI {
     }
 
     private Set<JoinedFunction> getFullList(InputStream dumpXsltStream, String dumpXsltFile)
-            throws TransformerException, ParserConfigurationException, XPathExpressionException, SAXException,
-            IOException {
+            throws TransformerException,
+                    ParserConfigurationException,
+                    XPathExpressionException,
+                    SAXException,
+                    IOException {
         // prepare transformer
         XPath xpath = XPathFactory.newInstance().newXPath();
         String expression = "/list";
@@ -841,14 +955,19 @@ public class StableAPI {
         transformer.transform(leftIndex, leftResult);
 
         // Node leftList = XPathAPI.selectSingleNode(leftResult.getNode(),"/list");
-        Node leftList = (Node) xpath.evaluate(expression, leftResult.getNode(), XPathConstants.NODE);
+        Node leftList =
+                (Node) xpath.evaluate(expression, leftResult.getNode(), XPathConstants.NODE);
         if (leftList == null) {
             // dumpNode(xsltSource.getNode());
             dumpNode(leftResult.getNode());
             // dumpNode(leftIndex.getNode());
             System.out.flush();
             System.err.flush();
-            throw new InternalError("getFullList(" + dumpXsltFile.toString() + ") returned a null left " + expression);
+            throw new InternalError(
+                    "getFullList("
+                            + dumpXsltFile.toString()
+                            + ") returned a null left "
+                            + expression);
         }
 
         xpath.reset(); // reuse
@@ -859,9 +978,14 @@ public class StableAPI {
         System.err.println("Loading: " + dumpXsltFile.toString());
         transformer.transform(rightIndex, rightResult);
         System.err.println("   .. loaded: " + dumpXsltFile.toString());
-        Node rightList = (Node) xpath.evaluate(expression, rightResult.getNode(), XPathConstants.NODE);
+        Node rightList =
+                (Node) xpath.evaluate(expression, rightResult.getNode(), XPathConstants.NODE);
         if (rightList == null) {
-            throw new InternalError("getFullList(" + dumpXsltFile.toString() + ") returned a null right " + expression);
+            throw new InternalError(
+                    "getFullList("
+                            + dumpXsltFile.toString()
+                            + ") returned a null right "
+                            + expression);
         }
         // dumpNode(rightList,"");
 
@@ -898,7 +1022,7 @@ public class StableAPI {
         Document doc = dbf.newDocumentBuilder().newDocument();
         Element root = doc.createElement("list");
         doc.appendChild(root);
-        for (Iterator<JoinedFunction> iter = set.iterator(); iter.hasNext();) {
+        for (Iterator<JoinedFunction> iter = set.iterator(); iter.hasNext(); ) {
             JoinedFunction fun = iter.next();
             root.appendChild(fun.toXml(doc));
         }
@@ -929,7 +1053,7 @@ public class StableAPI {
     /**
      * full-join two Set on 'prototype'
      *
-     * @param left  Set<Fun>
+     * @param left Set<Fun>
      * @param right Set<Fun>
      * @return Set<JoinedFun>
      */
@@ -937,9 +1061,9 @@ public class StableAPI {
 
         Set<JoinedFunction> joined = new TreeSet<JoinedFunction>(); // Set<JoinedFun>
         Set<Function> common = new TreeSet<Function>(); // Set<Fun>
-        for (Iterator<Function> iter1 = left.iterator(); iter1.hasNext();) {
+        for (Iterator<Function> iter1 = left.iterator(); iter1.hasNext(); ) {
             Function f1 = iter1.next();
-            for (Iterator<Function> iter2 = right.iterator(); iter2.hasNext();) {
+            for (Iterator<Function> iter2 = right.iterator(); iter2.hasNext(); ) {
                 Function f2 = iter2.next();
                 if (f1.equals(f2)) {
                     // should add left item to common set
@@ -952,17 +1076,17 @@ public class StableAPI {
             }
         }
 
-        for (Iterator<Function> iter = common.iterator(); iter.hasNext();) {
+        for (Iterator<Function> iter = common.iterator(); iter.hasNext(); ) {
             Function f = iter.next();
             left.remove(f);
         }
 
-        for (Iterator<Function> iter = left.iterator(); iter.hasNext();) {
+        for (Iterator<Function> iter = left.iterator(); iter.hasNext(); ) {
             Function f = iter.next();
             joined.add(JoinedFunction.fromLeftFun(f));
         }
 
-        for (Iterator<Function> iter = right.iterator(); iter.hasNext();) {
+        for (Iterator<Function> iter = right.iterator(); iter.hasNext(); ) {
             Function f = iter.next();
             joined.add(JoinedFunction.fromRightFun(f));
         }
@@ -975,7 +1099,7 @@ public class StableAPI {
 
     /**
      * Dump out a node for debugging. Recursive fcn
-     * 
+     *
      * @param n
      * @param pre
      */
@@ -988,15 +1112,20 @@ public class StableAPI {
         if (attr != null) {
             for (int i = 0; i < attr.getLength(); i++) {
                 System.out.print(
-                        "\n" + pre + "   " + attr.item(i).getNodeName() + "=\"" + attr.item(i).getNodeValue() + "\"");
+                        "\n"
+                                + pre
+                                + "   "
+                                + attr.item(i).getNodeName()
+                                + "=\""
+                                + attr.item(i).getNodeValue()
+                                + "\"");
             }
         }
         System.out.println(">");
 
         // dump value
         String v = pre + n.getNodeValue();
-        if (n.getNodeType() == Node.TEXT_NODE)
-            System.out.println(v);
+        if (n.getNodeType() == Node.TEXT_NODE) System.out.println(v);
 
         // dump sub nodes
         NodeList nList = n.getChildNodes();
@@ -1010,7 +1139,8 @@ public class StableAPI {
     private static DocumentBuilder theBuilder = null;
     private static DocumentBuilderFactory dbf = null;
 
-    private synchronized static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+    private static synchronized DocumentBuilder getDocumentBuilder()
+            throws ParserConfigurationException {
         if (theBuilder == null) {
             dbf = DocumentBuilderFactory.newInstance();
             theBuilder = dbf.newDocumentBuilder();
@@ -1018,7 +1148,8 @@ public class StableAPI {
         return theBuilder;
     }
 
-    private static Document getDocument(File file) throws ParserConfigurationException, SAXException, IOException {
+    private static Document getDocument(File file)
+            throws ParserConfigurationException, SAXException, IOException {
         FileInputStream fis = new FileInputStream(file);
         InputSource inputSource = new InputSource(fis);
         Document doc = getDocumentBuilder().parse(inputSource);
@@ -1032,11 +1163,11 @@ public class StableAPI {
         public String formatCode(String s);
     }
 
-    public static String format_keywords[] = { "enum", "#define", "static" };
+    public static String format_keywords[] = {"enum", "#define", "static"};
 
     /**
      * Attempt to use a pretty formatter
-     * 
+     *
      * @param prototype2
      * @return
      */
@@ -1049,19 +1180,19 @@ public class StableAPI {
                 aFormatter = (Formatter) formatClass.newInstance();
             } catch (Exception e) {
                 System.err.println("Note: Couldn't load " + theFormatter);
-                aFormatter = new Formatter() {
+                aFormatter =
+                        new Formatter() {
 
-                    public String formatCode(String s) {
-                        String str = HTMLSafe(s.trim());
-                        for (String keyword : format_keywords) {
-                            if (str.startsWith(keyword)) {
-                                str = str.replaceFirst(keyword, "<tt>" + keyword + "</tt>");
+                            public String formatCode(String s) {
+                                String str = HTMLSafe(s.trim());
+                                for (String keyword : format_keywords) {
+                                    if (str.startsWith(keyword)) {
+                                        str = str.replaceFirst(keyword, "<tt>" + keyword + "</tt>");
+                                    }
+                                }
+                                return str;
                             }
-                        }
-                        return str;
-                    }
-
-                };
+                        };
             }
             tried = true;
         }
@@ -1073,10 +1204,11 @@ public class StableAPI {
     }
 
     public static String HTMLSafe(String s) {
-        if (s == null)
-            return null;
+        if (s == null) return null;
 
-        return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
+        return s.replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;");
     }
-
 }
