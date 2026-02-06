@@ -1,0 +1,13 @@
+<config>
+  <convert>
+    <localeIds>ar, de, en, es, fr, it, ja, zh</localeIds>
+      <!-- <altPath target="//path/to/value[@attr='foo']"
+                    source="//path/to/value[@attr='bar']"
+                    locales="xx,yy_ZZ"/> -->
+    <altPath target="//cal[@type='generic']/timeFmtLen[@type='medium']/pattern" source="//cal[@type='generic']/timeFmtLen[@type='medium']/pattern[@alt='ascii']" />
+        <altPath target="//cal[@type='gregorian']/dateFmtItem[@id='Ehms']" source="//cal[@type='gregorian']/dateFmtItem[@id='Ehms'][@alt='ascii']" />
+        </convert>
+
+    <!-- Make sure comments are preserved -->
+    <outputDirectories root="${outDir}" forceDelete="${forceDelete}" />
+</config>

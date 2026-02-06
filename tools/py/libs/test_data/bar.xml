@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ldml>
+  <dates>
+    <calendars>
+      <calendar type="generic">
+        <timeFormats>
+          <timeFormatLength type="medium">
+            <timeFormat>
+              <pattern>h:mm:ss a</pattern>
+              <!-- This should be added to the "interesting paths",
+              because it is under "generic" calendar, does not
+              overlap with the one in `foo.xml`, which is in
+              the "gregorian" calendar -->
+              <pattern alt="ascii">h:mm:ss a</pattern>
+            </timeFormat>
+          </timeFormatLength>
+        </timeFormats>
+      </calendar>
+      <calendar type="gregorian">
+        <dateTimeFormats>
+          <availableFormats>
+            <dateFormatItem id="Ehm">E h:mm a</dateFormatItem>
+            <!-- This should be added to the "interesting paths".
+            But it also exists in `foo.xml`, and should be present
+            only once  -->
+            <dateFormatItem id="Ehm" alt="ascii">E h:mm a</dateFormatItem>
+          </availableFormats>
+        </dateTimeFormats>
+      </calendar>
+    </calendars>
+  </dates>
+</ldml>

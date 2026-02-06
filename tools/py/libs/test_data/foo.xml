@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ldml>
+  <dates>
+    <calendars>
+      <calendar type="gregorian">
+        <timeFormats>
+          <timeFormatLength type="medium">
+            <timeFormat>
+              <pattern>h:mm:ss a</pattern>
+              <!-- This should be added to the "interesting paths" -->
+              <pattern alt="ascii">h:mm:ss a</pattern>
+            </timeFormat>
+          </timeFormatLength>
+          <timeFormatLength type="short">
+            <timeFormat>
+              <pattern>h:mm a</pattern>
+              <!-- Ignored, even if it has alt="ascii", because it is draft -->
+              <pattern alt="ascii" draft="contributed">h:mm a</pattern>
+            </timeFormat>
+          </timeFormatLength>
+        </timeFormats>
+        <dateTimeFormats>
+          <availableFormats>
+            <dateFormatItem id="Ehm">E h:mm a</dateFormatItem>
+            <!-- This should be added to the "interesting paths" -->
+            <dateFormatItem id="Ehm" alt="ascii">E h:mm a</dateFormatItem>
+            <dateFormatItem id="EHm">E HH:mm</dateFormatItem>
+            <dateFormatItem id="Ehms">E h:mm:ss a</dateFormatItem>
+            <!-- This should be added to the "interesting paths" -->
+            <dateFormatItem id="Ehms" alt="ascii">E h:mm:ss a</dateFormatItem>
+          </availableFormats>
+        </dateTimeFormats>
+      </calendar>
+    </calendars>
+  </dates>
+</ldml>

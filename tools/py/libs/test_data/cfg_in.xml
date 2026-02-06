@@ -1,0 +1,11 @@
+<config>
+  <convert>
+    <localeIds>ar, de, en, es, fr, it, ja, zh</localeIds>
+      <!-- <altPath target="//path/to/value[@attr='foo']"
+                    source="//path/to/value[@attr='bar']"
+                    locales="xx,yy_ZZ"/> -->
+    </convert>
+
+    <!-- Make sure comments are preserved -->
+    <outputDirectories root="${outDir}" forceDelete="${forceDelete}" />
+</config>
