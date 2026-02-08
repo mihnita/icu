@@ -662,7 +662,7 @@
                 -->
                 <arg>--should-stop=ifError=FLOW</arg>
                 <arg>-XDaddTypeAnnotationsToSymbol=true</arg>
-                <arg>-Xplugin:ErrorProne -XepConfigFile:${maven.multiModuleProjectDirectory}/errorprone.cfg</arg>
+                <arg>-Xplugin:ErrorProne -Xep:InvalidParam:ERROR -Xep:EffectivelyPrivate:OFF @${maven.multiModuleProjectDirectory}/errorprone.cfg -Xep:EmptyBlockTag:OFF @${maven.multiModuleProjectDirectory}/mihai.cfg -Xep:IntLongMath:OFF</arg>
                 <arg>-Xmaxerrs</arg>
                 <arg>10000</arg>
                 <arg>-Xmaxwarns</arg>
