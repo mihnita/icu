@@ -1146,15 +1146,12 @@ void UnicodeSet::parseElements(Lexer &lexer,
     // Range        ::= RangeElement - RangeElement
     // RangeElement ::= literal-element
     //                | escaped-element
+    //                | named-element
+    //                | bracketed-element
     // Element      ::= RangeElement
     //                | string-literal
-    //                | bracketed-element
-    // RangeElement ::= literal-element
-    //                | escaped-element
-    //                | named-element
-    // codePoint().has_value() on a lexical element if it is a RangeElement or a bracketed-element (which
-    // should become a RangeElement, but this will take another ICU proposal).
-    if (lexer.lookahead().isBracketedElement() || lexer.lookahead().isStringLiteral()) {
+    // codePoint().has_value() on a lexical element if it is a RangeElement.
+    if (lexer.lookahead().isStringLiteral()) {
         add(*lexer.lookahead().element());
         rebuiltPat.append(u'{');
         _appendToPat(rebuiltPat, *lexer.lookahead().element(), /*escapeUnprintable=*/false);
@@ -1169,7 +1166,7 @@ void UnicodeSet::parseElements(Lexer &lexer,
     } else if (lexer.lookahead().codePoint().has_value()) {
         first = *lexer.lookahead().codePoint();
     } else {
-        U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement | string-literal | bracketed-element",
+        U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement | string-literal",
                                              lexer.lookahead().debugString(),
                                              lexer, ec);
     }
@@ -1203,7 +1200,7 @@ void UnicodeSet::parseElements(Lexer &lexer,
                                                      lexer.lookahead2().debugString(),
                                                  lexer, ec);
         }
-    } else if (lexer.lookahead().codePoint().has_value() && !lexer.lookahead().isBracketedElement()) {
+    } else if (lexer.lookahead().codePoint().has_value()) {
         last = *lexer.lookahead().codePoint();
     } else {
         U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement", lexer.lookahead().debugString(), lexer, ec);

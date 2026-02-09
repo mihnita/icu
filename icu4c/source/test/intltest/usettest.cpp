@@ -4710,6 +4710,9 @@ void UnicodeSetTest::TestToPatternOutput() {
             {u"[ d-z a-c $ ]", u"[d-za-c$]"},
             {u"[ - a-c d-z $ ]", uR"([\-a-cd-z$])"},
             {u"[$$$]", uR"([\$\$$])"},
+            // Ill-formed in ICU4C 78 and earlier, made well-formed by ICU-23312.
+            {u"[a-{z}]", u"[a-z]"},
+            {u"[{a}-z]", u"[a-z]"},
         }) {
         UErrorCode errorCode = U_ZERO_ERROR;
         const UnicodeSet set(expression, errorCode);
@@ -4779,9 +4782,6 @@ void UnicodeSetTest::TestParseErrors() {
             // This was a well-formed set in ICU 78 and earlier; now it must be enclosed in square
             // brackets.
             uR"(\N{ latin small letter a })",
-            // TODO(egg): Well-formed in Java, ill-formed in ICU4C in ICU 78 and earlier.
-            u"[a-{z}]",
-            u"[{a}-z]",
             // Well-formed in ICU 78 and earlier (spaces ignored).
             // In ICU 81 and later, the spaces will mean spaces.
             // Ill-formed in ICU 79 and 80.
