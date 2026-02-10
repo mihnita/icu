@@ -1118,6 +1118,34 @@ void UnicodeSetTest::TestPropertySet() {
         expectContainment(UnicodeString(DATA[i], -1, US_INV), CharsToUnicodeString(DATA[i+1]),
                           CharsToUnicodeString(DATA[i+2]));
     }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(u"[:Noncharacter_Code_Point≠No:]", status);
+        UnicodeSet s2(u"[:Noncharacter_Code_Point:]", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"(\p{Noncharacter_Code_Point≠No})", status);
+        UnicodeSet s2(uR"(\p{Noncharacter_Code_Point})", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"(\p{dt≠can})", status);
+        UnicodeSet s2(uR"(\P{dt=can})", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"([:dt≠can:])", status);
+        UnicodeSet s2(uR"([:^dt=can:])", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
 }
 
 /**
@@ -4778,6 +4806,9 @@ void UnicodeSetTest::TestParseErrors() {
             uR"(\p{Uppercase_Letter=})",
             // Well-formed in ICU 78 and earlier, disallowed by ICU-23306.
             uR"([: ^general category = punctuation :])",
+            // Doubly negated property queries.
+            uR"(\P{Decomposition_Type≠compat})",
+            u"[:^Noncharacter_Code_Point≠No:]",
         }) {
         UErrorCode errorCode = U_ZERO_ERROR;
         const UnicodeSet set(expression, errorCode);

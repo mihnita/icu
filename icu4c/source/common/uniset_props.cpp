@@ -693,6 +693,7 @@ class UnicodeSet::Lexer {
         std::optional<int32_t> queryOperatorPosition;
         int32_t queryExpressionStart = parsePosition_.getIndex();
         bool exteriorlyNegated = false;
+        bool interiorlyNegated = false;
         UBool unusedEscaped;
         // Do not skip whitespace so we can recognize unspaced :].  Lex escapes and
         // named-element: while ICU does not support string-valued properties and thus has no
@@ -742,7 +743,14 @@ class UnicodeSet::Lexer {
                 // Neither a named-element nor an escaped-element can be part of a closing :].
                 lastUnescaped = -1;
             } else if (!queryOperatorPosition.has_value() && lastUnescaped == u'=') {
-                // TODO(egg): Propose and add support for ≠.
+                queryOperatorPosition = parsePosition_.getIndex() - 1;
+            } else if (!queryOperatorPosition.has_value() && lastUnescaped == u'≠') {
+                if (exteriorlyNegated) {
+                    // Reject doubly negated property queries.
+                    errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                    return {};
+                }
+                interiorlyNegated = true;
                 queryOperatorPosition = parsePosition_.getIndex() - 1;
             } else if ((first == u'[' && penultimateUnescaped == u':' && lastUnescaped == u']') ||
                        (first == u'\\' && lastUnescaped == u'}')) {
@@ -772,7 +780,7 @@ class UnicodeSet::Lexer {
                     pattern_.tempSubStringBetween(queryExpressionStart,
                                                   queryOperatorPosition.value_or(queryExpressionLimit)),
                     propertyPredicate, errorCode);
-                if (exteriorlyNegated) {
+                if (exteriorlyNegated != interiorlyNegated) {
                     result.complement().removeAllStrings();
                 }
                 result.setPattern(pattern_.tempSubStringBetween(queryStart, parsePosition_.getIndex()));
