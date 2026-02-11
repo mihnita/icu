@@ -4698,6 +4698,14 @@ void UnicodeSetTest::TestToPatternOutput() {
             {uR"([ {\N{LATIN CAPITAL LETTER Z}eichenkette} ])", uR"([{Zeichenkette}])"},
             // This used to be equal to [A] in ICU 78 and earlier.
             {uR"([ \N{LATIN CAPITAL LETTER A} - \N{LATIN CAPITAL LETTER Z} ])", uR"([A-Z])"},
+            // Escapes added by ICU-23314.
+            {uR"([ \N{41:A:LATIN CAPITAL LETTER A} - \N{005A:LATIN CAPITAL LETTER Z} ])", uR"([A-Z])"},
+            {uR"([ \N{0001226D:𒉭:CUNEIFORM SIGN NUNUZ} ])", uR"([𒉭])"},
+            {uR"([ {\N{1202D:CUNEIFORM SIGN AN}\N{12240:𒉀:CUNEIFORM SIGN NAGA}} ])", uR"([{𒀭𒉀}])"},
+            {uR"([ \N{20: :SPACE} ])", uR"([\ ])"},
+            {uR"([ \N{BED:TAMIL DIGIT SEVEN} ])", uR"([௭])"},
+            // Some character names happen to be sequences of hexadecimal digits.
+            {uR"([ \N{BED} ])", uR"([🛏])"},
             // An anchor also causes the syntax to be preserved.
             {u"[ d-z a-c $ ]", u"[d-za-c$]"},
             {u"[ - a-c d-z $ ]", uR"([\-a-cd-z$])"},
@@ -4801,6 +4809,21 @@ void UnicodeSetTest::TestParseErrors() {
             uR"([:Some_Property=\u:])",
             uR"(\p{Some_Property=\N{SOME CHARACTER}})",
             uR"([\N{}])",
+            uR"([ \N{FFFFFFFF:NOT A CODE POINT} ])",
+            uR"([ \N{0A:LATIN CAPITAL LETTER A} ])",
+            uR"([ \N{41:a:LATIN CAPITAL LETTER A} ])",
+            uR"([ \N{12240:𒊺𒉀:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240:𒉀::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240:𒉀:CUNEIFORM SIGN NAGA:} ])",
+            uR"([ \N{12240:CUNEIFORM SIGN NAGA:𒉀} ])",
+            uR"([ \N{𒉀:12240:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240} ])",
+            uR"([ \N{12240:𒉀} ])",
+            uR"([ \N{𒉀:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{BED:BED} ])",
             // Well-formed in ICU 78 and earlier, disallowed by ICU-23308.
             uR"(\p{XID_Continue=})",
             uR"(\p{Uppercase_Letter=})",

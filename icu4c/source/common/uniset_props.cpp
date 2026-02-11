@@ -30,6 +30,7 @@
 #include "unicode/uset.h"
 #include "unicode/locid.h"
 #include "unicode/brkiter.h"
+#include "unicode/utfiterator.h"
 #include "uset_imp.h"
 #include "ruleiter.h"
 #include "cmemory.h"
@@ -84,6 +85,8 @@ static UBool U_CALLCONV uset_cleanup() {
 U_CDECL_END
 
 U_NAMESPACE_BEGIN
+
+using U_HEADER_ONLY_NAMESPACE::utfStringCodePoints;
 
 namespace {
 
@@ -608,19 +611,64 @@ class UnicodeSet::Lexer {
                                                            RuleCharacterIterator::SKIP_WHITESPACE),
                                          unusedEscaped, errorCode);
         if (open == u'{') {
-            int32_t nameStart = parsePosition_.getIndex();
+            int32_t start = parsePosition_.getIndex();
+            std::optional<UChar32> hex;
+            std::optional<UChar32> literal;
             while (!chars_.atEnd() && U_SUCCESS(errorCode)) {
                 UChar32 last = chars_.next(charsOptions_ & ~(RuleCharacterIterator::PARSE_ESCAPES |
                                                              RuleCharacterIterator::SKIP_WHITESPACE),
                                            unusedEscaped, errorCode);
-                if (last == u'}') {
+                if (last == u':') {
+                    if (!hex.has_value()) {
+                        hex.emplace();
+                        for (char16_t digit : std::u16string_view(pattern_).substr(
+                                 start, parsePosition_.getIndex() - 1 - start)) {
+                            uint8_t nibble;
+                            if (digit >= u'0' && digit <= u'9') {
+                                nibble = digit - '0';
+                            } else {
+                                digit = digit & ~0x20;
+                                if (digit >= u'A' && digit <= u'F') {
+                                    nibble = digit - u'A' + 0xA;
+                                } else {
+                                    errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                                    return {};
+                                }
+                            }
+                            *hex = (*hex << 4) + nibble;
+                            if (hex > 0x10FFFF) {
+                                errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                                return {};
+                            }
+                        }
+                    } else if (!literal.has_value()) {
+                        const auto literalCodePoints = utfStringCodePoints<UChar32, UTF_BEHAVIOR_FFFD>(
+                            std::u16string_view(pattern_).substr(start,
+                                                                 parsePosition_.getIndex() - 1 - start));
+                        auto it = literalCodePoints.begin();
+                        if (it == literalCodePoints.end() || !it->wellFormed() ||
+                                (literal = it->codePoint(), ++it) != literalCodePoints.end()) {
+                            errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                            return {};
+                        }
+                    } else {
+                        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                        return {};
+                    }
+                    start = parsePosition_.getIndex();
+                } else if (last == u'}') {
                     UnicodeSet result;
                     result.applyPropertyAlias(
                         UnicodeString(NAME_PROP),
-                        pattern_.tempSubStringBetween(nameStart, parsePosition_.getIndex() - 1),
+                        pattern_.tempSubStringBetween(start, parsePosition_.getIndex() - 1),
                         errorCode);
                     result.setPattern(
-                        pattern_.tempSubStringBetween(nameStart - 3, parsePosition_.getIndex()));
+                        pattern_.tempSubStringBetween(start - 3, parsePosition_.getIndex()));
+                    if ((hex.has_value() && result.charAt(0) != hex) ||
+                        (literal.has_value() && result.charAt(0) != literal)) {
+                        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                        return {};
+                    }
                     return result.charAt(0);
                 }
             }
