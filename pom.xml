@@ -73,6 +73,7 @@
     <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
     <google-java-style.version>1.32.0</google-java-style.version>
+    <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
     <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
@@ -213,7 +214,7 @@
         but `site:stage` works.
       -->
       <id>unicode-org.github.io</id>
-      <url>scp://https://unicode-org.github.io/</url>
+      <url>https://unicode-org.github.io/</url>
     </site>
     <repository>
       <id>central</id>
@@ -579,7 +580,7 @@
           <configuration>
             <rulesets>
               <!-- Hand-picked rules -->
-              <ruleset>tools/pmd/src/main/resources/icu4j/pmd-ruleset.xml</ruleset>
+              <ruleset>icu4j/tools/pmd/src/main/resources/icu4j/pmd-ruleset.xml</ruleset>
               <!-- Uncomment the block below to enable all known checks.
                 All of these rulesets can be specified in pmd-ruleset.xml instead.
               -->
@@ -620,6 +621,11 @@
               </googleJavaFormat>
             </java>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -803,6 +809,80 @@
           </plugin>
         </plugins>
       </reporting>
+    </profile>
+
+    <profile>
+      <!--
+        Generating a merged report, see https://www.eclemma.org/jacoco/trunk/doc/cli.html
+        The result can be inspected starting from target/jacocoreport/html/index.html
+        Execute these commands in cli, in the root of the ICU repo:
+
+        mvn clean install site site:stage -P coverage
+
+        rm -fr target/jacoco
+
+        mvn dependency:copy \
+            -Dartifact=org.jacoco:jacoco:LATEST:zip \
+            -DoutputDirectory=target/jacoco \
+            -Dmdep.stripVersion=true \
+            -q -ntp
+
+        unzip -q target/jacoco/jacoco.zip -d target/jacoco
+
+        java -jar target/jacoco/lib/jacococli.jar report \
+            icu4j/main/core/target/jacoco.exec \
+            icu4j/main/collate/target/jacoco.exec \
+            icu4j/main/common_tests/target/jacoco.exec \
+            icu4j/main/framework/target/jacoco.exec \
+            icu4j/main/translit/target/jacoco.exec \
+            icu4j/main/charset/target/jacoco.exec \
+            \-\-classfiles icu4j/main/core/target/core-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/collate/target/collate-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/currdata/target/currdata-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/langdata/target/langdata-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/regiondata/target/regiondata-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/translit/target/translit-79.0.1-SNAPSHOT.jar \
+            \-\-classfiles icu4j/main/charset/target/icu4j-charset-79.0.1-SNAPSHOT.jar \
+            \-\-sourcefiles icu4j/main/core/src/main/java \
+            \-\-sourcefiles icu4j/main/collate/src/main/java \
+            \-\-sourcefiles icu4j/main/currdata/src/main/java \
+            \-\-sourcefiles icu4j/main/langdata/src/main/java \
+            \-\-sourcefiles icu4j/main/regiondata/src/main/java \
+            \-\-sourcefiles icu4j/main/translit/src/main/java \
+            \-\-sourcefiles icu4j/main/charset/src/main/java \
+            \-\-encoding utf-8 \
+            \-\-csv target/jacocoreport/jacoco.csv \
+            \-\-xml target/jacocoreport/jacoco.xml \
+            \-\-html target/jacocoreport/html
+       -->
+      <id>coverage</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <dataFileIncludes>
+                    <dataFileInclude>**/jacoco.exec</dataFileInclude>
+                  </dataFileIncludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
   </profiles>
