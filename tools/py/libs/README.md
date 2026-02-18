@@ -42,4 +42,3 @@ From the current folder (`<icuroot>/tools/py/libs`) run:
 ```sh
 python -m unittest discover .
 ```
-

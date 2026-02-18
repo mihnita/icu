@@ -27,10 +27,12 @@ def run_with_logging(
   Returns:
     the result of the subprocess execution.
   """
-  # if ok_result is None:
-  #   ok_result = [0]
+  if root_dir is None:
+    root_dir = './logs'
+  if ok_result is None:
+    ok_result = [0]
   iculog.info(f'[execute] {command}\n        logfile: {logfile}')
-  if ok_result == None:
+  if ok_result and len(ok_result) == 0:
     should_check = True
   elif ok_result and len(ok_result) == 1 and ok_result[0] == 0:
     should_check = True
@@ -50,7 +52,7 @@ def run_with_logging(
     iculog.failure(f'Execution failed with return code: {ex.returncode}')
     exit(ex.returncode)
 
-  if logfile:
+  if logfile and root_dir:
     icufs.mkdir(root_dir)
     abs_logfile = os.path.join(root_dir, logfile)
     icufs.rmfile(abs_logfile)
@@ -76,10 +78,9 @@ def run_with_logging(
 
   # Certain non-zero exit codes are acceptable.
   # For example diff returns 1 if there are differences found.
-  if ok_result != None:
-    if result.returncode not in ok_result:
-      iculog.failure(f'Failed with unexpected return code: {result.returncode}\n'
-                    f'Acceptable codes: {ok_result}, see log file for details')
-      exit(result.returncode)
+  if result.returncode not in ok_result:
+    iculog.failure(f'Failed with unexpected return code: {result.returncode}\n'
+                  f'Acceptable codes: {ok_result}, see log file for details')
+    exit(result.returncode)
 
   return result

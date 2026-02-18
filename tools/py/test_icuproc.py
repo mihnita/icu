@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright (C) 2026 and later: Unicode, Inc. and others.
 # License & terms of use: http://www.unicode.org/copyright.html
 
@@ -23,29 +25,27 @@ class TestIcuProc(unittest.TestCase):
     self.assertRegex(result.stdout, 'usr')
     self.assertRegex(result.stdout, 'var')
 
-#  def test_run_cmd_bad_flag(self):
-#    # Test valid command with invalid flag
-#    with self.assertRaises(Exception) as cm:
-#      icuproc.run_with_logging('ls -xyz /')
-#    proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
-#    self.assertRegex(proc_error.stdout, 'invalid option')
-#    self.assertEqual(proc_error.returncode, 2)
+  def test_run_cmd_bad_flag(self):
+    # Test valid command with invalid flag
+    with self.assertRaises(Exception) as cm:
+      icuproc.run_with_logging('ls -xyz /')
+    proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
+    self.assertRegex(proc_error.stdout, 'invalid option')
+    self.assertEqual(proc_error.returncode, 2)
 
-#  def test_run_cmd_bad_arg(self):
-#    # Test valid command with invalid argument
-#    with self.assertRaises(Exception) as cm:
-#      icuproc.run_with_logging('ls /xyz_bad')
-#    proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
-#    self.assertRegex(proc_error.stdout, 'No such file or directory')
-#    self.assertEqual(proc_error.returncode, 2)
+  def test_run_cmd_bad_arg(self):
+    # Test valid command with invalid argument
+    with self.assertRaises(Exception) as cm:
+      icuproc.run_with_logging('ls /xyz_bad')
+    proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
+    self.assertRegex(proc_error.stdout, 'No such file or directory')
+    self.assertEqual(proc_error.returncode, 2)
 
   def test_run_bad_cmd(self):
-    print("SPY 1 ============")
-    # with self.assertRaises(Exception) as cm:
-    icuproc.run_with_logging('no_such_cmd')
-    print("SPY 2 ============")
-    # proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
-    # self.assertEqual(proc_error.returncode, 127)
+    with self.assertRaises(Exception) as cm:
+      icuproc.run_with_logging('no_such_cmd')
+      proc_error: subprocess.CalledProcessError = cm.exception  # type: ignore
+      self.assertEqual(proc_error.returncode, 127)
 
   @classmethod
   def setUpClass(cls):
@@ -64,4 +64,4 @@ class TestIcuProc(unittest.TestCase):
 
 if __name__ == '__main__':
   iculog.init_logging()
-  # unittest.main()
+  unittest.main()
