@@ -1,0 +1,17 @@
+==================
+= args           =
+==================
+grep --help
+==================
+= returncode     =
+==================
+2
+==================
+= stdout         =
+==================
+usage: grep [-abcdDEFGHhIiJLlMmnOopqRSsUVvwXxZz] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+
+==================
