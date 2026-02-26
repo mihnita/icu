@@ -52,7 +52,7 @@ ARM/
 ARM64/
 Debug/
 Generated[!!-~]Files/
-Release/
+Release/**
 __pycache__/
 _site/
 arm/
@@ -63,7 +63,7 @@ doc/
 lib/
 !tools/cldr/lib
 out/
-release/
+release/**
 target/
 !docs/processes/release/
 tmp/
@@ -273,9 +273,9 @@ tools/multi/proj/icu4cscan/cooked
 tools/multi/proj/icu4cscan/dtdcache
 tools/multi/proj/icu4cscan/jxml
 tools/multi/proj/icu4cscan/xml
-tools/release/c/uconfigtest
-tools/release/c/uconfigtest.local
-tools/release/java/classes
+# tools/release/c/uconfigtest
+# tools/release/c/uconfigtest.local
+# tools/release/java/classes
 tools/unicode/c/genprops/genprops
 tools/unicode/c/genprops/genprops.[0-9]
 tools/unicode/c/genuca/genuca
