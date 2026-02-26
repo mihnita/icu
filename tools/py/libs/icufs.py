@@ -75,6 +75,13 @@ def copycleandir(src_dir_name: str,
     shutil.copytree(src_dir_name, trg_dir_name)
 
 
+def copyfile(src_file_name: str, trg_file_name: str):
+  """Remove an existing file (if it exists) and copy the source file."""
+  rmfile(trg_file_name)
+  iculog.info(f'[copyfile] {src_file_name} {trg_file_name}')
+  shutil.copyfile(src_file_name, trg_file_name)
+
+
 def rmfile(file_name: str) -> None:
   """Remove a file, if it exists and it is a file."""
   iculog.info(f'[rmfile] {file_name}')

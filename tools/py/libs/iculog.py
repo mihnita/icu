@@ -25,6 +25,7 @@ class ColorLogFormatter(logging.Formatter):
   def __init__(self, *args, **kwargs):  # type: ignore
     super().__init__(*args, **kwargs)  # type: ignore
 
+
   def format(self, record: logging.LogRecord, *args, **kwargs):  # type: ignore
     record.color_on = self._COLOR_CODES[record.levelno]
     record.color_off = self._RESET_CODE
@@ -123,3 +124,7 @@ def subtitle(text: str, pre: str = '[', post: str = ']') -> None:
 
 def separator():
   logging.info('%s%s%s', _head_attr, ''.center(_WIDTH + 2, '─'), _head_reset)
+
+
+# Initialize logging
+init_logging()
