@@ -1118,6 +1118,34 @@ void UnicodeSetTest::TestPropertySet() {
         expectContainment(UnicodeString(DATA[i], -1, US_INV), CharsToUnicodeString(DATA[i+1]),
                           CharsToUnicodeString(DATA[i+2]));
     }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(u"[:Noncharacter_Code_Point≠No:]", status);
+        UnicodeSet s2(u"[:Noncharacter_Code_Point:]", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"(\p{Noncharacter_Code_Point≠No})", status);
+        UnicodeSet s2(uR"(\p{Noncharacter_Code_Point})", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"(\p{dt≠can})", status);
+        UnicodeSet s2(uR"(\P{dt=can})", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        UnicodeSet s1(uR"([:dt≠can:])", status);
+        UnicodeSet s2(uR"([:^dt=can:])", status);
+        TEST_ASSERT_SUCCESS(status);
+        TEST_ASSERT(s1 == s2);
+    }
 }
 
 /**
@@ -4670,10 +4698,21 @@ void UnicodeSetTest::TestToPatternOutput() {
             {uR"([ {\N{LATIN CAPITAL LETTER Z}eichenkette} ])", uR"([{Zeichenkette}])"},
             // This used to be equal to [A] in ICU 78 and earlier.
             {uR"([ \N{LATIN CAPITAL LETTER A} - \N{LATIN CAPITAL LETTER Z} ])", uR"([A-Z])"},
+            // Escapes added by ICU-23314.
+            {uR"([ \N{41:A:LATIN CAPITAL LETTER A} - \N{005A:LATIN CAPITAL LETTER Z} ])", uR"([A-Z])"},
+            {uR"([ \N{0001226D:𒉭:CUNEIFORM SIGN NUNUZ} ])", uR"([𒉭])"},
+            {uR"([ {\N{1202D:CUNEIFORM SIGN AN}\N{12240:𒉀:CUNEIFORM SIGN NAGA}} ])", uR"([{𒀭𒉀}])"},
+            {uR"([ \N{20: :SPACE} ])", uR"([\ ])"},
+            {uR"([ \N{BED:TAMIL DIGIT SEVEN} ])", uR"([௭])"},
+            // Some character names happen to be sequences of hexadecimal digits.
+            {uR"([ \N{BED} ])", uR"([🛏])"},
             // An anchor also causes the syntax to be preserved.
             {u"[ d-z a-c $ ]", u"[d-za-c$]"},
             {u"[ - a-c d-z $ ]", uR"([\-a-cd-z$])"},
             {u"[$$$]", uR"([\$\$$])"},
+            // Ill-formed in ICU4C 78 and earlier, made well-formed by ICU-23312.
+            {u"[a-{z}]", u"[a-z]"},
+            {u"[{a}-z]", u"[a-z]"},
         }) {
         UErrorCode errorCode = U_ZERO_ERROR;
         const UnicodeSet set(expression, errorCode);
@@ -4743,9 +4782,6 @@ void UnicodeSetTest::TestParseErrors() {
             // This was a well-formed set in ICU 78 and earlier; now it must be enclosed in square
             // brackets.
             uR"(\N{ latin small letter a })",
-            // TODO(egg): Well-formed in Java, ill-formed in ICU4C in ICU 78 and earlier.
-            u"[a-{z}]",
-            u"[{a}-z]",
             // Well-formed in ICU 78 and earlier (spaces ignored).
             // In ICU 81 and later, the spaces will mean spaces.
             // Ill-formed in ICU 79 and 80.
@@ -4773,11 +4809,29 @@ void UnicodeSetTest::TestParseErrors() {
             uR"([:Some_Property=\u:])",
             uR"(\p{Some_Property=\N{SOME CHARACTER}})",
             uR"([\N{}])",
+            uR"([ \N{FFFFFFFF:NOT A CODE POINT} ])",
+            uR"([ \N{0A:LATIN CAPITAL LETTER A} ])",
+            uR"([ \N{41:a:LATIN CAPITAL LETTER A} ])",
+            uR"([ \N{12240:𒊺𒉀:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240:𒉀::CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240:𒉀:CUNEIFORM SIGN NAGA:} ])",
+            uR"([ \N{12240:CUNEIFORM SIGN NAGA:𒉀} ])",
+            uR"([ \N{𒉀:12240:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{12240} ])",
+            uR"([ \N{12240:𒉀} ])",
+            uR"([ \N{𒉀:CUNEIFORM SIGN NAGA} ])",
+            uR"([ \N{BED:BED} ])",
             // Well-formed in ICU 78 and earlier, disallowed by ICU-23308.
             uR"(\p{XID_Continue=})",
             uR"(\p{Uppercase_Letter=})",
             // Well-formed in ICU 78 and earlier, disallowed by ICU-23306.
             uR"([: ^general category = punctuation :])",
+            // Doubly negated property queries.
+            uR"(\P{Decomposition_Type≠compat})",
+            u"[:^Noncharacter_Code_Point≠No:]",
         }) {
         UErrorCode errorCode = U_ZERO_ERROR;
         const UnicodeSet set(expression, errorCode);

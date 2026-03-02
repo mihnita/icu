@@ -30,6 +30,7 @@
 #include "unicode/uset.h"
 #include "unicode/locid.h"
 #include "unicode/brkiter.h"
+#include "unicode/utfiterator.h"
 #include "uset_imp.h"
 #include "ruleiter.h"
 #include "cmemory.h"
@@ -84,6 +85,8 @@ static UBool U_CALLCONV uset_cleanup() {
 U_CDECL_END
 
 U_NAMESPACE_BEGIN
+
+using U_HEADER_ONLY_NAMESPACE::utfStringCodePoints;
 
 namespace {
 
@@ -608,19 +611,64 @@ class UnicodeSet::Lexer {
                                                            RuleCharacterIterator::SKIP_WHITESPACE),
                                          unusedEscaped, errorCode);
         if (open == u'{') {
-            int32_t nameStart = parsePosition_.getIndex();
+            int32_t start = parsePosition_.getIndex();
+            std::optional<UChar32> hex;
+            std::optional<UChar32> literal;
             while (!chars_.atEnd() && U_SUCCESS(errorCode)) {
                 UChar32 last = chars_.next(charsOptions_ & ~(RuleCharacterIterator::PARSE_ESCAPES |
                                                              RuleCharacterIterator::SKIP_WHITESPACE),
                                            unusedEscaped, errorCode);
-                if (last == u'}') {
+                if (last == u':') {
+                    if (!hex.has_value()) {
+                        hex.emplace();
+                        for (char16_t digit : std::u16string_view(pattern_).substr(
+                                 start, parsePosition_.getIndex() - 1 - start)) {
+                            uint8_t nibble;
+                            if (digit >= u'0' && digit <= u'9') {
+                                nibble = digit - '0';
+                            } else {
+                                digit = digit & ~0x20;
+                                if (digit >= u'A' && digit <= u'F') {
+                                    nibble = digit - u'A' + 0xA;
+                                } else {
+                                    errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                                    return {};
+                                }
+                            }
+                            *hex = (*hex << 4) + nibble;
+                            if (hex > 0x10FFFF) {
+                                errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                                return {};
+                            }
+                        }
+                    } else if (!literal.has_value()) {
+                        const auto literalCodePoints = utfStringCodePoints<UChar32, UTF_BEHAVIOR_FFFD>(
+                            std::u16string_view(pattern_).substr(start,
+                                                                 parsePosition_.getIndex() - 1 - start));
+                        auto it = literalCodePoints.begin();
+                        if (it == literalCodePoints.end() || !it->wellFormed() ||
+                                (literal = it->codePoint(), ++it) != literalCodePoints.end()) {
+                            errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                            return {};
+                        }
+                    } else {
+                        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                        return {};
+                    }
+                    start = parsePosition_.getIndex();
+                } else if (last == u'}') {
                     UnicodeSet result;
                     result.applyPropertyAlias(
                         UnicodeString(NAME_PROP),
-                        pattern_.tempSubStringBetween(nameStart, parsePosition_.getIndex() - 1),
+                        pattern_.tempSubStringBetween(start, parsePosition_.getIndex() - 1),
                         errorCode);
                     result.setPattern(
-                        pattern_.tempSubStringBetween(nameStart - 3, parsePosition_.getIndex()));
+                        pattern_.tempSubStringBetween(start - 3, parsePosition_.getIndex()));
+                    if ((hex.has_value() && result.charAt(0) != hex) ||
+                        (literal.has_value() && result.charAt(0) != literal)) {
+                        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                        return {};
+                    }
                     return result.charAt(0);
                 }
             }
@@ -693,6 +741,7 @@ class UnicodeSet::Lexer {
         std::optional<int32_t> queryOperatorPosition;
         int32_t queryExpressionStart = parsePosition_.getIndex();
         bool exteriorlyNegated = false;
+        bool interiorlyNegated = false;
         UBool unusedEscaped;
         // Do not skip whitespace so we can recognize unspaced :].  Lex escapes and
         // named-element: while ICU does not support string-valued properties and thus has no
@@ -742,7 +791,14 @@ class UnicodeSet::Lexer {
                 // Neither a named-element nor an escaped-element can be part of a closing :].
                 lastUnescaped = -1;
             } else if (!queryOperatorPosition.has_value() && lastUnescaped == u'=') {
-                // TODO(egg): Propose and add support for ≠.
+                queryOperatorPosition = parsePosition_.getIndex() - 1;
+            } else if (!queryOperatorPosition.has_value() && lastUnescaped == u'≠') {
+                if (exteriorlyNegated) {
+                    // Reject doubly negated property queries.
+                    errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                    return {};
+                }
+                interiorlyNegated = true;
                 queryOperatorPosition = parsePosition_.getIndex() - 1;
             } else if ((first == u'[' && penultimateUnescaped == u':' && lastUnescaped == u']') ||
                        (first == u'\\' && lastUnescaped == u'}')) {
@@ -772,7 +828,7 @@ class UnicodeSet::Lexer {
                     pattern_.tempSubStringBetween(queryExpressionStart,
                                                   queryOperatorPosition.value_or(queryExpressionLimit)),
                     propertyPredicate, errorCode);
-                if (exteriorlyNegated) {
+                if (exteriorlyNegated != interiorlyNegated) {
                     result.complement().removeAllStrings();
                 }
                 result.setPattern(pattern_.tempSubStringBetween(queryStart, parsePosition_.getIndex()));
@@ -1090,15 +1146,12 @@ void UnicodeSet::parseElements(Lexer &lexer,
     // Range        ::= RangeElement - RangeElement
     // RangeElement ::= literal-element
     //                | escaped-element
+    //                | named-element
+    //                | bracketed-element
     // Element      ::= RangeElement
     //                | string-literal
-    //                | bracketed-element
-    // RangeElement ::= literal-element
-    //                | escaped-element
-    //                | named-element
-    // codePoint().has_value() on a lexical element if it is a RangeElement or a bracketed-element (which
-    // should become a RangeElement, but this will take another ICU proposal).
-    if (lexer.lookahead().isBracketedElement() || lexer.lookahead().isStringLiteral()) {
+    // codePoint().has_value() on a lexical element if it is a RangeElement.
+    if (lexer.lookahead().isStringLiteral()) {
         add(*lexer.lookahead().element());
         rebuiltPat.append(u'{');
         _appendToPat(rebuiltPat, *lexer.lookahead().element(), /*escapeUnprintable=*/false);
@@ -1113,7 +1166,7 @@ void UnicodeSet::parseElements(Lexer &lexer,
     } else if (lexer.lookahead().codePoint().has_value()) {
         first = *lexer.lookahead().codePoint();
     } else {
-        U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement | string-literal | bracketed-element",
+        U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement | string-literal",
                                              lexer.lookahead().debugString(),
                                              lexer, ec);
     }
@@ -1147,7 +1200,7 @@ void UnicodeSet::parseElements(Lexer &lexer,
                                                      lexer.lookahead2().debugString(),
                                                  lexer, ec);
         }
-    } else if (lexer.lookahead().codePoint().has_value() && !lexer.lookahead().isBracketedElement()) {
+    } else if (lexer.lookahead().codePoint().has_value()) {
         last = *lexer.lookahead().codePoint();
     } else {
         U_UNICODESET_RETURN_WITH_PARSE_ERROR("RangeElement", lexer.lookahead().debugString(), lexer, ec);
