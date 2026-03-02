@@ -124,7 +124,3 @@ def subtitle(text: str, pre: str = '[', post: str = ']') -> None:
 
 def separator():
   logging.info('%s%s%s', _head_attr, ''.center(_WIDTH + 2, '─'), _head_reset)
-
-
-# Initialize logging
-init_logging()

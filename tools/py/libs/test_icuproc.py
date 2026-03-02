@@ -56,5 +56,4 @@ class TestIcuProc(unittest.TestCase):
 
 
 if __name__ == '__main__':
-  iculog.init_logging()
   unittest.main()

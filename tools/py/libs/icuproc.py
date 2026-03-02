@@ -28,7 +28,7 @@ def run_with_logging(
     the result of the subprocess execution.
   """
   if root_dir is None:
-    root_dir = './logs'
+    root_dir = '.'
   if ok_result is None:
     ok_result = [0]
   iculog.info(f'[execute] {command}\n        logfile: {logfile}')
@@ -53,7 +53,7 @@ def run_with_logging(
     exit(ex.returncode)
 
   if logfile and root_dir:
-    abs_logdir = os.path.join(root_dir, 'target', 'logs')
+    abs_logdir = os.path.join(root_dir, 'target', 'pylogs')
     icufs.mkdir(abs_logdir)
     abs_logfile = os.path.join(abs_logdir, logfile)
     icufs.rmfile(abs_logfile)
