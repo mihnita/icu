@@ -38,7 +38,7 @@ These will be the building blocks that we will use to migrate the current shell 
 
 ## Testing
 
-From the current folder (`<icuroot>/tools/py/libs`) run:
+From the parent folder (`<icuroot>/tools/py`) run:
 ```sh
 python -m unittest discover .
 ```

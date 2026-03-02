@@ -25,15 +25,18 @@ class TestIcuProc(unittest.TestCase):
 
   def test_run_cmd_bad_flag(self):
     # Test valid command with invalid flag
+    iculog.warning("The ERROR and CRITICAL messages here are expected")
     with self.assertRaises(SystemExit) as cm:
       icuproc.run_with_logging('grep -badxyz .')
 
   def test_run_cmd_bad_arg(self):
     # Test valid command with invalid argument
+    iculog.warning("The ERROR and CRITICAL messages here are expected")
     with self.assertRaises(SystemExit) as cm:
       icuproc.run_with_logging('grep xyz bad')
 
   def test_run_bad_cmd(self):
+    iculog.warning("The ERROR and CRITICAL messages here are expected")
     with self.assertRaises(SystemExit) as cm:
       icuproc.run_with_logging('no_such_cmd')
 

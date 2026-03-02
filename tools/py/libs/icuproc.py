@@ -53,8 +53,9 @@ def run_with_logging(
     exit(ex.returncode)
 
   if logfile and root_dir:
-    icufs.mkdir(root_dir)
-    abs_logfile = os.path.join(root_dir, logfile)
+    abs_logdir = os.path.join(root_dir, 'target', 'logs')
+    icufs.mkdir(abs_logdir)
+    abs_logfile = os.path.join(abs_logdir, logfile)
     icufs.rmfile(abs_logfile)
     with open(abs_logfile, 'w', encoding='utf-8') as f:
       f.write('==================\n')
