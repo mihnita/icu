@@ -20,8 +20,8 @@ class TestIcuProc(unittest.TestCase):
     # WARNING: on some system it returns 0, on some it returns 2. Both are OK.
     self.assertIn(result.returncode, ok_result)
     self.assertRegex(result.stdout, 'pattern')
-    self.assertRegex(result.stdout, 'recursive')
-    self.assertRegex(result.stdout, 'quiet')
+    self.assertRegex(result.stdout, 'directories')
+    self.assertRegex(result.stdout, 'binary')
 
   def test_run_cmd_bad_flag(self):
     # Test valid command with invalid flag
