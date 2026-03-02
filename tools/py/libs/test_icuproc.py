@@ -15,12 +15,13 @@ class TestIcuProc(unittest.TestCase):
   """Test class for the file system utilities."""
 
   def test_run_cmd(self):
-    result: subprocess.CompletedProcess[str] = icuproc.run_with_logging('grep --help', ok_result=[2])
-    self.assertEqual(result.returncode, 2)
-    # WARNING: not portable
-    self.assertRegex(result.stdout, 'usage')
-    self.assertRegex(result.stdout, 'color')
+    ok_result = [0, 2]
+    result: subprocess.CompletedProcess[str] = icuproc.run_with_logging('grep --help', ok_result=ok_result)
+    # WARNING: on some system it returns 0, on some it returns 2. Both are OK.
+    self.assertIn(result.returncode, ok_result)
     self.assertRegex(result.stdout, 'pattern')
+    self.assertRegex(result.stdout, 'recursive')
+    self.assertRegex(result.stdout, 'quiet')
 
   def test_run_cmd_bad_flag(self):
     # Test valid command with invalid flag

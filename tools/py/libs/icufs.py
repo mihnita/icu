@@ -86,7 +86,11 @@ def rmfile(file_name: str) -> None:
   """Remove a file, if it exists and it is a file."""
   iculog.info(f'[rmfile] {file_name}')
   if os.path.isfile(file_name):
-    os.remove(file_name)
+    try:
+      os.remove(file_name)
+    except PermissionError:
+      os.chmod(file_name, 0o200)  # Make it writeable
+      os.remove(file_name)
   elif os.path.exists(file_name):
     iculog.warning(f'[rmfile] Tried to remove a non-file: {file_name}')
 
