@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# Copyright (C) 2026 and later: Unicode, Inc. and others.
+# License & terms of use: http://www.unicode.org/copyright.html
 
 """Interface for all steps, don't use directly."""
 
