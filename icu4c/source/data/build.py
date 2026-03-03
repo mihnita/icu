@@ -27,6 +27,7 @@ cldrtools_jar = None
 cldr_tmp_dir = None
 
 def init():
+  iculog.subtitle('init()')
   iculog.info(str(datetime.datetime.now()))
 
   # icu4c_dir = '../..'
@@ -35,7 +36,9 @@ def init():
   if not cldr_dir:
     iculog.failure('Please set the CLDR_DIR environment variable to the top level CLDR source dir (containing \'common\').')
 
-  cldrtools_dir = f'{cldr_dir}/cldr-tools'
+  cldrtools_dir = os.path.join(cldr_dir, 'tools')
+  print(f'cldr_dir:{cldr_dir}')
+  print(f'cldrtools_dir:{cldrtools_dir}')
   if not os.path.isdir(cldrtools_dir):
     iculog.failure('Please make sure that the CLDR tools directory is checked out into CLDR_DIR')
 
@@ -47,13 +50,7 @@ def init():
   cldrtools_jar = f'{cldrtools_dir}/cldr-code/target/cldr-code.jar'
   if not os.path.isfile(cldrtools_jar):
     iculog.failure(f'CLDR classes not found in {cldrtools_dir}/cldr-code/target/classes. ' \
-                   'Please either set the CLDR_CLASSES environment variable or build cldr-code.jar.')
-  # <condition property="is.cldr.classes.set">
-  #     <or>
-  #         <isset property="env.CLDR_CLASSES" />
-  #         <isset property="cldrtools.jar" />
-  #     </or>
-  # </condition>
+                   'Please build cldr-code.jar.')
 
   global cldr_tmp_dir
   cldr_tmp_dir = f"{cldr_dir}/../cldr-aux" # Hack: see CLDRPaths
@@ -67,34 +64,55 @@ def init():
   iculog.info(f'CLDR_TMP_DIR: {cldr_tmp_dir} ')
   iculog.info(f'cldr.prod_dir (production data): {cldr_prod_dir}')
 
+
 def setup(): # depends="init"
+  iculog.subtitle('setup()')
+  init()
   global cldr_tmp_dir
   if cldr_tmp_dir:
     icufs.mkdir(cldr_tmp_dir) # make sure parent dir exists
-  # <condition property="cldrprod.exists">
-  #     <available file="${cldr.prod_dir}/common" type="dir"/>
-  # </condition>
 
 
 def cleanprod(): # depends="init, setup" if="cldrprod.exists"
+  iculog.title('setup()')
+  setup()
   icufs.rmdir(f'{cldr_prod_dir}/common')
   icufs.rmdir(f'{cldr_prod_dir}/keyboards')
 
 
 def proddata(): # depends="init,setup" unless="cldrprod.exists">
-  iculog.info(f'Rebuilding {cldr_prod_dir} - takes a while!')
+  iculog.title('proddata()')
+  setup()
   # setup prod data
+  iculog.info(f'Rebuilding {cldr_prod_dir} - takes a while!')
+  notes_dir = os.environ.get('NOTES')
+  if not notes_dir:
+    notes_dir = '.'
   icuproc.run_with_logging(
     'java ' \
     f'-cp {cldrtools_jar}' \
     # change to short alias 'proddata' or similar when annotated
     ' org.unicode.cldr.tool.GenerateProductionData' \
-    ' -v')
+    ' -v',
+    logfile=os.path.join(notes_dir, 'cldr-newData-proddataLog.txt')
+  )
   # TODO: for now, we just let the default source/target paths used. could set '-s' / '-d' for explicit source/dest
 
 
 def main():
-  iculog.subtitle('main()')
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-c', '--cleanprod', help='remove all build targets', action='store_true')
+  # parser.add_argument('--init', help='compile release tools', action='store_true')
+  parser.add_argument('-p', '--proddata', help='olddir TODO', action='store_true')
+  # parser.add_argument('--setup', help='newdir TODO')
+  cmd = parser.parse_args()
+
+  if cmd.cleanprod:
+    cleanprod()
+  elif cmd.proddata:
+    proddata()
+  else:
+    parser.print_help()
 
   # Main targets:
   # Other targets:
