@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -52,8 +54,17 @@ public class RBBITestMonkey extends CoreTestFmwk {
         RBBIMonkeyKind() {
             sets = new ArrayList<>();
             classNames = new ArrayList<>();
-            fAppliedRules = new ArrayList<>();
             dictionarySet = new UnicodeSet();
+        }
+
+        static class RBBIMonkeyKindState {
+            ArrayList<String> fAppliedRules = new ArrayList<>();
+            StringBuffer text;
+            SegmentationRule.BreakContext[] resolved;
+        }
+
+        RBBIMonkeyKindState createState() {
+            return new RBBIMonkeyKindState();
         }
 
         // Return a List of UnicodeSets, representing the character classes used
@@ -63,37 +74,37 @@ public class RBBITestMonkey extends CoreTestFmwk {
         }
 
         // Set the test text on which subsequent calls to next() will operate
-        void setText(StringBuffer s) {
-            text = s;
-            prepareAppliedRules(s.length());
+        void setText(RBBIMonkeyKindState state, StringBuffer s) {
+            state.text = s;
+            prepareAppliedRules(state, s.length());
             StringBuilder remapped = new StringBuilder(s.toString());
-            resolved = new BreakContext[s.length() + 1];
-            for (int i = 0; i < resolved.length; ++i) {
-                resolved[i] = new BreakContext(i);
+            state.resolved = new BreakContext[s.length() + 1];
+            for (int i = 0; i < state.resolved.length; ++i) {
+                state.resolved[i] = new BreakContext(i);
             }
             for (final SegmentationRule rule : rules) {
-                rule.apply(remapped, resolved);
+                rule.apply(remapped, state.resolved);
             }
-            for (int i = 0; i < resolved.length; ++i) {
+            for (int i = 0; i < state.resolved.length; ++i) {
                 if (i > 0
                         && i < s.length()
                         && UTF16.isLeadSurrogate(s.charAt(i - 1))
                         && UTF16.isTrailSurrogate(s.charAt(i))) {
                     continue;
                 }
-                if (resolved[i].appliedRule == null) {
+                if (state.resolved[i].appliedRule == null) {
                     throw new IllegalArgumentException("Failed to resolve at " + i);
                 }
-                setAppliedRule(i, resolved[i].appliedRule.name());
+                setAppliedRule(state, i, state.resolved[i].appliedRule.name());
             }
         }
 
         // Find the next break position, starting from the specified position.
         // Return -1 after reaching end of string.
-        int next(int startPos) {
-            for (int i = startPos + 1; i < resolved.length; ++i) {
-                if (resolved[i].appliedRule != null
-                        && resolved[i].appliedRule.resolution() == Resolution.BREAK) {
+        int next(RBBIMonkeyKindState state, int startPos) {
+            for (int i = startPos + 1; i < state.resolved.length; ++i) {
+                if (state.resolved[i].appliedRule != null
+                        && state.resolved[i].appliedRule.resolution() == Resolution.BREAK) {
                     return i;
                 }
             }
@@ -110,12 +121,12 @@ public class RBBITestMonkey extends CoreTestFmwk {
             return dictionarySet;
         }
 
-        void setAppliedRule(int position, String value) {
-            fAppliedRules.set(position, value);
+        void setAppliedRule(RBBIMonkeyKindState state, int position, String value) {
+            state.fAppliedRules.set(position, value);
         }
 
-        String getAppliedRule(int position) {
-            return fAppliedRules.get(position);
+        String getAppliedRule(RBBIMonkeyKindState state, int position) {
+            return state.fAppliedRules.get(position);
         }
 
         String classNameFromCodepoint(int c) {
@@ -140,12 +151,12 @@ public class RBBITestMonkey extends CoreTestFmwk {
         }
 
         // Clear `appliedRules` and fill it with empty strings in the size of test text.
-        void prepareAppliedRules(int size) {
+        void prepareAppliedRules(RBBIMonkeyKindState state, int size) {
             // Remove all the information in the `appliedRules`.
-            fAppliedRules.clear();
-            fAppliedRules.ensureCapacity(size + 1);
-            while (fAppliedRules.size() < size + 1) {
-                fAppliedRules.add("");
+            state.fAppliedRules.clear();
+            state.fAppliedRules.ensureCapacity(size + 1);
+            while (state.fAppliedRules.size() < size + 1) {
+                state.fAppliedRules.add("");
             }
         }
 
@@ -173,9 +184,6 @@ public class RBBITestMonkey extends CoreTestFmwk {
         ArrayList<String> classNames;
         List<SegmentationRule> rules;
         UnicodeSet dictionarySet;
-        private ArrayList<String> fAppliedRules;
-        private StringBuffer text;
-        private SegmentationRule.BreakContext[] resolved;
     }
 
     /** Monkey test subclass for testing Character (Grapheme Cluster) boundaries. */
@@ -1387,11 +1395,9 @@ public class RBBITestMonkey extends CoreTestFmwk {
      * easily reproduce failing cases. TODO(egg): We need a better random number generator; ideally
      * the same as in C++, but that may be tricky.
      */
-    private static int m_seed = 1;
-
-    private static int m_rand() {
-        m_seed = m_seed * 1103515245 + 12345;
-        return (m_seed >>> 16) % 32768;
+    private static int m_rand(int[] seed) {
+        seed[0] = seed[0] * 1103515245 + 12345;
+        return (seed[0] >>> 16) % 32768;
     }
 
     private static final String[] monkeys = new String[] {"🙈", "🙉", "🙊", "🐵", "🐒"};
@@ -1440,32 +1446,310 @@ public class RBBITestMonkey extends CoreTestFmwk {
      * of test (char, word, etc.) for use in error messages seed - Seed for starting random number
      * generator (parameter from user) numIterations
      */
-    void RunMonkey(BreakIterator bi, RBBIMonkeyKind mk, String name, int seed, int numIterations) {
+    private void runMonkeyIteration(
+            int iterationSeed,
+            RBBIMonkeyKind mk,
+            BreakIterator bi,
+            int numCharClasses,
+            List<UnicodeSet> chClasses,
+            String name,
+            AtomicInteger errorCount) {
         int TESTSTRINGLEN = 500;
-        StringBuffer testText = new StringBuffer();
-        int numCharClasses;
-        List<UnicodeSet> chClasses;
-        @SuppressWarnings("unused")
-        int expectedCount = 0;
+        int[] threadSeed = {iterationSeed};
         boolean[] expectedBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] forwardBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] reverseBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] isBoundaryBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] followingBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] precedingBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
-        int i;
-        int loopCount = 0;
-        int errorCount = 0;
         boolean printTestData = false;
         boolean printBreaksFromBI = false;
 
-        m_seed = seed;
+        StringBuffer testText = new StringBuffer();
+        RBBIMonkeyKind.RBBIMonkeyKindState mkState = mk.createState();
+        BreakIterator threadBi = (BreakIterator) bi.clone();
+
+        // Populate a test string with data.
+        if (printTestData) {
+            System.out.println("Test Data string ...");
+        }
+        final boolean java8OrOlder = System.getProperty("java.version").startsWith("1.");
+        for (int i = 0; i < TESTSTRINGLEN; i++) {
+            int aClassNum = m_rand(threadSeed) % numCharClasses;
+            UnicodeSet classSet = (UnicodeSet) chClasses.get(aClassNum);
+            int charIdx = m_rand(threadSeed) % classSet.size();
+            int c = classSet.charAt(charIdx);
+            if (c < 0) { // TODO:  deal with sets containing strings.
+                errln("c < 0");
+            }
+            if (mk.getDictionarySet().contains(c)) {
+                continue;
+            }
+            // Do not emit surrogates on Java 8, as the behaviour of regular expressions that
+            // match surrogates differs there.
+            if (java8OrOlder && Character.isBmpCodePoint(c) && Character.isSurrogate((char) c)) {
+                continue;
+            }
+            // Do not assemble a supplementary character from randomly generated separate
+            // surrogates.
+            //   (It could be a dictionary character)
+            if (c < 0x10000
+                    && Character.isLowSurrogate((char) c)
+                    && testText.length() > 0
+                    && Character.isHighSurrogate(testText.charAt(testText.length() - 1))) {
+                continue;
+            }
+            testText.appendCodePoint(c);
+            if (printTestData) {
+                System.out.print(Integer.toHexString(c) + " ");
+            }
+        }
+        if (printTestData) {
+            System.out.println();
+        }
+
+        Arrays.fill(expectedBreaks, false);
+        Arrays.fill(forwardBreaks, false);
+        Arrays.fill(reverseBreaks, false);
+        Arrays.fill(isBoundaryBreaks, false);
+        Arrays.fill(followingBreaks, false);
+        Arrays.fill(precedingBreaks, false);
+
+        // Calculate the expected results for this test string and reset applied
+        // rules.
+        mk.setText(mkState, testText);
+        expectedBreaks[0] = true;
+        int breakPos = 0;
+        int lastBreakPos = -1;
+        for (; ; ) {
+            lastBreakPos = breakPos;
+            breakPos = mk.next(mkState, breakPos);
+            if (breakPos == -1) {
+                break;
+            }
+            if (breakPos > testText.length()) {
+                errln("breakPos > testText.length()");
+            }
+            if (lastBreakPos >= breakPos) {
+                errln("Next() not increasing.");
+            }
+            expectedBreaks[breakPos] = true;
+        }
+
+        // Find the break positions using forward iteration
+        if (printBreaksFromBI) {
+            System.out.println("Breaks from BI...");
+        }
+        threadBi.setText(testText.toString());
+        for (int i = threadBi.first(); i != BreakIterator.DONE; i = threadBi.next()) {
+            if (i < 0 || i > testText.length()) {
+                errln(
+                        name
+                                + " break monkey test: Out of range value returned by breakIterator::next()");
+                break;
+            }
+            if (printBreaksFromBI) {
+                System.out.print(Integer.toHexString(i) + " ");
+            }
+            forwardBreaks[i] = true;
+        }
+        if (printBreaksFromBI) {
+            System.out.println();
+        }
+
+        // Find the break positions using reverse iteration
+        for (int i = threadBi.last(); i != BreakIterator.DONE; i = threadBi.previous()) {
+            if (i < 0 || i > testText.length()) {
+                errln(
+                        name
+                                + " break monkey test: Out of range value returned by breakIterator.next()"
+                                + name);
+                break;
+            }
+            reverseBreaks[i] = true;
+        }
+
+        // Find the break positions using isBoundary() tests.
+        for (int i = 0; i <= testText.length(); i++) {
+            isBoundaryBreaks[i] = threadBi.isBoundary(i);
+        }
+
+        // Find the break positions using the following() function.
+        lastBreakPos = 0;
+        followingBreaks[0] = true;
+        for (int i = 0; i < testText.length(); i++) {
+            int bPos = threadBi.following(i);
+            if (bPos <= i
+                    || bPos < lastBreakPos
+                    || bPos > testText.length()
+                    || bPos > lastBreakPos && lastBreakPos > i) {
+                errln(
+                        name
+                                + " break monkey test: Out of range value returned by BreakIterator::following().\n"
+                                + "index="
+                                + i
+                                + "following returned="
+                                + bPos
+                                + "lastBreak="
+                                + lastBreakPos);
+                precedingBreaks[i] = !expectedBreaks[i]; // Forces an error.
+            } else {
+                followingBreaks[bPos] = true;
+                lastBreakPos = bPos;
+            }
+        }
+
+        // Find the break positions using the preceding() function.
+        lastBreakPos = testText.length();
+        precedingBreaks[testText.length()] = true;
+        for (int i = testText.length(); i > 0; i--) {
+            int bPos = threadBi.preceding(i);
+            if (bPos >= i
+                    || bPos > lastBreakPos
+                    || bPos < 0
+                    || bPos < lastBreakPos && lastBreakPos < i) {
+                errln(
+                        name
+                                + " break monkey test: Out of range value returned by BreakIterator::preceding().\n"
+                                + "index="
+                                + i
+                                + "preceding returned="
+                                + bPos
+                                + "lastBreak="
+                                + lastBreakPos);
+                precedingBreaks[i] = !expectedBreaks[i]; // Forces an error.
+            } else {
+                precedingBreaks[bPos] = true;
+                lastBreakPos = bPos;
+            }
+        }
+
+        // Compare the expected and actual results.
+        for (int i = 0; i <= testText.length(); i++) {
+            String errorType = null;
+            boolean[] currentBreakData = null;
+            if (forwardBreaks[i] != expectedBreaks[i]) {
+                errorType = "next()";
+                currentBreakData = forwardBreaks;
+            } else if (reverseBreaks[i] != forwardBreaks[i]) {
+                errorType = "previous()";
+                currentBreakData = reverseBreaks;
+            } else if (isBoundaryBreaks[i] != expectedBreaks[i]) {
+                errorType = "isBoundary()";
+                currentBreakData = isBoundaryBreaks;
+            } else if (followingBreaks[i] != expectedBreaks[i]) {
+                errorType = "following()";
+                currentBreakData = followingBreaks;
+            } else if (precedingBreaks[i] != expectedBreaks[i]) {
+                errorType = "preceding()";
+                currentBreakData = precedingBreaks;
+            }
+
+            if (errorType != null) {
+                errorCount.incrementAndGet();
+                // Format a range of the test text that includes the failure as
+                //  a data item that can be included in the rbbi test data file.
+
+                // Start of the range is the last point where expected and actual results
+                //   both agreed that there was a break position.
+                int startContext = i;
+                int count = 0;
+                for (; ; ) {
+                    if (startContext == 0) {
+                        break;
+                    }
+                    startContext--;
+                    if (expectedBreaks[startContext]) {
+                        if (count == 2) break;
+                        count++;
+                    }
+                }
+
+                // End of range is two expected breaks past the start position.
+                int endContext = i + 1;
+                for (int ci = 0; ci < 2; ci++) { // Number of items to include in error text.
+                    for (; ; ) {
+                        if (endContext >= testText.length()) {
+                            break;
+                        }
+                        if (expectedBreaks[endContext - 1]) {
+                            if (count == 0) break;
+                            count--;
+                        }
+                        endContext++;
+                    }
+                }
+
+                // Formatting of each line includes:
+                //   character code
+                //   reference break: '|' -> a break, '.' -> no break
+                //   actual break:    '|' -> a break, '.' -> no break
+                //   (name of character clase)
+                //   Unicode name of character
+                //   '--→' indicates location of the difference.
+
+                StringBuilder buffer = new StringBuilder();
+                buffer.append("\n")
+                        .append(
+                                (expectedBreaks[i]
+                                        ? "Break expected but not found."
+                                        : "Break found but not expected."))
+                        .append(
+                                String.format(
+                                        " at index %d. Parameters to reproduce: -Dtest=RBBITestMonkey#Test%sMonkey -Dseed=%d -Dloop=1\n",
+                                        i, name, iterationSeed));
+
+                for (int ci = startContext;
+                        ci <= endContext && ci != -1;
+                        ci = nextCP(testText, ci)) {
+                    if (ci == testText.length()) {
+                        break; // TODO(egg): The index dance above seems wrong.
+                    }
+                    int c = testText.codePointAt(ci); // Char from test data
+                    buffer.append((ci == i) ? " --→" : "    ")
+                            .append(String.format(" %3d : ", ci))
+                            .append(!expectedBreaks[ci] ? " . " : " | ") // Reference break
+                            .append(!currentBreakData[ci] ? " . " : " | "); // Actual break
+
+                    // BMP or SMP character in hex
+                    if (c >= 0x10000) {
+                        buffer.append("\\U").append(String.format("%08x", c));
+                    } else {
+                        buffer.append("    \\u").append(String.format("%04x", c));
+                    }
+
+                    buffer.append(
+                                    String.format(
+                                            String.format(" %%-%ds", mk.maxClassNameSize()),
+                                            mk.classNameFromCodepoint(c)))
+                            .append(String.format(" %-40s", mk.getAppliedRule(mkState, ci)))
+                            .append(String.format(" %-40s\n", UCharacter.getExtendedName(c)));
+
+                    if (ci >= endContext) {
+                        break;
+                    }
+                }
+                errln(buffer.toString());
+                break;
+            }
+        }
+    }
+
+    /**
+     * Run a RBBI monkey test. Common routine, for all break iterator types. Parameters: bi - the
+     * break iterator to use mk - MonkeyKind, abstraction for obtaining expected results name - Name
+     * of test (char, word, etc.) for use in error messages seed - Seed for starting random number
+     * generator (parameter from user) numIterations
+     */
+    void RunMonkey(BreakIterator bi, RBBIMonkeyKind mk, String name, int seed, int numIterations) {
+        int numCharClasses;
+        List<UnicodeSet> chClasses;
 
         numCharClasses = mk.charClasses().size();
         chClasses = mk.charClasses();
 
         // Verify that the character classes all have at least one member.
-        for (i = 0; i < numCharClasses; i++) {
+        for (int i = 0; i < numCharClasses; i++) {
             UnicodeSet s = (UnicodeSet) chClasses.get(i);
             if (s == null || s.size() == 0) {
                 errln("Character Class " + i + " is null or of zero size.");
@@ -1473,322 +1757,31 @@ public class RBBITestMonkey extends CoreTestFmwk {
             }
         }
 
-        // --------------------------------------------------------------------------------------------
-        //
-        //  Debugging settings.  Comment out everything in the following block for normal operation
-        //
-        // --------------------------------------------------------------------------------------------
-        // numIterations = -1;
-        // numIterations = 10000;   // Same as exhaustive.
-        // RuleBasedBreakIterator_New.fTrace = true;
-        // m_seed = 859056465;
-        // TESTSTRINGLEN = 50;
-        // printTestData = true;
-        // printBreaksFromBI = true;
-        // ((RuleBasedBreakIterator_New)bi).dump();
+        final int actualNumIterations = numIterations == -1 ? 1000 : numIterations;
+        final AtomicInteger errorCount = new AtomicInteger(0);
 
-        // --------------------------------------------------------------------------------------------
-        //
-        //  End of Debugging settings.
-        //
-        // --------------------------------------------------------------------------------------------
-
-        // For minimizing width of class name output.
-        int classNameSize = mk.maxClassNameSize();
-        while (loopCount < numIterations || numIterations == -1) {
-            if (numIterations == -1 && loopCount % 10 == 0) {
-                // If test is running in an infinite loop, display a periodic tic so
-                //   we can tell that it is making progress.
-                System.out.print(monkeys[m_rand() % monkeys.length]);
-                if (loopCount % 1_000_000 == 0) {
-                    System.out.println(
-                            "\nTested "
-                                    + loopCount / 1_000_000
-                                    + " million random strings with "
-                                    + errorCount
-                                    + " errors");
-                }
-            }
-            // Save current random number seed, so that we can recreate the random numbers
-            //   for this loop iteration in event of an error.
-            seed = m_seed;
-
-            testText.setLength(0);
-            // Populate a test string with data.
-            if (printTestData) {
-                System.out.println("Test Data string ...");
-            }
-            final boolean java8OrOlder = System.getProperty("java.version").startsWith("1.");
-            for (i = 0; i < TESTSTRINGLEN; i++) {
-                int aClassNum = m_rand() % numCharClasses;
-                UnicodeSet classSet = (UnicodeSet) chClasses.get(aClassNum);
-                int charIdx = m_rand() % classSet.size();
-                int c = classSet.charAt(charIdx);
-                if (c < 0) { // TODO:  deal with sets containing strings.
-                    errln("c < 0");
-                }
-                if (mk.getDictionarySet().contains(c)) {
-                    continue;
-                }
-                // Do not emit surrogates on Java 8, as the behaviour of regular expressions that
-                // match surrogates differs there.
-                if (java8OrOlder
-                        && Character.isBmpCodePoint(c)
-                        && Character.isSurrogate((char) c)) {
-                    continue;
-                }
-                // Do not assemble a supplementary character from randomly generated separate
-                // surrogates.
-                //   (It could be a dictionary character)
-                if (c < 0x10000
-                        && Character.isLowSurrogate((char) c)
-                        && testText.length() > 0
-                        && Character.isHighSurrogate(testText.charAt(testText.length() - 1))) {
-                    continue;
-                }
-                testText.appendCodePoint(c);
-                if (printTestData) {
-                    System.out.print(Integer.toHexString(c) + " ");
-                }
-            }
-            if (printTestData) {
-                System.out.println();
-            }
-
-            Arrays.fill(expectedBreaks, false);
-            Arrays.fill(forwardBreaks, false);
-            Arrays.fill(reverseBreaks, false);
-            Arrays.fill(isBoundaryBreaks, false);
-            Arrays.fill(followingBreaks, false);
-            Arrays.fill(precedingBreaks, false);
-
-            // Calculate the expected results for this test string and reset applied rules.
-            mk.setText(testText);
-            expectedCount = 0;
-            expectedBreaks[0] = true;
-            int breakPos = 0;
-            int lastBreakPos = -1;
-            for (; ; ) {
-                lastBreakPos = breakPos;
-                breakPos = mk.next(breakPos);
-                if (breakPos == -1) {
-                    break;
-                }
-                if (breakPos > testText.length()) {
-                    errln("breakPos > testText.length()");
-                }
-                if (lastBreakPos >= breakPos) {
-                    errln("Next() not increasing.");
-                    // break;
-                }
-                expectedBreaks[breakPos] = true;
-            }
-
-            // Find the break positions using forward iteration
-            if (printBreaksFromBI) {
-                System.out.println("Breaks from BI...");
-            }
-            bi.setText(testText.toString());
-            for (i = bi.first(); i != BreakIterator.DONE; i = bi.next()) {
-                if (i < 0 || i > testText.length()) {
-                    errln(
-                            name
-                                    + " break monkey test: Out of range value returned by breakIterator::next()");
-                    break;
-                }
-                if (printBreaksFromBI) {
-                    System.out.print(Integer.toHexString(i) + " ");
-                }
-                forwardBreaks[i] = true;
-            }
-            if (printBreaksFromBI) {
-                System.out.println();
-            }
-
-            // Find the break positions using reverse iteration
-            for (i = bi.last(); i != BreakIterator.DONE; i = bi.previous()) {
-                if (i < 0 || i > testText.length()) {
-                    errln(
-                            name
-                                    + " break monkey test: Out of range value returned by breakIterator.next()"
-                                    + name);
-                    break;
-                }
-                reverseBreaks[i] = true;
-            }
-
-            // Find the break positions using isBoundary() tests.
-            for (i = 0; i <= testText.length(); i++) {
-                isBoundaryBreaks[i] = bi.isBoundary(i);
-            }
-
-            // Find the break positions using the following() function.
-            lastBreakPos = 0;
-            followingBreaks[0] = true;
-            for (i = 0; i < testText.length(); i++) {
-                breakPos = bi.following(i);
-                if (breakPos <= i
-                        || breakPos < lastBreakPos
-                        || breakPos > testText.length()
-                        || breakPos > lastBreakPos && lastBreakPos > i) {
-                    errln(
-                            name
-                                    + " break monkey test: "
-                                    + "Out of range value returned by BreakIterator::following().\n"
-                                    + "index="
-                                    + i
-                                    + "following returned="
-                                    + breakPos
-                                    + "lastBreak="
-                                    + lastBreakPos);
-                    precedingBreaks[i] = !expectedBreaks[i]; // Forces an error.
-                } else {
-                    followingBreaks[breakPos] = true;
-                    lastBreakPos = breakPos;
-                }
-            }
-
-            // Find the break positions using the preceding() function.
-            lastBreakPos = testText.length();
-            precedingBreaks[testText.length()] = true;
-            for (i = testText.length(); i > 0; i--) {
-                breakPos = bi.preceding(i);
-                if (breakPos >= i
-                        || breakPos > lastBreakPos
-                        || breakPos < 0
-                        || breakPos < lastBreakPos && lastBreakPos < i) {
-                    errln(
-                            name
-                                    + " break monkey test: "
-                                    + "Out of range value returned by BreakIterator::preceding().\n"
-                                    + "index="
-                                    + i
-                                    + "preceding returned="
-                                    + breakPos
-                                    + "lastBreak="
-                                    + lastBreakPos);
-                    precedingBreaks[i] = !expectedBreaks[i]; // Forces an error.
-                } else {
-                    precedingBreaks[breakPos] = true;
-                    lastBreakPos = breakPos;
-                }
-            }
-
-            // Compare the expected and actual results.
-            for (i = 0; i <= testText.length(); i++) {
-                String errorType = null;
-                boolean[] currentBreakData = null;
-                if (forwardBreaks[i] != expectedBreaks[i]) {
-                    errorType = "next()";
-                    currentBreakData = forwardBreaks;
-                } else if (reverseBreaks[i] != forwardBreaks[i]) {
-                    errorType = "previous()";
-                    currentBreakData = reverseBreaks;
-                } else if (isBoundaryBreaks[i] != expectedBreaks[i]) {
-                    errorType = "isBoundary()";
-                    currentBreakData = isBoundaryBreaks;
-                } else if (followingBreaks[i] != expectedBreaks[i]) {
-                    errorType = "following()";
-                    currentBreakData = followingBreaks;
-                } else if (precedingBreaks[i] != expectedBreaks[i]) {
-                    errorType = "preceding()";
-                    currentBreakData = precedingBreaks;
-                }
-
-                if (errorType != null) {
-                    ++errorCount;
-                    // Format a range of the test text that includes the failure as
-                    //  a data item that can be included in the rbbi test data file.
-
-                    // Start of the range is the last point where expected and actual results
-                    //   both agreed that there was a break position.
-                    int startContext = i;
-                    int count = 0;
-                    for (; ; ) {
-                        if (startContext == 0) {
-                            break;
-                        }
-                        startContext--;
-                        if (expectedBreaks[startContext]) {
-                            if (count == 2) break;
-                            count++;
-                        }
-                    }
-
-                    // End of range is two expected breaks past the start position.
-                    int endContext = i + 1;
-                    int ci;
-                    for (ci = 0; ci < 2; ci++) { // Number of items to include in error text.
-                        for (; ; ) {
-                            if (endContext >= testText.length()) {
-                                break;
-                            }
-                            if (expectedBreaks[endContext - 1]) {
-                                if (count == 0) break;
-                                count--;
-                            }
-                            endContext++;
-                        }
-                    }
-
-                    // Formatting of each line includes:
-                    //   character code
-                    //   reference break: '|' -> a break, '.' -> no break
-                    //   actual break:    '|' -> a break, '.' -> no break
-                    //   (name of character clase)
-                    //   Unicode name of character
-                    //   '--→' indicates location of the difference.
-
-                    StringBuilder buffer = new StringBuilder();
-                    buffer.append("\n")
-                            .append(
-                                    (expectedBreaks[i]
-                                            ? "Break expected but not found."
-                                            : "Break found but not expected."))
-                            .append(
-                                    String.format(
-                                            " at index %d. Parameters to reproduce: -Dtest=RBBITestMonkey#Test%sMonkey -Dseed=%d -Dloop=1\n",
-                                            i, name, seed));
-
-                    int c; // Char from test data
-                    for (ci = startContext;
-                            ci <= endContext && ci != -1;
-                            ci = nextCP(testText, ci)) {
-                        if (ci == testText.length()) {
-                            break; // TODO(egg): The index dance above seems wrong.
-                        }
-                        c = testText.codePointAt(ci);
-                        buffer.append((ci == i) ? " --→" : "    ")
-                                .append(String.format(" %3d : ", ci))
-                                .append(!expectedBreaks[ci] ? " . " : " | ") // Reference break
-                                .append(!currentBreakData[ci] ? " . " : " | "); // Actual break
-
-                        // BMP or SMP character in hex
-                        if (c >= 0x10000) {
-                            buffer.append("\\U").append(String.format("%08x", c));
-                        } else {
-                            buffer.append("    \\u").append(String.format("%04x", c));
-                        }
-
-                        buffer.append(
-                                        String.format(
-                                                String.format(" %%-%ds", classNameSize),
-                                                mk.classNameFromCodepoint(c)))
-                                .append(String.format(" %-40s", mk.getAppliedRule(ci)))
-                                .append(String.format(" %-40s\n", UCharacter.getExtendedName(c)));
-
-                        if (ci >= endContext) {
-                            break;
-                        }
-                    }
-                    errln(buffer.toString());
-
-                    break;
-                }
-            }
-
-            loopCount++;
+        // Pre-calculate seeds to ensure reproducibility in parallel.
+        int[] seeds = new int[actualNumIterations];
+        int s = seed;
+        for (int i = 0; i < actualNumIterations; i++) {
+            int[] arr = {s};
+            m_rand(arr);
+            seeds[i] = arr[0];
+            s = seeds[i];
         }
+
+        IntStream.range(0, actualNumIterations)
+                .parallel()
+                .forEach(
+                        i ->
+                                runMonkeyIteration(
+                                        seeds[i],
+                                        mk,
+                                        bi,
+                                        numCharClasses,
+                                        chClasses,
+                                        name,
+                                        errorCount));
     }
 
     // Test parameters are passed on the command line, or
