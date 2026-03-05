@@ -63,8 +63,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
         }
 
         // Set the test text on which subsequent calls to next() will operate
-        void setText(StringBuffer s) {
-            text = s;
+        void setText(StringBuilder s) {
             prepareAppliedRules(s.length());
             StringBuilder remapped = new StringBuilder(s.toString());
             resolved = new BreakContext[s.length() + 1];
@@ -174,7 +173,6 @@ public class RBBITestMonkey extends CoreTestFmwk {
         List<SegmentationRule> rules;
         UnicodeSet dictionarySet;
         private ArrayList<String> fAppliedRules;
-        private StringBuffer text;
         private SegmentationRule.BreakContext[] resolved;
     }
 
@@ -1309,11 +1307,10 @@ public class RBBITestMonkey extends CoreTestFmwk {
      * @return The adjusted code unit index, pinned to the string's length, or unchanged if input
      *     index was outside of the string.
      */
-    static int moveIndex32(StringBuffer s, int pos, int amt) {
-        int i;
+    static int moveIndex32(StringBuilder s, int pos, int amt) {
         char c;
         if (amt > 0) {
-            for (i = 0; i < amt; i++) {
+            for (int i = 0; i < amt; i++) {
                 if (pos >= s.length()) {
                     return s.length();
                 }
@@ -1327,7 +1324,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
                 }
             }
         } else {
-            for (i = 0; i > amt; i--) {
+            for (int i = 0; i > amt; i--) {
                 if (pos <= 0) {
                     return 0;
                 }
@@ -1364,7 +1361,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
      *
      * @param i the preceding index
      */
-    static int nextCP(StringBuffer s, int i) {
+    static int nextCP(StringBuilder s, int i) {
         if (i == -1) {
             // End of Input indication.  Continue to return end value.
             return -1;
@@ -1397,11 +1394,11 @@ public class RBBITestMonkey extends CoreTestFmwk {
     private static final String[] monkeys = new String[] {"🙈", "🙉", "🙊", "🐵", "🐒"};
 
     // Helper function for formatting error output.
-    //   Append a string into a fixed-size field in a StringBuffer.
+    //   Append a string into a fixed-size field in a StringBuilder.
     //   Blank-pad the string if it is shorter than the field.
     //   Truncate the source string if it is too long.
     //
-    private static void appendToBuf(StringBuffer dest, String src, int fieldLen) {
+    private static void appendToBuf(StringBuilder dest, String src, int fieldLen) {
         int appendLen = src.length();
         if (appendLen >= fieldLen) {
             dest.append(src.substring(0, fieldLen));
@@ -1417,18 +1414,18 @@ public class RBBITestMonkey extends CoreTestFmwk {
     // Helper function for formatting error output.
     // Display a code point in "\\uxxxx" or "\Uxxxxxxxx" format
     @SuppressWarnings("unused")
-    private static void appendCharToBuf(StringBuffer dest, int c, int fieldLen) {
+    private static void appendCharToBuf(StringBuilder dest, int c, int fieldLen) {
         String hexChars = "0123456789abcdef";
         if (c < 0x10000) {
             dest.append("\\u");
             for (int bn = 12; bn >= 0; bn -= 4) {
-                dest.append(hexChars.charAt(((c) >> bn) & 0xf));
+                dest.append(hexChars.charAt((c >> bn) & 0xf));
             }
             appendToBuf(dest, " ", fieldLen - 6);
         } else {
             dest.append("\\U");
             for (int bn = 28; bn >= 0; bn -= 4) {
-                dest.append(hexChars.charAt(((c) >> bn) & 0xf));
+                dest.append(hexChars.charAt((c >> bn) & 0xf));
             }
             appendToBuf(dest, " ", fieldLen - 10);
         }
@@ -1442,18 +1439,15 @@ public class RBBITestMonkey extends CoreTestFmwk {
      */
     void RunMonkey(BreakIterator bi, RBBIMonkeyKind mk, String name, int seed, int numIterations) {
         int TESTSTRINGLEN = 500;
-        StringBuffer testText = new StringBuffer();
+        StringBuilder testText = new StringBuilder();
         int numCharClasses;
         List<UnicodeSet> chClasses;
-        @SuppressWarnings("unused")
-        int expectedCount = 0;
         boolean[] expectedBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] forwardBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] reverseBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] isBoundaryBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] followingBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
         boolean[] precedingBreaks = new boolean[TESTSTRINGLEN * 2 + 1];
-        int i;
         int loopCount = 0;
         int errorCount = 0;
         boolean printTestData = false;
@@ -1465,7 +1459,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
         chClasses = mk.charClasses();
 
         // Verify that the character classes all have at least one member.
-        for (i = 0; i < numCharClasses; i++) {
+        for (int i = 0; i < numCharClasses; i++) {
             UnicodeSet s = (UnicodeSet) chClasses.get(i);
             if (s == null || s.size() == 0) {
                 errln("Character Class " + i + " is null or of zero size.");
@@ -1518,8 +1512,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
             if (printTestData) {
                 System.out.println("Test Data string ...");
             }
-            final boolean java8OrOlder = System.getProperty("java.version").startsWith("1.");
-            for (i = 0; i < TESTSTRINGLEN; i++) {
+            for (int i = 0; i < TESTSTRINGLEN; i++) {
                 int aClassNum = m_rand() % numCharClasses;
                 UnicodeSet classSet = (UnicodeSet) chClasses.get(aClassNum);
                 int charIdx = m_rand() % classSet.size();
@@ -1528,13 +1521,6 @@ public class RBBITestMonkey extends CoreTestFmwk {
                     errln("c < 0");
                 }
                 if (mk.getDictionarySet().contains(c)) {
-                    continue;
-                }
-                // Do not emit surrogates on Java 8, as the behaviour of regular expressions that
-                // match surrogates differs there.
-                if (java8OrOlder
-                        && Character.isBmpCodePoint(c)
-                        && Character.isSurrogate((char) c)) {
                     continue;
                 }
                 // Do not assemble a supplementary character from randomly generated separate
@@ -1564,7 +1550,6 @@ public class RBBITestMonkey extends CoreTestFmwk {
 
             // Calculate the expected results for this test string and reset applied rules.
             mk.setText(testText);
-            expectedCount = 0;
             expectedBreaks[0] = true;
             int breakPos = 0;
             int lastBreakPos = -1;
@@ -1589,7 +1574,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
                 System.out.println("Breaks from BI...");
             }
             bi.setText(testText.toString());
-            for (i = bi.first(); i != BreakIterator.DONE; i = bi.next()) {
+            for (int i = bi.first(); i != BreakIterator.DONE; i = bi.next()) {
                 if (i < 0 || i > testText.length()) {
                     errln(
                             name
@@ -1606,7 +1591,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
             }
 
             // Find the break positions using reverse iteration
-            for (i = bi.last(); i != BreakIterator.DONE; i = bi.previous()) {
+            for (int i = bi.last(); i != BreakIterator.DONE; i = bi.previous()) {
                 if (i < 0 || i > testText.length()) {
                     errln(
                             name
@@ -1618,19 +1603,19 @@ public class RBBITestMonkey extends CoreTestFmwk {
             }
 
             // Find the break positions using isBoundary() tests.
-            for (i = 0; i <= testText.length(); i++) {
+            for (int i = 0; i <= testText.length(); i++) {
                 isBoundaryBreaks[i] = bi.isBoundary(i);
             }
 
             // Find the break positions using the following() function.
             lastBreakPos = 0;
             followingBreaks[0] = true;
-            for (i = 0; i < testText.length(); i++) {
+            for (int i = 0; i < testText.length(); i++) {
                 breakPos = bi.following(i);
                 if (breakPos <= i
                         || breakPos < lastBreakPos
                         || breakPos > testText.length()
-                        || breakPos > lastBreakPos && lastBreakPos > i) {
+                        || (breakPos > lastBreakPos && lastBreakPos > i)) {
                     errln(
                             name
                                     + " break monkey test: "
@@ -1651,12 +1636,12 @@ public class RBBITestMonkey extends CoreTestFmwk {
             // Find the break positions using the preceding() function.
             lastBreakPos = testText.length();
             precedingBreaks[testText.length()] = true;
-            for (i = testText.length(); i > 0; i--) {
+            for (int i = testText.length(); i > 0; i--) {
                 breakPos = bi.preceding(i);
                 if (breakPos >= i
                         || breakPos > lastBreakPos
                         || breakPos < 0
-                        || breakPos < lastBreakPos && lastBreakPos < i) {
+                        || (breakPos < lastBreakPos && lastBreakPos < i)) {
                     errln(
                             name
                                     + " break monkey test: "
@@ -1675,7 +1660,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
             }
 
             // Compare the expected and actual results.
-            for (i = 0; i <= testText.length(); i++) {
+            for (int i = 0; i <= testText.length(); i++) {
                 String errorType = null;
                 boolean[] currentBreakData = null;
                 if (forwardBreaks[i] != expectedBreaks[i]) {
@@ -1717,8 +1702,7 @@ public class RBBITestMonkey extends CoreTestFmwk {
 
                     // End of range is two expected breaks past the start position.
                     int endContext = i + 1;
-                    int ci;
-                    for (ci = 0; ci < 2; ci++) { // Number of items to include in error text.
+                    for (int ci = 0; ci < 2; ci++) { // Number of items to include in error text.
                         for (; ; ) {
                             if (endContext >= testText.length()) {
                                 break;
@@ -1750,14 +1734,13 @@ public class RBBITestMonkey extends CoreTestFmwk {
                                             " at index %d. Parameters to reproduce: -Dtest=RBBITestMonkey#Test%sMonkey -Dseed=%d -Dloop=1\n",
                                             i, name, seed));
 
-                    int c; // Char from test data
-                    for (ci = startContext;
+                    for (int ci = startContext;
                             ci <= endContext && ci != -1;
                             ci = nextCP(testText, ci)) {
                         if (ci == testText.length()) {
                             break; // TODO(egg): The index dance above seems wrong.
                         }
-                        c = testText.codePointAt(ci);
+                        int c = testText.codePointAt(ci); // Char from test data
                         buffer.append((ci == i) ? " --→" : "    ")
                                 .append(String.format(" %3d : ", ci))
                                 .append(!expectedBreaks[ci] ? " . " : " | ") // Reference break

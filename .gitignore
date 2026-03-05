@@ -70,6 +70,10 @@ tmp/
 x64/
 x86/
 
+# IDEs
+.project
+.settings/
+
 # Files
 Makefile
 Makefile.local
@@ -267,7 +271,6 @@ icu4c/source/tools/makeconv/makeconv.[0-9]
 icu4c/source/tools/pkgdata/pkgdata
 icu4c/source/tools/pkgdata/pkgdata.[0-9]
 icu4c/source/uconfig.h.prepend
-icu4j/.project
 icu4j/eclipse
 tools/multi/proj/icu4cscan/cooked
 tools/multi/proj/icu4cscan/dtdcache
