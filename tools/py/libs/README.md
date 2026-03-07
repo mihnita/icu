@@ -42,3 +42,8 @@ From the parent folder (`<icuroot>/tools/py`) run:
 ```sh
 python -m unittest discover .
 ```
+
+Note: on most systems `python` points to python3 (link or alias).
+And on some other systems `python3` is not recognized, but `python` is in fact `python3`.
+So `python` should work everywhere, but if not then try `python3` explicitly.
+

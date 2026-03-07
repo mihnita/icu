@@ -1,7 +1,7 @@
 # Copyright (C) 2026 and later: Unicode, Inc. and others.
 # License & terms of use: http://www.unicode.org/copyright.html
 
-"""Interface for all steps, don't use directly."""
+"""Tests for the file system module."""
 
 import os
 import tempfile

@@ -1,7 +1,7 @@
 # Copyright (C) 2026 and later: Unicode, Inc. and others.
 # License & terms of use: http://www.unicode.org/copyright.html
 
-"""Interface for all steps, don't use directly."""
+"""File system operations, more reliable and with logging."""
 
 import os
 import shutil
@@ -89,7 +89,7 @@ def rmfile(file_name: str) -> None:
     try:
       os.remove(file_name)
     except PermissionError:
-      os.chmod(file_name, 0o200)  # Make it writeable
+      os.chmod(file_name, stat.S_IWUSR)  # Make it writeable
       os.remove(file_name)
   elif os.path.exists(file_name):
     iculog.warning(f'[rmfile] Tried to remove a non-file: {file_name}')

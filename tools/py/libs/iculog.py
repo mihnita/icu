@@ -25,7 +25,6 @@ class ColorLogFormatter(logging.Formatter):
   def __init__(self, *args, **kwargs):  # type: ignore
     super().__init__(*args, **kwargs)  # type: ignore
 
-
   def format(self, record: logging.LogRecord, *args, **kwargs):  # type: ignore
     record.color_on = self._COLOR_CODES[record.levelno]
     record.color_off = self._RESET_CODE
