@@ -47,7 +47,12 @@ for a given version is downloading the zipped sources for the common (`core.zip`
 and tools (`tools.zip`) directory subtrees from the Data column in
 [CLDR Releases/Downloads](https://cldr.unicode.org/index/downloads)
 
-Besides a standard JDK 11+, the process also requires [Maven](https://maven.apache.org).
+Besides a standard JDK 11+, the process also requires [Ant](https://ant.apache.org),
+[Maven](https://maven.apache.org), and Python (https://www.python.org).
+
+WARNING: the Ant scripts will soon be REMOVED.
+PLEASE execute all the steps using the new Python workflow.
+REPORT any problems you encounter, and switch back to the Ant if you don't have another choice.
 
 If you do CLDR development you can configure Maven as documented at
 [CLDR Maven setup](http://cldr.unicode.org/development/maven) (non-Eclipse version).
@@ -103,10 +108,13 @@ ticket and a separate PR:
 
 There are several environment variables that need to be defined.
 
-1. Java-, Maven-, and Python-related variables
+1. Java-, Ant- (TO REMOVE), Maven-, and Python-related variables
 
    * `JAVA_HOME`: Path to JDK (a directory, containing e.g. `bin/java`, `bin/javac`,
      etc.); on many systems this can be set using the output of `/usr/libexec/java_home`.
+
+   * `ANT_OPTS`: (TO REMOVE) You may want to set `-Xmx8192m` to give Java more memory; otherwise
+     it may run out of heap.
 
 2. CLDR-related variables
 
@@ -136,9 +144,11 @@ There are several environment variables that need to be defined.
 
 ## 1 Environment variables
 
-1a. Java, Maven, and Python variables, adjust for your system
+1a. Java, Ant (TO REMOVE), Maven, and Python variables, adjust for your system
 ```sh
 export JAVA_HOME=/usr/libexec/java_home
+# TO REMOVE
+export ANT_OPTS="-Xmx8192m"
 export MAVEN_ARGS="--no-transfer-progress"
 ```
 
@@ -244,6 +254,7 @@ mvn clean install -pl :cldr-all,:cldr-code -DskipTests -DskipITs
 
 5a. Generate the CLDR production data.
 
+# NEW PROCESS, Python. Please us this!
 This process uses Python with ICU4C's `data/build.py`
 
 * Running `python build.py --cleanprod` is necessary to clean out the production data directory
@@ -253,6 +264,23 @@ This process uses Python with ICU4C's `data/build.py`
 cd $ICU4C_DIR/source/data
 python build -proddata
 ```
+# NEW PROCESS - END
+
+# TO REMOVE - Don't execute if the above step works.
+This process uses ant with ICU4C's `data/build.xml`
+
+* Running `ant cleanprod` is necessary to clean out the production data directory
+  (usually `$CLDR_TMP_DIR/production`), required if any CLDR data has changed.
+* Running `ant setup` is not required, but it will print useful errors to
+  debug issues with your path when it fails.
+
+```sh
+cd $ICU4C_DIR/source/data
+ant cleanprod
+ant setup
+ant proddata 2>&1 | tee $NOTES/cldr-newData-proddataLog.txt
+```
+# TO REMOVE - END
 
 > Note, for CLDR development, at this point tests are sometimes run on the
    production data, see
@@ -294,7 +322,11 @@ they are representative of the newest CLDR data.
 
 ```sh
 cd $ICU_DIR/tools/cldr
+# NEW PROCESS, Python. Please us this!
 python build.py --copy-cldr-testdata
+
+# TO REMOVE. Don't execute if the above step works.
+ant copy-cldr-testdata
 ```
 
 5d. NOP
