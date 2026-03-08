@@ -61,16 +61,18 @@ def _create_catalog(test_data_dir:str, contents: list[str]):
       f.write('\n')
 
 
-def copy_cldr_testdata(): # depends="init-args, clean-cldr-testdata
+def copy_cldr_testdata():
   """Copies CLDR test data directories, after deleting previous
     contents to prevent inconsistent state."""
+  _init_args()
+  clean_cldr_testdata()
   src_dir_base = os.path.join(cldr_dir, 'common/testData')
   # CLDR test data directories to be copied into ICU.
-  # Add directories here to control which test data is installed. -->
+  # Add directories here to control which test data is installed.
   cldr_test_data = [
-        'localeIdentifiers',
-        'personNameTest', # Used in ExhaustivePersonNameTest
-        'units/' # Used in UnitsTest tests
+      'localeIdentifiers',
+      'personNameTest', # Used in ExhaustivePersonNameTest
+      'units' # Used in UnitsTest tests
   ]
   for test_dir in cldr_test_data:
     src_dir = os.path.join(src_dir_base, test_dir)
@@ -87,15 +89,17 @@ def copy_cldr_testdata(): # depends="init-args, clean-cldr-testdata
   _create_catalog(test_data_dir_4j, contents)
 
 
-def clean_cldr_testdata(): # depends="init-args"
+def clean_cldr_testdata():
   """Deletes CLDR test data"""
+  _init_args()
   iculog.title('Removing test dirs')
   icufs.rmdir(test_data_dir_4c)
   icufs.rmdir(test_data_dir_4j)
 
 
-def reset_cldr_testdata(): # depends="init-args"
+def reset_cldr_testdata():
   """Restores CLDR test data"""
+  _init_args()
   iculog.title('Git-restore test dirs')
   icuproc.run_with_logging(f'git co -- {test_data_dir_4c}')
   icuproc.run_with_logging(f'git co -- {test_data_dir_4j}')
@@ -115,7 +119,6 @@ def main() -> int:
                       action='store_true')
   cmd = parser.parse_args()
 
-  _init_args()
   if (cmd.copy_cldr_testdata):
     copy_cldr_testdata()
   elif (cmd.remove_cldr_testdata):

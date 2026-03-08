@@ -26,7 +26,7 @@ current_xml = 'list-one.xml'
 historic_xml = 'list-three.xml'
 
 
-def build(): # depends="check, resource"
+def build():
   """Verify ICU's local data and generate ISO 4217 alpha-numeric code mapping data resource"""
   iculog.subtitle('build()')
   check()
@@ -39,7 +39,8 @@ def classes():
   icufs.makecleandir(classes_dir)
   icuproc.run_with_logging('javac' \
       f' -d {classes_dir}' \
-      ' --release 11 -encoding UTF-8' \
+      ' --release 11' \
+	  ' -encoding UTF-8' \
       f' {src_dir}/com/ibm/icu/dev/tool/currency/*.java')
 
 
@@ -66,9 +67,9 @@ def _download_xml():
   iculog.info('Downloading ISO 4217 XML data files')
   icufs.mkdir(xml_dir)
 
-  print('urllib.request.urlretrieve(' \
-      f'"{base_url}/{current_xml}", ' \
-      f'"{xml_dir}/{current_xml}")')
+  logger.info('urllib.request.urlretrieve(' \
+      f' "{base_url}/{current_xml}",' \
+      f' "{xml_dir}/{current_xml}")')
 
   opener = urllib.request.build_opener()
   opener.addheaders = [('Accept', 'application/xml')]
@@ -79,32 +80,34 @@ def _download_xml():
                              f'{xml_dir}/{historic_xml}')
 
 
-def xml_data(): # depends="_localXml, _downloadXml"
+def xml_data():
   """Prepare necessary ISO 4217 XML data files"""
   iculog.subtitle('xml_data()')
   if not _local_xml():
     _download_xml()
 
 
-def check(): # depends="classes, xmlData"
+def check():
   """Verify if ICU's local mapping data is synchronized with the XML data"""
   iculog.subtitle('check()')
   classes()
   xml_data()
-  icuproc.run_with_logging(f'java -cp {classes_dir}'
-      ' com.ibm.icu.dev.tool.currency.Main check'
-      f' {xml_dir}/{current_xml}'
+  icuproc.run_with_logging('java' \
+      f' -cp {classes_dir}' \
+      ' com.ibm.icu.dev.tool.currency.Main' \
+      ' check' \
+      f' {xml_dir}/{current_xml}' \
       f' {xml_dir}/{historic_xml}')
 
 
-def resource(): # depends="classes"
+def resource():
   """Build ISO 4217 alpha-numeric code mapping data resource"""
   iculog.subtitle('resources()')
   classes()
   icufs.mkdir(res_dir)
-  icuproc.run_with_logging('java'
-            f' -cp={classes_dir}'
-            ' com.ibm.icu.dev.tool.currency.Main'
+  icuproc.run_with_logging('java' \
+            f' -cp {classes_dir}' \
+            ' com.ibm.icu.dev.tool.currency.Main' \
             f' build {res_dir}')
   iculog.info(f'ISO 4217 numeric code mapping data was successfully created in {res_dir}')
 
@@ -135,7 +138,6 @@ def main():
   parser.add_argument('--xmlData',
                       help='Prepare necessary ISO 4217 XML data files',
                       action='store_true')
-  # Default target: build
   cmd = parser.parse_args()
 
   if cmd.build:

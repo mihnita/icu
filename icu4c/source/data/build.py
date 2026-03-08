@@ -13,24 +13,16 @@ from libs import icufs
 from libs import iculog
 from libs import icuproc
 
-# <!DOCTYPE project [
-#     <!ENTITY icu-config SYSTEM "./icu-config.xml">
-#     <!ENTITY icu-locale-deprecates SYSTEM "./icu-locale-deprecates.xml">
-#     <!ENTITY icu-coll-deprecates SYSTEM "./icu-coll-deprecates.xml">
-#     <!ENTITY icu-rbnf-deprecates SYSTEM "./icu-rbnf-deprecates.xml">
-# ]>
-
 basedir = '.'
 cldr_tmp_dir = None
 cldr_prod_dir = None
 cldrtools_jar = None
 cldr_tmp_dir = None
 
-def init():
+def _init():
   iculog.subtitle('init()')
   iculog.info(str(datetime.datetime.now()))
 
-  # icu4c_dir = '../..'
 
   cldr_dir = os.environ.get('CLDR_DIR')
   if not cldr_dir:
@@ -53,9 +45,9 @@ def init():
                    'Please build cldr-code.jar.')
 
   global cldr_tmp_dir
-  cldr_tmp_dir = f"{cldr_dir}/../cldr-aux" # Hack: see CLDRPaths
+  cldr_tmp_dir = f'{cldr_dir}/../cldr-aux' # Hack: see CLDRPaths
   global cldr_prod_dir
-  cldr_prod_dir = f"{cldr_tmp_dir}/production/"
+  cldr_prod_dir = f'{cldr_tmp_dir}/production/'
 
   subprocess.run('mvn -version', encoding='utf-8', shell=True, check=True)
   iculog.info(f'cldr tools dir: {cldrtools_dir}')
@@ -65,46 +57,45 @@ def init():
   iculog.info(f'cldr.prod_dir (production data): {cldr_prod_dir}')
 
 
-def setup(): # depends="init"
+def _setup():
   iculog.subtitle('setup()')
-  init()
+  _init()
   global cldr_tmp_dir
   if cldr_tmp_dir:
     icufs.mkdir(cldr_tmp_dir) # make sure parent dir exists
 
 
-def cleanprod(): # depends="init, setup" if="cldrprod.exists"
-  iculog.title('setup()')
-  setup()
+def cleanprod(): # if="cldrprod.exists"
+  iculog.title('cleanprod()')
+  _setup()
   icufs.rmdir(f'{cldr_prod_dir}/common')
   icufs.rmdir(f'{cldr_prod_dir}/keyboards')
 
 
-def proddata(): # depends="init,setup" unless="cldrprod.exists">
+def proddata(): # unless="cldrprod.exists">
   iculog.title('proddata()')
-  setup()
-  # setup prod data
+  _setup()
   iculog.info(f'Rebuilding {cldr_prod_dir} - takes a while!')
   notes_dir = os.environ.get('NOTES')
   if not notes_dir:
     notes_dir = '.'
+  # setup prod data
   icuproc.run_with_logging(
-    'java ' \
-    f'-cp {cldrtools_jar}' \
+    'java' \
+    f' -cp {cldrtools_jar}' \
     # change to short alias 'proddata' or similar when annotated
     ' org.unicode.cldr.tool.GenerateProductionData' \
     ' -v',
     logfile=os.path.join(notes_dir, 'cldr-newData-proddataLog.txt')
   )
-  # TODO: for now, we just let the default source/target paths used. could set '-s' / '-d' for explicit source/dest
+  # TODO: for now, we just let the default source/target paths used.
+  # Could set '-s' / '-d' for explicit source/dest
 
 
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-c', '--cleanprod', help='remove all build targets', action='store_true')
-  # parser.add_argument('--init', help='compile release tools', action='store_true')
   parser.add_argument('-p', '--proddata', help='olddir TODO', action='store_true')
-  # parser.add_argument('--setup', help='newdir TODO')
   cmd = parser.parse_args()
 
   if cmd.cleanprod:
@@ -113,14 +104,6 @@ def main():
     proddata()
   else:
     parser.print_help()
-
-  # Main targets:
-  # Other targets:
-  #  cleanprod
-  #  init
-  #  proddata
-  #  setup
-  # Default target: all
 
   return 0
 
