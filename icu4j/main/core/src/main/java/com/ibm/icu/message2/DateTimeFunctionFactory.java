@@ -106,7 +106,7 @@ class DateTimeFunctionFactory implements FunctionFactory {
         }
 
         DateFormat df = DateFormat.getInstanceForSkeleton(skeleton, locale);
-        if (!tz.equals(com.ibm.icu.util.TimeZone.UNKNOWN_ZONE)) {
+        if (!tz.equals(com.ibm.icu.util.TimeZone.UNKNOWN_ZONE) && !timeZoneOverride.isEmpty()) {
             df.setTimeZone(tz);
         }
 

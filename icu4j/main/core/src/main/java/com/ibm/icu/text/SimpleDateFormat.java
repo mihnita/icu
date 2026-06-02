@@ -1186,6 +1186,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             backupTZ = calendar.getTimeZone();
             calendar.setTimeZone(cal.getTimeZone());
             cal = calendar;
+        } else if (calendar != null && explicitlySetTimeZone) {
+            long millis = cal.getTimeInMillis();
+            cal.setTimeZone(calendar.getTimeZone());
+            cal.setTimeInMillis(millis);
         }
         StringBuffer result =
                 format(

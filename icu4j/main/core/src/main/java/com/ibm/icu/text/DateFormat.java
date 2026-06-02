@@ -621,6 +621,9 @@ public abstract class DateFormat extends UFormat {
      */
     private int serialVersionOnStream = currentSerialVersion;
 
+    // We want this to be visible in SimpleDateFormat
+    protected boolean explicitlySetTimeZone = false;
+
     // Proclaim serial compatibility with 1.1 FCS
     private static final long serialVersionUID = 7218322306649953788L;
 
@@ -1755,6 +1758,7 @@ public abstract class DateFormat extends UFormat {
      * @stable ICU 2.0
      */
     public void setTimeZone(TimeZone zone) {
+        explicitlySetTimeZone = (zone != null);
         calendar.setTimeZone(zone);
     }
 
