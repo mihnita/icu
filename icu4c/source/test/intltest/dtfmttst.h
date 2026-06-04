@@ -275,6 +275,7 @@ public:
     void TestChineseCalendar23043();
     void TestAmPmLengths23114();
     void TestDayPeriodFallback();
+    void TestTzProblem();
 
 private:
     UBool showParse(DateFormat &format, const UnicodeString &formattedString);

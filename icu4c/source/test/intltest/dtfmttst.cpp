@@ -142,8 +142,8 @@ void DateFormatTest::runIndexedTest( int32_t index, UBool exec, const char* &nam
     TESTCASE_AUTO(TestLongLocale);
     TESTCASE_AUTO(TestChineseCalendar23043);
     TESTCASE_AUTO(TestAmPmLengths23114);
-    
     TESTCASE_AUTO(TestDayPeriodFallback);
+    TESTCASE_AUTO(TestTzProblem);
 
     TESTCASE_AUTO_END;
 }
@@ -6057,6 +6057,35 @@ void DateFormatTest::TestDayPeriodFallback() {
     if (assertSuccess("Failed to set up date formatter", status)) {
         assertEquals("Wrong formatting result", u"11:58 PM", formattedDate);
     }
+}
+
+void DateFormatTest::TestTzProblem() {
+    IcuTestErrorCode status(*this, "TestTzProblem");
+
+    // Zoned type
+    LocalPointer<TimeZone> calTz(TimeZone::createTimeZone("US/Hawaii"));
+    LocalPointer<Calendar> cal(Calendar::createInstance(*calTz, status));
+    cal->set(2026, 8, 23, 18, 54, 49);
+
+    // Formatter
+    LocalPointer<DateFormat> df(DateFormat::createInstanceForSkeleton("jmzzzz", "en-US", status));
+
+    UnicodeString formatted;
+    FieldPosition pos;
+    df->format(*cal, formatted, pos);
+    assertEquals("Formatter WITHOUT explicit timezone",
+            u"6:54\u202FPM Hawaii-Aleutian Standard Time", formatted);
+
+    // Configure the formatter with a timezone
+    LocalPointer<TimeZone> fmtTz(TimeZone::createTimeZone("America/Los_Angeles"));
+    df->setTimeZone(*fmtTz);
+
+    formatted.remove();
+    pos.setField(FieldPosition::DONT_CARE);
+    df->format(*cal, formatted, pos);
+    assertEquals("Formatter WITH explicit timezone",
+            u"9:54\u202FPM Pacific Daylight Time", formatted);
+    // FAIL: ...; got "6:54\u202FPM Hawaii-Aleutian Standard Time"; expected "9:54\u202FPM Pacific Daylight Time"
 }
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
