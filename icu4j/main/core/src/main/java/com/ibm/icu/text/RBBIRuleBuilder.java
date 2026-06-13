@@ -341,6 +341,7 @@ class RBBIRuleBuilder {
 
     void optimizeTables() {
         boolean didSomething;
+        fForwardTable.minimizeLookaheads();
         do {
             didSomething = false;
             // Begin looking for duplicates with char class 3.

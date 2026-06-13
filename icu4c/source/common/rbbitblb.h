@@ -79,6 +79,13 @@ public:
      */
     int32_t  removeDuplicateStates();
 
+    /**
+     * Minimizes the number of slots used by the lookaheads.
+     * This must be called before `removeDuplicateStates`: by merging lookaheads, it removes
+     * distinctions between states that would be preserved by `removeDuplicateStates`.
+     */
+    void minimizeLookaheads();
+
     /** Build the safe reverse table from the already-constructed forward table. */
     void     buildSafeReverseTable(UErrorCode &status);
 

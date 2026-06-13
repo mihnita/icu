@@ -10,6 +10,7 @@
 //  rbbitblb.cpp
 //
 
+#include <functional>
 
 #include "unicode/utypes.h"
 
@@ -27,6 +28,58 @@
 #include "cmemory.h"
 
 U_NAMESPACE_BEGIN
+
+namespace {
+
+// Given the `RBBITableBuilder::fDStates` vector of `RBBIStateDescriptor`s, returns
+// true if a state for which `isSink` returns true is reachable from state `source` by following
+// transitions without going through any state for which `excludedState` returns true.
+bool reachableByTransitions(const UVector &states, const int32_t source,
+                            const std::function<bool(int32_t)> isSink,
+                            const std::function<bool(int32_t)> excludedState, UErrorCode &status) {
+    UStack boundary(status);
+    {
+        UVector32 &transitionsFromSource =
+            *static_cast<RBBIStateDescriptor *>(states.elementAt(source))->fDtran;
+        // We do not initialize boundary to `{source}`, but instead to the set of states one
+        // transition away from `source`; if `source` sets lookahead l and accepts lookahead k, we
+        // only need k and l to occupy distinct slots if there is a `source`-to-`source` path.
+        for (int32_t symbol = 0; symbol < transitionsFromSource.size(); ++symbol) {
+            const int32_t state = transitionsFromSource.elementAti(symbol);
+            if (state != 0 && !excludedState(state)) {
+                boundary.push(state, status);
+            }
+        }
+    }
+    // We cannot use LocalArray nor new[] because, on uint16_t, they would call the global new[] and
+    // delete[].
+    LocalMemory<bool> visited(static_cast<bool *>(uprv_malloc(sizeof(bool) * states.size())));
+    if (visited == nullptr) {
+      status = U_MEMORY_ALLOCATION_ERROR;
+      return false;
+    }
+    memset(visited.getAlias(), 0, sizeof(bool) * states.size());
+    while (U_SUCCESS(status) && !boundary.empty()) {
+        const int32_t s = boundary.popi();
+        if (isSink(s)) {
+            return true;
+        }
+        if (visited[s]) {
+            continue;
+        }
+        visited[s] = true;
+        UVector32 &transitions = *static_cast<RBBIStateDescriptor *>(states.elementAt(s))->fDtran;
+        for (int32_t symbol = 0; symbol < transitions.size(); ++symbol) {
+            const int32_t t = transitions.elementAti(symbol);
+            if (t != 0 && !visited[t] && !excludedState(t)) {
+                boundary.push(t, status);
+            }
+        }
+    }
+    return false;
+}
+
+} // namespace
 
 const int32_t kMaxStateFor8BitsTable = 255;
 
@@ -1185,6 +1238,7 @@ void RBBITableBuilder::minimizeStates() {
     LocalMemory<uint16_t> oldStateToPart(static_cast<uint16_t*>(
         uprv_malloc(sizeof(uint16_t) * fDStates->size())));
     if (oldStateToPart == nullptr) {
+        *fStatus = U_MEMORY_ALLOCATION_ERROR;
         return;
     }
     for (int i = 0; i < partition->size(); ++i) {
@@ -1471,6 +1525,165 @@ int32_t RBBITableBuilder::removeDuplicateStates() {
     const int32_t oldStateCount = fDStates->size();
     minimizeStates();
     return fDStates->size() - oldStateCount;
+}
+
+
+/*
+ * Minimizes the number of slots used by the lookaheads.
+ *
+ * When the state machine is first generated, every lookahead rule occupies a different slot, for instance,
+ * given
+ *   x / z;  # Lookahead 1 below.
+ *   y / z;  # Lookahead 2 below.
+ *   [xyz]*;
+ * the following state machine is produced,
+ *           x
+ *         x ⮏  z
+ *         → 𝑠₁ → 𝑎₁
+ *   START  x⇅y
+ *     ↻z  → 𝑠₂ → 𝑎₂
+ *         y ↻  z
+ *           y
+ *
+ * where 𝑠ᵢ sets the current position for lookahead i (assigning pᵢ=p_current), and 𝑎ᵢ accepts
+ * lookahead i if set, i.e., on state 𝑎ᵢ,the break iterator returns pᵢ if set. Because they accept
+ * different lookaheads, states 𝑎₁ and 𝑎₂ are distinct in the initial partition constructed by
+ * `minimizeStates`, and cannot be merged, and the state machine cannot be simplified.
+ *
+ * However, there is no need for lookaheads 1 and 2 to occupy different slots, i.e., there is no
+ * need for the state machine to separately store the positions set by 𝑠₁ and 𝑠₂ (for p₁ and p₂ to
+ * be distinct variables). Indeed, if state 𝑠₁ is encountered, state 𝑎₂ cannot be reached without
+ * going through state 𝑠₂, and vice versa, so if p₁ and p₂ are backed by the same variable p, the
+ * value set by p=p₁=p_current on 𝑠₁ will have been overriden by p=p₂=p_current on 𝑠₂, so that the
+ * p₁-p₂ merger has no effect.
+ *
+ * If the lookaheads are merged, states 𝑎₁ and 𝑎₂ are no longer initially distinct in
+ * `minimizeStates` (they both accept the only lookahead), and indeed the whole state machine
+ * simplifies to
+ *         [xy]     z
+ *   START   →  𝑠  →  𝑎
+ *     ↻z       ↻
+ *             [xy]
+ *
+ * Lookaheads i and j can be merged if:
+ * 1. From any state that sets lookahead i, no state that accepts lookahead j can be reached without
+ *    going through a state that sets lookahead j; and
+ * 2. From any state that sets lookahead j, no state that accepts lookahead i can be reached without
+ *    going through a state that sets lookahead i.
+ * This reachability relation defines a directed graph of lookaheads, and an optimal merging of
+ * lookaheads is then a colouring of that graph. (In the example above, the graph of lookaheads has
+ * no edges, and is thus 1-colourable; more interesting examples can be found in the test
+ * TestLookaheadPolychromy.)
+ *
+ * This function first computes the adjacency matrix of lookahead reachability, and then colours the
+ * graph of lookaheads and reassigns lookahead slots accordingly.
+ */
+void RBBITableBuilder::minimizeLookaheads() {
+    if (fLASlotsInUse == ACCEPTING_UNCONDITIONAL) {
+        return;
+    }
+    const int32_t lookaheadCount = fLASlotsInUse - ACCEPTING_UNCONDITIONAL;
+    // The last lookahead is fLASlotsInUse.
+    const int32_t firstLookahead = ACCEPTING_UNCONDITIONAL + 1;
+    const auto stateDescriptor = [this](const int32_t state) -> RBBIStateDescriptor & {
+        return *static_cast<RBBIStateDescriptor *>(fDStates->elementAt(state));
+    };
+
+    // We cannot use LocalArray nor new[] because, on bool, they would call
+    // the global new[] and delete[].
+    const std::size_t lookaheadReachabilityBytes = sizeof(bool) * lookaheadCount * lookaheadCount;
+    LocalMemory<bool> lookaheadReachability(static_cast<bool *>(uprv_malloc(lookaheadReachabilityBytes)));
+    if (lookaheadReachability.isNull()) {
+        *fStatus = U_MEMORY_ALLOCATION_ERROR;
+        return;
+    }
+    uprv_memset(lookaheadReachability.getAlias(), 0, lookaheadReachabilityBytes);
+    for (int32_t l = firstLookahead; l <= fLASlotsInUse; ++l) {
+        for (int32_t k = firstLookahead; k <= fLASlotsInUse; ++k) {
+            if (k != l) {
+                for (int32_t source = 1; source < fDStates->size(); ++source) {
+                    if (static_cast<int32_t>(stateDescriptor(source).fLookAhead) != l) {
+                        continue;
+                    }
+                    if (reachableByTransitions(
+                            *fDStates, source, /*isSink=*/
+                            [&](const int32_t state) {
+                                return static_cast<int32_t>(stateDescriptor(state).fAccepting) == k;
+                            },
+                            /*excludedState=*/
+                            [&](const int32_t state) {
+                                return static_cast<int32_t>(stateDescriptor(state).fLookAhead) == k;
+                            },
+                            *fStatus)) {
+                        lookaheadReachability[(l - firstLookahead) * lookaheadCount + k -
+                                              firstLookahead] = true;
+                    }
+                }
+            }
+        }
+    }
+
+    // We cannot use LocalArray nor new[] because, on int32_t, they would call
+    // the global new[] and delete[].
+    const std::size_t coloursBytes = sizeof(int32_t) * lookaheadCount;
+    LocalMemory<int32_t> colours(static_cast<int32_t *>(uprv_malloc(coloursBytes)));
+    if (colours.isNull()) {
+        *fStatus = U_MEMORY_ALLOCATION_ERROR;
+        return;
+    }
+    // Brute-force colouring: the number of lookaheads is in practice small, and the chromatic
+    // number is in practice 1, so this usually terminates in one iteration of the first two loops.
+    // Of course the worst case is exponential, but exponentials are everywhere in regular
+    // expressions anyway.
+    // The outer loop terminates after at most `lookaheadCount` iterations
+    // (when the chromatic number equals the number of lookaheads being coloured).
+    for (int32_t chromaticNumber = 1;; ++chromaticNumber) {
+        uprv_memset(colours.getAlias(), 0, coloursBytes);
+        // This loop terminates after at most chromaticNumber ** lookaheadCount iterations.
+        for (;;) {
+            // Here `source` and `sink` correspond to lookaheads, not states.
+            for (int source = 0; source < lookaheadCount; ++source) {
+                for (int sink = 0; sink < lookaheadCount; ++sink) {
+                    if (lookaheadReachability[source * lookaheadCount + sink] &&
+                        colours[source] == colours[sink]) {
+                        goto nextColouring;
+                    }
+                }
+            }
+
+            // We have found a valid colouring of the graph of lookaheads.  Assign lookahead slots
+            // accordingly.
+            for (int i = 0; i < fDStates->size(); ++i) {
+                if (stateDescriptor(i).fAccepting > ACCEPTING_UNCONDITIONAL) {
+                    stateDescriptor(i).fAccepting =
+                        firstLookahead +
+                        colours[stateDescriptor(i).fAccepting - firstLookahead];
+                }
+                if (stateDescriptor(i).fLookAhead != 0) {
+                    stateDescriptor(i).fLookAhead =
+                        ACCEPTING_UNCONDITIONAL + 1 +
+                        colours[stateDescriptor(i).fLookAhead - firstLookahead];
+                }
+            }
+            fLASlotsInUse = ACCEPTING_UNCONDITIONAL + chromaticNumber;
+            return;
+
+          nextColouring:
+            // Increment the colour of the first lookahead, and then carry if we reach
+            // `chromaticNumber` (which is one more than the greatest colour).
+            ++colours[0];
+            for (int32_t i = 0; i < lookaheadCount - 1 && colours[i] == chromaticNumber;
+                 ++i) {
+                colours[i] = 0;
+                ++colours[i + 1];
+            }
+            if (colours[lookaheadCount - 1] == chromaticNumber) {
+                // We tried all assignments of colours in {0, …, chromaticNumber - 1},
+                // we need more colours.
+                break;
+            }
+        }
+    }
 }
 
 
