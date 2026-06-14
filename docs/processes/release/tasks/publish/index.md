@@ -522,8 +522,8 @@ Note that updating ICU4C demos online requires Gcloud access.
 
 ### Online information update
 
-Collation and [comparison](../../../../charts/comparison/index.md) charts need
-to be updated. See [charts/Performance & Size](../../../../charts/index.md).
+Collation and [comparison](https://icu.unicode.org/charts/comparison) charts need
+to be updated. See [charts/Performance & Size](https://icu.unicode.org/charts).
 
 ### Old sensitive tickets
 

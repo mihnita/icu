@@ -384,8 +384,7 @@ For updating ICU version numbers, follow the steps below.
     ***Note: We no longer use time bombs since ICU4J 52. In the trunk,
     logKnownIssue() is used for skipping known test failures. The new scheme no
     longer depends on the current ICU4J version, so there are no updates
-    necessary in test codes when version number is updated. See [Skipping Known
-    Test Failures](../../../setup/eclipse/time.md) for more details.***
+    necessary in test codes when version number is updated.***
 
     There might be some test cases intentionally skipped for the current ICU4J
     version. When ICU4J version is updated, these time bombed test cases may
