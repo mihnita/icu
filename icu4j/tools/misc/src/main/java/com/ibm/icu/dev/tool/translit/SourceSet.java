@@ -45,9 +45,9 @@ public class SourceSet {
         if (args.length == 0) {
             // Compute and display the source sets for all system
             // transliterators.
-            for (Enumeration e = Transliterator.getAvailableIDs(); e.hasMoreElements(); ) {
-                String ID = (String) e.nextElement();
-                showSourceSet(ID, Normalizer.NONE, false);
+            for (Enumeration<String> e = Transliterator.getAvailableIDs(); e.hasMoreElements(); ) {
+                String id = e.nextElement();
+                showSourceSet(id, Normalizer.NONE, false);
             }
         } else {
             // Usage: ID [NFKD | NFD] [lower]
