@@ -47,6 +47,8 @@ jobs:
           locale -a;
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Build
         run: |
           cd icu4c/source/;
@@ -106,6 +108,8 @@ jobs:
           find /usr/share/zoneinfo/ -type f,l|egrep -v "/(right|posix)/"|egrep -v "\.tab"|cut -d '/' -f5-50;
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Build
         run: |
           cd icu4c/source/;

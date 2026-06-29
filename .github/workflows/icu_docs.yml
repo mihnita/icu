@@ -41,6 +41,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Setup Ruby
         uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1.310.0
         with:
@@ -58,6 +60,7 @@ jobs:
           cd docs  # root directory of markdown, also contains Jekyll configs, etc.
           bundle install
           # The baseurl arg is parsed from the `baseurl` field of _config.yml.
-          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+          bundle exec jekyll build --baseurl "${STEPS_PAGES_OUTPUTS_BASE_PATH}"
         env:
           JEKYLL_ENV: production
+          STEPS_PAGES_OUTPUTS_BASE_PATH: ${{ steps.pages.outputs.base_path }}

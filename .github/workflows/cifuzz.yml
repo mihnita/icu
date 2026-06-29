@@ -36,12 +36,12 @@ jobs:
     steps:
     - name: Build Fuzzers
       id: build
-      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@bbb0c0b4826bf8717079ef6774cb12d062e0a3e9 # 2026-06-29
       with:
         oss-fuzz-project-name: 'icu'
         sanitizer: ${{ matrix.sanitizer }}
     - name: Run Fuzzers
-      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@bbb0c0b4826bf8717079ef6774cb12d062e0a3e9 # 2026-06-29
       with:
         oss-fuzz-project-name: 'icu'
         fuzz-seconds: 600

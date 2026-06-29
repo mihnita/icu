@@ -26,6 +26,8 @@ jobs:
 
     - name: Checkout and setup
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
     - name: Set up JDK
       uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
@@ -39,10 +41,11 @@ jobs:
       run: |
         mkdir -p ${RELEASE_FOLDER}
         pushd ${RELEASE_FOLDER}
-        gh release download ${{ inputs.gitReleaseTag }} -p "*.zip" -p "*.tgz" -p "*.jar" --repo=${{ github.repository }}
+        gh release download ${INPUTS_GITRELEASETAG} -p "*.zip" -p "*.tgz" -p "*.jar" --repo=${{ github.repository }}
         popd
       env:
         GH_TOKEN: ${{ github.token }}
+        INPUTS_GITRELEASETAG: ${{ inputs.gitReleaseTag }}
 
     - name: Checksums and sign
       run: |
@@ -59,12 +62,13 @@ jobs:
 
     - name: Upload to release
       run: |
-        gh release upload ${{ inputs.gitReleaseTag }} LICENSE --clobber --repo=${{ github.repository }}
-        gh release upload ${{ inputs.gitReleaseTag }} ${RELEASE_FOLDER}/*.md5         --clobber --repo=${{ github.repository }}
-        gh release upload ${{ inputs.gitReleaseTag }} ${RELEASE_FOLDER}/*.asc         --clobber --repo=${{ github.repository }}
-        gh release upload ${{ inputs.gitReleaseTag }} ${RELEASE_FOLDER}/SHASUM512.txt --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} LICENSE --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} ${RELEASE_FOLDER}/*.md5         --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} ${RELEASE_FOLDER}/*.asc         --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} ${RELEASE_FOLDER}/SHASUM512.txt --clobber --repo=${{ github.repository }}
       env:
         GH_TOKEN: ${{ github.token }}
+        INPUTS_GITRELEASETAG: ${{ inputs.gitReleaseTag }}
 
   sign_and_checksums_icu4x:
     if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'icu4x/') }}
@@ -78,6 +82,8 @@ jobs:
 
     - name: Checkout and setup
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
     - name: Set up JDK
       uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
@@ -91,10 +97,11 @@ jobs:
       run: |
         mkdir -p ${RELEASE_FOLDER}
         pushd ${RELEASE_FOLDER}
-        gh release download ${{ inputs.gitReleaseTag }} -p "*.zip" --repo=${{ github.repository }}
+        gh release download ${INPUTS_GITRELEASETAG} -p "*.zip" --repo=${{ github.repository }}
         popd
       env:
         GH_TOKEN: ${{ github.token }}
+        INPUTS_GITRELEASETAG: ${{ inputs.gitReleaseTag }}
 
     - name: Checksums and sign
       run: |
@@ -106,6 +113,7 @@ jobs:
 
     - name: Upload to release
       run: |
-        gh release upload ${{ inputs.gitReleaseTag }} ${RELEASE_FOLDER}/*.asc         --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} ${RELEASE_FOLDER}/*.asc         --clobber --repo=${{ github.repository }}
       env:
         GH_TOKEN: ${{ github.token }}
+        INPUTS_GITRELEASETAG: ${{ inputs.gitReleaseTag }}

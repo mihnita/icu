@@ -33,6 +33,8 @@ jobs:
 
     - name: Checkout and setup
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
     - name: Config and build ICU4C proper
       run: |
@@ -80,6 +82,7 @@ jobs:
     - name: Upload to release
       if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'release-') }}
       run: |
-        gh release upload ${{ inputs.gitReleaseTag }} ${RELEASE_FOLDER}/* --clobber --repo=${{ github.repository }}
+        gh release upload ${INPUTS_GITRELEASETAG} ${RELEASE_FOLDER}/* --clobber --repo=${{ github.repository }}
       env:
         GH_TOKEN: ${{ github.token }}
+        INPUTS_GITRELEASETAG: ${{ inputs.gitReleaseTag }}

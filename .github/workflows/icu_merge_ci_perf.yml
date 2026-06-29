@@ -36,6 +36,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Cache local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -58,6 +60,8 @@ jobs:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Build ICU libraries
         run: |
@@ -99,6 +103,8 @@ jobs:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
@@ -173,6 +179,8 @@ jobs:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
@@ -238,6 +246,8 @@ jobs:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Create directory for lib files
         run: mkdir icu4c/source/perflib
       - name: Get ICU libs
@@ -288,6 +298,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -340,6 +352,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -395,6 +409,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -455,6 +471,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -585,6 +603,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -659,6 +679,8 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Lookup read-only cache of local Maven repository
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -681,13 +703,13 @@ jobs:
         run: |
           mvn ${SHARED_MVN_ARGS} install -DskipITs -DskipTests;
           cd icu4j/perf-tests;
-          mkdir -p perf/results/j_dateformatperf/${{ matrix.locale }}/${{ matrix.perf }}/${{ env.DDIR }};
+          mkdir -p perf/results/j_dateformatperf/${{ matrix.locale }}/${{ matrix.perf }}/${DDIR};
           # Delay execution by random number of seconds. Spreading execution of multiple
           # tests over 180 secs. minimizes the possibility of push conflicts when storing
           # tests results in the data branch.
           sleep $(($RANDOM % 180));
           mvn dependency:copy-dependencies
-          java -cp ./target/*:./target/dependency/* com.ibm.icu.dev.test.perf.DateFormatPerformanceTest ${{ matrix.perf }} -a -t 2 -p 4 -L ${{ matrix.locale }} ${{ env.PARM }} -r 1 | tee perf/results/j_dateformatperf/${{ matrix.locale }}/${{ matrix.perf }}/${{ env.DDIR }}/output.txt
+          java -cp ./target/*:./target/dependency/* com.ibm.icu.dev.test.perf.DateFormatPerformanceTest ${{ matrix.perf }} -a -t 2 -p 4 -L ${{ matrix.locale }} ${PARM} -r 1 | tee perf/results/j_dateformatperf/${{ matrix.locale }}/${{ matrix.perf }}/${DDIR}/output.txt
 
       - name: Store performance test results
         uses: gregtatum/github-action-benchmark@d3f06f738e9612988d575db23fae5ca0008d3d12
@@ -713,6 +735,8 @@ jobs:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Switch to benchmark data storage branch.
         run: |
