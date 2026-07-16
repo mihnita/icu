@@ -22,6 +22,7 @@ import os
 import sys
 
 try:
+  from libs import icudirs
   from libs import icufs
   from libs import iculog
   from libs import icuproc
@@ -32,8 +33,8 @@ except (ModuleNotFoundError, ImportError) as e:
   print("  set PYTHONPATH=<icu_root>\\tools\\py")
   sys.exit(1)
 
-cldr_dir = str(os.getenv("CLDR_DIR"))
-icu_dir = str(os.getenv("ICU_DIR"))
+cldr_dir = icudirs.cldr_dir()
+icu_dir = icudirs.icu_dir()
 test_data_dir_4c = ""
 test_data_dir_4j = ""
 
@@ -48,16 +49,6 @@ def _init_args():
   # "${env.CLDR_DIR}".
   global test_data_dir_4c
   global test_data_dir_4j
-  if not icu_dir:
-    iculog.failure(
-        "Set the ICU_DIR environment variable to the top level"
-        " ICU source directory (containing 'icu4c' and 'icu4j')."
-    )
-  if not cldr_dir:
-    iculog.failure(
-        "Set the CLDR_DIR environment variable to the top level"
-        " CLDR source directory (containing 'common')."
-    )
   test_data_dir_4c = os.path.join(icu_dir, "icu4c/source/test/testdata/cldr")
   test_data_dir_4j = os.path.join(
       icu_dir, "icu4j/main/core/src/test/resources/com/ibm/icu/dev/data/cldr"
@@ -86,6 +77,7 @@ def copy_cldr_testdata():
   # Add directories here to control which test data is installed.
   cldr_test_data = [
       "localeIdentifiers",
+      "messageFormat",  # Used in MessageFormatter (MF2) tests
       "personNameTest",  # Used in ExhaustivePersonNameTest
       "units",  # Used in UnitsTest tests
   ]
