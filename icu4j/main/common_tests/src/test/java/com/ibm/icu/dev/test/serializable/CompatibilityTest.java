@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -190,12 +191,12 @@ public class CompatibilityTest extends CoreTestFmwk {
                     String entryName = entry.getName();
 
                     if (entryName.startsWith(prefix) && entryName.endsWith(".dat")) {
-                        FileHolder holder =
-                                new FileHolder(
-                                        entryName,
-                                        SerializableTestUtility.copyStreamBytes(
-                                                jarFile.getInputStream(entry)));
-                        classList.add(holder);
+                        try (InputStream jarEntryStream = jarFile.getInputStream(entry)) {
+                            byte[] jarBytes =
+                                    SerializableTestUtility.copyStreamBytes(jarEntryStream);
+                            FileHolder holder = new FileHolder(entryName, jarBytes);
+                            classList.add(holder);
+                        }
                     }
                 }
             }

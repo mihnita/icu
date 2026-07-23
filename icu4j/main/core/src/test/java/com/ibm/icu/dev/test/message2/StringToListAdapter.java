@@ -41,6 +41,7 @@ public class StringToListAdapter extends TypeAdapter<Sources> {
         throw new IOException();
     }
 
+    @SuppressWarnings("resource") // false positive "Potential resource leak"
     @Override
     public void write(JsonWriter writer, Sources value) throws IOException {
         writer.beginArray();

@@ -24,6 +24,8 @@ import com.ibm.icu.text.UCharacterIterator;
 import com.ibm.icu.text.UTF16;
 import com.ibm.icu.text.UnicodeSet;
 import com.ibm.icu.text.UnicodeSetIterator;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.StringCharacterIterator;
 import java.util.Random;
 import org.junit.Test;
@@ -2953,7 +2955,7 @@ public class BasicTest extends CoreTestFmwk {
     }
 
     @Test
-    public void TestCustomComp() {
+    public void TestCustomComp() throws IOException {
         String[][] pairs = {
             // ICU 63 normalization with CodePointTrie requires inert surrogate code points.
             // { "\\uD801\\uE000\\uDFFE", "" },
@@ -2968,26 +2970,28 @@ public class BasicTest extends CoreTestFmwk {
             {"\\uE111\\u1161\\uE112\\u1162", "\\uAE4C\\u1102\\u0062\\u1162"},
             {"\\uFFF3\\uFFF7\\U00010036\\U00010077", "\\U00010037\\U00010037\\uFFF6\\U00010037"}
         };
-        Normalizer2 customNorm2;
-        customNorm2 =
-                Normalizer2.getInstance(
-                        BasicTest.class.getResourceAsStream(
-                                "/com/ibm/icu/dev/data/testdata/testnorm.nrm"),
-                        "testnorm",
-                        Normalizer2.Mode.COMPOSE);
-        for (int i = 0; i < pairs.length; ++i) {
-            String[] pair = pairs[i];
-            String input = Utility.unescape(pair[0]);
-            String expected = Utility.unescape(pair[1]);
-            String result = customNorm2.normalize(input);
-            if (!result.equals(expected)) {
-                errln("custom compose Normalizer2 did not normalize input " + i + " as expected");
+        try (InputStream resStream =
+                BasicTest.class.getResourceAsStream(
+                        "/com/ibm/icu/dev/data/testdata/testnorm.nrm")) {
+            Normalizer2 customNorm2 =
+                    Normalizer2.getInstance(resStream, "testnorm", Normalizer2.Mode.COMPOSE);
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i];
+                String input = Utility.unescape(pair[0]);
+                String expected = Utility.unescape(pair[1]);
+                String result = customNorm2.normalize(input);
+                if (!result.equals(expected)) {
+                    errln(
+                            "custom compose Normalizer2 did not normalize input "
+                                    + i
+                                    + " as expected");
+                }
             }
         }
     }
 
     @Test
-    public void TestCustomFCC() {
+    public void TestCustomFCC() throws IOException {
         String[][] pairs = {
             // ICU 63 normalization with CodePointTrie requires inert surrogate code points.
             // { "\\uD801\\uE000\\uDFFE", "" },
@@ -3005,20 +3009,20 @@ public class BasicTest extends CoreTestFmwk {
             {"\\uE111\\u1161\\uE112\\u1162", "\\uAE4C\\u1102\\u0062\\u1162"},
             {"\\uFFF3\\uFFF7\\U00010036\\U00010077", "\\U00010037\\U00010037\\uFFF6\\U00010037"}
         };
-        Normalizer2 customNorm2;
-        customNorm2 =
-                Normalizer2.getInstance(
-                        BasicTest.class.getResourceAsStream(
-                                "/com/ibm/icu/dev/data/testdata/testnorm.nrm"),
-                        "testnorm",
-                        Normalizer2.Mode.COMPOSE_CONTIGUOUS);
-        for (int i = 0; i < pairs.length; ++i) {
-            String[] pair = pairs[i];
-            String input = Utility.unescape(pair[0]);
-            String expected = Utility.unescape(pair[1]);
-            String result = customNorm2.normalize(input);
-            if (!result.equals(expected)) {
-                errln("custom FCC Normalizer2 did not normalize input " + i + " as expected");
+        try (InputStream streamRes =
+                BasicTest.class.getResourceAsStream(
+                        "/com/ibm/icu/dev/data/testdata/testnorm.nrm")) {
+            Normalizer2 customNorm2 =
+                    Normalizer2.getInstance(
+                            streamRes, "testnorm", Normalizer2.Mode.COMPOSE_CONTIGUOUS);
+            for (int i = 0; i < pairs.length; ++i) {
+                String[] pair = pairs[i];
+                String input = Utility.unescape(pair[0]);
+                String expected = Utility.unescape(pair[1]);
+                String result = customNorm2.normalize(input);
+                if (!result.equals(expected)) {
+                    errln("custom FCC Normalizer2 did not normalize input " + i + " as expected");
+                }
             }
         }
     }

@@ -569,10 +569,11 @@ public class TestCharsetDetector extends CoreTestFmwk {
             errln(id + ", " + encoding + ": getString() didn't return the original string!");
         }
 
-        decoded = stringFromReader(m.getReader());
-
-        if (!testString.equals(decoded)) {
-            errln(id + ", " + encoding + ": getReader() didn't yield the original string!");
+        try (Reader reader = m.getReader()) {
+            decoded = stringFromReader(reader);
+            if (!testString.equals(decoded)) {
+                errln(id + ", " + encoding + ": getReader() didn't yield the original string!");
+            }
         }
     }
 

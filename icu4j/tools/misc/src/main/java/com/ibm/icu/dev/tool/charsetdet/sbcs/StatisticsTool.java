@@ -14,6 +14,7 @@ import com.ibm.icu.impl.Utility;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -167,49 +168,46 @@ public class StatisticsTool
         int extension = filename.lastIndexOf(".");
         String outputFileName =
                 filename.substring(0, extension) + ".raw" + filename.substring(extension);
-        PrintStream output;
+
         double cumulative = 0;
 
-        try {
-            output = new PrintStream(new FileOutputStream(outputFileName), true, "UTF8");
+        try (PrintStream output =
+                new PrintStream(
+                        new FileOutputStream(outputFileName), true, StandardCharsets.UTF_8)) {
+            System.out.println(
+                    inputFile.getFilename()
+                            + ": "
+                            + ngrams.getUniqueNGrams()
+                            + "/"
+                            + ngrams.getTotalNGrams());
+
+            List<NGramList.NGram> array = new ArrayList<>(ngrams.values());
+
+            Collections.sort(array);
+
+            NGramList<Integer> stats = new NGramList<>(inputFile);
+            int count = 0;
+            int totalNGrams = ngrams.getTotalNGrams();
+
+            for (NGramList.NGram ngram : array) {
+                String value = ngram.getValue();
+                int refCount = ngram.getRefCount();
+                double ratio = (double) refCount / totalNGrams * 100.0;
+
+                cumulative += ratio;
+
+                // TODO check should be count < max && cumulative < maxPercent
+                if (count < 64) {
+                    stats.put(value);
+                }
+
+                output.println(value + "\t" + refCount + "\t" + ratio + "%\t" + cumulative + "%");
+                return stats;
+            }
         } catch (IOException e) {
             System.out.println("? Could not open " + outputFileName + " for writing.");
-            return null;
         }
-
-        System.out.println(
-                inputFile.getFilename()
-                        + ": "
-                        + ngrams.getUniqueNGrams()
-                        + "/"
-                        + ngrams.getTotalNGrams());
-
-        List<NGramList.NGram> array = new ArrayList<>(ngrams.values());
-
-        Collections.sort(array);
-
-        NGramList<Integer> stats = new NGramList<>(inputFile);
-        int count = 0;
-        int totalNGrams = ngrams.getTotalNGrams();
-
-        for (NGramList.NGram ngram : array) {
-            String value = ngram.getValue();
-            int refCount = ngram.getRefCount();
-            double ratio = (double) refCount / totalNGrams * 100.0;
-
-            cumulative += ratio;
-
-            // TODO check should be count < max && cumulative < maxPercent
-            if (count < 64) {
-                stats.put(value);
-            }
-
-            output.println(value + "\t" + refCount + "\t" + ratio + "%\t" + cumulative + "%");
-        }
-
-        output.close();
-
-        return stats;
+        return null;
     }
 
     private void writeStatistics(List<Integer> keyList, boolean visual) {

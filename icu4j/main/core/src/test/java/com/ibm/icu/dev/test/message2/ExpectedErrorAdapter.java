@@ -53,6 +53,7 @@ public class ExpectedErrorAdapter extends TypeAdapter<ExpErrors> {
         throw new IOException();
     }
 
+    @SuppressWarnings("resource") // false positive "Potential resorce leak"
     @Override
     public void write(JsonWriter writer, ExpErrors value) throws IOException {
         writer.beginArray();

@@ -38,10 +38,10 @@ public class BreakIteratorPerformanceTest extends PerfTest {
     }
 
     protected void setup(String[] args) {
-        try {
-            // read in the input file, being careful with a possible BOM
-            FileInputStream in = new FileInputStream(fileName);
-            BOMFreeReader reader = new BOMFreeReader(in, encoding);
+        // read in the input file, being careful with a possible BOM
+        try (FileInputStream in = new FileInputStream(fileName);
+                BOMFreeReader reader = new BOMFreeReader(in, encoding)) {
+
             fileContents = new String(readToEOS(reader));
 
             // // get rid of any characters that may cause differences between ICU4J and Java

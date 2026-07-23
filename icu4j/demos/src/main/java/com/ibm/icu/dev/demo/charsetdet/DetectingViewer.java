@@ -335,12 +335,13 @@ public class DetectingViewer extends JFrame implements ActionListener {
 
         if (retVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            BufferedInputStream inputStream = openFile(file);
-
-            if (inputStream != null) {
-                CharsetMatch[] matches = detect(inputStream);
-
-                show(inputStream, matches, file.getName());
+            try (BufferedInputStream inputStream = openFile(file)) {
+                if (inputStream != null) {
+                    CharsetMatch[] matches = detect(inputStream);
+                    show(inputStream, matches, file.getName());
+                }
+            } catch (IOException e) {
+                errorDialog("Error Opening File", e.getMessage());
             }
         }
     }
@@ -358,13 +359,15 @@ public class DetectingViewer extends JFrame implements ActionListener {
                                 null);
 
         if (url != null && url.length() > 0) {
-            BufferedInputStream inputStream = openURL(url);
+            try (BufferedInputStream inputStream = openURL(url)) {
+                if (inputStream != null) {
+                    byte[] filtered = filter(inputStream);
+                    CharsetMatch[] matches = detect(filtered);
 
-            if (inputStream != null) {
-                byte[] filtered = filter(inputStream);
-                CharsetMatch[] matches = detect(filtered);
-
-                show(inputStream, matches, url);
+                    show(inputStream, matches, url);
+                }
+            } catch (IOException e) {
+                errorDialog("Error Opening URL", e.getMessage());
             }
         }
     }

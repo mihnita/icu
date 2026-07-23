@@ -47,13 +47,13 @@ public class RBBILSTMTest extends CoreTestFmwk {
             errln("Could not open test data file " + filename);
             return;
         }
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         int caseNum = 0;
         String expected = "";
         String actual = "";
         LSTMBreakEngine engine = null;
         String line;
-        try {
+        try (BufferedReader br =
+                new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             while ((line = br.readLine()) != null) {
                 String fields[] = line.split("\t");
                 if (fields[0].equals("Model:")) {

@@ -15,9 +15,7 @@ import com.ibm.icu.text.Normalizer;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.RuleBasedCollator;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -1119,36 +1117,30 @@ public class CollationPerformanceTest {
         //   File assumed to be utf-16.
         //   Lines go onto heap buffers.  Global index array to line starts is created.
         //   Lines themselves are null terminated.
-        //
-        FileInputStream fis = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        try {
-            fis = new FileInputStream(opt_fName);
-            isr = new InputStreamReader(fis, "UTF-8");
-            br = new BufferedReader(isr, 32 * 1024);
+        int counter = 0;
+
+        try (BufferedReader br =
+                Files.newBufferedReader(Paths.get(opt_fName), StandardCharsets.UTF_8)) {
+            list = new ArrayList<>();
+            while (true) {
+                String line = null;
+                try {
+                    line = readDataLine(br);
+                } catch (Exception e) {
+                    System.err.println("Read File Error" + e.getMessage() + "!");
+                    System.exit(1);
+                }
+
+                if (line == null) break;
+                if (line.length() == 0) continue;
+                dot(counter++);
+                list.add(line);
+            }
         } catch (Exception e) {
             System.err.println("Error: File access exception: " + e.getMessage() + "!");
             System.exit(2);
         }
 
-        int counter = 0;
-
-        list = new ArrayList<>();
-        while (true) {
-            String line = null;
-            try {
-                line = readDataLine(br);
-            } catch (Exception e) {
-                System.err.println("Read File Error" + e.getMessage() + "!");
-                System.exit(1);
-            }
-
-            if (line == null) break;
-            if (line.length() == 0) continue;
-            dot(counter++);
-            list.add(line);
-        }
         if (!opt_terse) {
             System.out.println("Read " + counter + " lines in file");
         }

@@ -33,10 +33,9 @@ public class ConverterPerformanceTest extends PerfTest {
     byte[] encBuffer = null;
 
     protected void setup(String[] args) {
-        try {
-            // read in the input file, being careful with a possible BOM
-            FileInputStream in = new FileInputStream(fileName);
-            BOMFreeReader reader = new BOMFreeReader(in, encoding);
+        // read in the input file, being careful with a possible BOM
+        try (FileInputStream in = new FileInputStream(fileName);
+                BOMFreeReader reader = new BOMFreeReader(in, encoding); ) {
             unicodeBuffer = readToEOS(reader);
 
             // use java.nio to convert unicodeBuffer from char[] to byte[]
