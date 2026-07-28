@@ -22,8 +22,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Stack;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * This class is part of the RBBI rule compiler. It builds the state transition table used by the
@@ -1035,6 +1037,161 @@ class RBBITableBuilder {
     }
 
     /**
+     * Minimizes the number of slots used by the lookaheads.
+     *
+     * <p>When the state machine is first generated, every lookahead rule occupies a different slot,
+     * for instance, given
+     *
+     * <pre>
+     *   x / z;  # Lookahead 1 below.
+     *   y / z;  # Lookahead 2 below.
+     *   [xyz]*;
+     * </pre>
+     *
+     * the following state machine is produced,
+     *
+     * <pre>
+     *           x
+     *         x ⮏  z
+     *         → 𝑠₁ → 𝑎₁
+     *   START  x⇅y
+     *     ↻z  → 𝑠₂ → 𝑎₂
+     *         y ↻  z
+     *           y
+     * </pre>
+     *
+     * where 𝑠ᵢ sets the current position for lookahead i (assigning pᵢ=p_current), and 𝑎ᵢ accepts
+     * lookahead i if set, i.e., on state 𝑎ᵢ,the break iterator returns pᵢ if set. Because they
+     * accept different lookaheads, states 𝑎₁ and 𝑎₂ are distinct in the initial partition
+     * constructed by {@link #minimizeStates}, and cannot be merged, and the state machine cannot be
+     * simplified.
+     *
+     * <p>However, there is no need for lookaheads 1 and 2 to occupy different slots, i.e., there is
+     * no need for the state machine to separately store the positions set by 𝑠₁ and 𝑠₂ (for p₁
+     * and p₂ to be distinct variables). Indeed, if state 𝑠₁ is encountered, state 𝑎₂ cannot be
+     * reached without going through state 𝑠₂, and vice versa, so if p₁ and p₂ are backed by the
+     * same variable p, the value set by p=p₁=p_current on 𝑠₁ will have been overriden by
+     * p=p₂=p_current on 𝑠₂, so that the p₁-p₂ merger has no effect.
+     *
+     * <p>If the lookaheads are merged, states 𝑎₁ and 𝑎₂ are no longer initially distinct in
+     * {@link #minimizeStates} (they both accept the only lookahead), and indeed the whole state
+     * machine simplifies to
+     *
+     * <pre>
+     *         [xy]     z
+     *   START   →  𝑠  →  𝑎
+     *     ↻z       ↻
+     *             [xy]
+     * </pre>
+     *
+     * Lookaheads i and j can be merged if:
+     *
+     * <ol>
+     *   <li>From any state that sets lookahead i, no state that accepts lookahead j can be reached
+     *       without going through a state that sets lookahead j; and
+     *   <li>From any state that sets lookahead j, no state that accepts lookahead i can be reached
+     *       without going through a state that sets lookahead i.
+     * </ol>
+     *
+     * This reachability relation defines a directed graph of lookaheads, and an optimal merging of
+     * lookaheads is then a colouring of that graph. (In the example above, the graph of lookaheads
+     * has no edges, and is thus 1-colourable; more interesting examples can be found in the test
+     * {@link com.ibm.icu.dev.test.rbbi.RBBITest#TestLookaheadPolychromy}.)
+     *
+     * <p>This function first computes the adjacency matrix of lookahead reachability, and then
+     * colours the graph of lookaheads and reassigns lookahead slots accordingly.
+     *
+     * @internal
+     */
+    void minimizeLookaheads() {
+        if (fLASlotsInUse == RBBIDataWrapper.ACCEPTING_UNCONDITIONAL) {
+            return;
+        }
+        final int lookaheadCount = fLASlotsInUse - RBBIDataWrapper.ACCEPTING_UNCONDITIONAL;
+        // The last lookahead is fLASlotsInUse.
+        final int firstLookahead = RBBIDataWrapper.ACCEPTING_UNCONDITIONAL + 1;
+        final var lookaheadReachability = new boolean[lookaheadCount][lookaheadCount];
+        for (int l = firstLookahead; l <= fLASlotsInUse; ++l) {
+            for (int k = firstLookahead; k <= fLASlotsInUse; ++k) {
+                if (k != l) {
+                    for (int source = 1; source < fDStates.size(); ++source) {
+                        if (fDStates.get(source).fLookAhead != l) {
+                            continue;
+                        }
+                        // We need a final copy of k to capture it in the λs below.
+                        final int targetLookahead = k;
+                        if (reachableByTransitions(
+                                source,
+                                /* isSink= */ state ->
+                                        fDStates.get(state).fAccepting == targetLookahead,
+                                /* excludedState= */ state ->
+                                        fDStates.get(state).fLookAhead == targetLookahead)) {
+                            lookaheadReachability[l - firstLookahead][k - firstLookahead] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        final var colours = new int[lookaheadCount];
+        // Brute-force colouring: the number of lookaheads is in practice small, and the chromatic
+        // number is in practice 1, so this usually terminates in one iteration of the first two
+        // loops.
+        // Of course the worst case is exponential, but exponentials are everywhere in regular
+        // expressions anyway.
+        // The outer loop terminates after at most `lookaheadCount` iterations
+        // (when the chromatic number equals the number of lookaheads being coloured).
+        for (int chromaticNumber = 1; ; ++chromaticNumber) {
+            Arrays.setAll(colours, i -> 0);
+            // This loop terminates after at most chromaticNumber ** lookaheadCount iterations.
+            for (; ; ) {
+                boolean validColouring = true;
+                // Here `source` and `sink` correspond to lookaheads, not states.
+                validateColouring:
+                for (int source = 0; source < lookaheadCount; ++source) {
+                    for (int sink = 0; sink < lookaheadCount; ++sink) {
+                        if (lookaheadReachability[source][sink]
+                                && colours[source] == colours[sink]) {
+                            validColouring = false;
+                            break validateColouring;
+                        }
+                    }
+                }
+
+                if (validColouring) {
+                    // We have found a valid colouring of the graph of lookaheads.  Assign lookahead
+                    // slots accordingly.
+                    for (final var state : fDStates) {
+                        if (state.fAccepting > RBBIDataWrapper.ACCEPTING_UNCONDITIONAL) {
+                            state.fAccepting =
+                                    firstLookahead + colours[state.fAccepting - firstLookahead];
+                        }
+                        if (state.fLookAhead != 0) {
+                            state.fLookAhead =
+                                    firstLookahead + colours[state.fLookAhead - firstLookahead];
+                        }
+                    }
+                    fLASlotsInUse = RBBIDataWrapper.ACCEPTING_UNCONDITIONAL + chromaticNumber;
+                    return;
+                } else {
+                    // Increment the colour of the first lookahead, and then carry if we reach
+                    // `chromaticNumber` (which is one more than the greatest colour).
+                    ++colours[0];
+                    for (int i = 0; i < colours.length - 1 && colours[i] == chromaticNumber; ++i) {
+                        colours[i] = 0;
+                        ++colours[i + 1];
+                    }
+                    if (colours[colours.length - 1] == chromaticNumber) {
+                        // We tried all assignments of colours in {0, …, chromaticNumber - 1},
+                        // we need more colours.
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Calculate the size in bytes of the serialized form of this state transition table, which is
      * identical to the ICU4C runtime form. Refer to common/rbbidata.h from ICU4C for the
      * declarations of the structures being matched by this calculation.
@@ -1387,5 +1544,36 @@ class RBBITableBuilder {
             System.out.print("\n");
         }
         System.out.print("\n\n");
+    }
+
+    /**
+     * Returns true if a state for which `isSink` returns true is reachable from state `source` by
+     * following transitions without going through any state for which `excludedState` returns true.
+     */
+    private boolean reachableByTransitions(
+            int source, Predicate<Integer> isSink, Predicate<Integer> excludedState) {
+        Stack<Integer> boundary = new Stack<>();
+        for (final int state : fDStates.get(source).fDtran) {
+            if (state != 0 && !excludedState.test(state)) {
+                boundary.push(state);
+            }
+        }
+        final var visited = new boolean[fDStates.size()];
+        while (!boundary.empty()) {
+            final int s = boundary.pop();
+            if (isSink.test(s)) {
+                return true;
+            }
+            if (visited[s]) {
+                continue;
+            }
+            visited[s] = true;
+            for (final int t : fDStates.get(s).fDtran) {
+                if (t != 0 && !visited[t] && !excludedState.test(t)) {
+                    boundary.push(t);
+                }
+            }
+        }
+        return false;
     }
 }

@@ -145,6 +145,9 @@ group: cplusplus
     # which is noexcept.
     "std::__throw_out_of_range_fmt(char const*, ...)"
 
+    # From std::function.  We never call null functions.
+    std::__throw_bad_function_call()
+
 group: iostream
     "std::basic_ios<char, std::char_traits<char> >::clear(std::_Ios_Iostate)"
     "std::basic_ios<char, std::char_traits<char>>::clear(std::_Ios_Iostate)"

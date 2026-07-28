@@ -1250,6 +1250,12 @@ public class RBBITest extends CoreTestFmwk {
                                 + "[x]   [y]  / [t];"
                                 + "[x]   [w]  / [u];"
                                 + ".*;");
+        assertEquals(
+                "lookaheadCherry chromatic number",
+                2,
+                lookaheadCherry.fRData.fFTable.fLookAheadResultsSize
+                        - lookaheadCherry.fRData.ACCEPTING_UNCONDITIONAL
+                        - 1);
         for (final var textAndFirstSegment :
                 new String[][] {
                     // If lookaheads 1 and 2 use the same slot, 2 stomps over 1 and we get xy
@@ -1277,8 +1283,8 @@ public class RBBITest extends CoreTestFmwk {
                                 + actual);
         }
         // The state that accepts lookahead 1 is reachable from those that set lookaheads 2 and 3,
-        // and the set that accepts lookahead 2 is reachable from the one that sets lookahead 3: the
-        // graph of lookaheads is a triangle, its chromatic number is 3; the lookaheads all need
+        // and the state that accepts lookahead 2 is reachable from the one that sets lookahead 3:
+        // the graph of lookaheads is a triangle, its chromatic number is 3; the lookaheads all need
         // different slots.
         final var lookaheadTriangle =
                 new RuleBasedBreakIterator(
@@ -1287,6 +1293,12 @@ public class RBBITest extends CoreTestFmwk {
                                 + "[x]   [y] / [z]    [2];"
                                 + "[x]   [y]   [z] /  [3];"
                                 + ".*;");
+        assertEquals(
+                "lookaheadTriangle chromatic number",
+                3,
+                lookaheadTriangle.fRData.fFTable.fLookAheadResultsSize
+                        - lookaheadTriangle.fRData.ACCEPTING_UNCONDITIONAL
+                        - 1);
         for (final var textAndFirstSegment :
                 new String[][] {
                     {"xyz1", "x"},
@@ -1317,6 +1329,12 @@ public class RBBITest extends CoreTestFmwk {
                                 + "[y]   [z] / [t]   [1];"
                                 + "[y]   [z]   [t] / [2];"
                                 + ".*;");
+        assertEquals(
+                "lookaheadPath chromatic number",
+                2,
+                lookaheadPath.fRData.fFTable.fLookAheadResultsSize
+                        - lookaheadPath.fRData.ACCEPTING_UNCONDITIONAL
+                        - 1);
         for (final var textAndFirstSegment :
                 new String[][] {
                     {"xyz1", "x"},
