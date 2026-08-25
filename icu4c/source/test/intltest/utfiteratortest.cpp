@@ -362,7 +362,7 @@ public:
         // 2021'06, which guarantees P2325R3, is not good enough: GCC 11.3 and
         // MSVC 19.30 have P2325R3 but not P2210R2 (we need GCC 12 and MSVC
         // 19.31).
-#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 2021'10
+#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202110
         TESTCASE_AUTO(testUncommonInputRange);
         TESTCASE_AUTO(testUncommonForwardRange);
         TESTCASE_AUTO(testUncommonBidirectionalRange);
@@ -552,7 +552,7 @@ public:
         testFwdIterNul<UNSAFE, UChar32, ANY_B>(good32);
     }
 
-#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 2021'10 // See above for the value.
+#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202110 // See above for the value.
     void testUncommonInputRange() {
         auto codePoint = [](const auto &codeUnits) { return codeUnits.codePoint(); };
         constexpr char source[] = "D808 DC2D D808 DEBA D808 DE40 200B D808 DF60 D808 DEA9";
@@ -754,7 +754,7 @@ public:
                                               std::ranges::views::reverse |
                                               std::ranges::views::transform(codePoint),
                                           std::u32string_view(U"𒉭")));
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 && __cpp_lib_bind_back >= 2022'02
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 202202 && __cpp_lib_bind_back >= 202202
             assertTrue("reversed common bidirectional filtered range: one big pipeline",
                        std::ranges::equal(
                            card
@@ -780,7 +780,7 @@ public:
                                               std::ranges::views::reverse |
                                               std::ranges::views::transform(codePoint),
                                           std::u32string_view(U"𒉭")));
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 && __cpp_lib_bind_back >= 2022'02
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 202202 && __cpp_lib_bind_back >= 202202
             assertTrue("reversed unsafe common bidirectional filtered range: one big pipeline",
                        std::ranges::equal(
                            card
@@ -1814,7 +1814,7 @@ void UTFIteratorTest::zigzag(const ImplTest<Unit> &test, size_t i,
     }
 }
 
-#if defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 2020'02 // Test against C++20 concepts.
+#if defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 202002 // Test against C++20 concepts.
 namespace {
 template <typename Iterator>
 using CodePointIterator = UTFIterator<char32_t, UTF_BEHAVIOR_FFFD, Iterator>;

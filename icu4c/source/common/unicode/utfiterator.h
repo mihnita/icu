@@ -1936,15 +1936,15 @@ private:
 /** @internal */
 template<typename CP32, UTFIllFormedBehavior behavior>
 struct UTFStringCodePointsAdaptor
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 &&                                         \
-    __cpp_lib_bind_back >= 2022'02 // http://wg21.link/P2387R3.
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 202202 &&                                         \
+    __cpp_lib_bind_back >= 202202 // http://wg21.link/P2387R3.
     : std::ranges::range_adaptor_closure<UTFStringCodePointsAdaptor<CP32, behavior>>
 #endif
 {
     /** @internal */
     template<typename Range>
     auto operator()(Range &&unitRange) const {
-#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 2021'10  // We need https://wg21.link/P2415R2.
+#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202110  // We need https://wg21.link/P2415R2.
         return UTFStringCodePoints<CP32, behavior, std::ranges::views::all_t<Range>>(
             std::forward<Range>(unitRange));
 #else
@@ -2709,15 +2709,15 @@ private:
 /** @internal */
 template<typename CP32>
 struct UnsafeUTFStringCodePointsAdaptor
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 &&                                         \
-    __cpp_lib_bind_back >= 2022'02 // http://wg21.link/P2387R3.
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 202202 &&                                         \
+    __cpp_lib_bind_back >= 202202 // http://wg21.link/P2387R3.
     : std::ranges::range_adaptor_closure<UnsafeUTFStringCodePointsAdaptor<CP32>>
 #endif
 {
     /** @internal */
     template<typename Range>
     auto operator()(Range &&unitRange) const {
-#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 2021'10  // We need https://wg21.link/P2415R2.
+#if defined(__cpp_lib_ranges) && __cpp_lib_ranges >= 202110  // We need https://wg21.link/P2415R2.
         return UnsafeUTFStringCodePoints<CP32, std::ranges::views::all_t<Range>>(std::forward<Range>(unitRange));
 #else
         if constexpr (prv::is_basic_string_view_v<std::decay_t<Range>>) {
