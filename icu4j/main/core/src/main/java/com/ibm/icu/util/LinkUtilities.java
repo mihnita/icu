@@ -13,7 +13,7 @@ import com.ibm.icu.text.UnicodeSet;
  * Unicode characters properly. It supplies lower level APIs for use in augmenting existing scanners
  * and formatters.
  *
- * @internal ICU 79 technology preview
+ * @draft ICU 79 technology preview
  * @deprecated This API is for technology preview only.
  */
 @Deprecated
@@ -32,7 +32,7 @@ public class LinkUtilities {
      * @param start the position in the text to be scanned from. It should be immediately after a
      *     domain name.
      * @return the end position of the PQF, or the start value if there is none.
-     * @internal ICU 79 technology preview
+     * @draft ICU 79 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
@@ -51,7 +51,7 @@ public class LinkUtilities {
      * @param limit the position to start scanning backwards from — should be just after @ and just
      *     before the domain_name.
      * @return the start of the email locale part, or limit if no email local part is found
-     * @internal ICU 79 technology preview
+     * @draft ICU 79 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
@@ -62,7 +62,7 @@ public class LinkUtilities {
     /**
      * Enum for determining whether any percent-escaping is minimal or maximal.
      *
-     * @internal ICU 79 technology preview
+     * @draft ICU 79 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
@@ -70,7 +70,7 @@ public class LinkUtilities {
         /**
          * Minimal percent-escaping only percent-escapes non-ASCII where necessary.
          *
-         * @internal ICU 79 technology preview
+         * @draft ICU 79 technology preview
          * @deprecated This API is for technology preview only.
          */
         @Deprecated
@@ -78,7 +78,7 @@ public class LinkUtilities {
         /**
          * Maximal percent-escaping percent-escapes all non-ASCII.
          *
-         * @internal ICU 79 technology preview
+         * @draft ICU 79 technology preview
          * @deprecated This API is for technology preview only.
          */
         @Deprecated
@@ -93,7 +93,7 @@ public class LinkUtilities {
      *     percent-escaped. For more information, see https://www.unicode.org/reports/tr58/.
      * @param extent either MINIMAL or MAXIMAL
      * @return an escaped string according to the extent parameter.
-     * @internal ICU 79 technology preview
+     * @draft ICU 79 technology preview
      * @deprecated This API is for technology preview only.
      */
     @Deprecated
@@ -118,12 +118,8 @@ public class LinkUtilities {
      * email addresses can never span these characters. For example, a span of characters between
      * safe characters that doesn't have a sequence of domain-character + . + domain-character can
      * be skipped in processing.
-     *
-     * @internal ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
-    public static UnicodeSet getSafeCharacters() {
+    private static UnicodeSet getSafeCharacters() {
         return null;
     }
 
@@ -132,12 +128,8 @@ public class LinkUtilities {
      * (pre-mapping) This allows implementations to make various optimizations because URLs and
      * email addresses must contain a sequence of domain-character + . + domain-character. It is the
      * same as the set of IDNA Mapping Table character with values ≠ disallowed
-     *
-     * @internal ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
-    public static UnicodeSet getDomainCharacters() {
+    private static UnicodeSet getDomainCharacters() {
         return null;
     }
 }
