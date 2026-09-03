@@ -12,8 +12,15 @@ import com.ibm.icu.text.UnicodeSet;
  * for display, implementing the algorithms in https://www.unicode.org/reports/tr58/ to handle
  * Unicode characters properly. It supplies lower level APIs for use in augmenting existing scanners
  * and formatters.
+ *
+ * @internal ICU 79 technology preview
+ * @deprecated This API is for technology preview only.
  */
+@Deprecated
 public class LinkUtilities {
+
+    // private constructor to prevent default construction
+    private LinkUtilities() {}
 
     /**
      * Lower level utility for finding the end of a PathQueryFragment (PQF) in text. It assumes that
@@ -25,7 +32,10 @@ public class LinkUtilities {
      * @param start the position in the text to be scanned from. It should be immediately after a
      *     domain name.
      * @return the end position of the PQF, or the start value if there is none.
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
      */
+    @Deprecated
     public static int scanPathQueryFragment(CharSequence source, int start, int limit) {
         return LinkHandlingUtilities.parsePathQueryFragment(source.toString(), start);
     }
@@ -41,16 +51,37 @@ public class LinkUtilities {
      * @param limit the position to start scanning backwards from — should be just after @ and just
      *     before the domain_name.
      * @return the start of the email locale part, or limit if no email local part is found
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
      */
+    @Deprecated
     public static int scanBackEmailLocalPart(CharSequence source, int start, int limit) {
         return LinkHandlingUtilities.scanEmailBackwards(source, start, limit);
     }
 
-    /** Enum for determining whether any percent-escaping is minimal or maximal, for use */
+    /**
+     * Enum for determining whether any percent-escaping is minimal or maximal.
+     *
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
+     */
+    @Deprecated
     public enum Extent {
-        /** Minimal percent-escaping only percent-escapes non-ASCII where necessary. */
+        /**
+         * Minimal percent-escaping only percent-escapes non-ASCII where necessary.
+         *
+         * @internal ICU 79 technology preview
+         * @deprecated This API is for technology preview only.
+         */
+        @Deprecated
         MINIMAL,
-        /** Maximal percent-escaping percent-escapes all non-ASCII. */
+        /**
+         * Maximal percent-escaping percent-escapes all non-ASCII.
+         *
+         * @internal ICU 79 technology preview
+         * @deprecated This API is for technology preview only.
+         */
+        @Deprecated
         MAXIMAL
     }
 
@@ -62,7 +93,10 @@ public class LinkUtilities {
      *     percent-escaped. For more information, see https://www.unicode.org/reports/tr58/.
      * @param extent either MINIMAL or MAXIMAL
      * @return an escaped string according to the extent parameter.
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
      */
+    @Deprecated
     public static String escapePathQueryFragment(String source, Extent extent) {
         UrlInternals ui = UrlInternals.from(source.toString());
         switch (extent) {
@@ -85,7 +119,8 @@ public class LinkUtilities {
      * safe characters that doesn't have a sequence of domain-character + . + domain-character can
      * be skipped in processing.
      *
-     * @internal
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public static UnicodeSet getSafeCharacters() {
@@ -98,7 +133,8 @@ public class LinkUtilities {
      * email addresses must contain a sequence of domain-character + . + domain-character. It is the
      * same as the set of IDNA Mapping Table character with values ≠ disallowed
      *
-     * @internal
+     * @internal ICU 79 technology preview
+     * @deprecated This API is for technology preview only.
      */
     @Deprecated
     public static UnicodeSet getDomainCharacters() {
