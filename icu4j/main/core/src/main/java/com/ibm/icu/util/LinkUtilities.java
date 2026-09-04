@@ -14,9 +14,7 @@ import com.ibm.icu.text.UnicodeSet;
  * and formatters.
  *
  * @draft ICU 79 technology preview
- * @deprecated This API is for technology preview only.
  */
-@Deprecated
 public class LinkUtilities {
 
     // private constructor to prevent default construction
@@ -33,9 +31,7 @@ public class LinkUtilities {
      *     domain name.
      * @return the end position of the PQF, or the start value if there is none.
      * @draft ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
     public static int scanPathQueryFragment(CharSequence source, int start, int limit) {
         return LinkHandlingUtilities.parsePathQueryFragment(source.toString(), start);
     }
@@ -52,9 +48,7 @@ public class LinkUtilities {
      *     before the domain_name.
      * @return the start of the email locale part, or limit if no email local part is found
      * @draft ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
     public static int scanBackEmailLocalPart(CharSequence source, int start, int limit) {
         return LinkHandlingUtilities.scanEmailBackwards(source, start, limit);
     }
@@ -63,25 +57,19 @@ public class LinkUtilities {
      * Enum for determining whether any percent-escaping is minimal or maximal.
      *
      * @draft ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
     public enum Extent {
         /**
          * Minimal percent-escaping only percent-escapes non-ASCII where necessary.
          *
          * @draft ICU 79 technology preview
-         * @deprecated This API is for technology preview only.
          */
-        @Deprecated
         MINIMAL,
         /**
          * Maximal percent-escaping percent-escapes all non-ASCII.
          *
          * @draft ICU 79 technology preview
-         * @deprecated This API is for technology preview only.
          */
-        @Deprecated
         MAXIMAL
     }
 
@@ -94,9 +82,7 @@ public class LinkUtilities {
      * @param extent either MINIMAL or MAXIMAL
      * @return an escaped string according to the extent parameter.
      * @draft ICU 79 technology preview
-     * @deprecated This API is for technology preview only.
      */
-    @Deprecated
     public static String escapePathQueryFragment(String source, Extent extent) {
         UrlInternals ui = UrlInternals.from(source.toString());
         switch (extent) {
