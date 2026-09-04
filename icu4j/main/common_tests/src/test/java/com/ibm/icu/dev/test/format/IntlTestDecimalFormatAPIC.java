@@ -36,6 +36,7 @@ import org.junit.runners.JUnit4;
 // try to test the full functionality.  It just calls each function in the class and
 // verifies that it works on a basic level.
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class IntlTestDecimalFormatAPIC extends CoreTestFmwk {
 
     // This test checks various generic API methods in DecimalFormat to achieve 100% API coverage.

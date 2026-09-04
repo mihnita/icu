@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Enclosed.class)
+@net.jcip.annotations.NotThreadSafe
 public class DataDrivenUScriptTest extends CoreTestFmwk {
 
     private static String scriptsToString(int[] scripts) {
@@ -36,6 +37,7 @@ public class DataDrivenUScriptTest extends CoreTestFmwk {
     }
 
     @RunWith(Parameterized.class)
+    @net.jcip.annotations.NotThreadSafe
     public static class LocaleGetCodeTest {
         private ULocale testLocaleName;
         private int expected;

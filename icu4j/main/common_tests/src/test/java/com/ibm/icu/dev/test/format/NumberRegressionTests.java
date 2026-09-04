@@ -53,6 +53,7 @@ import org.junit.runners.JUnit4;
  * @summary Regression tests for NumberFormat and associated classes
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class NumberRegressionTests extends CoreTestFmwk {
     private static final char EURO = '\u20ac';
 

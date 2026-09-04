@@ -35,6 +35,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class IntlTestDecimalFormatAPI extends CoreTestFmwk {
     /**
      * Problem 1: simply running decF4.setRoundingMode(java.math.BigDecimal.ROUND_HALF_UP) does not

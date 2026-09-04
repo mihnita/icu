@@ -20,6 +20,7 @@ import org.junit.runners.JUnit4;
  * @test
  * @summary Error condition test of Transliterator
  */
+@net.jcip.annotations.NotThreadSafe
 @RunWith(JUnit4.class)
 public class ErrorTest extends TestFmwk {
 

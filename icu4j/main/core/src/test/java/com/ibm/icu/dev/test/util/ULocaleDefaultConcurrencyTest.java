@@ -13,6 +13,7 @@ import org.junit.runners.JUnit4;
  * <p>Note: ULocale.canonicalize() concurrency is tested separately in ULocaleConcurrencyTest.
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class ULocaleDefaultConcurrencyTest extends ConcurrencyTest {
 
     @Test

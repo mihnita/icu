@@ -29,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class DateFormatRegressionTestJ extends CoreTestFmwk {
 
     private static final String TIME_STRING = "2000/11/17 08:01:00";

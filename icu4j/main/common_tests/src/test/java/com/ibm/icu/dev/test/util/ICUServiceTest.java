@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class ICUServiceTest extends CoreTestFmwk {
     private String lrmsg(String message, Object lhs, Object rhs) {
         return message + " lhs: " + lhs + " rhs: " + rhs;

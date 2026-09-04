@@ -66,6 +66,7 @@
     <gson.version>2.13.2</gson.version>
     <guava.version>33.5.0-jre</guava.version>
     <jmh.version>1.37</jmh.version>
+    <jcip-annotations.version>1.0</jcip-annotations.version>
     <junit.version>4.13.2</junit.version>
     <junitparams.version>1.1.1</junitparams.version>
     <spotbugs-annotations.version>4.9.8</spotbugs-annotations.version>
@@ -285,6 +286,12 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>net.jcip</groupId>
+        <artifactId>jcip-annotations</artifactId>
+        <version>${jcip-annotations.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
@@ -323,6 +330,13 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>net.jcip</groupId>
+              <artifactId>jcip-annotations</artifactId>
+              <version>${jcip-annotations.version}</version>
+            </dependency>
+          </dependencies>
           <configuration>
             <includes>
               <!-- Some test files start with "IntlTest...". Many don't fit

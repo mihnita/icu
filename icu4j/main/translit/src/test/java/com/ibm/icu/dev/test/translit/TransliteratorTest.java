@@ -89,6 +89,7 @@ import org.junit.runners.JUnit4;
  * @summary General test of Transliterator
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class TransliteratorTest extends TestFmwk {
     @Test
     public void TestHangul() {

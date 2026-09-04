@@ -65,6 +65,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class DateFormatTest extends CoreTestFmwk {
     /**
      * Verify that patterns have the correct values and could produce the the DateFormat instances

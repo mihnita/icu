@@ -12,6 +12,7 @@ import org.junit.runners.JUnit4;
 
 /** Concurrency regression tests for TimeZone, ZoneMeta, and TimeZoneFormat. */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class TimeZoneConcurrencyTest extends ConcurrencyTest {
 
     @Test

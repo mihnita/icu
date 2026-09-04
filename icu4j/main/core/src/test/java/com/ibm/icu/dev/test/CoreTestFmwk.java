@@ -59,34 +59,39 @@ public class CoreTestFmwk extends TestFmwk {
         com.ibm.icu.util.TimeZone testEndDefaultIcuTz = com.ibm.icu.util.TimeZone.getDefault();
         java.util.TimeZone testEndDefaultJdkTz = java.util.TimeZone.getDefault();
 
-        assertEquals(
-                "In [" + testMethodName + "] Test should keep in sync ICU & JDK TZs",
-                testEndDefaultIcuTz.getID(),
-                testEndDefaultJdkTz.getID());
+        try {
+            assertEquals(
+                    "In [" + testMethodName + "] Test should keep in sync ICU & JDK TZs",
+                    testEndDefaultIcuTz.getID(),
+                    testEndDefaultJdkTz.getID());
 
-        assertEquals(
-                "In [" + testMethodName + "] Test should reset ICU default TZ",
-                testStartDefaultIcuTz.getID(),
-                testEndDefaultIcuTz.getID());
-        assertEquals(
-                "In [" + testMethodName + "] Test should reset JDK default TZ",
-                testStartDefaultJdkTz.getID(),
-                testEndDefaultJdkTz.getID());
+            assertEquals(
+                    "In [" + testMethodName + "] Test should reset ICU default TZ",
+                    testStartDefaultIcuTz.getID(),
+                    testEndDefaultIcuTz.getID());
+            assertEquals(
+                    "In [" + testMethodName + "] Test should reset JDK default TZ",
+                    testStartDefaultJdkTz.getID(),
+                    testEndDefaultJdkTz.getID());
 
-        // Assert that locales are in a good state
+            // Assert that locales are in a good state
 
-        com.ibm.icu.util.ULocale testEndDefaultULocale = com.ibm.icu.util.ULocale.getDefault();
-        java.util.Locale testEndDefaultLocale = java.util.Locale.getDefault();
+            com.ibm.icu.util.ULocale testEndDefaultULocale = com.ibm.icu.util.ULocale.getDefault();
+            java.util.Locale testEndDefaultLocale = java.util.Locale.getDefault();
 
-        assertEquals(
-                "In [" + testMethodName + "] Test should reset ICU ULocale",
-                testStartDefaultULocale.toLanguageTag(),
-                testEndDefaultULocale.toLanguageTag());
-        assertEquals(
-                "In [" + testMethodName + "] Test should reset JDK Locale",
-                testStartDefaultLocale.toLanguageTag(),
-                testEndDefaultLocale.toLanguageTag());
-
-        super.localTestTeardown();
+            assertEquals(
+                    "In [" + testMethodName + "] Test should reset ICU ULocale",
+                    testStartDefaultULocale.toLanguageTag(),
+                    testEndDefaultULocale.toLanguageTag());
+            assertEquals(
+                    "In [" + testMethodName + "] Test should reset JDK Locale",
+                    testStartDefaultLocale.toLanguageTag(),
+                    testEndDefaultLocale.toLanguageTag());
+        } finally {
+            ULocale.setDefault(ULocale.forLocale(defaultLocale));
+            com.ibm.icu.util.TimeZone.setDefault(
+                    com.ibm.icu.util.TimeZone.getTimeZone(defaultTimeZone.getID()));
+            super.localTestTeardown();
+        }
     }
 }

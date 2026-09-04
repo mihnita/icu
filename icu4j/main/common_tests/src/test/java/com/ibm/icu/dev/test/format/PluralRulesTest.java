@@ -70,6 +70,7 @@ import org.junit.runners.JUnit4;
  * @author markdavis (Mark Davis) [for fractional support]
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class PluralRulesTest extends CoreTestFmwk {
 
     PluralRulesFactory factory = PluralRulesFactory.NORMAL;

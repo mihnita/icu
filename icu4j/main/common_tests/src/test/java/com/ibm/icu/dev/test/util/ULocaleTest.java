@@ -55,6 +55,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class ULocaleTest extends CoreTestFmwk {
 
     // Ticket #8078 and #11674

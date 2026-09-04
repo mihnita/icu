@@ -23,6 +23,7 @@ import org.junit.runners.JUnit4;
  * separate test classes.
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 @SuppressWarnings({"static-method", "javadoc"})
 public class Mf2FeaturesTest extends CoreTestFmwk {
 

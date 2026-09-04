@@ -62,18 +62,59 @@ public abstract class TestFmwk extends AbstractTestLog {
         testParams = TestParams.create();
     }
 
+    private static final java.util.concurrent.locks.ReentrantReadWriteLock GLOBAL_MUTATION_LOCK =
+            new java.util.concurrent.locks.ReentrantReadWriteLock(true);
+    private java.util.concurrent.locks.Lock currentTestLock;
+
+    private boolean isNotThreadSafe() {
+        for (Class<?> c = getClass(); c != null && c != Object.class; c = c.getSuperclass()) {
+            if (hasNotThreadSafeAnnotation(c)) {
+                return true;
+            }
+            for (Class<?> decl = c.getDeclaringClass(); decl != null; decl = decl.getDeclaringClass()) {
+                if (hasNotThreadSafeAnnotation(decl)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean hasNotThreadSafeAnnotation(Class<?> c) {
+        for (java.lang.annotation.Annotation a : c.getAnnotations()) {
+            if ("net.jcip.annotations.NotThreadSafe".equals(a.annotationType().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected TestFmwk() {}
 
     @Before
     public final void testInitialize() {
-        Locale.setDefault(defaultLocale);
-        TimeZone.setDefault(defaultTimeZone);
-
-        if (getParams().testSecurityManager != null) {
-            System.setSecurityManager(getParams().testSecurityManager);
+        if (isNotThreadSafe()) {
+            currentTestLock = GLOBAL_MUTATION_LOCK.writeLock();
+        } else {
+            currentTestLock = GLOBAL_MUTATION_LOCK.readLock();
         }
+        currentTestLock.lock();
+        try {
+            Locale.setDefault(defaultLocale);
+            TimeZone.setDefault(defaultTimeZone);
 
-        localTestInitialize();
+            if (getParams().testSecurityManager != null) {
+                System.setSecurityManager(getParams().testSecurityManager);
+            }
+
+            localTestInitialize();
+        } catch (Throwable t) {
+            if (currentTestLock != null) {
+                currentTestLock.unlock();
+                currentTestLock = null;
+            }
+            throw t;
+        }
     }
 
     /**
@@ -95,10 +136,23 @@ public abstract class TestFmwk extends AbstractTestLog {
 
     @After
     public final void testTeardown() {
-        localTestTeardown();
-
-        if (getParams().testSecurityManager != null) {
-            System.setSecurityManager(getParams().originalSecurityManager);
+        try {
+            localTestTeardown();
+        } finally {
+            try {
+                if (getParams().testSecurityManager != null) {
+                    System.setSecurityManager(getParams().originalSecurityManager);
+                }
+            } finally {
+                if (currentTestLock != null) {
+                    if (currentTestLock == GLOBAL_MUTATION_LOCK.writeLock()) {
+                        Locale.setDefault(defaultLocale);
+                        TimeZone.setDefault(defaultTimeZone);
+                    }
+                    currentTestLock.unlock();
+                    currentTestLock = null;
+                }
+            }
         }
     }
 

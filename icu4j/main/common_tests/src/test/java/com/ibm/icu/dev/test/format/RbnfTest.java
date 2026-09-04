@@ -29,6 +29,7 @@ import org.junit.runners.JUnit4;
  * dependency on collation. See RbnfLenientScannerTest.
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class RbnfTest extends CoreTestFmwk {
     static String fracRules =
             "%main:\n"

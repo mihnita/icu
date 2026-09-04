@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@net.jcip.annotations.NotThreadSafe
 @RunWith(JUnit4.class)
 public class CollationAPITest extends TestFmwk {
     /**

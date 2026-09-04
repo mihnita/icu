@@ -44,6 +44,7 @@ import org.junit.runners.JUnit4;
  *     4166109 4167060 4173516 4174361 4177484 4197699 4209071 4288792
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class CalendarRegressionTest extends CoreTestFmwk {
     static final String[] FIELD_NAME = {
         "ERA",

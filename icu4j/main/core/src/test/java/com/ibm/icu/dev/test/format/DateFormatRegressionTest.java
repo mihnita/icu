@@ -41,6 +41,7 @@ import org.junit.runners.JUnit4;
 
 /** Performs regression test for DateFormat */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class DateFormatRegressionTest extends CoreTestFmwk {
     /**
      * @bug 4029195

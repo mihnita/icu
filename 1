@@ -1,0 +1,1623 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] International Components for Unicode for Java (icu-root)           [pom]
+[INFO] International Components for Unicode for Java (icu4j-root)         [pom]
+[INFO] icu4j-main                                                         [pom]
+[INFO] framework                                                          [jar]
+[INFO] icu4j-tools                                                        [pom]
+[INFO] tools_taglets                                                      [jar]
+[INFO] core                                                               [jar]
+[INFO] langdata                                                           [jar]
+[INFO] regiondata                                                         [jar]
+[INFO] currdata                                                           [jar]
+[INFO] collate                                                            [jar]
+[INFO] translit                                                           [jar]
+[INFO] ICU4J                                                              [jar]
+[INFO] ICU4J Charset Provider                                             [jar]
+[INFO] common_tests                                                       [jar]
+[INFO] demos                                                              [jar]
+[INFO] samples                                                            [jar]
+[INFO] tools_build                                                        [jar]
+[INFO] tools_misc                                                         [jar]
+[INFO] tools_pmd                                                          [jar]
+[INFO] errorprone_report                                                  [jar]
+[INFO] perf-tests                                                         [jar]
+[INFO] 
+[INFO] ------------------------< com.ibm.icu:icu-root >------------------------
+[INFO] Building International Components for Unicode for Java (icu-root) 79.0.1-SNAPSHOT [1/22]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ icu-root ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ icu-root ---
+[INFO] 
+[INFO] -----------------------< com.ibm.icu:icu4j-root >-----------------------
+[INFO] Building International Components for Unicode for Java (icu4j-root) 79.0.1-SNAPSHOT [2/22]
+[INFO]   from icu4j/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ icu4j-root ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ icu4j-root ---
+[INFO] 
+[INFO] -----------------------< com.ibm.icu:icu4j-main >-----------------------
+[INFO] Building icu4j-main 79.0.1-SNAPSHOT                               [3/22]
+[INFO]   from icu4j/main/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ icu4j-main ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ icu4j-main ---
+[INFO] 
+[INFO] -----------------------< com.ibm.icu:framework >------------------------
+[INFO] Building framework 79.0.1-SNAPSHOT                                [4/22]
+[INFO]   from icu4j/main/framework/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ framework ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ framework ---
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ framework ---
+[INFO] skip non existing resourceDirectory /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/framework/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ framework ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ framework ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ framework ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 7 source files with javac [debug release 11] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ framework ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitcore.JUnitCoreProvider
+[WARNING] file.encoding cannot be set as system property, use <argLine>-Dfile.encoding=...</argLine> instead
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] ----------------------< com.ibm.icu:icu4j-tools >-----------------------
+[INFO] Building icu4j-tools 79.0.1-SNAPSHOT                              [5/22]
+[INFO]   from icu4j/tools/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ icu4j-tools ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ icu4j-tools ---
+[INFO] 
+[INFO] ---------------------< com.ibm.icu:tools_taglets >----------------------
+[INFO] Building tools_taglets 79.0.1-SNAPSHOT                            [6/22]
+[INFO]   from icu4j/tools/taglets/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ tools_taglets ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ tools_taglets ---
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ tools_taglets ---
+[INFO] skip non existing resourceDirectory /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/tools/taglets/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ tools_taglets ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 14 source files with javac [debug release 11] to target/classes
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ tools_taglets ---
+[INFO] skip non existing resourceDirectory /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/tools/taglets/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ tools_taglets ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ tools_taglets ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --------------------------< com.ibm.icu:core >--------------------------
+[INFO] Building core 79.0.1-SNAPSHOT                                     [7/22]
+[INFO]   from icu4j/main/core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-maven) @ core ---
+[INFO] 
+[INFO] --- build-helper:3.6.1:rootlocation (root-location) @ core ---
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ core ---
+[INFO] Copying 2276 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ core ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 532 source files with javac [debug release 11] to target/classes
+[INFO] /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/src/main/java/com/ibm/icu/message2/MFDataModelFormatter.java: Some input files use or override a deprecated API.
+[INFO] /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/src/main/java/com/ibm/icu/message2/MFDataModelFormatter.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ core ---
+[INFO] Copying 643 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ core ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 269 source files with javac [debug release 11] to target/test-classes
+[INFO] /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/src/test/java/com/ibm/icu/dev/test/message2/SerializationTest.java: Some input files use or override a deprecated API.
+[INFO] /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/src/test/java/com/ibm/icu/dev/test/message2/SerializationTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitcore.JUnitCoreProvider
+[WARNING] file.encoding cannot be set as system property, use <argLine>-Dfile.encoding=...</argLine> instead
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetNameTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetNameTest
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetScriptTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetScriptTest
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetShortNameTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetShortNameTest
+[INFO] Running com.ibm.icu.dev.test.impl.SimpleCacheTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.ibm.icu.dev.test.impl.SimpleCacheTest
+[INFO] Running com.ibm.icu.dev.test.impl.CacheTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.ibm.icu.dev.test.impl.CacheTest
+[INFO] Running com.ibm.icu.dev.test.impl.StringSegmentTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.ibm.icu.dev.test.impl.StringSegmentTest
+[INFO] Running com.ibm.icu.dev.test.UnicodeMapBoilerplateTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ibm.icu.dev.test.UnicodeMapBoilerplateTest
+[INFO] Running com.ibm.icu.dev.test.impl.CSCharacterIteratorTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.ibm.icu.dev.test.impl.CSCharacterIteratorTest
+[INFO] Running com.ibm.icu.dev.test.util.ULocaleConcurrencyTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.ibm.icu.dev.test.util.ULocaleConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.calendar.EraRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in com.ibm.icu.dev.test.calendar.EraRulesTest
+[INFO] Running com.ibm.icu.dev.test.impl.ResourceBundleWrapperCachingTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in com.ibm.icu.dev.test.impl.ResourceBundleWrapperCachingTest
+[INFO] Running com.ibm.icu.dev.test.util.GenderInfoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in com.ibm.icu.dev.test.util.GenderInfoTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestCharFromDirProp
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.ibm.icu.dev.test.bidi.TestCharFromDirProp
+[INFO] Running com.ibm.icu.dev.test.timescale.TimeScaleDataTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.ibm.icu.dev.test.timescale.TimeScaleDataTest
+[INFO] Running com.ibm.icu.dev.test.util.RegionTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in com.ibm.icu.dev.test.util.RegionTest
+[INFO] Running com.ibm.icu.dev.test.TestUnicodeKnownIssues
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.106 s -- in com.ibm.icu.dev.test.TestUnicodeKnownIssues
+[INFO] Running com.ibm.icu.dev.test.bidi.TestStreaming
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in com.ibm.icu.dev.test.bidi.TestStreaming
+[INFO] Running com.ibm.icu.dev.test.bidi.TestFailureRecovery
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in com.ibm.icu.dev.test.bidi.TestFailureRecovery
+[INFO] Running com.ibm.icu.dev.test.bidi.TestReorder
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in com.ibm.icu.dev.test.bidi.TestReorder
+[INFO] Running com.ibm.icu.dev.test.bidi.TestContext
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in com.ibm.icu.dev.test.bidi.TestContext
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneOffsetLocalTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in com.ibm.icu.dev.test.timezone.TimeZoneOffsetLocalTest
+[INFO] Running com.ibm.icu.dev.test.lang.TestUScriptRun
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ibm.icu.dev.test.lang.TestUScriptRun
+[INFO] Running com.ibm.icu.dev.test.bidi.TestReorderRunsOnly
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in com.ibm.icu.dev.test.bidi.TestReorderRunsOnly
+[INFO] Running com.ibm.icu.dev.test.calendar.AstroTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.ibm.icu.dev.test.calendar.AstroTest
+[INFO] Running com.ibm.icu.dev.test.util.LocaleBuilderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.121 s -- in com.ibm.icu.dev.test.util.LocaleBuilderTest
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterCategoryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ibm.icu.dev.test.lang.UCharacterCategoryTest
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$LocaleGetCodeTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$LocaleGetCodeTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestCompatibility
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in com.ibm.icu.dev.test.bidi.TestCompatibility
+[INFO] Running com.ibm.icu.dev.test.iterator.TestUCharacterIterator
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.ibm.icu.dev.test.iterator.TestUCharacterIterator
+[INFO] Running com.ibm.icu.dev.test.UnicodeSetBoilerplateTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ibm.icu.dev.test.UnicodeSetBoilerplateTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestMultipleParagraphs
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.131 s -- in com.ibm.icu.dev.test.bidi.TestMultipleParagraphs
+[INFO] Running com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$StandardDataTest
+[INFO] Tests run: 35, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$StandardDataTest
+[INFO] Running com.ibm.icu.dev.test.message2.SerializationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in com.ibm.icu.dev.test.message2.SerializationTest
+[INFO] Running com.ibm.icu.dev.test.util.ICUBinaryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 s -- in com.ibm.icu.dev.test.util.ICUBinaryTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestClassOverride
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.ibm.icu.dev.test.bidi.TestClassOverride
+[INFO] Running com.ibm.icu.dev.test.timescale.TimeScaleMonkeyTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.173 s -- in com.ibm.icu.dev.test.timescale.TimeScaleMonkeyTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestReorderingMode
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.168 s -- in com.ibm.icu.dev.test.bidi.TestReorderingMode
+[INFO] Running com.ibm.icu.dev.test.util.TextTrieMapTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.187 s -- in com.ibm.icu.dev.test.util.TextTrieMapTest
+[INFO] Running com.ibm.icu.dev.test.message2.CustomFunctionGrammarCaseTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.231 s -- in com.ibm.icu.dev.test.message2.CustomFunctionGrammarCaseTest
+[INFO] Running com.ibm.icu.dev.test.util.UtilityTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.368 s -- in com.ibm.icu.dev.test.util.UtilityTest
+[INFO] Running com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$PreflightDataTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$PreflightDataTest
+[INFO] Running com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$ErrorDataTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ibm.icu.dev.test.shaping.DataDrivenArabicShapingRegTest$ErrorDataTest
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterDirectionTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.246 s -- in com.ibm.icu.dev.test.lang.UCharacterDirectionTest
+[INFO] Running com.ibm.icu.dev.test.compression.DecompressionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in com.ibm.icu.dev.test.compression.DecompressionTest
+[INFO] Running com.ibm.icu.dev.test.number.AffixUtilsTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.317 s -- in com.ibm.icu.dev.test.number.AffixUtilsTest
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterThreadTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.292 s -- in com.ibm.icu.dev.test.lang.UCharacterThreadTest
+[INFO] Running com.ibm.icu.dev.test.message2.CustomFunctionListTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.265 s -- in com.ibm.icu.dev.test.message2.CustomFunctionListTest
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneBoundaryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.346 s -- in com.ibm.icu.dev.test.timezone.TimeZoneBoundaryTest
+[INFO] Running com.ibm.icu.dev.test.bidi.TestBidiTransform
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.372 s -- in com.ibm.icu.dev.test.bidi.TestBidiTransform
+[INFO] Running com.ibm.icu.dev.test.bidi.TestReorderArabicMathSymbols
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.239 s -- in com.ibm.icu.dev.test.bidi.TestReorderArabicMathSymbols
+[INFO] Running com.ibm.icu.dev.test.util.StaticUnicodeSetsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.406 s -- in com.ibm.icu.dev.test.util.StaticUnicodeSetsTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.BreakIteratorRegTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.280 s -- in com.ibm.icu.dev.test.rbbi.BreakIteratorRegTest
+[INFO] Running com.ibm.icu.dev.test.lang.PropNumbersTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.297 s -- in com.ibm.icu.dev.test.lang.PropNumbersTest
+[INFO] Running com.ibm.icu.dev.test.util.DebugUtilitiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.236 s -- in com.ibm.icu.dev.test.util.DebugUtilitiesTest
+[INFO] Running com.ibm.icu.dev.test.format.FormattedValueTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in com.ibm.icu.dev.test.format.FormattedValueTest
+[INFO] 
+ 1 Known Issues:
+[INFO] ICU-11585 <https://unicode-org.atlassian.net/browse/ICU-11585>
+[INFO]   -  (incompatible pattern between date format and date interval format)
+[INFO] 
+ 1 Known Issues:
+[INFO] ICU-11585 <https://unicode-org.atlassian.net/browse/ICU-11585>
+[INFO]   -  (incompatible pattern between date format and date interval format)
+[INFO] 
+ 1 Known Issues:
+[INFO] CLDR-17874 <https://unicode-org.atlassian.net/browse/CLDR-17874>
+[INFO]   -  (Failure in bal_Latn.txt: Found 216 errors.)
+[INFO] 
+ 1 Known Issues:
+[INFO] ICU-22924 <https://unicode-org.atlassian.net/browse/ICU-22924>
+[INFO]   -  (wbl-Arab returns wrong first day of the week, probably caused by wrong Likely Subtag algo)
+[INFO] Running com.ibm.icu.dev.test.calendar.IndianTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.587 s -- in com.ibm.icu.dev.test.calendar.IndianTest
+[INFO] Running com.ibm.icu.dev.test.lang.UPropertyAliasesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.349 s -- in com.ibm.icu.dev.test.lang.UPropertyAliasesTest
+[INFO] Running com.ibm.icu.dev.test.normalizer.TestCanonicalIterator
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.189 s -- in com.ibm.icu.dev.test.normalizer.TestCanonicalIterator
+[INFO] Running com.ibm.icu.dev.test.util.CharsTrieTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.770 s -- in com.ibm.icu.dev.test.util.CharsTrieTest
+[INFO] Running com.ibm.icu.dev.test.normalizer.NormalizationMonkeyTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.710 s -- in com.ibm.icu.dev.test.normalizer.NormalizationMonkeyTest
+[INFO] Running com.ibm.icu.dev.test.format.DateFormatRegressionTestJ
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 s -- in com.ibm.icu.dev.test.format.DateFormatRegressionTestJ
+[INFO] Running com.ibm.icu.dev.test.number.NumberSkeletonTest
+[ERROR] Tests run: 15, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.580 s <<< FAILURE! -- in com.ibm.icu.dev.test.number.NumberSkeletonTest
+[ERROR] com.ibm.icu.dev.test.number.NumberSkeletonTest.duplicateValues -- Time elapsed: 0.009 s <<< FAILURE!
+java.lang.AssertionError: : In [duplicateValues] Test should reset ICU default TZ: expected "America/Los_Angeles", got "GMT-12:00"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:67)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.compression.ExhaustiveTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.354 s -- in com.ibm.icu.dev.test.compression.ExhaustiveTest
+[INFO] Running com.ibm.icu.dev.test.format.RBNFParseTest
+[ERROR] Tests run: 8, Failures: 1, Errors: 0, Skipped: 1, Time elapsed: 0.119 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.RBNFParseTest
+[ERROR] com.ibm.icu.dev.test.format.RBNFParseTest.TestICU23144 -- Time elapsed: 0.003 s <<< FAILURE!
+java.lang.AssertionError: : In [TestICU23144] Test should reset ICU ULocale: expected "en-US", got "ja-JP"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.calendar.EthiopicTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.075 s -- in com.ibm.icu.dev.test.calendar.EthiopicTest
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDateFormatAPIC
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.183 s -- in com.ibm.icu.dev.test.format.IntlTestDateFormatAPIC
+[INFO] Running com.ibm.icu.dev.test.format.SelectFormatAPITest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.114 s -- in com.ibm.icu.dev.test.format.SelectFormatAPITest
+[INFO] Running com.ibm.icu.dev.test.calendar.CalendarRegressionTest
+[ERROR] Tests run: 68, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 7.538 s <<< FAILURE! -- in com.ibm.icu.dev.test.calendar.CalendarRegressionTest
+[ERROR] com.ibm.icu.dev.test.calendar.CalendarRegressionTest.Test4162587 -- Time elapsed: 0.008 s <<< FAILURE!
+java.lang.AssertionError: : In [Test4162587] Test should reset ICU default TZ: expected "America/Los_Angeles", got "GMT-12:00"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:67)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBIMonkeyTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.42 s -- in com.ibm.icu.dev.test.rbbi.RBBIMonkeyTest
+[INFO] Running com.ibm.icu.dev.test.format.MessageRegressionTest
+[INFO] Tests run: 26, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.602 s -- in com.ibm.icu.dev.test.format.MessageRegressionTest
+[INFO] Running com.ibm.icu.dev.test.duration.ICUDurationTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.280 s -- in com.ibm.icu.dev.test.duration.ICUDurationTest
+[INFO] Running com.ibm.icu.dev.test.UnicodeMapTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.08 s -- in com.ibm.icu.dev.test.UnicodeMapTest
+[INFO] Running com.ibm.icu.dev.test.util.ULocaleDefaultConcurrencyTest
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.001 s -- in com.ibm.icu.dev.test.util.ULocaleDefaultConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.format.BigNumberFormatTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.409 s -- in com.ibm.icu.dev.test.format.BigNumberFormatTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_zh_Hans
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.245 s -- in com.ibm.icu.dev.test.duration.languages.Test_zh_Hans
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_zh_Hant
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.239 s -- in com.ibm.icu.dev.test.duration.languages.Test_zh_Hant
+[INFO] Running com.ibm.icu.dev.test.charsetdet.TestCharsetDetector
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.045 s -- in com.ibm.icu.dev.test.charsetdet.TestCharsetDetector
+[INFO] Running com.ibm.icu.dev.test.stringprep.TestInputDataStructure
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in com.ibm.icu.dev.test.stringprep.TestInputDataStructure
+[INFO] Running com.ibm.icu.dev.test.message2.Mf2IcuTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.473 s -- in com.ibm.icu.dev.test.message2.Mf2IcuTest
+[INFO] Running com.ibm.icu.dev.test.number.MutablePatternModifierTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.365 s -- in com.ibm.icu.dev.test.number.MutablePatternModifierTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_es
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.135 s -- in com.ibm.icu.dev.test.duration.languages.Test_es
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_en
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.268 s -- in com.ibm.icu.dev.test.duration.languages.Test_en
+[INFO] Running com.ibm.icu.dev.test.segmenter.RuleBasedSegmenterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in com.ibm.icu.dev.test.segmenter.RuleBasedSegmenterTest
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest
+[ERROR] Tests run: 56, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 0.042 s <<< FAILURE! -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[3] -- Time elapsed: 0.041 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[3]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[2] -- Time elapsed: 0.042 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[2]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[1] -- Time elapsed: 0.040 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[1]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[4] -- Time elapsed: 0.037 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[4]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[7] -- Time elapsed: 0.037 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[7]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$GetCodeTest.TestGetCode[10] -- Time elapsed: 0.035 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGetCode[10]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.stringprep.TestIDNA
+[WARNING] Tests run: 21, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.995 s -- in com.ibm.icu.dev.test.stringprep.TestIDNA
+[INFO] Running com.ibm.icu.dev.test.normalizer.UTS46Test
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.738 s -- in com.ibm.icu.dev.test.normalizer.UTS46Test
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_ru
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.483 s -- in com.ibm.icu.dev.test.duration.languages.Test_ru
+[INFO] Running com.ibm.icu.dev.test.util.LocaleMatcherTest
+[ERROR] Tests run: 969, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.632 s <<< FAILURE! -- in com.ibm.icu.dev.test.util.LocaleMatcherTest
+[ERROR] com.ibm.icu.dev.test.util.LocaleMatcherTest.testParentLocales -- Time elapsed: 0.003 s <<< FAILURE!
+java.lang.AssertionError: : In [testParentLocales] Test should reset ICU default TZ: expected "America/Los_Angeles", got "EST"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:67)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at junitparams.JUnitParamsRunner.runChild(JUnitParamsRunner.java:449)
+	at junitparams.JUnitParamsRunner.runChild(JUnitParamsRunner.java:393)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.NumberFormatRegistrationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.201 s -- in com.ibm.icu.dev.test.format.NumberFormatRegistrationTest
+[INFO] Running com.ibm.icu.dev.test.format.DateFormatMiscTests
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.667 s -- in com.ibm.icu.dev.test.format.DateFormatMiscTests
+[INFO] Running com.ibm.icu.dev.test.calendar.PersianTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.557 s -- in com.ibm.icu.dev.test.calendar.PersianTest
+[INFO] Running com.ibm.icu.dev.test.format.PluralFormatTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.542 s -- in com.ibm.icu.dev.test.format.PluralFormatTest
+[INFO] Running com.ibm.icu.dev.test.util.StringTokenizerTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.999 s -- in com.ibm.icu.dev.test.util.StringTokenizerTest
+[INFO] Running com.ibm.icu.dev.test.duration.PeriodTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.202 s -- in com.ibm.icu.dev.test.duration.PeriodTest
+[INFO] Running com.ibm.icu.dev.test.util.CorrectnessFixConcurrencyTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.674 s -- in com.ibm.icu.dev.test.util.CorrectnessFixConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.format.DateFormatRegressionTest
+[ERROR] Tests run: 38, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.561 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.DateFormatRegressionTest
+[ERROR] com.ibm.icu.dev.test.format.DateFormatRegressionTest.TestT10619 -- Time elapsed: 0.005 s <<< FAILURE!
+java.lang.AssertionError: : In [TestT10619] Test should reset ICU ULocale: expected "en-US", got "ja-JP"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.util.TrieMapTest
+[WARNING] Tests run: 8, Failures: 0, Errors: 0, Skipped: 8, Time elapsed: 0 s -- in com.ibm.icu.dev.test.util.TrieMapTest
+[INFO] Running com.ibm.icu.dev.test.segmenter.SegmentsTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.304 s -- in com.ibm.icu.dev.test.segmenter.SegmentsTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_zh_Hant_HK
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.672 s -- in com.ibm.icu.dev.test.duration.languages.Test_zh_Hant_HK
+[INFO] Running com.ibm.icu.dev.test.bigdec.DiagBigDecimalTest
+[INFO] Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.214 s -- in com.ibm.icu.dev.test.bigdec.DiagBigDecimalTest
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDecimalFormatAPI
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.132 s -- in com.ibm.icu.dev.test.format.IntlTestDecimalFormatAPI
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneRuleTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.510 s -- in com.ibm.icu.dev.test.timezone.TimeZoneRuleTest
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneRegressionTest
+[INFO] Tests run: 26, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.005 s -- in com.ibm.icu.dev.test.timezone.TimeZoneRegressionTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_hi
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.283 s -- in com.ibm.icu.dev.test.duration.languages.Test_hi
+[INFO] Running com.ibm.icu.dev.test.duration.DataReadWriteTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s -- in com.ibm.icu.dev.test.duration.DataReadWriteTest
+[INFO] Running com.ibm.icu.dev.test.message2.ParserSmokeTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s -- in com.ibm.icu.dev.test.message2.ParserSmokeTest
+[INFO] Running com.ibm.icu.dev.test.format.PersonNameConsistencyTest
+Note: Use verbose ( -DICU.logging=3 ) to get verbose output
+[INFO] Tests run: 111, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.742 s -- in com.ibm.icu.dev.test.format.PersonNameConsistencyTest
+[INFO] Running com.ibm.icu.dev.test.format.RbnfRoundTripTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.52 s -- in com.ibm.icu.dev.test.format.RbnfRoundTripTest
+[INFO] Running com.ibm.icu.dev.test.text.SpoofCheckerTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.409 s -- in com.ibm.icu.dev.test.text.SpoofCheckerTest
+[INFO] Running com.ibm.icu.dev.test.format.TimeUnitTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.542 s -- in com.ibm.icu.dev.test.format.TimeUnitTest
+[INFO] Running com.ibm.icu.dev.test.message2.StandardFunctionsChainingTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in com.ibm.icu.dev.test.message2.StandardFunctionsChainingTest
+[INFO] Running com.ibm.icu.dev.test.format.FormattedStringBuilderTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.170 s -- in com.ibm.icu.dev.test.format.FormattedStringBuilderTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.AbstractBreakIteratorTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.110 s -- in com.ibm.icu.dev.test.rbbi.AbstractBreakIteratorTests
+[INFO] Running com.ibm.icu.dev.test.util.Trie2Test
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.592 s -- in com.ibm.icu.dev.test.util.Trie2Test
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDateFormatSymbols
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.350 s -- in com.ibm.icu.dev.test.format.IntlTestDateFormatSymbols
+[INFO] Running com.ibm.icu.dev.test.message2.MessageFormat2Test
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.942 s -- in com.ibm.icu.dev.test.message2.MessageFormat2Test
+[INFO] Running com.ibm.icu.dev.test.calendar.HebrewTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.064 s -- in com.ibm.icu.dev.test.calendar.HebrewTest
+[INFO] Running com.ibm.icu.dev.test.calendar.ChineseTest
+[ERROR] Tests run: 13, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.637 s <<< FAILURE! -- in com.ibm.icu.dev.test.calendar.ChineseTest
+[ERROR] com.ibm.icu.dev.test.calendar.ChineseTest.TestRoll -- Time elapsed: 0.097 s <<< FAILURE!
+java.lang.AssertionError: : In [TestRoll] Test should reset ICU ULocale: expected "en-US", got "en"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.calendar.InTemporalLeapYearTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.085 s -- in com.ibm.icu.dev.test.calendar.InTemporalLeapYearTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_it
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.300 s -- in com.ibm.icu.dev.test.duration.languages.Test_it
+[INFO] Running com.ibm.icu.dev.test.message2.CustomFunctionMessageRefTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.234 s -- in com.ibm.icu.dev.test.message2.CustomFunctionMessageRefTest
+[INFO] Running com.ibm.icu.dev.test.number.ExhaustiveNumberTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.059 s -- in com.ibm.icu.dev.test.number.ExhaustiveNumberTest
+[INFO] Running com.ibm.icu.dev.test.timescale.TimeScaleAPITest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.436 s -- in com.ibm.icu.dev.test.timescale.TimeScaleAPITest
+[INFO] Running com.ibm.icu.dev.test.number.DecimalQuantityTest
+[WARNING] Tests run: 14, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 1.021 s -- in com.ibm.icu.dev.test.number.DecimalQuantityTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_fr
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.293 s -- in com.ibm.icu.dev.test.duration.languages.Test_fr
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestSimpleDateFormatAPI
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.125 s -- in com.ibm.icu.dev.test.format.IntlTestSimpleDateFormatAPI
+[INFO] Running com.ibm.icu.dev.test.calendar.IBMCalendarTest
+handleGetMonthLength(ey=2020, m=1)[INFO] Tests run: 52, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.38 s -- in com.ibm.icu.dev.test.calendar.IBMCalendarTest
+[INFO] Running com.ibm.icu.dev.test.util.SimpleFormatterTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.611 s -- in com.ibm.icu.dev.test.util.SimpleFormatterTest
+[INFO] Running com.ibm.icu.dev.test.format.PersonNameFormatterTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.742 s -- in com.ibm.icu.dev.test.format.PersonNameFormatterTest
+[INFO] Running com.ibm.icu.dev.test.util.TestLocaleValidity
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.607 s -- in com.ibm.icu.dev.test.util.TestLocaleValidity
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterTest
+[INFO] Tests run: 71, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.162 s -- in com.ibm.icu.dev.test.lang.UCharacterTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.BreakIteratorTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.738 s -- in com.ibm.icu.dev.test.rbbi.BreakIteratorTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_ar_EG
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.314 s -- in com.ibm.icu.dev.test.duration.languages.Test_ar_EG
+[INFO] Running com.ibm.icu.dev.test.normalizer.TestDeprecatedNormalizerAPI
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.776 s -- in com.ibm.icu.dev.test.normalizer.TestDeprecatedNormalizerAPI
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneAliasTest
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0 s -- in com.ibm.icu.dev.test.timezone.TimeZoneAliasTest
+[INFO] Running com.ibm.icu.dev.test.calendar.HolidayTest
+[ERROR] Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.889 s <<< FAILURE! -- in com.ibm.icu.dev.test.calendar.HolidayTest
+[ERROR] com.ibm.icu.dev.test.calendar.HolidayTest.TestCoverage -- Time elapsed: 0.191 s <<< FAILURE!
+java.lang.AssertionError: : In [TestCoverage] Test should keep in sync ICU & JDK TZs: expected "America/New_York", got "America/Los_Angeles"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:62)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDateFormatAPI
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.475 s -- in com.ibm.icu.dev.test.format.IntlTestDateFormatAPI
+[INFO] Running com.ibm.icu.dev.test.normalizer.ConformanceTest
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 7.541 s -- in com.ibm.icu.dev.test.normalizer.ConformanceTest
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDateFormat
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.479 s -- in com.ibm.icu.dev.test.format.IntlTestDateFormat
+[INFO] Running com.ibm.icu.dev.test.calendar.OrdinalMonthTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.367 s -- in com.ibm.icu.dev.test.calendar.OrdinalMonthTest
+[INFO] Running com.ibm.icu.dev.test.stringprep.IDNAConformanceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.472 s -- in com.ibm.icu.dev.test.stringprep.IDNAConformanceTest
+[INFO] Running com.ibm.icu.dev.test.calendar.CopticTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.162 s -- in com.ibm.icu.dev.test.calendar.CopticTest
+[INFO] Running com.ibm.icu.dev.test.util.BytesTrieTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.500 s -- in com.ibm.icu.dev.test.util.BytesTrieTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBILSTMTest
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.012 s -- in com.ibm.icu.dev.test.rbbi.RBBILSTMTest
+[INFO] Running com.ibm.icu.dev.test.util.ResourceCacheConcurrencyTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.206 s -- in com.ibm.icu.dev.test.util.ResourceCacheConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.format.JavaTimeFormatTest
+[ERROR] Tests run: 12, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.756 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.JavaTimeFormatTest
+[ERROR] com.ibm.icu.dev.test.format.JavaTimeFormatTest.testThatConvertedCalendarUsesDefaultTimeZone -- Time elapsed: 0.001 s <<< FAILURE!
+java.lang.AssertionError: : expected "Friday, September 27, 2013 at 7:43:56 PM Eastern Daylight Time", got "Friday, September 27, 2013 at 7:43:56 PM Pacific Daylight Time"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.format.JavaTimeFormatTest.testThatConvertedCalendarUsesDefaultTimeZone(JavaTimeFormatTest.java:166)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestDecimalFormatSymbols
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.131 s -- in com.ibm.icu.dev.test.format.IntlTestDecimalFormatSymbols
+[INFO] Running com.ibm.icu.dev.test.duration.PeriodBuilderFactoryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.160 s -- in com.ibm.icu.dev.test.duration.PeriodBuilderFactoryTest
+[INFO] Running com.ibm.icu.dev.test.calendar.JapaneseTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.529 s -- in com.ibm.icu.dev.test.calendar.JapaneseTest
+[INFO] Running com.ibm.icu.dev.test.shaping.ArabicShapingRegTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.174 s -- in com.ibm.icu.dev.test.shaping.ArabicShapingRegTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBITest
+[INFO] Tests run: 36, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 50.10 s -- in com.ibm.icu.dev.test.rbbi.RBBITest
+[INFO] Running com.ibm.icu.dev.test.message2.OverideStandardFunctionsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.460 s -- in com.ibm.icu.dev.test.message2.OverideStandardFunctionsTest
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestNumberFormat
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.276 s -- in com.ibm.icu.dev.test.format.IntlTestNumberFormat
+[INFO] Running com.ibm.icu.dev.test.calendar.CompatibilityTest
+[ERROR] Tests run: 22, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.979 s <<< FAILURE! -- in com.ibm.icu.dev.test.calendar.CompatibilityTest
+[ERROR] com.ibm.icu.dev.test.calendar.CompatibilityTest.TestGregorianChangeover -- Time elapsed: 0.002 s <<< FAILURE!
+java.lang.AssertionError: : In [TestGregorianChangeover] Test should keep in sync ICU & JDK TZs: expected "UTC", got "America/Los_Angeles"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:62)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.IntlTestNumberFormatAPI
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.480 s -- in com.ibm.icu.dev.test.format.IntlTestNumberFormatAPI
+[INFO] Running com.ibm.icu.dev.test.stringprep.TestStringPrepProfiles
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.387 s -- in com.ibm.icu.dev.test.stringprep.TestStringPrepProfiles
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_ja
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.269 s -- in com.ibm.icu.dev.test.duration.languages.Test_ja
+[INFO] Running com.ibm.icu.dev.test.normalizer.UnicodeNormalizerConformanceTest
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 1.860 s -- in com.ibm.icu.dev.test.normalizer.UnicodeNormalizerConformanceTest
+[INFO] Running com.ibm.icu.dev.test.bidi.BiDiConformanceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.536 s -- in com.ibm.icu.dev.test.bidi.BiDiConformanceTest
+[INFO] Running com.ibm.icu.dev.test.format.MeasureUnitThreadTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.194 s -- in com.ibm.icu.dev.test.format.MeasureUnitThreadTest
+[INFO] Running com.ibm.icu.dev.test.lang.UnicodeSetStringSpanTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.309 s -- in com.ibm.icu.dev.test.lang.UnicodeSetStringSpanTest
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterCaseTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.255 s -- in com.ibm.icu.dev.test.lang.UCharacterCaseTest
+[INFO] Running com.ibm.icu.dev.test.timezone.TimeZoneTest
+[INFO] Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.913 s -- in com.ibm.icu.dev.test.timezone.TimeZoneTest
+[INFO] Running com.ibm.icu.dev.test.lang.UCharacterSurrogateTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.530 s -- in com.ibm.icu.dev.test.lang.UCharacterSurrogateTest
+[INFO] Running com.ibm.icu.dev.test.util.LocaleDistanceTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.671 s -- in com.ibm.icu.dev.test.util.LocaleDistanceTest
+[INFO] Running com.ibm.icu.dev.test.calendar.IslamicTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.758 s -- in com.ibm.icu.dev.test.calendar.IslamicTest
+[INFO] Running com.ibm.icu.dev.test.text.DisplayOptionsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.133 s -- in com.ibm.icu.dev.test.text.DisplayOptionsTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_ko
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.819 s -- in com.ibm.icu.dev.test.duration.languages.Test_ko
+[INFO] Running com.ibm.icu.dev.test.lang.TestUScript
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.444 s -- in com.ibm.icu.dev.test.lang.TestUScript
+[INFO] Running com.ibm.icu.dev.test.format.SelectFormatUnitTest
+[ERROR] Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.114 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.SelectFormatUnitTest
+[ERROR] com.ibm.icu.dev.test.format.SelectFormatUnitTest.TestPatternSyntax -- Time elapsed: 0.114 s <<< FAILURE!
+java.lang.AssertionError: : In [TestPatternSyntax] Test should reset ICU ULocale: expected "en", got "en-US"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.PluralFormatUnitTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.963 s -- in com.ibm.icu.dev.test.format.PluralFormatUnitTest
+[INFO] Running com.ibm.icu.dev.test.format.NumberFormatRoundTripTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.549 s -- in com.ibm.icu.dev.test.format.NumberFormatRoundTripTest
+[INFO] Running com.ibm.icu.dev.test.links.LinkTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.238 s -- in com.ibm.icu.dev.test.links.LinkTest
+[INFO] Running com.ibm.icu.dev.test.util.CodePointTrieTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.656 s -- in com.ibm.icu.dev.test.util.CodePointTrieTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_he_IL
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.288 s -- in com.ibm.icu.dev.test.duration.languages.Test_he_IL
+[INFO] Running com.ibm.icu.dev.test.segmenter.LocalizedSegmenterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in com.ibm.icu.dev.test.segmenter.LocalizedSegmenterTest
+[INFO] Running com.ibm.icu.dev.test.duration.languages.Test_zh_Hans_SG
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.457 s -- in com.ibm.icu.dev.test.duration.languages.Test_zh_Hans_SG
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBITestMonkey
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 79.70 s -- in com.ibm.icu.dev.test.rbbi.RBBITestMonkey
+[INFO] Running com.ibm.icu.dev.test.format.JavaTimeConvertersTest
+[ERROR] Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.130 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.JavaTimeConvertersTest
+[ERROR] com.ibm.icu.dev.test.format.JavaTimeConvertersTest.testDateOnly -- Time elapsed: 0.123 s <<< FAILURE!
+java.lang.AssertionError: : In [testDateOnly] Test should reset ICU ULocale: expected "en", got "en-US"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.bidi.TestInverse
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.652 s -- in com.ibm.icu.dev.test.bidi.TestInverse
+[INFO] Running com.ibm.icu.dev.test.bidi.TestBidi
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.395 s -- in com.ibm.icu.dev.test.bidi.TestBidi
+[INFO] Running com.ibm.icu.dev.test.duration.RegressionTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in com.ibm.icu.dev.test.duration.RegressionTest
+[INFO] Running com.ibm.icu.dev.test.message2.CustomFunctionPersonTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.490 s -- in com.ibm.icu.dev.test.message2.CustomFunctionPersonTest
+[INFO] Running com.ibm.icu.dev.test.util.CompactArrayTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.612 s <<< FAILURE! -- in com.ibm.icu.dev.test.util.CompactArrayTest
+[ERROR] com.ibm.icu.dev.test.util.CompactArrayTest.TestCharArrayCoverage -- Time elapsed: 0.373 s <<< FAILURE!
+java.lang.AssertionError: : In [TestCharArrayCoverage] Test should reset ICU default TZ: expected "America/Los_Angeles", got "Asia/Damascus"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:67)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.message2.CoreTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.114 s -- in com.ibm.icu.dev.test.message2.CoreTest
+[INFO] Running com.ibm.icu.dev.test.util.LazyInitConcurrencyTest
+[WARNING] Tests run: 8, Failures: 0, Errors: 0, Skipped: 8, Time elapsed: 0.464 s -- in com.ibm.icu.dev.test.util.LazyInitConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.lang.UnicodeSetTest
+[INFO] Tests run: 58, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.68 s -- in com.ibm.icu.dev.test.lang.UnicodeSetTest
+[INFO] Running com.ibm.icu.dev.test.util.VersionInfoTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.281 s -- in com.ibm.icu.dev.test.util.VersionInfoTest
+[INFO] Running com.ibm.icu.dev.test.lang.UTF16Test
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.059 s -- in com.ibm.icu.dev.test.lang.UTF16Test
+[INFO] Running com.ibm.icu.dev.test.duration.ResourceBasedPeriodFormatterDataServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.142 s -- in com.ibm.icu.dev.test.duration.ResourceBasedPeriodFormatterDataServiceTest
+[INFO] Running com.ibm.icu.dev.test.util.DisplayNameTest
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0 s -- in com.ibm.icu.dev.test.util.DisplayNameTest
+[INFO] Running com.ibm.icu.dev.test.calendar.TemporalMonthCodeTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.204 s -- in com.ibm.icu.dev.test.calendar.TemporalMonthCodeTest
+[INFO] Running com.ibm.icu.dev.test.util.TimeZoneConcurrencyTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.436 s -- in com.ibm.icu.dev.test.util.TimeZoneConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.format.DateTimeGeneratorTest
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.376 s -- in com.ibm.icu.dev.test.format.DateTimeGeneratorTest
+[INFO] Running com.ibm.icu.dev.test.format.ListFormatterTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.701 s -- in com.ibm.icu.dev.test.format.ListFormatterTest
+[INFO] Running com.ibm.icu.dev.test.format.DateIntervalFormatTest
+[INFO] Tests run: 40, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.845 s -- in com.ibm.icu.dev.test.format.DateIntervalFormatTest
+[INFO] Running com.ibm.icu.dev.test.impl.UnitsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.194 s -- in com.ibm.icu.dev.test.impl.UnitsTest
+[INFO] Running com.ibm.icu.dev.test.calendar.DangiTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.327 s -- in com.ibm.icu.dev.test.calendar.DangiTest
+[INFO] Running com.ibm.icu.dev.test.format.DateFormatRoundTripTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.477 s -- in com.ibm.icu.dev.test.format.DateFormatRoundTripTest
+[INFO] Running com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$TestMultipleUScript
+[ERROR] Tests run: 4, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.046 s <<< FAILURE! -- in com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$TestMultipleUScript
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$TestMultipleUScript.TestMultipleCodes[1] -- Time elapsed: 0.038 s <<< FAILURE!
+java.lang.AssertionError: : In [TestMultipleCodes[1]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$TestMultipleUScript.TestMultipleCodes[2] -- Time elapsed: 0.037 s <<< FAILURE!
+java.lang.AssertionError: : In [TestMultipleCodes[2]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] com.ibm.icu.dev.test.lang.DataDrivenUScriptTest$TestMultipleUScript.TestMultipleCodes[3] -- Time elapsed: 0.043 s <<< FAILURE!
+java.lang.AssertionError: : In [TestMultipleCodes[3]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:81)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.format.MessagePatternUtilTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.138 s -- in com.ibm.icu.dev.test.format.MessagePatternUtilTest
+[INFO] Running com.ibm.icu.dev.test.format.RelativeDateTimeFormatterTest
+[ERROR] Tests run: 23, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.644 s <<< FAILURE! -- in com.ibm.icu.dev.test.format.RelativeDateTimeFormatterTest
+[ERROR] com.ibm.icu.dev.test.format.RelativeDateTimeFormatterTest.TestRelativeDateWithQuantitySr -- Time elapsed: 0.096 s <<< FAILURE!
+java.lang.AssertionError: : In [TestRelativeDateWithQuantitySr] Test should reset ICU default TZ: expected "America/Los_Angeles", got "Asia/Damascus"
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:586)
+	at com.ibm.icu.dev.test.TestFmwk.handleAssert(TestFmwk.java:563)
+	at com.ibm.icu.dev.test.TestFmwk.assertEquals(TestFmwk.java:520)
+	at com.ibm.icu.dev.test.CoreTestFmwk.localTestTeardown(CoreTestFmwk.java:67)
+	at com.ibm.icu.dev.test.TestFmwk.testTeardown(TestFmwk.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.RunAfters.invokeMethod(RunAfters.java:46)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:33)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBIAPITest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.851 s -- in com.ibm.icu.dev.test.rbbi.RBBIAPITest
+[INFO] Running com.ibm.icu.dev.test.normalizer.NormalizerRegressionTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.106 s -- in com.ibm.icu.dev.test.normalizer.NormalizerRegressionTests
+[INFO] Running com.ibm.icu.dev.test.format.NumberFormatJavaCompatilityTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in com.ibm.icu.dev.test.format.NumberFormatJavaCompatilityTest
+[INFO] Running com.ibm.icu.dev.test.util.LocalePriorityListTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.459 s -- in com.ibm.icu.dev.test.util.LocalePriorityListTest
+[INFO] Running com.ibm.icu.dev.test.util.TrieTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.510 s -- in com.ibm.icu.dev.test.util.TrieTest
+[INFO] Running com.ibm.icu.dev.test.rbbi.RBBITestExtended
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.299 s <<< FAILURE! -- in com.ibm.icu.dev.test.rbbi.RBBITestExtended
+[ERROR] com.ibm.icu.dev.test.rbbi.RBBITestExtended.TestExtended -- Time elapsed: 0.299 s <<< FAILURE!
+java.lang.AssertionError: 
+Incorrect status for forward break.  Pos = 1.  File line,col = 44, 3
+          Actual, Expected status = 100, 0
+	at org.junit.Assert.fail(Assert.java:89)
+	at com.ibm.icu.dev.test.AbstractTestLog.errln(AbstractTestLog.java:41)
+	at com.ibm.icu.dev.test.rbbi.RBBITestExtended.executeTest(RBBITestExtended.java:535)
+	at com.ibm.icu.dev.test.rbbi.RBBITestExtended.TestExtended(RBBITestExtended.java:301)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at org.apache.maven.surefire.junitcore.pc.InvokerStrategy.schedule(InvokerStrategy.java:47)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler.schedule(Scheduler.java:316)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.junit.runners.Suite.runChild(Suite.java:128)
+	at org.junit.runners.Suite.runChild(Suite.java:27)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:345)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] Running com.ibm.icu.dev.test.util.ICUServiceThreadTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.49 s -- in com.ibm.icu.dev.test.util.ICUServiceThreadTest
+[INFO] Running com.ibm.icu.dev.test.util.CacheConcurrencyTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.120 s -- in com.ibm.icu.dev.test.util.CacheConcurrencyTest
+[INFO] Running com.ibm.icu.dev.test.format.ScientificNumberFormatterTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.279 s -- in com.ibm.icu.dev.test.format.ScientificNumberFormatterTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   CalendarRegressionTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:67->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [Test4162587] Test should reset ICU default TZ: expected "America/Los_Angeles", got "GMT-12:00"
+[ERROR]   ChineseTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestRoll] Test should reset ICU ULocale: expected "en-US", got "en"
+[ERROR]   CompatibilityTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:62->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGregorianChangeover] Test should keep in sync ICU & JDK TZs: expected "UTC", got "America/Los_Angeles"
+[ERROR]   HolidayTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:62->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestCoverage] Test should keep in sync ICU & JDK TZs: expected "America/New_York", got "America/Los_Angeles"
+[ERROR]   DateFormatRegressionTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestT10619] Test should reset ICU ULocale: expected "en-US", got "ja-JP"
+[ERROR]   JavaTimeConvertersTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [testDateOnly] Test should reset ICU ULocale: expected "en", got "en-US"
+[ERROR]   JavaTimeFormatTest.testThatConvertedCalendarUsesDefaultTimeZone:166->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : expected "Friday, September 27, 2013 at 7:43:56 PM Eastern Daylight Time", got "Friday, September 27, 2013 at 7:43:56 PM Pacific Daylight Time"
+[ERROR]   RBNFParseTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestICU23144] Test should reset ICU ULocale: expected "en-US", got "ja-JP"
+[ERROR]   RelativeDateTimeFormatterTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:67->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestRelativeDateWithQuantitySr] Test should reset ICU default TZ: expected "America/Los_Angeles", got "Asia/Damascus"
+[ERROR]   SelectFormatUnitTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestPatternSyntax] Test should reset ICU ULocale: expected "en", got "en-US"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[10]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[1]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[2]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[3]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[4]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$GetCodeTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestGetCode[7]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$TestMultipleUScript>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestMultipleCodes[1]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$TestMultipleUScript>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestMultipleCodes[2]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   DataDrivenUScriptTest$TestMultipleUScript>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:81->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestMultipleCodes[3]] Test should reset ICU ULocale: expected "en-US", got "eo-DE"
+[ERROR]   NumberSkeletonTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:67->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [duplicateValues] Test should reset ICU default TZ: expected "America/Los_Angeles", got "GMT-12:00"
+[ERROR]   RBBITestExtended.TestExtended:301->executeTest:535->AbstractTestLog.errln:41 Incorrect status for forward break.  Pos = 1.  File line,col = 44, 3
+          Actual, Expected status = 100, 0
+[ERROR]   CompactArrayTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:67->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [TestCharArrayCoverage] Test should reset ICU default TZ: expected "America/Los_Angeles", got "Asia/Damascus"
+[ERROR]   LocaleMatcherTest>TestFmwk.testTeardown:98->CoreTestFmwk.localTestTeardown:67->TestFmwk.assertEquals:520->TestFmwk.handleAssert:563->TestFmwk.handleAssert:586->AbstractTestLog.errln:41 : In [testParentLocales] Test should reset ICU default TZ: expected "America/Los_Angeles", got "EST"
+[INFO] 
+[ERROR] Tests run: 2953, Failures: 23, Errors: 0, Skipped: 49
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for International Components for Unicode for Java (icu-root) 79.0.1-SNAPSHOT:
+[INFO] 
+[INFO] International Components for Unicode for Java (icu-root) SUCCESS [  0.145 s]
+[INFO] International Components for Unicode for Java (icu4j-root) SUCCESS [  0.004 s]
+[INFO] icu4j-main ......................................... SUCCESS [  0.005 s]
+[INFO] framework .......................................... SUCCESS [  0.712 s]
+[INFO] icu4j-tools ........................................ SUCCESS [  0.007 s]
+[INFO] tools_taglets ...................................... SUCCESS [  0.077 s]
+[INFO] core ............................................... FAILURE [01:25 min]
+[INFO] langdata ........................................... SKIPPED
+[INFO] regiondata ......................................... SKIPPED
+[INFO] currdata ........................................... SKIPPED
+[INFO] collate ............................................ SKIPPED
+[INFO] translit ........................................... SKIPPED
+[INFO] ICU4J .............................................. SKIPPED
+[INFO] ICU4J Charset Provider ............................. SKIPPED
+[INFO] common_tests ....................................... SKIPPED
+[INFO] demos .............................................. SKIPPED
+[INFO] samples ............................................ SKIPPED
+[INFO] tools_build ........................................ SKIPPED
+[INFO] tools_misc ......................................... SKIPPED
+[INFO] tools_pmd .......................................... SKIPPED
+[INFO] errorprone_report .................................. SKIPPED
+[INFO] perf-tests ......................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:26 min
+[INFO] Finished at: 2026-09-03T18:02:32-07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project core: There are test failures.
+[ERROR] 
+[ERROR] See /Users/mnita/third_party/icu_work/icu.mihnita.bld/icu4j/main/core/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :core

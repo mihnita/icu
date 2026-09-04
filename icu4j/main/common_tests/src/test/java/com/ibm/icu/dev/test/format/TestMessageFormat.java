@@ -44,6 +44,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class TestMessageFormat extends CoreTestFmwk {
     @Test
     public void TestBug3() {

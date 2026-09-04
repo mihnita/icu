@@ -34,6 +34,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class JavaTimeFormatTest extends CoreTestFmwk {
     static final LocalDateTime LDT =
             LocalDateTime.of(

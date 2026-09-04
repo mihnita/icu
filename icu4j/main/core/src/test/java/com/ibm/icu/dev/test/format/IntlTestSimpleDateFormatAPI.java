@@ -38,6 +38,7 @@ import org.junit.runners.JUnit4;
  * @summary test International Simple Date Format API
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class IntlTestSimpleDateFormatAPI extends CoreTestFmwk {
     // This test checks various generic API methods in DecimalFormat to achieve 100% API coverage.
     @Test

@@ -61,7 +61,7 @@ public class UnicodeKnownIssues {
      *     use "CLDR-12345". For compatibility, "1234" -> ICU-1234 and "cldrbug:456" -> CLDR-456
      * @param comment Additional comment, or null
      */
-    public void logKnownIssue(String path, String ticket, String comment) {
+    public synchronized void logKnownIssue(String path, String ticket, String comment) {
 
         StringBuilder descBuf = new StringBuilder(path);
 
@@ -99,7 +99,7 @@ public class UnicodeKnownIssues {
      * @param logFn consumer for Strings (e.g. System.out::println)
      * @return true if (!allKnownIssues) and we had to curtail
      */
-    public boolean printKnownIssues(Consumer<String> logFn) {
+    public synchronized boolean printKnownIssues(Consumer<String> logFn) {
         boolean didCurtail = false;
         if (knownIssues.isEmpty()) {
             return false;
@@ -130,7 +130,7 @@ public class UnicodeKnownIssues {
     }
 
     /** Reset the known issues */
-    public void reset() {
+    public synchronized void reset() {
         knownIssues.clear();
     }
 }
