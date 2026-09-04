@@ -28,10 +28,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class ULocaleCollationTest extends TestFmwk {
     @Test

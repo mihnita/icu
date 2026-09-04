@@ -30,11 +30,13 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class IntlTestDecimalFormatAPI extends CoreTestFmwk {
     /**
      * Problem 1: simply running decF4.setRoundingMode(java.math.BigDecimal.ROUND_HALF_UP) does not

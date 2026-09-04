@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -44,6 +45,7 @@ import org.junit.runners.JUnit4;
  *     4166109 4167060 4173516 4174361 4177484 4197699 4209071 4288792
  */
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class CalendarRegressionTest extends CoreTestFmwk {
     static final String[] FIELD_NAME = {
         "ERA",

@@ -29,11 +29,13 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class IntlTestDateFormatAPI extends CoreTestFmwk {
     // Test that the equals method works correctly.
     @Test

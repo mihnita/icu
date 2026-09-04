@@ -23,12 +23,14 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class DateFormatRegressionTestJ extends CoreTestFmwk {
 
     private static final String TIME_STRING = "2000/11/17 08:01:00";

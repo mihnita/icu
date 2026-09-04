@@ -9,11 +9,13 @@ import com.ibm.icu.util.ULocale;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+@NotThreadSafe
 @RunWith(Enclosed.class)
 public class DataDrivenUScriptTest extends CoreTestFmwk {
 
@@ -35,6 +37,7 @@ public class DataDrivenUScriptTest extends CoreTestFmwk {
         assertEquals(msg, scriptsToString(expectedScripts), scriptsToString(actualScripts));
     }
 
+    @NotThreadSafe
     @RunWith(Parameterized.class)
     public static class LocaleGetCodeTest {
         private ULocale testLocaleName;

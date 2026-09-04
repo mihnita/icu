@@ -65,6 +65,7 @@
     <error_prone.version>2.49.0</error_prone.version>
     <gson.version>2.13.2</gson.version>
     <guava.version>33.5.0-jre</guava.version>
+    <jcip-annotations.version>1.0-1</jcip-annotations.version>
     <jmh.version>1.37</jmh.version>
     <junit.version>4.13.2</junit.version>
     <junitparams.version>1.1.1</junitparams.version>
@@ -282,6 +283,12 @@
         <groupId>com.google.truth</groupId>
         <artifactId>truth</artifactId>
         <version>${truth.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.github.stephenc.jcip</groupId>
+        <artifactId>jcip-annotations</artifactId>
+        <version>${jcip-annotations.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>

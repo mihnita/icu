@@ -32,10 +32,12 @@ import java.util.Iterator;
 import java.util.List;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /** This maps to convtest.c which tests the test file for data-driven conversion tests. */
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class TestConversion extends TestFmwk {
     /**

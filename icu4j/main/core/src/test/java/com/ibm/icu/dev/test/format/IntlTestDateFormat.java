@@ -29,11 +29,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class IntlTestDateFormat extends CoreTestFmwk {
     // Values in milliseconds (== Date)

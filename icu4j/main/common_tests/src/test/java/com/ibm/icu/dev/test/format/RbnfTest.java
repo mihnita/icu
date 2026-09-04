@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.Random;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,6 +29,7 @@ import org.junit.runners.JUnit4;
  * This does not test lenient parse mode, since testing the default implementation introduces a
  * dependency on collation. See RbnfLenientScannerTest.
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class RbnfTest extends CoreTestFmwk {
     static String fracRules =

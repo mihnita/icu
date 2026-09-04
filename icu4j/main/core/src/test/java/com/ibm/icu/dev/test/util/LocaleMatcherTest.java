@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -37,6 +38,7 @@ import org.junit.runner.RunWith;
  *
  * @author markdavis
  */
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class LocaleMatcherTest extends CoreTestFmwk {
     private static final boolean DEBUG = ICUDebug.enabled("localematchertest");

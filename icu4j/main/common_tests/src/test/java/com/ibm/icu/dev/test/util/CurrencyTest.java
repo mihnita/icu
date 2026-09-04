@@ -35,11 +35,13 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * @test
  * @summary General test of Currency
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class CurrencyTest extends CoreTestFmwk {
     /** Test of basic API. */

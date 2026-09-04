@@ -68,7 +68,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import net.jcip.annotations.NotThreadSafe;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class NumberFormatTest extends CoreTestFmwk {
 

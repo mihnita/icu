@@ -38,10 +38,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.jar.JarEntry;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public final class ICUResourceBundleTest extends CoreTestFmwk {
     private static final ClassLoader testLoader = ICUResourceBundleTest.class.getClassLoader();

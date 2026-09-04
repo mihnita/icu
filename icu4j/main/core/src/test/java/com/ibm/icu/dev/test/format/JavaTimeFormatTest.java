@@ -29,11 +29,13 @@ import java.time.chrono.ThaiBuddhistDate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class JavaTimeFormatTest extends CoreTestFmwk {
     static final LocalDateTime LDT =
             LocalDateTime.of(

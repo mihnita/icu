@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,6 +34,7 @@ import org.junit.runner.RunWith;
  * @author sgill
  *     <p>analog of dadrcal.cpp
  */
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class DataDrivenCalendarTest extends CoreTestFmwk {
 

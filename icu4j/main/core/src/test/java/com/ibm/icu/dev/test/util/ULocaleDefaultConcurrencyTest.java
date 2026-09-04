@@ -3,6 +3,7 @@
 package com.ibm.icu.dev.test.util;
 
 import com.ibm.icu.util.ULocale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -12,6 +13,7 @@ import org.junit.runners.JUnit4;
  *
  * <p>Note: ULocale.canonicalize() concurrency is tested separately in ULocaleConcurrencyTest.
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class ULocaleDefaultConcurrencyTest extends ConcurrencyTest {
 

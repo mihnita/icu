@@ -16,6 +16,7 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.SimpleTimeZone;
 import com.ibm.icu.util.TimeZone;
 import java.util.Date;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -24,6 +25,7 @@ import org.junit.runners.JUnit4;
  * A test which discovers the boundaries of DST programmatically and verifies that they are correct.
  */
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class TimeZoneBoundaryTest extends CoreTestFmwk {
     static final int ONE_SECOND = 1000;
     static final int ONE_MINUTE = 60 * ONE_SECOND;

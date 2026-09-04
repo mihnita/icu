@@ -41,6 +41,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * @test 1.49 01/05/21
@@ -52,6 +53,7 @@ import org.junit.runners.JUnit4;
  *     4243011 4243108 4330377 4233840
  * @summary Regression tests for NumberFormat and associated classes
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class NumberRegressionTests extends CoreTestFmwk {
     private static final char EURO = '\u20ac';

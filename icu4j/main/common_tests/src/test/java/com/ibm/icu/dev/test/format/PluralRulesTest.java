@@ -64,11 +64,13 @@ import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * @author dougfelt (Doug Felt)
  * @author markdavis (Mark Davis) [for fractional support]
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class PluralRulesTest extends CoreTestFmwk {
 

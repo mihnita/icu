@@ -50,10 +50,12 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class ULocaleTest extends CoreTestFmwk {
 

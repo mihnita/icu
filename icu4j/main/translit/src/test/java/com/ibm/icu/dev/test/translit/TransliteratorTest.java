@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -88,6 +89,7 @@ import org.junit.runners.JUnit4;
  * @test
  * @summary General test of Transliterator
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class TransliteratorTest extends TestFmwk {
     @Test

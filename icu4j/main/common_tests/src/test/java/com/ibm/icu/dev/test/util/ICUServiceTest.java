@@ -33,10 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class ICUServiceTest extends CoreTestFmwk {
     private String lrmsg(String message, Object lhs, Object rhs) {

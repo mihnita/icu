@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -38,6 +39,7 @@ import org.junit.runners.JUnit4;
  * @summary test International Simple Date Format API
  */
 @RunWith(JUnit4.class)
+@NotThreadSafe
 public class IntlTestSimpleDateFormatAPI extends CoreTestFmwk {
     // This test checks various generic API methods in DecimalFormat to achieve 100% API coverage.
     @Test

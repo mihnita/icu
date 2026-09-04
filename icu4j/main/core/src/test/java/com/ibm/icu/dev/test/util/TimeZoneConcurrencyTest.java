@@ -6,11 +6,13 @@ import com.ibm.icu.text.TimeZoneFormat;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 import java.util.Set;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Concurrency regression tests for TimeZone, ZoneMeta, and TimeZoneFormat. */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class TimeZoneConcurrencyTest extends ConcurrencyTest {
 
