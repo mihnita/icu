@@ -47,10 +47,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class TimeZoneFormatTest extends CoreTestFmwk {
 

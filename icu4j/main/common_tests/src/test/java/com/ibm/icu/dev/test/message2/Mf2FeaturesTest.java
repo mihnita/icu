@@ -10,6 +10,7 @@ import com.ibm.icu.util.CurrencyAmount;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -22,6 +23,7 @@ import org.junit.runners.JUnit4;
  * document</a>, except for the custom formatters ones, which are too verbose and were moved to
  * separate test classes.
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 @SuppressWarnings({"static-method", "javadoc"})
 public class Mf2FeaturesTest extends CoreTestFmwk {

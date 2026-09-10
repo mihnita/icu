@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
  * CLDR project.
  */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class PersonNameConsistencyTest extends CoreTestFmwk {
     /**
      * Change this to true to cause the tests that would normally be skipped to also run (without

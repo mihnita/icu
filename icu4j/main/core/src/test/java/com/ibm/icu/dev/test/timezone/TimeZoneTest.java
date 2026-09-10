@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -49,6 +50,7 @@ import org.junit.runners.JUnit4;
  * @summary test TimeZone
  * @build TimeZoneTest
  */
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class TimeZoneTest extends CoreTestFmwk {
     static final int millisPerHour = 3600000;

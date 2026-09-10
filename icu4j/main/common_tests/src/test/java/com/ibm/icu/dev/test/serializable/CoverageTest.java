@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
  * @author emader
  */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class CoverageTest extends CoreTestFmwk {
 
     @Test

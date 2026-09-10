@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.junit.runner.RunWith;
  * @test
  * @summary Disordered marks test of Transliterator
  */
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class TransliteratorDisorderedMarksTest extends TestFmwk {
     private static UnicodeSet disorderedMarks;

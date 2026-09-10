@@ -10,10 +10,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 import org.junit.Test;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+@NotThreadSafe
 @RunWith(Enclosed.class)
 public class DataDrivenUScriptTest extends CoreTestFmwk {
 

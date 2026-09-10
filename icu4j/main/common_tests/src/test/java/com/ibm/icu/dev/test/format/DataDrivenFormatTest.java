@@ -36,6 +36,7 @@ import org.junit.runner.RunWith;
  * @author sgill
  */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class DataDrivenFormatTest extends CoreTestFmwk {
 
     /**

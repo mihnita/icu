@@ -13,11 +13,13 @@ import com.ibm.icu.text.RuleBasedNumberFormat;
 import com.ibm.icu.util.ULocale;
 import java.text.ParseException;
 import java.util.Locale;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@NotThreadSafe
 @RunWith(JUnit4.class)
 public class RBNFParseTest extends CoreTestFmwk {
     @Test

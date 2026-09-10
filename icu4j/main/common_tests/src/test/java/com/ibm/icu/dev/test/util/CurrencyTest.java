@@ -41,6 +41,7 @@ import org.junit.runners.JUnit4;
  * @summary General test of Currency
  */
 @RunWith(JUnit4.class)
+@net.jcip.annotations.NotThreadSafe
 public class CurrencyTest extends CoreTestFmwk {
     /** Test of basic API. */
     @Test

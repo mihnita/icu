@@ -34,6 +34,7 @@ import org.junit.runner.RunWith;
  *     <p>analog of dadrcal.cpp
  */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class DataDrivenCalendarTest extends CoreTestFmwk {
 
     public DataDrivenCalendarTest() {

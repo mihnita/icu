@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
  * @author markdavis
  */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class LocaleMatcherTest extends CoreTestFmwk {
     private static final boolean DEBUG = ICUDebug.enabled("localematchertest");
     private static final ULocale ZH_MO = new ULocale("zh_MO");

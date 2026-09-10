@@ -26,6 +26,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,6 +34,7 @@ import org.junit.runner.RunWith;
  * @author sgill
  * @author emader
  */
+@NotThreadSafe
 @RunWith(JUnitParamsRunner.class)
 public class CompatibilityTest extends CoreTestFmwk {
     private static final class FileHolder {

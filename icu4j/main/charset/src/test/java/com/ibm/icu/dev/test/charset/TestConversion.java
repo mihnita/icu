@@ -37,6 +37,7 @@ import org.junit.runner.RunWith;
 
 /** This maps to convtest.c which tests the test file for data-driven conversion tests. */
 @RunWith(JUnitParamsRunner.class)
+@net.jcip.annotations.NotThreadSafe
 public class TestConversion extends TestFmwk {
     /**
      * This maps to the C struct of conversion case in convtest.h that stores the data for a
