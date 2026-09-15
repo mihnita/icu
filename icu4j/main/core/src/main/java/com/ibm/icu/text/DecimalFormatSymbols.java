@@ -949,6 +949,18 @@ public class DecimalFormatSymbols implements Cloneable, Serializable {
             setMonetaryDecimalSeparatorString(formatInfo.monetaryDecimalSeparator);
             setMonetaryGroupingSeparatorString(formatInfo.monetaryGroupingSeparator);
             currencyPattern = formatInfo.currencyPattern;
+        } else if (currencyPattern != null) {
+            // The currency that was set before this one had currency-specific data, this one has
+            // none. That data is only valid for the currency it belongs to, so it must be dropped
+            // here instead of being inherited by the new currency (ICU-23503).
+            currencyPattern = null;
+            // Restore the separators of the locale, the same ones initialize() starts from.
+            // (For an instance built with a numbering system that is not the one of the locale
+            // this gives the separators of the numbering system of the locale, which is still
+            // much closer than keeping the ones of another currency.)
+            CacheData data = cachedLocaleData.getInstance(ulocale, null /* unused */);
+            setMonetaryDecimalSeparatorString(data.numberElements[9]);  // monetary decimal
+            setMonetaryGroupingSeparatorString(data.numberElements[10]); // monetary grouping
         }
     }
 

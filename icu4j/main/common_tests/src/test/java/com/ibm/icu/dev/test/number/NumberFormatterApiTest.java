@@ -6775,6 +6775,52 @@ public class NumberFormatterApiTest extends CoreTestFmwk {
                 "Testing default -u-mu- for fr-FR", MeasureUnit.CELSIUS.getIdentifier(), result);
     }
 
+    @Test
+    public void testIssue23503() {
+        class TestCase {
+            final String localeId;
+            final String currency;
+            final UnitWidth unitWidth;
+            final String expectedFormat;
+
+            TestCase(String localeId, String currency, UnitWidth unitWidth, String expectedFormat) {
+                this.localeId = localeId;
+                this.currency = currency;
+                this.unitWidth = unitWidth;
+                this.expectedFormat = expectedFormat;
+            }
+        }
+
+        final TestCase[] testCases = {
+            // The long name of the currency replaces the currency symbol, it is not added to it.
+            new TestCase("en_US", "CHF", UnitWidth.FULL_NAME, "1,234,567.89 Swiss francs"),
+            new TestCase("en_DE", "CHF", UnitWidth.FULL_NAME, "1.234.567,89 Swiss francs"),
+            new TestCase("en_DE", "RON", UnitWidth.FULL_NAME, "1.234.567,89 Romanian lei"),
+            new TestCase("en_CH", "CHF", UnitWidth.FULL_NAME, "1'234'567.89 Swiss francs"),
+            // en_150, the parent of en_DE, has currency-specific data (pattern, decimal and
+            // grouping separators) for EUR only. It must be used for EUR, and only for EUR.
+            new TestCase("en_DE", "CHF", UnitWidth.SHORT, "1.234.567,89\u00A0CHF"),
+            new TestCase("en_DE", "RON", UnitWidth.SHORT, "1.234.567,89\u00A0RON"),
+            new TestCase("en_DE", "EUR", UnitWidth.SHORT, "\u20AC1,234,567.89"),
+            new TestCase("en_DE", "EUR", UnitWidth.FULL_NAME, "1,234,567.89 euros"),
+        };
+
+        for (TestCase testCase : testCases) {
+            LocalizedNumberFormatter formatter =
+                    NumberFormatter.withLocale(new ULocale(testCase.localeId))
+                            .unit(Currency.getInstance(testCase.currency))
+                            .unitWidth(testCase.unitWidth);
+            String message = testCase.localeId + " " + testCase.currency;
+            // Format several times, the formatter changes the code path it uses along the way.
+            for (int i = 0; i < 5; i++) {
+                assertEquals(
+                        message + ", call #" + i,
+                        testCase.expectedFormat,
+                        formatter.format(1234567.89).toString());
+            }
+        }
+    }
+
     static void assertFormatDescending(
             String message,
             String skeleton,

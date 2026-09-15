@@ -287,14 +287,14 @@ public class MutablePatternModifier implements Modifier, SymbolProvider, MicroPr
             overwriteLen =
                     output.splice(leftIndex + prefixLen, rightIndex + prefixLen, "", 0, 0, null);
         }
-        CurrencySpacingEnabledModifier.applyCurrencySpacing(
+        int currencySpacingLen = CurrencySpacingEnabledModifier.applyCurrencySpacing(
                 output,
                 leftIndex,
                 prefixLen,
                 rightIndex + prefixLen + overwriteLen,
                 suffixLen,
                 symbols);
-        return prefixLen + overwriteLen + suffixLen;
+        return prefixLen + overwriteLen + suffixLen + currencySpacingLen;
     }
 
     @Override

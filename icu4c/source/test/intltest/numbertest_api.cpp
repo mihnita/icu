@@ -136,6 +136,7 @@ void NumberFormatterApiTest::runIndexedTest(int32_t index, UBool exec, const cha
         TESTCASE_AUTO(formatArbitraryConstant);
         TESTCASE_AUTO(TestPortionFormat);
         TESTCASE_AUTO(testIssue22378);
+        TESTCASE_AUTO(testIssue23503);
     TESTCASE_AUTO_END;
 }
 
@@ -6309,6 +6310,50 @@ void NumberFormatterApiTest::testIssue22378() {
     assertEquals("Testing default -u-mu- for en-US", MeasureUnit::getFahrenheit().getIdentifier(), result);
     result = formatter.locale("fr-FR").formatDouble(value, status).getOutputUnit(status).getIdentifier();
     assertEquals("Testing default -u-mu- for fr-FR", MeasureUnit::getCelsius().getIdentifier(), result);
+}
+
+// AICI
+void NumberFormatterApiTest::testIssue23503() {
+    IcuTestErrorCode status(*this, "testIssue23503");
+
+    static const struct TestCase {
+        const char* locale;
+        const char16_t* currency;
+        UNumberUnitWidth unitWidth;
+        const char16_t* expected;
+    } cases[] = {
+        // The long name of the currency replaces the currency symbol, it is not added to it.
+        {"en_US", u"CHF", UNUM_UNIT_WIDTH_FULL_NAME, u"1,234,567.89 Swiss francs"},
+        {"en_DE", u"CHF", UNUM_UNIT_WIDTH_FULL_NAME, u"1.234.567,89 Swiss francs"},
+        {"en_DE", u"RON", UNUM_UNIT_WIDTH_FULL_NAME, u"1.234.567,89 Romanian lei"},
+        {"en_CH", u"CHF", UNUM_UNIT_WIDTH_FULL_NAME, u"1'234'567.89 Swiss francs"},
+        // en_150, the parent of en_DE, has currency-specific data (pattern, decimal and
+        // grouping separators) for EUR only. It must be used for EUR, and only for EUR.
+        {"en_DE", u"CHF", UNUM_UNIT_WIDTH_SHORT, u"1.234.567,89\u00A0CHF"},
+        {"en_DE", u"RON", UNUM_UNIT_WIDTH_SHORT, u"1.234.567,89\u00A0RON"},
+        {"en_DE", u"EUR", UNUM_UNIT_WIDTH_SHORT, u"\u20AC1,234,567.89"},
+        {"en_DE", u"EUR", UNUM_UNIT_WIDTH_FULL_NAME, u"1,234,567.89 euros"},
+    };
+
+    for (const auto& cas : cases) {
+        LocalizedNumberFormatter nf = NumberFormatter::withLocale(cas.locale)
+            .unit(CurrencyUnit(cas.currency, status))
+            .unitWidth(cas.unitWidth);
+        if (status.errIfFailureAndReset("Creating the formatter")) {
+            continue;
+        }
+        // Format several times: the first calls go through the "unsafe" code path, the ones
+        // after the self-regulation threshold go through the "safe" one. Both must agree.
+        for (int32_t i = 0; i < 5; i++) {
+            UnicodeString message = UnicodeString(cas.locale) + u" " + cas.currency
+                + u", call #" + Int64ToUnicodeString(i);
+            UnicodeString actual = nf.formatDouble(1234567.89, status).toString(status);
+            if (status.errIfFailureAndReset("Formatting")) {
+                continue;
+            }
+            assertEquals(message, cas.expected, actual);
+        }
+    }
 }
 
 /* For skeleton comparisons: this checks the toSkeleton output for `f` and for

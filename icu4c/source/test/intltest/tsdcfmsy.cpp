@@ -25,6 +25,7 @@ void IntlTestDecimalFormatSymbols::runIndexedTest( int32_t index, UBool exec, co
     TESTCASE_AUTO(testLastResortData);
     TESTCASE_AUTO(testDigitSymbols);
     TESTCASE_AUTO(testNumberingSystem);
+    TESTCASE_AUTO(testCurrencySpecificData);
     TESTCASE_AUTO_END;
 }
 
@@ -388,6 +389,49 @@ void IntlTestDecimalFormatSymbols::testNumberingSystem() {
             expected2,
             actual2);
     }
+}
+
+// The data of a currency that has currency-specific data (pattern, decimal and grouping
+// separators) must not be used for any other currency (ICU-23503).
+// In CLDR en_150, the parent of en_DE, has such data for EUR, the default currency of en_DE.
+void IntlTestDecimalFormatSymbols::testCurrencySpecificData() {
+    IcuTestErrorCode errorCode(*this, "testCurrencySpecificData");
+
+    DecimalFormatSymbols dfs("en_DE", errorCode);
+    if (errorCode.errDataIfFailureAndReset("DecimalFormatSymbols failed")) {
+        return;
+    }
+
+    // The default currency of en_DE is EUR, which has currency-specific data.
+    assertEquals("Currency pattern of EUR", u"\u00A4#,##0.00",
+        UnicodeString(dfs.getCurrencyPattern()));
+    assertEquals("Monetary decimal separator of EUR", u".",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetarySeparatorSymbol));
+    assertEquals("Monetary grouping separator of EUR", u",",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetaryGroupingSeparatorSymbol));
+
+    // CHF has no currency-specific data, so the data of the locale is used, not the one of EUR.
+    dfs.setCurrency(u"CHF", errorCode);
+    if (errorCode.errIfFailureAndReset("setCurrency(CHF) failed")) {
+        return;
+    }
+    assertTrue("No currency pattern for CHF", dfs.getCurrencyPattern() == nullptr);
+    assertEquals("Monetary decimal separator of en_DE", u",",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetarySeparatorSymbol));
+    assertEquals("Monetary grouping separator of en_DE", u".",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetaryGroupingSeparatorSymbol));
+
+    // Going back to EUR brings its currency-specific data back.
+    dfs.setCurrency(u"EUR", errorCode);
+    if (errorCode.errIfFailureAndReset("setCurrency(EUR) failed")) {
+        return;
+    }
+    assertEquals("Currency pattern of EUR again", u"\u00A4#,##0.00",
+        UnicodeString(dfs.getCurrencyPattern()));
+    assertEquals("Monetary decimal separator of EUR again", u".",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetarySeparatorSymbol));
+    assertEquals("Monetary grouping separator of EUR again", u",",
+        dfs.getSymbol(DecimalFormatSymbols::kMonetaryGroupingSeparatorSymbol));
 }
 
 void IntlTestDecimalFormatSymbols::Verify(double value, const UnicodeString& pattern,

@@ -344,9 +344,126 @@ struct CurrencySpacingSink : public ResourceSink {
     }
 };
 
+/**
+ * Sink for loading only the decimal and grouping separators, both the regular and the
+ * monetary ones, from the "NumberElements.symbols" tree.
+ *
+ * DecFmtSymDataSink above loads all the symbols when a DecimalFormatSymbols object is
+ * initialized. This sink is used by setCurrency() to reload the separators of the locale
+ * when the currency-specific separators of a previously set currency must be discarded.
+ *
+ * More specific bundles (en_GB) are enumerated before their parents (en_001, en, root):
+ * Only store a value if it is still missing, that is, it has not been overridden.
+ */
+struct MonetarySeparatorsSink : public ResourceSink {
+
+    // Bogus until the corresponding symbol is found in the data.
+    UnicodeString decimal;
+    UnicodeString grouping;
+    UnicodeString monetaryDecimal;
+    UnicodeString monetaryGrouping;
+
+    // Constructor/Destructor
+    MonetarySeparatorsSink() {
+        decimal.setToBogus();
+        grouping.setToBogus();
+        monetaryDecimal.setToBogus();
+        monetaryGrouping.setToBogus();
+    }
+    virtual ~MonetarySeparatorsSink();
+
+    virtual void put(const char *key, ResourceValue &value, UBool /*noFallback*/,
+            UErrorCode &errorCode) override {
+        ResourceTable symbolsTable = value.getTable(errorCode);
+        if (U_FAILURE(errorCode)) { return; }
+        for (int32_t j = 0; symbolsTable.getKeyAndValue(j, key, value); ++j) {
+            UnicodeString* destination;
+            if (uprv_strcmp(key, gNumberElementKeys[DecimalFormatSymbols::kDecimalSeparatorSymbol]) == 0) {
+                destination = &decimal;
+            } else if (uprv_strcmp(key, gNumberElementKeys[DecimalFormatSymbols::kGroupingSeparatorSymbol]) == 0) {
+                destination = &grouping;
+            } else if (uprv_strcmp(key, gNumberElementKeys[DecimalFormatSymbols::kMonetarySeparatorSymbol]) == 0) {
+                destination = &monetaryDecimal;
+            } else if (uprv_strcmp(key, gNumberElementKeys[DecimalFormatSymbols::kMonetaryGroupingSeparatorSymbol]) == 0) {
+                destination = &monetaryGrouping;
+            } else {
+                continue;
+            }
+            if (destination->isBogus()) {
+                *destination = value.getUnicodeString(errorCode);
+                if (U_FAILURE(errorCode)) { return; }
+            }
+        }
+    }
+
+    // Returns true if all the separators have been seen.
+    UBool seenAll() const {
+        return !decimal.isBogus() && !grouping.isBogus()
+            && !monetaryDecimal.isBogus() && !monetaryGrouping.isBogus();
+    }
+
+    // If monetary decimal or grouping were not explicitly set, then set them to be the
+    // same as their non-monetary counterparts.
+    void resolveMissingMonetarySeparators() {
+        if (monetaryDecimal.isBogus()) {
+            monetaryDecimal = decimal;
+        }
+        if (monetaryGrouping.isBogus()) {
+            monetaryGrouping = grouping;
+        }
+    }
+};
+
+/**
+ * Loads the monetary decimal and grouping separators of the locale, that is, the ones that
+ * apply to any currency that does not have currency-specific separators of its own.
+ * The returned strings are bogus if the data could not be found.
+ * This mirrors what initialize() does with DecFmtSymDataSink.
+ */
+void loadMonetarySeparators(const Locale& locale, const char* nsName,
+                            UnicodeString& monetaryDecimal, UnicodeString& monetaryGrouping,
+                            UErrorCode& status) {
+    if (U_FAILURE(status)) { return; }
+    LocalUResourceBundlePointer resource(ures_open(nullptr, locale.getName(), &status));
+    if (U_FAILURE(status)) { return; }
+
+    MonetarySeparatorsSink sink;
+    // Start with loading this nsName if it is not Latin.
+    if (nsName[0] != 0 && uprv_strcmp(nsName, gLatn) != 0) {
+        CharString path;
+        path.append(gNumberElements, status)
+            .append('/', status)
+            .append(nsName, status)
+            .append('/', status)
+            .append(gSymbols, status);
+        if (U_FAILURE(status)) { return; }
+        ures_getAllItemsWithFallback(resource.getAlias(), path.data(), sink, status);
+
+        // If no symbols exist for the given nsName and resource bundle, silently ignore
+        // and fall back to Latin.
+        if (status == U_MISSING_RESOURCE_ERROR) {
+            status = U_ZERO_ERROR;
+        } else if (U_FAILURE(status)) {
+            return;
+        }
+    }
+
+    // Continue with Latin if necessary.
+    if (!sink.seenAll()) {
+        ures_getAllItemsWithFallback(resource.getAlias(), gNumberElementsLatnSymbols, sink, status);
+        if (U_FAILURE(status)) { return; }
+    }
+
+    // Let the monetary number separators equal the default number separators if necessary.
+    sink.resolveMissingMonetarySeparators();
+    monetaryDecimal = sink.monetaryDecimal;
+    monetaryGrouping = sink.monetaryGrouping;
+}
+
 // Virtual destructors must be defined out of line.
 DecFmtSymDataSink::~DecFmtSymDataSink() {}
 CurrencySpacingSink::~CurrencySpacingSink() {}
+MonetarySeparatorsSink::~MonetarySeparatorsSink() {}
 
 } // namespace
 
@@ -561,6 +678,24 @@ void DecimalFormatSymbols::setCurrency(const char16_t* currency, UErrorCode& sta
     }
     /* else An explicit currency was requested and is unknown or locale data is malformed. */
     /* ucurr_* API will get the correct value later on. */
+    else if (currPattern != nullptr) {
+        // The currency that was set before this one had currency-specific data, this one has
+        // none. That data is only valid for the currency it belongs to, so it must be dropped
+        // here instead of being inherited by the new currency (ICU-23503).
+        currPattern = nullptr;
+        UErrorCode separatorStatus = U_ZERO_ERROR;
+        UnicodeString monetaryDecimal;
+        UnicodeString monetaryGrouping;
+        loadMonetarySeparators(locale, nsName, monetaryDecimal, monetaryGrouping, separatorStatus);
+        if (U_SUCCESS(separatorStatus)) {
+            if (!monetaryDecimal.isBogus()) {
+                fSymbols[kMonetarySeparatorSymbol] = monetaryDecimal;
+            }
+            if (!monetaryGrouping.isBogus()) {
+                fSymbols[kMonetaryGroupingSeparatorSymbol] = monetaryGrouping;
+            }
+        }
+    }
 }
 
 Locale

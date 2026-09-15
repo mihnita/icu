@@ -30,6 +30,7 @@ private:
     void testLastResortData();
     void testDigitSymbols();
     void testNumberingSystem();
+    void testCurrencySpecificData();
 
      /** helper functions**/
     void Verify(double value, const UnicodeString& pattern,

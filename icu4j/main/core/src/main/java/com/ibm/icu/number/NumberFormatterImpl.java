@@ -245,8 +245,13 @@ class NumberFormatterImpl {
 
         // Load and parse the pattern string. It is used for grouping sizes and affixes only.
         // If we are formatting currency, check for a currency-specific pattern.
+        // The currency-specific pattern contains the currency symbol, so it cannot be used when
+        // the currency is formatted with its long name (the long name is added by the outer
+        // modifier, see below); the decimal pattern is used in that case, like for the
+        // locale-wide currency pattern a few lines below.
         String pattern = null;
-        if (isCurrency && micros.symbols.getCurrencyPattern() != null) {
+        if (isCurrency && unitWidth != UnitWidth.FULL_NAME
+                && micros.symbols.getCurrencyPattern() != null) {
             pattern = micros.symbols.getCurrencyPattern();
         }
         if (pattern == null) {

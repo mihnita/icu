@@ -106,6 +106,7 @@ class NumberFormatterApiTest : public IntlTestWithFieldPosition {
     void formatArbitraryConstant();
     void TestPortionFormat();
     void testIssue22378();
+    void testIssue23503();
 
     void runIndexedTest(int32_t index, UBool exec, const char*& name, char* par = nullptr) override;
 

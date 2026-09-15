@@ -16,6 +16,8 @@ package com.ibm.icu.dev.test.format;
 import com.ibm.icu.dev.test.CoreTestFmwk;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.util.Currency;
+import com.ibm.icu.util.ULocale;
 import java.text.FieldPosition;
 import java.util.Locale;
 import org.junit.Test;
@@ -124,6 +126,48 @@ public class IntlTestDecimalFormatSymbolsC extends CoreTestFmwk {
         verify(34.5, "\u00a4##.##", sym, "D 34.50");
         sym.setGroupingSeparator('|');
         verify(3456.5, "0,000.##", sym, "3|456S5");
+    }
+
+    // The data of a currency that has currency-specific data (pattern, decimal and grouping
+    // separators) must not be used for any other currency (ICU-23503).
+    // In CLDR en_150, the parent of en_DE, has such data for EUR, the default currency of en_DE.
+    @SuppressWarnings("deprecation") // getCurrencyPattern is @internal
+    @Test
+    public void testCurrencySpecificData() {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols(new ULocale("en_DE"));
+
+        // The default currency of en_DE is EUR, which has currency-specific data.
+        assertEquals("Currency pattern of EUR", "\u00A4#,##0.00", dfs.getCurrencyPattern());
+        assertEquals(
+                "Monetary decimal separator of EUR", ".", dfs.getMonetaryDecimalSeparatorString());
+        assertEquals(
+                "Monetary grouping separator of EUR",
+                ",",
+                dfs.getMonetaryGroupingSeparatorString());
+
+        // CHF has no currency-specific data, so the data of the locale is used, not the one of EUR.
+        dfs.setCurrency(Currency.getInstance("CHF"));
+        assertNull("No currency pattern for CHF", dfs.getCurrencyPattern());
+        assertEquals(
+                "Monetary decimal separator of en_DE",
+                ",",
+                dfs.getMonetaryDecimalSeparatorString());
+        assertEquals(
+                "Monetary grouping separator of en_DE",
+                ".",
+                dfs.getMonetaryGroupingSeparatorString());
+
+        // Going back to EUR brings its currency-specific data back.
+        dfs.setCurrency(Currency.getInstance("EUR"));
+        assertEquals("Currency pattern of EUR again", "\u00A4#,##0.00", dfs.getCurrencyPattern());
+        assertEquals(
+                "Monetary decimal separator of EUR again",
+                ".",
+                dfs.getMonetaryDecimalSeparatorString());
+        assertEquals(
+                "Monetary grouping separator of EUR again",
+                ",",
+                dfs.getMonetaryGroupingSeparatorString());
     }
 
     /** helper functions* */
