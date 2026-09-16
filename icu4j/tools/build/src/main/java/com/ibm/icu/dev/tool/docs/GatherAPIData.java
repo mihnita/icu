@@ -201,7 +201,7 @@ public class GatherAPIData implements Doclet {
             return true;
         }
 
-        if (JavadocHelper.isPrivate(element) || JavadocHelper.isDefault(element)) {
+        if (JavadocHelper.isPrivate(element)) {
             return true;
         }
 
@@ -281,6 +281,8 @@ public class GatherAPIData implements Doclet {
             info.setProtected();
         } else if (JavadocHelper.isPrivate(element)) {
             info.setPrivate();
+        } else if (JavadocHelper.isDefault(element)) {
+            info.setDefault();
         } else {
             // default is package
         }

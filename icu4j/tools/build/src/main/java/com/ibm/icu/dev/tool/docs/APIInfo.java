@@ -32,7 +32,8 @@ class APIInfo {
             VIS_PACKAGE = 0,
             VIS_PUBLIC = 1,
             VIS_PROTECTED = 2,
-            VIS_PRIVATE = 3;
+            VIS_PRIVATE = 3,
+            VIS_DEFAULT = 4;
     public static final int STK = 2, STK_STATIC = 1;
     public static final int FIN = 3, FIN_FINAL = 1;
     public static final int SYN = 4, SYN_SYNCHRONIZED = 1;
@@ -130,6 +131,10 @@ class APIInfo {
         setType(VIS, VIS_PRIVATE);
     }
 
+    public void setDefault() {
+        setType(VIS, VIS_DEFAULT);
+    }
+
     public void setStatic() {
         setType(STK, STK_STATIC);
     }
@@ -224,6 +229,10 @@ class APIInfo {
 
     public boolean isPrivate() {
         return getVal(VIS) == VIS_PRIVATE;
+    }
+
+    public boolean isDefault() {
+        return getVal(VIS) == VIS_DEFAULT;
     }
 
     public boolean isStatic() {
@@ -751,7 +760,7 @@ class APIInfo {
 
     private static final String[][] names = {
         {"(draft)     ", "(stable)    ", "(deprecated)", "(obsolete)  ", "*internal*  "},
-        {"package", "public", "protected", "private"},
+        {"package", "public", "protected", "private", "default"},
         {"", "static"},
         {"", "final"},
         {"", "synchronized"},
@@ -766,7 +775,7 @@ class APIInfo {
 
     private static final String[][] shortNames = {
         {"DR", "ST", "DP", "OB", "IN"},
-        {"PK", "PB", "PT", "PR"},
+        {"PK", "PB", "PT", "PR", "DF"},
         {"NS", "ST"},
         {"NF", "FN"},
         {"NS", "SY"},
