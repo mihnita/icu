@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -89,29 +91,27 @@ public class StableAPI {
             "/doxygen/compounddef[@id='uversion_8h'][@kind='file']/sectiondef[@kind='define']";
     private static String ICU_VERSION_XPATH = ICU_VERSION_XPATHA;
 
-    private String leftVer;
-    private File leftDir = null;
-    // private String leftStatus;
-    private String leftMilestone = "";
-
-    private String rightVer;
-    private File rightDir = null;
-    // private String rightStatus;
-    private String rightMilestone = "";
-
-    private InputStream dumpCppXsltStream = null;
-    private InputStream dumpCXsltStream = null;
-    private InputStream reportXslStream = null;
     private static final String CXSLT = "dumpAllCFunc.xslt";
     private static final String CPPXSLT = "dumpAllCppFunc.xslt";
     private static final String RPTXSLT = "genReport.xslt";
+    static final String MISSING = "(missing)";
 
-    private File dumpCppXslt;
-    private File dumpCXslt;
-    private File reportXsl;
-    private File resultFile;
+    static final class CliArguments {
+        String leftVer = null;
+        File leftDir = null;
+        String rightVer = null;
+        File rightDir = null;
+        File dumpCppXslt = null;
+        File dumpCXslt = null;
+        File reportXsl = null;
+        File resultFile = null;
+    }
+    private CliArguments cliArguments;
 
-    static Map<String, Set<String>> simplifications = new TreeMap<String, Set<String>>();
+    private String leftMilestone = "";
+    private String rightMilestone = "";
+
+    static Map<String, Set<String>> simplifications = new TreeMap<>();
 
     static void addSimplification(String prototype0, String prototype) {
         Set<String> s = simplifications.get(prototype);
@@ -123,7 +123,7 @@ public class StableAPI {
     }
 
     static Set<String> getChangedSimplifications() {
-        Set<String> output = new TreeSet<String>();
+        Set<String> output = new TreeSet<>();
         for (Map.Entry<String, Set<String>> e : simplifications.entrySet()) {
             if (e.getValue().size() > 1) {
                 output.add(e.getKey());
@@ -132,17 +132,13 @@ public class StableAPI {
         return output;
     }
 
-    private static final String notFound = "(missing)";
-
     public static void main(String[] args)
             throws TransformerException,
                     ParserConfigurationException,
                     SAXException,
                     IOException,
                     XPathExpressionException {
-
-        StableAPI t = new StableAPI();
-        t.run(args);
+        new StableAPI().run(args);
     }
 
     private void run(String[] args)
@@ -151,26 +147,31 @@ public class StableAPI {
                     ParserConfigurationException,
                     SAXException,
                     IOException {
-        this.parseArgs(args);
-        Set<JoinedFunction> full = new TreeSet<JoinedFunction>();
+        cliArguments = parseArgs(args);
+
+        Set<JoinedFunction> full = new TreeSet<>();
 
         System.err.println("Reading C++...");
-        Set<JoinedFunction> setCpp = this.getFullList(dumpCppXsltStream, dumpCppXslt.getName());
-        full.addAll(setCpp);
-        System.out.println("read " + setCpp.size() + " C++.  Reading C:");
 
-        Set<JoinedFunction> setC = this.getFullList(dumpCXsltStream, dumpCXslt.getName());
-        full.addAll(setC);
+        try (var dumpCppXsltStream = loadStream(CPPXSLT, "--cppxslt", cliArguments.dumpCppXslt)) {
+            Set<JoinedFunction> setCpp = getFullList(dumpCppXsltStream, cliArguments.dumpCppXslt.getName());
+            full.addAll(setCpp);
+            System.out.println("read " + setCpp.size() + " C++.  Reading C:");
+        }
 
-        System.out.println("read " + setC.size() + " C. Setting node:");
+        try (var dumpCXsltStream = loadStream(CXSLT, "--cxslt", cliArguments.dumpCXslt)) {
+            Set<JoinedFunction> setC = getFullList(dumpCXsltStream, cliArguments.dumpCXslt.getName());
+            full.addAll(setC);
+            System.out.println("read " + setC.size() + " C. Setting node:");
+        }
 
-        Node fullList = this.setToNode(full);
+        Node fullList = setToNode(full);
         // t.dumpNode(fullList,"");
 
         System.out.println("Node set. Reporting:");
 
-        this.reportSelectedFun(fullList);
-        System.out.println("Done. Please check " + this.resultFile);
+        reportSelectedFun(fullList);
+        System.out.println("Done. Please check " + cliArguments.resultFile);
 
         Set<String> changedSimp = getChangedSimplifications();
         if (!changedSimp.isEmpty()) {
@@ -184,7 +185,8 @@ public class StableAPI {
         }
     }
 
-    private void parseArgs(String[] args) {
+    private CliArguments parseArgs(String[] args) {
+        CliArguments result = new CliArguments();
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             if (arg == null || arg.length() == 0) {
@@ -193,36 +195,33 @@ public class StableAPI {
             if (arg.equals("--help")) {
                 printUsage();
             } else if (arg.equals("--oldver")) {
-                leftVer = args[++i];
+                result.leftVer = args[++i];
             } else if (arg.equals("--olddir")) {
-                leftDir = new File(args[++i]);
+                result.leftDir = new File(args[++i]);
             } else if (arg.equals("--newver")) {
-                rightVer = args[++i];
+                result.rightVer = args[++i];
             } else if (arg.equals("--newdir")) {
-                rightDir = new File(args[++i]);
+                result.rightDir = new File(args[++i]);
             } else if (arg.equals("--cxslt")) {
-                dumpCXslt = new File(args[++i]);
+                result.dumpCXslt = new File(args[++i]);
             } else if (arg.equals("--cppxslt")) {
-                dumpCppXslt = new File(args[++i]);
+                result.dumpCppXslt = new File(args[++i]);
             } else if (arg.equals("--reportxslt")) {
-                reportXsl = new File(args[++i]);
+                result.reportXsl = new File(args[++i]);
             } else if (arg.equals("--resultfile")) {
-                resultFile = new File(args[++i]);
+                result.resultFile = new File(args[++i]);
             } else {
                 System.out.println("Unknown option: " + arg);
                 printUsage();
             }
         }
 
-        dumpCppXsltStream = loadStream(CPPXSLT, "--cppxslt", dumpCppXslt);
-        dumpCXsltStream = loadStream(CXSLT, "--cxslt", dumpCXslt);
-        reportXslStream = loadStream(RPTXSLT, "--reportxslt", reportXsl);
+        result.leftVer = trimICU(setVer(result.leftVer, "old", result.leftDir));
+        result.rightVer = trimICU(setVer(result.rightVer, "new", result.rightDir));
 
-        leftVer = trimICU(setVer(leftVer, "old", leftDir));
-        rightVer = trimICU(setVer(rightVer, "new", rightDir));
+        return result;
     }
 
-    @SuppressWarnings("resource")
     private InputStream loadStream(String name, String argName, File argFile) {
         InputStream stream = null;
         if (argFile != null) {
@@ -256,21 +255,19 @@ public class StableAPI {
         return stream;
     }
 
-    private static Set<String> warnSet = new TreeSet<String>();
+    private static final Set<String> WARN_SET = new TreeSet<String>();
 
     private static void warn(String what) {
-        if (!warnSet.contains(what)) {
+        if (!WARN_SET.contains(what)) {
             System.out.println("Warning: " + what);
-            if (warnSet.isEmpty()) {
+            if (WARN_SET.isEmpty()) {
                 System.out.println(" (These warnings are only printed one time each.)");
             }
-            warnSet.add(what);
+            WARN_SET.add(what);
         }
     }
 
-    private static boolean didWarnSuperTrim = false;
-
-    private static String trimICU(String ver) {
+    static String trimICU(String ver) {
         Matcher icuVersionMatcher = Pattern.compile("ICU *\\d+(\\.\\d+){0,2}").matcher(ver);
         if (icuVersionMatcher.find()) {
             return icuVersionMatcher.group();
@@ -302,7 +299,7 @@ public class StableAPI {
             } else {
                 ICU_VERSION_XPATH = ICU_VERSION_XPATHA;
             }
-            Document doc = getDocument(verFile);
+            Document doc = XmlUtils.getDocument(verFile);
             DOMSource uvernum_h = new DOMSource(doc);
             XPath xpath = XPathFactory.newInstance().newXPath();
 
@@ -526,416 +523,81 @@ public class StableAPI {
         System.exit(-1);
     }
 
-    static String getAttr(Node node, String attrName) {
-        if (node.getAttributes() == null && node.getNodeType() == 3) {
-            // return "(text node 3)";
-            return "(Node: " + node.toString() + " )";
-            // return
-            // node.getFirstChild().getAttributes().getNamedItem(attrName).getNodeValue();
-        }
-
-        try {
-            return node.getAttributes().getNamedItem(attrName).getNodeValue();
-        } catch (NullPointerException npe) {
-            if (node.getAttributes() == null) {
-                throw new InternalError(
-                        "[no attributes Can't get attr "
-                                + attrName
-                                + " out of node "
-                                + node.getNodeName()
-                                + ":"
-                                + node.getNodeType()
-                                + ":"
-                                + node.getNodeValue()
-                                + "@"
-                                + node.getTextContent());
-            } else if (node.getAttributes().getNamedItem(attrName) == null) {
-                return null;
-                // throw new InternalError("No attribute named: "+attrName);
-            } else {
-                System.err.println("Can't get attr " + attrName + ": " + npe.toString());
-            }
-            npe.printStackTrace();
-            throw new InternalError("Can't get attr " + attrName);
-        }
-    }
-
-    static String getAttr(NamedNodeMap attrList, String attrName) {
-        return attrList.getNamedItem(attrName).getNodeValue();
-    }
-
-    static class Function implements Comparable<Function> {
-        public String prototype;
-        public String id;
-        public String status;
-        public String version;
-        public String file;
-        public String comparableName;
-        public String comparablePrototype;
-
-        public boolean equals(Function right) {
-            return this.comparablePrototype.equals(right.comparablePrototype);
-        }
-
-        static Function fromXml(Node n) {
-            Function f = new Function();
-            f.prototype = getAttr(n, "prototype");
-
-            if ("yes".equals(getAttr(n, "static")) && !f.prototype.contains("static")) {
-                f.prototype = "static ".concat(f.prototype);
-            }
-
-            f.id = getAttr(n, "id");
-            f.status = getAttr(n, "status");
-            f.version = trimICU(getAttr(n, "version"));
-            f.file = getAttr(n, "file");
-            f.purifyPrototype();
-
-            f.simplifyPrototype();
-
-            f.comparablePrototype = f.prototype;
-            // Modify the prototype here, but don't display it to the user. ( Char16Ptr -->
-            // char16_t* etc )
-            for (int i = 0; i < aliasList.length; i += 2) {
-                f.comparablePrototype =
-                        f.comparablePrototype.replaceAll(aliasList[i + 0], aliasList[i + 1]);
-            }
-
-            if (f.file == null) {
-                f.file = "{null}";
-            } else {
-                f.file = Function.getBasename(f.file);
-            }
-            f.comparableName = f.comparableName();
-            return f;
-        }
-
-        /**
-         * Convert string to basename.
-         *
-         * @param str
-         * @return
-         */
-        private static String getBasename(String str) {
-            int i = str.lastIndexOf("/");
-            str = i == -1 ? str : str.substring(i + 1);
-            return str;
-        }
-
-        private static String replList[] = {
-            "[ ]*\\([ ]*void[ ]*\\)",
-            "() ", // (void) => ()
-            // No spaces preceding commas.
-            "[ ]*,",
-            ", ",
-            // No spaces preceding '*'.
-            "[ ]*\\*[ ]*",
-            "* ",
-            // No spaces in " = 0".
-            "[ ]*=[ ]*0[ ]*$",
-            "=0 ",
-            // Multiple spaces collapse to single.
-            "[ ]{2,}",
-            " ",
-            "\n",
-            " "
-        };
-
-        /** these are noted as deltas. */
-        private static String simplifyList[] = {
-            // TODO: notify about this difference, separately
-            "[ ]*=[ ]*0[ ]*$", "",
-            // remove U_NOEXCEPT (this was fixed in Doxyfile, but fixing here so it is retroactive)
-            "[ ]*U_NOEXCEPT", "",
-            "[ ]*noexcept", "",
-            // remove U_OVERRIDE and override
-            "[ ]*(override|U_OVERRIDE)", "",
-
-            // Simplify possibly-covariant functions to void*
-            "^([^\\* ]+)\\*(.*)::(clone|safeClone|cloneAsThawed|freeze|createBufferClone)\\((.*)",
-                    "void*$2::$3($4",
-            // remove trailing spaces.
-            "\\s+$", "",
-            // Bug in processing of uspoof.h
-            "^U_NAMESPACE_END ", "",
-            "\\bUBool\\b", "bool"
-        };
-
-        /**
-         * This list is applied only for comparisons. The resulting string is NOT shown to the user.
-         * These should be ignored as far as changes go. func(UChar) === func(char16_t)
-         */
-        private static String aliasList[] = {
-            "UChar", "char16_t", "ConstChar16Ptr", "const char16_t*", "Char16Ptr", "char16_t*",
-        };
-
-        /**
-         * Special cases:
-         *
-         * <p>Remove the status attribute embedded in the C prototype
-         *
-         * <p>Remove the virtual keyword in Cpp prototype
-         */
-        private void purifyPrototype() {
-            // refer to 'umachine.h'
-            String statusList[] = {
-                "U_CAPI",
-                "U_STABLE",
-                "U_DRAFT",
-                "U_DEPRECATED",
-                "U_OBSOLETE",
-                "U_INTERNAL",
-                "virtual",
-                "U_EXPORT2",
-                "U_I18N_API",
-                "U_COMMON_API",
-                "U_LIFETIME_BOUND"
-            };
-            for (int i = 0; i < statusList.length; i++) {
-                String s = statusList[i];
-                prototype = prototype.replaceAll(s, "");
-                prototype = prototype.trim();
-            }
-
-            for (int i = 0; i < replList.length; i += 2) {
-                prototype = prototype.replaceAll(replList[i + 0], replList[i + 1]);
-            }
-
-            prototype = prototype.trim();
-
-            // Now, remove parameter names!
-            StringBuffer out = new StringBuffer();
-            StringBuffer in = new StringBuffer(prototype);
-            int openParen = in.indexOf("(");
-            int closeParen = in.lastIndexOf(")");
-
-            if (openParen == -1 || closeParen == -1) return; // exit, malformed?
-            if (openParen + 1 == closeParen) return; // exit: ()
-
-            out.append(in, 0, openParen + 1); // prelude
-
-            for (int left = openParen + 1; left < closeParen; ) {
-                int right = in.indexOf(",", left + 1); // right edge
-                if (right >= closeParen || right == -1) right = closeParen; // found last comma
-
-                // System.err.println("Considering " + left + " / " + right + " - " + closeParen
-                // + " : " + in.substring(left, right));
-
-                if (left == right) continue;
-
-                // find variable name
-                int rightCh = right - 1;
-                if (rightCh == left) { // 1 ch- break
-                    out.append(in, left, right);
-                    continue;
-                }
-                // eat whitespace at right
-                int nameEndCh = rightCh;
-                while (nameEndCh > left && Character.isWhitespace(in.charAt(nameEndCh))) {
-                    nameEndCh--;
-                }
-                int nameStartCh = nameEndCh;
-                while (nameStartCh > left
-                        && Character.isJavaIdentifierPart(in.charAt(nameStartCh))) {
-                    nameStartCh--;
-                }
-
-                // now, did we find something to skip?
-                if (nameStartCh > left && nameEndCh > nameStartCh) {
-                    out.append(in, left, nameStartCh + 1);
-                } else {
-                    // pass through
-                    out.append(in, left, right);
-                }
-
-                left = right;
-            }
-
-            out.append(in, closeParen, in.length()); // postlude
-
-            // Delete any doubled whitespace.
-            for (int p = 1; p < out.length(); p++) {
-                char prev = out.charAt(p - 1);
-                if (Character.isWhitespace(prev)) {
-                    while (out.length() > p && (Character.isWhitespace(out.charAt(p)))) {
-                        out.deleteCharAt(p);
-                    }
-                    if (out.length() > p) {
-                        // any trailings to delete?
-                        char curr = out.charAt(p);
-                        if (curr == ','
-                                || curr == ')'
-                                || curr == '*'
-                                || curr == '&') { // delete spaces before these.
-                            out.deleteCharAt(--p);
-                            continue;
-                        }
-                    }
-                }
-            }
-
-            // System.err.println(prototype+" -> " + out.toString());
-            prototype = out.toString();
-        }
-
-        private void simplifyPrototype() {
-            if (prototype.startsWith("#define")) {
-                return;
-            }
-            final String prototype0 = prototype;
-            for (int i = 0; i < simplifyList.length; i += 2) {
-                prototype = prototype.replaceAll(simplifyList[i + 0], simplifyList[i + 1]);
-            }
-            if (!prototype0.equals(prototype)) {
-                addSimplification(prototype0, prototype);
-            }
-        }
-
-        /**
-         * @Override
-         */
-        public int compareTo(Function o) {
-            return comparableName.compareTo(((Function) o).comparableName);
-        }
-
-        public String comparableName() {
-            return file + "|" + comparablePrototype + "|" + status + "|" + version + "|" + id;
-        }
-    }
-
-    static class JoinedFunction implements Comparable<JoinedFunction> {
-        public String prototype;
-        public String leftRefId;
-        public String leftStatus;
-        public String leftVersion;
-        public String rightVersion;
-        public String leftFile;
-        public String rightRefId;
-        public String rightStatus;
-        public String rightFile;
-
-        public String comparableName;
-
-        static JoinedFunction fromLeftFun(Function left) {
-            JoinedFunction u = new JoinedFunction();
-            u.prototype = left.prototype;
-            u.leftRefId = left.id;
-            u.leftStatus = left.status;
-            u.leftFile = left.file;
-            u.rightRefId = notFound;
-            // u.rightVersion = nul;
-            u.leftVersion = left.version;
-            u.rightStatus = notFound;
-            u.rightFile = notFound;
-            u.comparableName = left.comparableName;
-            return u;
-        }
-
-        static JoinedFunction fromRightFun(Function right) {
-            JoinedFunction u = new JoinedFunction();
-            u.prototype = right.prototype;
-            u.leftRefId = notFound;
-            u.leftStatus = notFound;
-            u.leftFile = notFound;
-            // u.leftVersion = nul;
-            u.rightVersion = right.version;
-            u.rightRefId = right.id;
-            u.rightStatus = right.status;
-            u.rightFile = right.file;
-            u.comparableName = right.comparableName;
-            return u;
-        }
-
-        static JoinedFunction fromTwoFun(Function left, Function right) {
-            if (!left.equals(right)) throw new Error();
-            JoinedFunction u = new JoinedFunction();
-            u.prototype = left.prototype;
-            u.leftRefId = left.id;
-            u.leftStatus = left.status;
-            u.leftFile = left.file;
-            u.rightRefId = right.id;
-            u.rightStatus = right.status;
-            u.leftVersion = left.version;
-            u.rightVersion = right.version;
-            u.rightFile = right.file;
-            u.comparableName = left.comparableName + "+" + right.comparableName;
-            return u;
-        }
-
-        Element toXml(Document doc) {
-            Element ele = doc.createElement("func");
-            ele.setAttribute("prototype", formatCode(prototype));
-            // ele.setAttribute("leftRefId", leftRefId);
-
-            ele.setAttribute("leftStatus", leftStatus);
-            // ele.setAttribute("rightRefId", rightRefId);
-            ele.setAttribute("rightStatus", rightStatus);
-            ele.setAttribute("leftVersion", leftVersion);
-            // ele.setAttribute("rightRefId", rightRefId);
-            ele.setAttribute("rightVersion", rightVersion);
-
-            // String f = rightRefId.equals(notFound) ? leftRefId : rightRefId;
-            // int tail = f.indexOf("_");
-            // f = tail != -1 ? f.substring(0, tail) : f;
-            // f = f.startsWith("class") ? f.replaceFirst("class","") : f;
-            String f = rightFile.equals(notFound) ? leftFile : rightFile;
-            ele.setAttribute("file", f);
-            return ele;
-        }
-
-        public int compareTo(JoinedFunction o) {
-            return comparableName.compareTo(o.comparableName);
-        }
-
-        public boolean equals(Function right) {
-            return this.prototype.equals(right.prototype);
-        }
-    }
-
-    TransformerFactory transFac = TransformerFactory.newInstance();
-
     Transformer makeTransformer(InputStream is, String name) {
         if (is == null) {
             throw new InternalError("No inputstream set for " + name);
         }
         System.err.println("Transforming from: " + name);
-        Transformer t;
         try {
             StreamSource ss = new StreamSource(is);
             ss.setSystemId(new File("."));
-            t = transFac.newTransformer(ss);
+            Transformer t = TransformerFactory.newInstance().newTransformer(ss);
+            if (t == null) {
+                // Can this actually happen? If there is a failure, wouldn't it throw? 
+                throw new InternalError("Couldn't make transformer for " + name);
+            }
+            return t;
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
             throw new InternalError(
                     "Couldn't make transformer for " + name + " - " + e.getMessageAndLocation());
         }
-        if (t == null) {
-            throw new InternalError("Couldn't make transformer for " + name);
-        }
-        return t;
     }
 
     private void reportSelectedFun(Node joinedNode)
             throws TransformerException, ParserConfigurationException, SAXException, IOException {
-        Transformer report = makeTransformer(reportXslStream, RPTXSLT);
-        // report.setParameter("leftStatus", leftStatus);
-        report.setParameter("leftVer", leftVer);
-        // report.setParameter("rightStatus", rightStatus);
-        report.setParameter(
-                "ourYear",
-                Integer.valueOf(new java.util.GregorianCalendar().get(java.util.Calendar.YEAR)));
-        report.setParameter("rightVer", rightVer);
-        report.setParameter("rightMilestone", rightMilestone);
-        report.setParameter("leftMilestone", leftMilestone);
-        report.setParameter("dateTime", new GregorianCalendar().getTime());
-        report.setParameter("notFound", notFound);
+        try (var reportXslStream = loadStream(RPTXSLT, "--reportxslt", cliArguments.reportXsl)) {
+            Transformer report = makeTransformer(reportXslStream, RPTXSLT);
+            // report.setParameter("leftStatus", leftStatus);
+            report.setParameter("leftVer", cliArguments.leftVer);
+            // report.setParameter("rightStatus", rightStatus);
+            report.setParameter(
+                    "ourYear",
+                    Integer.valueOf(new Date().getYear()));
+            report.setParameter("rightVer", cliArguments.rightVer);
+            report.setParameter("rightMilestone", rightMilestone);
+            report.setParameter("leftMilestone", leftMilestone);
+            report.setParameter("dateTime", new GregorianCalendar().getTime());
+            report.setParameter("notFound", MISSING);
 
-        DOMSource src = new DOMSource(joinedNode);
+            DOMSource src = new DOMSource(joinedNode);
 
-        Result res = new StreamResult(resultFile);
-        // DOMResult res = new DOMResult();
-        report.transform(src, res);
-        // dumpNode(res.getNode(),"");
+            Result res = new StreamResult(cliArguments.resultFile);
+            // DOMResult res = new DOMResult();
+            report.transform(src, res);
+            // dumpNode(res.getNode(),"");
+        }
+    }
+    
+    private Set<Function> getOneSideList(String dumpXsltFile, File dirName, Transformer transformer)
+            throws TransformerException,
+                   ParserConfigurationException,
+                   SAXException,
+                   IOException,
+                   XPathExpressionException {
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        String expression = "/list";
+        DOMSource index = new DOMSource(XmlUtils.getDocument(new File(dirName, INDEX_XML)));
+        DOMResult result = new DOMResult();
+        transformer.setParameter(DOC_FOLDER, dirName);
+        transformer.transform(index, result);
+
+        Node list =
+                (Node) xpath.evaluate(expression, result.getNode(), XPathConstants.NODE);
+        if (list == null) {
+            // dumpNode(xsltSource.getNode());
+            XmlUtils.dumpNode(result.getNode());
+            // dumpNode(leftIndex.getNode());
+            System.out.flush();
+            System.err.flush();
+            throw new InternalError(
+                    "getOneSideList("
+                            + dumpXsltFile
+                            + ") returned a null "
+                            + expression);
+        }
+        // dumpNode(leftList,"");
+        return nodeToSet(list);
     }
 
     private Set<JoinedFunction> getFullList(InputStream dumpXsltStream, String dumpXsltFile)
@@ -945,53 +607,18 @@ public class StableAPI {
                     SAXException,
                     IOException {
         // prepare transformer
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        String expression = "/list";
         Transformer transformer = makeTransformer(dumpXsltStream, dumpXsltFile);
 
         // InputSource leftSource = new InputSource(leftDir + "index.xml");
-        DOMSource leftIndex = new DOMSource(getDocument(new File(leftDir, INDEX_XML)));
+        DOMSource leftIndex = new DOMSource(XmlUtils.getDocument(new File(cliArguments.leftDir, INDEX_XML)));
         DOMResult leftResult = new DOMResult();
-        transformer.setParameter(DOC_FOLDER, leftDir);
+        transformer.setParameter(DOC_FOLDER, cliArguments.leftDir);
         transformer.transform(leftIndex, leftResult);
 
-        // Node leftList = XPathAPI.selectSingleNode(leftResult.getNode(),"/list");
-        Node leftList =
-                (Node) xpath.evaluate(expression, leftResult.getNode(), XPathConstants.NODE);
-        if (leftList == null) {
-            // dumpNode(xsltSource.getNode());
-            dumpNode(leftResult.getNode());
-            // dumpNode(leftIndex.getNode());
-            System.out.flush();
-            System.err.flush();
-            throw new InternalError(
-                    "getFullList("
-                            + dumpXsltFile.toString()
-                            + ") returned a null left "
-                            + expression);
-        }
-
-        xpath.reset(); // reuse
-
-        DOMSource rightIndex = new DOMSource(getDocument(new File(rightDir, INDEX_XML)));
-        DOMResult rightResult = new DOMResult();
-        transformer.setParameter(DOC_FOLDER, rightDir);
-        System.err.println("Loading: " + dumpXsltFile.toString());
-        transformer.transform(rightIndex, rightResult);
-        System.err.println("   .. loaded: " + dumpXsltFile.toString());
-        Node rightList =
-                (Node) xpath.evaluate(expression, rightResult.getNode(), XPathConstants.NODE);
-        if (rightList == null) {
-            throw new InternalError(
-                    "getFullList("
-                            + dumpXsltFile.toString()
-                            + ") returned a null right "
-                            + expression);
-        }
-        // dumpNode(rightList,"");
-
-        Set<Function> leftSet = nodeToSet(leftList);
-        Set<Function> rightSet = nodeToSet(rightList);
+        Set<Function> leftSet = getOneSideList(dumpXsltFile, cliArguments.leftDir, transformer);
+        Set<Function> rightSet = getOneSideList(dumpXsltFile, cliArguments.rightDir, transformer);
+//        leftSet.forEach(System.out::println);
+//        rightSet.forEach(System.out::println);
         Set<JoinedFunction> joined = fullJoin(leftSet, rightSet);
         return joined;
         // joinedNode = setToNode(joined);
@@ -1094,77 +721,10 @@ public class StableAPI {
         return joined;
     }
 
-    private static void dumpNode(Node n) {
-        dumpNode(n, "");
-    }
 
-    /**
-     * Dump out a node for debugging. Recursive fcn
-     *
-     * @param n
-     * @param pre
-     */
-    private static void dumpNode(Node n, String pre) {
-        String opre = pre;
-        pre += " ";
-        System.out.print(opre + "<" + n.getNodeName());
-        // dump attribute
-        NamedNodeMap attr = n.getAttributes();
-        if (attr != null) {
-            for (int i = 0; i < attr.getLength(); i++) {
-                System.out.print(
-                        "\n"
-                                + pre
-                                + "   "
-                                + attr.item(i).getNodeName()
-                                + "=\""
-                                + attr.item(i).getNodeValue()
-                                + "\"");
-            }
-        }
-        System.out.println(">");
-
-        // dump value
-        String v = pre + n.getNodeValue();
-        if (n.getNodeType() == Node.TEXT_NODE) System.out.println(v);
-
-        // dump sub nodes
-        NodeList nList = n.getChildNodes();
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node ln = nList.item(i);
-            dumpNode(ln, pre + " ");
-        }
-        System.out.println(opre + "</" + n.getNodeName() + ">");
-    }
-
-    private static DocumentBuilder theBuilder = null;
-    private static DocumentBuilderFactory dbf = null;
-
-    private static synchronized DocumentBuilder getDocumentBuilder()
-            throws ParserConfigurationException {
-        if (theBuilder == null) {
-            dbf = DocumentBuilderFactory.newInstance();
-            theBuilder = dbf.newDocumentBuilder();
-        }
-        return theBuilder;
-    }
-
-    private static Document getDocument(File file)
-            throws ParserConfigurationException, SAXException, IOException {
-        FileInputStream fis = new FileInputStream(file);
-        InputSource inputSource = new InputSource(fis);
-        Document doc = getDocumentBuilder().parse(inputSource);
-        return doc;
-    }
-
-    static boolean tried = false;
     static Formatter aFormatter = null;
 
-    public interface Formatter {
-        public String formatCode(String s);
-    }
-
-    public static String format_keywords[] = {"enum", "#define", "static"};
+    public static final String FORMAT_KEYWORDS[] = {"enum", "#define", "static"};
 
     /**
      * Attempt to use a pretty formatter
@@ -1173,35 +733,29 @@ public class StableAPI {
      * @return
      */
     public static String formatCode(String prototype2) {
-        if (!tried) {
+        if (aFormatter == null) {
             String theFormatter = StableAPI.class.getPackage().getName() + ".CodeFormatter";
             try {
                 @SuppressWarnings("unchecked")
                 Class<Formatter> formatClass = (Class<Formatter>) Class.forName(theFormatter);
-                aFormatter = (Formatter) formatClass.newInstance();
+                aFormatter = (Formatter) formatClass.getConstructor().newInstance();
             } catch (Exception e) {
                 System.err.println("Note: Couldn't load " + theFormatter);
-                aFormatter =
-                        new Formatter() {
-
-                            public String formatCode(String s) {
-                                String str = HTMLSafe(s.trim());
-                                for (String keyword : format_keywords) {
-                                    if (str.startsWith(keyword)) {
-                                        str = str.replaceFirst(keyword, "<tt>" + keyword + "</tt>");
-                                    }
-                                }
-                                return str;
-                            }
-                        };
+                aFormatter = s -> {
+                    String str = HTMLSafe(s.trim());
+                    for (String keyword : FORMAT_KEYWORDS) {
+                        if (str.startsWith(keyword)) {
+                            str = str.replaceFirst(keyword, "<tt>" + keyword + "</tt>");
+                        }
+                    }
+                    return str;
+                };
             }
-            tried = true;
+            if (aFormatter == null) {
+                aFormatter = StableAPI::HTMLSafe;
+            }
         }
-        if (aFormatter != null) {
-            return aFormatter.formatCode(prototype2);
-        } else {
-            return HTMLSafe(prototype2);
-        }
+        return aFormatter.formatCode(prototype2);
     }
 
     public static String HTMLSafe(String s) {
