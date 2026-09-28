@@ -53,18 +53,21 @@
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.4
  */
+// @icu-version-update: #define U_ICU_VERSION_MAJOR_NUM {major}
 #define U_ICU_VERSION_MAJOR_NUM 79
 
 /** The current ICU minor version as an integer.
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.6
  */
+// @icu-version-update: #define U_ICU_VERSION_MINOR_NUM {minor}
 #define U_ICU_VERSION_MINOR_NUM 1
 
 /** The current ICU patchlevel version as an integer.
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.4
  */
+// @icu-version-update: #define U_ICU_VERSION_PATCHLEVEL_NUM {patch}
 #define U_ICU_VERSION_PATCHLEVEL_NUM 0
 
 /** The current ICU build level version as an integer.
@@ -72,6 +75,7 @@
  *  @stable ICU 4.0
  */
 #ifndef U_ICU_VERSION_BUILDLEVEL_NUM
+// @icu-version-update: #define U_ICU_VERSION_BUILDLEVEL_NUM {build}
 #define U_ICU_VERSION_BUILDLEVEL_NUM 0
 #endif
 
@@ -79,6 +83,7 @@
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.6
  */
+// @icu-version-update: #define U_ICU_VERSION_SUFFIX _{major}
 #define U_ICU_VERSION_SUFFIX _79
 
 /**
@@ -132,6 +137,7 @@
  *  This value will change in the subsequent releases of ICU
  *  @stable ICU 2.4
  */
+// @icu-version-update: #define U_ICU_VERSION "{ver_short}"
 #define U_ICU_VERSION "79.1"
 
 /**
@@ -145,12 +151,14 @@
  *
  * @stable ICU 2.6
  */
+// @icu-version-update: #define U_ICU_VERSION_SHORT "{major}"
 #define U_ICU_VERSION_SHORT "79"
 
 #ifndef U_HIDE_INTERNAL_API
 /** Data version in ICU4C.
  * @internal ICU 4.4 Internal Use Only
  **/
+// @icu-version-update: #define U_ICU_DATA_VERSION "{ver_short}"
 #define U_ICU_DATA_VERSION "79.1"
 #endif  /* U_HIDE_INTERNAL_API */
 

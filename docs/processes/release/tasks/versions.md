@@ -47,6 +47,44 @@ This means that when updating from the front load tasks to the RC tasks, files s
 [icu4c/source/common/unicode/uvernum.h](https://github.com/unicode-org/icu/blob/main/icu4c/source/common/unicode/uvernum.h)
 need to be correspondingly updated. See below for more files to be updated and steps to be followed.
 
+### Automated Version Update Script
+
+All version updates across ICU4C, ICU4J, data files, and Maven `pom.xml` files can be performed automatically using [`tools/scripts/icu_version_update.py`](https://github.com/unicode-org/icu/blob/main/tools/scripts/icu_version_update.py):
+
+```sh
+export PYTHONPATH=$ICU_DIR/tools/py
+
+# 1. Front-load tasks on `main` (e.g. 80.0.1 / 80.0.1-SNAPSHOT)
+$ICU_DIR/tools/scripts/icu_version_update.py --frontload 80
+
+# 2. Release Candidate (RC) tasks (e.g. 79.1 / 79.1-SNAPSHOT / 79.1rc)
+$ICU_DIR/tools/scripts/icu_version_update.py --rc 79
+
+# 3. General Availability (GA) tasks (e.g. 79.1)
+$ICU_DIR/tools/scripts/icu_version_update.py --ga 79
+
+# Point releases (e.g. 78.3)
+$ICU_DIR/tools/scripts/icu_version_update.py --rc 78.3
+$ICU_DIR/tools/scripts/icu_version_update.py --ga 78.3
+```
+
+Use `--dry-run` to preview the changes and Maven commands without modifying any files.
+
+#### How `@icu-version-update:` Markers Work
+
+Instead of hard-coding a list of files, `icu_version_update.py` scans the repository for comment lines containing `@icu-version-update: <line_template>` and updates the corresponding line using the template:
+
+```text
+<comment_start> @icu-version-update: <line_template> [<comment_end>]
+```
+
+Supported template placeholders:
+* `{major}` (e.g. `79`), `{prev_major}` (e.g. `78`), `{minor}` (e.g. `0` or `1`), `{patch}` (e.g. `1` or `0`), `{build}` (`0`)
+* `{ver_short}`: `79.0.1` (front-load) or `79.1` (RC/GA)
+* `{ver_4part}`: `79.0.1.0` (front-load) or `79.1.0.0` (RC/GA)
+* `{maven_ver}`: `79.0.1-SNAPSHOT` (front-load), `79.1-SNAPSHOT` (RC), or `79.1` (GA)
+* `{gh_rel_ver}`: `79.0.1` (front-load), `79.1rc` (RC), or `79.1` (GA)
+
 
 ### ICU Data
 
@@ -113,11 +151,11 @@ cd $ICU_DIR
 export newVersion=79.1-SNAPSHOT
 # In `maint-{ver}`, before releasing
 export newVersion=79.1
+mvn versions:update-parent -DparentVersion=${newVersion} -DskipResolution=true -DgenerateBackupPoms=false -f tools/cldr/cldr-to-icu/pom.xml
+mvn versions:update-parent -DparentVersion=${newVersion} -DskipResolution=true -DgenerateBackupPoms=false -f tools/release/java/pom.xml
 mvn versions:set -DnewVersion=${newVersion} -DgenerateBackupPoms=false
+mvn versions:set-property -Dproperty=icu.major.version -DnewVersion=79 -DgenerateBackupPoms=false
 ```
-
-Manually edit and update the parent version in `tools/cldr/cldr-to-icu/pom.xml`
-and `tools/release/java/pom.xml` (this is something to fix).
 
 #### Since ICU 74
 

@@ -1,4 +1,4 @@
-﻿// © 2016 and later: Unicode, Inc. and others.
+// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
 // Generated using tools/cldr/cldr-to-icu/
 // ***************************************************************************
@@ -9,6 +9,8 @@
 // ***************************************************************************
 icuver:table(nofallback){
     CLDRVersion{"49"}
+    // @icu-version-update: DataVersion{"{ver_4part}"}
     DataVersion{"79.1.0.0"}
+    // @icu-version-update: ICUVersion{"{ver_4part}"}
     ICUVersion{"79.1.0.0"}
 }

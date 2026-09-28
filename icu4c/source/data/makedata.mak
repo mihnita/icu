@@ -12,10 +12,12 @@
 
 ##############################################################################
 # Keep the following in sync with the version - see common/unicode/uvernum.h
+# @icu-version-update: U_ICUDATA_NAME=icudt{major}
 U_ICUDATA_NAME=icudt79
 ##############################################################################
 !IF "$(UWP)" == "UWP"
 # Optionally change the name of the data file for the UWP version.
+# @icu-version-update: U_ICUDATA_NAME=icudt{major}
 U_ICUDATA_NAME=icudt79
 !ENDIF
 U_ICUDATA_ENDIAN_SUFFIX=l

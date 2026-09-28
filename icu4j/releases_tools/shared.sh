@@ -9,9 +9,13 @@ export MAVEN_ARGS='--no-transfer-progress'
 # files, including the `-SNAPSHOT` if it is there.
 # Should match what this command shows:
 #   mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+# @icu-version-update: export artifact_version='{maven_ver}'
 export artifact_version='79.1-SNAPSHOT'
+# @icu-version-update: export github_rel_version='{gh_rel_ver}'
 export github_rel_version='79.1rc'
+# @icu-version-update: export api_report_version='{major}'
 export api_report_version='79'
+# @icu-version-update: export api_report_prev_version='{prev_major}'
 export api_report_prev_version='78'
 export out_dir=target
 
