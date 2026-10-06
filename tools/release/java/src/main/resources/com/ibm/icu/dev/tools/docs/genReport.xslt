@@ -157,13 +157,6 @@ doctype-system="http://www.w3.org/TR/html4/loose.dtd"
             <tr>
                 <xsl:attribute name="class">
                     <xsl:value-of select="'row'"/>
-                    <xsl:value-of select="(position() mod 2)"/> <!-- for even-odd row colorings -->
-                    <!--
-                    <xsl:choose>
-                        <xsl:when test="(position() mod 2) = 0"><xsl:value-of select="row0" /></xsl:when>
-                        <xsl:otherwise><xsl:value-of select="row1" /></xsl:otherwise>
-                    </xsl:choose>
-                    -->
                 </xsl:attribute>
                 <td class='file'> <xsl:value-of select="@file" /> </td>
                 <td class='proto'> <xsl:value-of disable-output-escaping="yes" select="@prototype" /> </td>
@@ -242,13 +235,6 @@ doctype-system="http://www.w3.org/TR/html4/loose.dtd"
             <tr>
                 <xsl:attribute name="class">
                     <xsl:value-of select="'row'"/>
-                    <xsl:value-of select="(position() mod 2)"/>
-                    <!--
-                    <xsl:choose>
-                        <xsl:when test="(position() mod 2) = 0"><xsl:value-of select="row0" /></xsl:when>
-                        <xsl:otherwise><xsl:value-of select="row1" /></xsl:otherwise>
-                    </xsl:choose>
-                    -->
                 </xsl:attribute>
                 <td class='file'> <xsl:value-of select="@file" /> </td>
                 <td class='proto'> <xsl:value-of disable-output-escaping="yes" select="@prototype" /> </td>
@@ -321,13 +307,6 @@ doctype-system="http://www.w3.org/TR/html4/loose.dtd"
             <tr>
                 <xsl:attribute name="class">
                     <xsl:value-of select="'row'"/>
-                    <xsl:value-of select="(position() mod 2)"/>
-                    <!--
-                    <xsl:choose>
-                        <xsl:when test="(position() mod 2) = 0"><xsl:value-of select="row0" /></xsl:when>
-                        <xsl:otherwise><xsl:value-of select="row1" /></xsl:otherwise>
-                    </xsl:choose>
-                    -->
                 </xsl:attribute>
                 <td class='file'> <xsl:value-of select="@file" /> </td>
                 <td class='proto'> <xsl:value-of disable-output-escaping="yes" select="@prototype" /> </td>

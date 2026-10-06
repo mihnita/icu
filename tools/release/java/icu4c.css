@@ -309,15 +309,18 @@ table.rtable tr.rarely td {
 	font-style: italic;
 }
 
-/*  APIChangeReport specific things */
 
-.row0 {
+/* Styles all even-numbered rows (2, 4, 6, etc.) */
+tbody tr:nth-child(even) {
 	background-color: white;
 }
 
-.row1 {
+/* Styles all odd-numbered rows (1, 3, 5, etc.) */
+tbody tr:nth-child(odd) {
 	background-color: #dfd;
 }
+
+/*  APIChangeReport specific things */
 
 .verchange {
 	color: red;
@@ -332,8 +335,6 @@ table.rtable tr.rarely td {
 
 .bigwarn {
 	color: red;
-	background-color: white;
-	font-size: x-large;
 	margin: 0.5 em;
 }
 
