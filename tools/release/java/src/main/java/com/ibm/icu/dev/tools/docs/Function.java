@@ -15,6 +15,15 @@ class Function implements Comparable<Function> {
     public String comparablePrototype;
 
     public boolean equals(Function right) {
+        if (right == null) {
+            return false;
+        }
+        if (comparablePrototype == right.comparablePrototype) {
+            return true;
+        }
+        if (comparablePrototype == null) {
+            return false;
+        }
         return comparablePrototype.equals(right.comparablePrototype);
     }
 
@@ -281,17 +290,31 @@ class Function implements Comparable<Function> {
     public String comparableName() {
         return file + "|" + comparablePrototype + "|" + status + "|" + version + "|" + id;
     }
-    
+
     @Override
     public String toString() {
-        StringJoiner result = new StringJoiner("\n  ", "Function {\n  ", "\n}");
-        result.add("prototype:" + prototype);
-        result.add("id:" + id);
-        result.add("status:" + status);
-        result.add("version:" + version);
-        result.add("file:" + file);
-        result.add("comparableName:" + comparableName);
-        result.add("comparablePrototype:" + comparablePrototype);
-        return result.toString();
+        return comparableName;
+    }
+
+    static Function fromComparableName(String str) {
+        if (str == null) {
+            return null;
+        }
+        String[] parts = str.split("\\|", -1);
+        if (parts.length < 5) {
+            System.out.println(parts.length + " ::: " + str); 
+            return null;
+        }
+        StringJoiner cp = new StringJoiner("|");
+        for (int i = 1; i < parts.length - 3; i++) {
+            cp.add(parts[i]);
+        }
+        Function result = new Function();
+        result.file = parts[0];
+        result.comparablePrototype = cp.toString(); 
+        result.status = parts[parts.length - 3];
+        result.version = parts[parts.length - 2];
+        result.id = parts[parts.length - 1];
+        return result;
     }
 }

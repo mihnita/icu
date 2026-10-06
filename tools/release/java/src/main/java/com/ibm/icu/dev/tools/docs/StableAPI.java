@@ -16,6 +16,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -23,7 +27,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -353,9 +359,9 @@ public class StableAPI {
                         int micr = vers.length > 2 ? Integer.parseInt(vers[2]) : 0;
                         int patch = vers.length > 3 ? Integer.parseInt(vers[3]) : 0;
                         System.err.println(
-                                " == ["
-                                        + vers.toString()
-                                        + "] "
+                                " == "
+                                        + Arrays.toString(vers)
+                                        + " "
                                         + maj
                                         + " . "
                                         + min
@@ -569,7 +575,7 @@ public class StableAPI {
         }
     }
     
-    private Set<Function> getOneSideList(String dumpXsltFile, File dirName, Transformer transformer)
+    private Set<Function> getOneSideList(File dirName, Transformer transformer)
             throws TransformerException,
                    ParserConfigurationException,
                    SAXException,
@@ -590,11 +596,7 @@ public class StableAPI {
             // dumpNode(leftIndex.getNode());
             System.out.flush();
             System.err.flush();
-            throw new InternalError(
-                    "getOneSideList("
-                            + dumpXsltFile
-                            + ") returned a null "
-                            + expression);
+            throw new InternalError("getOneSideList() returned a null " + expression);
         }
         // dumpNode(leftList,"");
         return nodeToSet(list);
@@ -615,17 +617,23 @@ public class StableAPI {
         transformer.setParameter(DOC_FOLDER, cliArguments.leftDir);
         transformer.transform(leftIndex, leftResult);
 
-        Set<Function> leftSet = getOneSideList(dumpXsltFile, cliArguments.leftDir, transformer);
-        Set<Function> rightSet = getOneSideList(dumpXsltFile, cliArguments.rightDir, transformer);
-//        leftSet.forEach(System.out::println);
-//        rightSet.forEach(System.out::println);
-        Set<JoinedFunction> joined = fullJoin(leftSet, rightSet);
-        return joined;
-        // joinedNode = setToNode(joined);
-        // dumpNode(joinedNode,"");
-        // return joinedNode;
+        Set<Function> leftSet = getOneSideList(cliArguments.leftDir, transformer);
+        Set<Function> rightSet = getOneSideList(cliArguments.rightDir, transformer);
+        saveReportToFile(Path.of("icu4c79_left.api3"), leftSet);
+        saveReportToFile(Path.of("icu4c79_right.api3"), rightSet);
+
+        return fullJoin(leftSet, rightSet);
     }
 
+    private void saveReportToFile(Path filePath, Set<Function> set) throws IOException {
+        try (var fr = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+            for (Function func : set) {
+                fr.write(func.toString());
+                fr.write("\n");
+            }
+        }
+    }
+    
     /**
      * @param node
      * @return Set<Fun>
@@ -652,7 +660,11 @@ public class StableAPI {
         doc.appendChild(root);
         for (Iterator<JoinedFunction> iter = set.iterator(); iter.hasNext(); ) {
             JoinedFunction fun = iter.next();
-            root.appendChild(fun.toXml(doc));
+            boolean leftShow = (fun.left != null && !"Internal".equals(fun.left.status));
+            boolean rightShow = (fun.right != null && !"Internal".equals(fun.right.status));
+            if (leftShow || rightShow) {
+                root.appendChild(fun.toXml(doc));
+            }
         }
 
         // add the 'changed' stuff
