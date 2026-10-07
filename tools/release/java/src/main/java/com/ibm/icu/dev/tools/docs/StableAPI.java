@@ -118,20 +118,20 @@ public class StableAPI {
     private String leftMilestone = "";
     private String rightMilestone = "";
 
-    static Map<String, Set<String>> simplifications = new TreeMap<>();
+    static final Map<String, Set<String>> SIMPLIFICATIONS = new TreeMap<>();
 
     static void addSimplification(String prototype0, String prototype) {
-        Set<String> s = simplifications.get(prototype);
+        Set<String> s = SIMPLIFICATIONS.get(prototype);
         if (s == null) {
             s = new TreeSet<String>();
-            simplifications.put(prototype, s);
+            SIMPLIFICATIONS.put(prototype, s);
         }
         s.add(prototype0);
     }
 
     static Set<String> getChangedSimplifications() {
         Set<String> output = new TreeSet<>();
-        for (Map.Entry<String, Set<String>> e : simplifications.entrySet()) {
+        for (Map.Entry<String, Set<String>> e : SIMPLIFICATIONS.entrySet()) {
             if (e.getValue().size() > 1) {
                 output.add(e.getKey());
             }
@@ -173,7 +173,7 @@ public class StableAPI {
         }
 
         Node fullList = setToNode(full);
-        // t.dumpNode(fullList,"");
+        XmlUtils.dumpNode(fullList,"");
 
         System.out.println("Node set. Reporting:");
 
@@ -185,37 +185,11 @@ public class StableAPI {
             System.out.println("--- changed simplifications ---");
             for (String k : changedSimp) {
                 System.out.println(k);
-                for (String s : simplifications.get(k)) {
+                for (String s : SIMPLIFICATIONS.get(k)) {
                     System.out.println("\t" + s);
                 }
             }
         }
-    }
-    
-    private static File expandString(String str) {
-        if (str == null) return null;
-        if (str.startsWith("~")) {
-            String home = System.getProperty("user.home");
-            if (str.length() == 1) { // the string is "~"
-                str = home;
-            } else if (str.charAt(1) == '/' || str.charAt(1) == '\\') {
-                str = home + str.substring(1);
-            }
-        }
-        // Matches both $FOO and ${FOO}. Grouping will give us "FOO" in group(1)
-        Pattern pat = Pattern.compile("\\$\\{{0,1}([a-zA-Z0-9_]+)\\}{0,1}");
-        Matcher m = pat.matcher(str);
-        StringBuilder expanded = new StringBuilder();
-        Map<String, String> env = System.getenv();
-        while (m.find()) {
-            String envValue = env.get(m.group(1));
-            if (envValue == null) { // not set in environment, leave it as is
-                envValue = m.group();
-            }
-            m.appendReplacement(expanded, envValue);
-        }
-        m.appendTail(expanded);
-        return new File(expanded.toString());
     }
 
     private CliArguments parseArgs(String[] args) {
@@ -230,19 +204,19 @@ public class StableAPI {
             } else if (arg.equals("--oldver")) {
                 result.leftVer = args[++i];
             } else if (arg.equals("--olddir")) {
-                result.leftDir = expandString(args[++i]);
+                result.leftDir = StringUtils.expandString(args[++i]);
             } else if (arg.equals("--newver")) {
                 result.rightVer = args[++i];
             } else if (arg.equals("--newdir")) {
-                result.rightDir = expandString(args[++i]);
+                result.rightDir = StringUtils.expandString(args[++i]);
             } else if (arg.equals("--cxslt")) {
-                result.dumpCXslt = expandString(args[++i]);
+                result.dumpCXslt = StringUtils.expandString(args[++i]);
             } else if (arg.equals("--cppxslt")) {
-                result.dumpCppXslt = expandString(args[++i]);
+                result.dumpCppXslt = StringUtils.expandString(args[++i]);
             } else if (arg.equals("--reportxslt")) {
-                result.reportXsl = expandString(args[++i]);
+                result.reportXsl = StringUtils.expandString(args[++i]);
             } else if (arg.equals("--resultfile")) {
-                result.resultFile = expandString(args[++i]);
+                result.resultFile = StringUtils.expandString(args[++i]);
             } else {
                 System.out.println("Unknown option: " + arg);
                 printUsage();
@@ -704,7 +678,7 @@ public class StableAPI {
 
                 root2.appendChild(subSimplification);
 
-                for (String change : simplifications.get(simplification)) {
+                for (String change : SIMPLIFICATIONS.get(simplification)) {
                     Element changeElement = doc.createElement("change");
                     changeElement.appendChild(doc.createTextNode(change));
                     subSimplification.appendChild(changeElement);
@@ -756,51 +730,5 @@ public class StableAPI {
             joined.add(JoinedFunction.fromRightFun(f));
         }
         return joined;
-    }
-
-
-    static Formatter aFormatter = null;
-
-    public static final String FORMAT_KEYWORDS[] = {"enum", "#define", "static"};
-
-    /**
-     * Attempt to use a pretty formatter
-     *
-     * @param prototype2
-     * @return
-     */
-    public static String formatCode(String prototype2) {
-        if (aFormatter == null) {
-            String theFormatter = StableAPI.class.getPackage().getName() + ".CodeFormatter";
-            try {
-                @SuppressWarnings("unchecked")
-                Class<Formatter> formatClass = (Class<Formatter>) Class.forName(theFormatter);
-                aFormatter = (Formatter) formatClass.getConstructor().newInstance();
-            } catch (Exception e) {
-                System.err.println("Note: Couldn't load " + theFormatter);
-                aFormatter = s -> {
-                    String str = HTMLSafe(s.trim());
-                    for (String keyword : FORMAT_KEYWORDS) {
-                        if (str.startsWith(keyword)) {
-                            str = str.replaceFirst(keyword, "<tt>" + keyword + "</tt>");
-                        }
-                    }
-                    return str;
-                };
-            }
-            if (aFormatter == null) {
-                aFormatter = StableAPI::HTMLSafe;
-            }
-        }
-        return aFormatter.formatCode(prototype2);
-    }
-
-    public static String HTMLSafe(String s) {
-        if (s == null) return null;
-
-        return s.replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll("\"", "&quot;");
     }
 }

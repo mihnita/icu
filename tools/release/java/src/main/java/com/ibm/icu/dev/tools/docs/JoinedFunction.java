@@ -40,7 +40,7 @@ class JoinedFunction implements Comparable<JoinedFunction> {
 
     Element toXml(Document doc) {
         Element ele = doc.createElement("func");
-        ele.setAttribute("prototype", StableAPI.formatCode(prototype));
+        ele.setAttribute("prototype", StringUtils.xmlEscape(prototype));
         // ele.setAttribute("leftRefId", leftRefId);
 
         ele.setAttribute("leftStatus", left != null ? left.status : StableAPI.MISSING);
