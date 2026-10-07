@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -190,6 +191,32 @@ public class StableAPI {
             }
         }
     }
+    
+    private static File expandString(String str) {
+        if (str == null) return null;
+        if (str.startsWith("~")) {
+            String home = System.getProperty("user.home");
+            if (str.length() == 1) { // the string is "~"
+                str = home;
+            } else if (str.charAt(1) == '/' || str.charAt(1) == '\\') {
+                str = home + str.substring(1);
+            }
+        }
+        // Matches both $FOO and ${FOO}. Grouping will give us "FOO" in group(1)
+        Pattern pat = Pattern.compile("\\$\\{{0,1}([a-zA-Z0-9_]+)\\}{0,1}");
+        Matcher m = pat.matcher(str);
+        StringBuilder expanded = new StringBuilder();
+        Map<String, String> env = System.getenv();
+        while (m.find()) {
+            String envValue = env.get(m.group(1));
+            if (envValue == null) { // not set in environment, leave it as is
+                envValue = m.group();
+            }
+            m.appendReplacement(expanded, envValue);
+        }
+        m.appendTail(expanded);
+        return new File(expanded.toString());
+    }
 
     private CliArguments parseArgs(String[] args) {
         CliArguments result = new CliArguments();
@@ -203,19 +230,19 @@ public class StableAPI {
             } else if (arg.equals("--oldver")) {
                 result.leftVer = args[++i];
             } else if (arg.equals("--olddir")) {
-                result.leftDir = new File(args[++i]);
+                result.leftDir = expandString(args[++i]);
             } else if (arg.equals("--newver")) {
                 result.rightVer = args[++i];
             } else if (arg.equals("--newdir")) {
-                result.rightDir = new File(args[++i]);
+                result.rightDir = expandString(args[++i]);
             } else if (arg.equals("--cxslt")) {
-                result.dumpCXslt = new File(args[++i]);
+                result.dumpCXslt = expandString(args[++i]);
             } else if (arg.equals("--cppxslt")) {
-                result.dumpCppXslt = new File(args[++i]);
+                result.dumpCppXslt = expandString(args[++i]);
             } else if (arg.equals("--reportxslt")) {
-                result.reportXsl = new File(args[++i]);
+                result.reportXsl = expandString(args[++i]);
             } else if (arg.equals("--resultfile")) {
-                result.resultFile = new File(args[++i]);
+                result.resultFile = expandString(args[++i]);
             } else {
                 System.out.println("Unknown option: " + arg);
                 printUsage();
@@ -450,8 +477,6 @@ public class StableAPI {
                             + prevVer);
             result = prevVer;
         }
-
-        if (result != null) {}
 
         if (prevVer != null) {
             if (result != null) {
