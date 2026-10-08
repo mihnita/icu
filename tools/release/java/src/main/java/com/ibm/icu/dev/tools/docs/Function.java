@@ -36,8 +36,19 @@ class Function implements Comparable<Function> {
         }
 
         f.id = getAttr(n, "id");
-        f.status = getAttr(n, "status");
-        f.version = StableAPI.trimICU(getAttr(n, "version"));
+
+        String status1 = getAttr(n, "status");
+        String status2 = getAttr(n, "status2");
+        f.status = "";
+        if (status1 != null) f.status = f.status + status1;
+        if (status2 != null) f.status = f.status + status2;
+
+        String version1 = StableAPI.trimICU(getAttr(n, "version"));
+        String version2 = StableAPI.trimICU(getAttr(n, "version2"));
+        f.version = "";
+        if (version1 != null) f.version = f.version + version1;
+        if (version2 != null) f.version = f.version + version2;
+
         f.file = getAttr(n, "file");
         f.purifyPrototype();
         f.simplifyPrototype();

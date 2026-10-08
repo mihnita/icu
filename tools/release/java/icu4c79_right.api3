@@ -1,5 +1,6 @@
 (Node: [#text: 
          ] )|(Node: [#text:   ])|(Node: [#text: 
+         ] )(Node: [#text: 
          ] )||(Node: [#text: 
          ] )
 RunArrays.h|#define CAPACITY_GROW_LIMIT|Stable|ICU 3.2|RunArrays_8h_1a455292ae142c1e3123a29ab245695923
@@ -56,8 +57,8 @@ measfmt.h|enum UMeasureFormatWidth::UMEASFMT_WIDTH_SHORT|Stable|ICU 53|measfmt_8
 measfmt.h|enum UMeasureFormatWidth::UMEASFMT_WIDTH_WIDE|Stable|ICU 53|measfmt_8h_1aee61043a20d08952249940501c7585eda0ff53ebc84ef5b29a9ec03a2075acb90
 messagepattern.h|#define UMSGPAT_ARG_TYPE_HAS_PLURAL_STYLE|Stable|ICU 50|messagepattern_8h_1a1c4e21bee1892fbd050e55e85ac1a5c4
 messagepattern.h|#define UMSGPAT_NO_NUMERIC_VALUE|Stable|ICU 4.8|messagepattern_8h_1af8a7d74f8813a30c41f063dde64e3c12
-messagepattern.h|enum (anonymous)::UMSGPAT_ARG_NAME_NOT_NUMBER|Stable|ICU 4.8|messagepattern_8h_1a925b7353f1758ffe7467213f15a1888ca7b6fc83818b6e89ef39f116bfd0d9dda
-messagepattern.h|enum (anonymous)::UMSGPAT_ARG_NAME_NOT_VALID|Stable|ICU 4.8|messagepattern_8h_1a925b7353f1758ffe7467213f15a1888ca7086b0b8fe7c4867c8df719f45928a50
+messagepattern.h|enum ::UMSGPAT_ARG_NAME_NOT_NUMBER|Stable|ICU 4.8|messagepattern_8h_1a925b7353f1758ffe7467213f15a1888ca7b6fc83818b6e89ef39f116bfd0d9dda
+messagepattern.h|enum ::UMSGPAT_ARG_NAME_NOT_VALID|Stable|ICU 4.8|messagepattern_8h_1a925b7353f1758ffe7467213f15a1888ca7086b0b8fe7c4867c8df719f45928a50
 messagepattern.h|enum UMessagePatternApostropheMode::UMSGPAT_APOS_DOUBLE_OPTIONAL|Stable|ICU 4.8|messagepattern_8h_1af6e0757e0eb81c980b01ee5d68a9978ba67b6ac40cab95b17ecd559d24f1066c7
 messagepattern.h|enum UMessagePatternApostropheMode::UMSGPAT_APOS_DOUBLE_REQUIRED|Stable|ICU 4.8|messagepattern_8h_1af6e0757e0eb81c980b01ee5d68a9978ba947d8779e9c59baf35a5eb82d8327d78
 messagepattern.h|enum UMessagePatternArgType::UMSGPAT_ARG_TYPE_CHOICE|Stable|ICU 4.8|messagepattern_8h_1a2929f87500a04fd66021e3fda6c1f103ae9806dab1d5f2143ad7df93025173095
@@ -80,7 +81,7 @@ messagepattern.h|enum UMessagePatternPartType::UMSGPAT_PART_TYPE_MSG_LIMIT|Stabl
 messagepattern.h|enum UMessagePatternPartType::UMSGPAT_PART_TYPE_MSG_START|Stable|ICU 4.8|messagepattern_8h_1a020e83c308fc5d1b2b4a7029cc3d9b42a4bd3165108d25c0aabaaa3715105efff
 messagepattern.h|enum UMessagePatternPartType::UMSGPAT_PART_TYPE_REPLACE_NUMBER|Stable|ICU 4.8|messagepattern_8h_1a020e83c308fc5d1b2b4a7029cc3d9b42ac4387c3e4c2f1ccf8ba85c4c7ebf607f
 messagepattern.h|enum UMessagePatternPartType::UMSGPAT_PART_TYPE_SKIP_SYNTAX|Stable|ICU 4.8|messagepattern_8h_1a020e83c308fc5d1b2b4a7029cc3d9b42ae8bd3978e3b14fa1b6918946420a262d
-parseerr.h|enum (anonymous)::U_PARSE_CONTEXT_LEN|Stable|ICU 2.0|parseerr_8h_1a7f5de34dbbfaed3cc9a1c2b1f12479fea7e6d9f36daecfc5146dea1485c16846e
+parseerr.h|enum ::U_PARSE_CONTEXT_LEN|Stable|ICU 2.0|parseerr_8h_1a7f5de34dbbfaed3cc9a1c2b1f12479fea7e6d9f36daecfc5146dea1485c16846e
 platform.h|#define CYGWINMSVC|Internal||platform_8h_1a1cf453287f1923cd5f2e80e70c306355
 platform.h|#define UPRV_HAS_ATTRIBUTE|Internal||platform_8h_1a300bad9e978c857d9014125209197569
 platform.h|#define UPRV_HAS_BUILTIN|Internal||platform_8h_1ab5cbf17f58d2566165999523ae97e16b
@@ -370,8 +371,8 @@ ubidi.h|void ubidi_setReorderingOptions(UBiDi*, uint32_t)|Stable|ICU 3.6|ubidi_8
 ubiditransform.h|UBiDiTransform* ubiditransform_open(UErrorCode*)|Stable|ICU 58|ubiditransform_8h_1ab88549519c8965c7470910655c513189
 ubiditransform.h|enum UBiDiMirroring::UBIDI_MIRRORING_OFF|Stable|ICU 58|ubiditransform_8h_1aa10286fa01a861e22070ba2e47f03140ae69f35f936883ae2bc592a79abac03f8
 ubiditransform.h|enum UBiDiMirroring::UBIDI_MIRRORING_ON|Stable|ICU 58|ubiditransform_8h_1aa10286fa01a861e22070ba2e47f03140a29d12daa732e047e5d2ecf49ab5a4b15
-ubiditransform.h|enum UBiDiOrder::UBIDI_LOGICAL|Stable|ICU 58|ubiditransform_8h_1a6f638f184d3f60e874b15f587fe6bbaba77a9eda64f63fabb0e15c5750d8f5362
-ubiditransform.h|enum UBiDiOrder::UBIDI_VISUAL|Stable|ICU 58|ubiditransform_8h_1a6f638f184d3f60e874b15f587fe6bbaba9d3eef20b888d608876010b59b28b627
+ubiditransform.h|enum UBiDiOrder::UBIDI_LOGICAL|StableStable|ICU 58ICU 58|ubiditransform_8h_1a6f638f184d3f60e874b15f587fe6bbaba77a9eda64f63fabb0e15c5750d8f5362
+ubiditransform.h|enum UBiDiOrder::UBIDI_VISUAL|StableStable|ICU 58ICU 58|ubiditransform_8h_1a6f638f184d3f60e874b15f587fe6bbaba9d3eef20b888d608876010b59b28b627
 ubiditransform.h|uint32_t ubiditransform_transform(UBiDiTransform*, const char16_t*, int32_t, char16_t*, int32_t, UBiDiLevel, UBiDiOrder, UBiDiLevel, UBiDiOrder, UBiDiMirroring, uint32_t, UErrorCode*)|Stable|ICU 58|ubiditransform_8h_1a3cd005d2decbad14df6b0b586bd0be93
 ubiditransform.h|void ubiditransform_close(UBiDiTransform*)|Stable|ICU 58|ubiditransform_8h_1a25b57be75e1508b78728e006d92ae9dc
 ubrk.h|#define UBRK_DONE|Stable|ICU 2.0|ubrk_8h_1a7c31c1e5091fb47ab85db522c7536252
@@ -549,6 +550,7 @@ ucal.h|void ucal_add(UCalendar*, UCalendarDateFields, int32_t, UErrorCode*)|Stab
 ucal.h|void ucal_clear(UCalendar*)|Stable|ICU 2.0|ucal_8h_1a8555c308b0c48bf88aefc1584a49166d
 ucal.h|void ucal_clearField(UCalendar*, UCalendarDateFields)|Stable|ICU 2.0|ucal_8h_1a4f364856d9faadda21a1f93954f78152
 ucal.h|void ucal_close(UCalendar*)|Stable|ICU 2.0|ucal_8h_1a46969ae0f5849a58e388009ef7cb159c
+ucal.h|void ucal_getTimeZoneOffsetFromLocal(const UCalendar*, UTimeZoneLocalOption, UTimeZoneLocalOption, int32_t*, int32_t*, UErrorCode*)|Stable|ICU 69|ucal_8h_1a96a8393b0b1cf48221b68b74cf3056fb
 ucal.h|void ucal_roll(UCalendar*, UCalendarDateFields, int32_t, UErrorCode*)|Stable|ICU 2.0|ucal_8h_1acc86144df53b2114601fc14ecccef9c0
 ucal.h|void ucal_set(UCalendar*, UCalendarDateFields, int32_t)|Stable|ICU 2.0|ucal_8h_1a62c98e860239f84e5876f024734c5323
 ucal.h|void ucal_setAttribute(UCalendar*, UCalendarAttribute, int32_t)|Stable|ICU 2.0|ucal_8h_1ae8d98fd94f895617f156b5d347d6c20a
@@ -2363,29 +2365,29 @@ ugender.h|enum UGender::UGENDER_MALE|Stable|ICU 50|ugender_8h_1a9506d61caf22a749
 ugender.h|enum UGender::UGENDER_OTHER|Stable|ICU 50|ugender_8h_1a9506d61caf22a74908fc8fcbea31c748abeef9bd190d99481ba8a6a15e80614ba
 uidna.h|#define UIDNA_INFO_INITIALIZER|Stable|ICU 4.6|uidna_8h_1a4d3da5919e4a9f1142d622212c156bcb
 uidna.h|UIDNA* uidna_openUTS46(uint32_t, UErrorCode*)|Stable|ICU 4.6|uidna_8h_1aeedb5bc8b9c7127e89b43ca23cce1da8
-uidna.h|enum (anonymous)::UIDNA_ALLOW_UNASSIGNED|Deprecated|ICU 55|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a40c036f35732a85a90d042ca285a563f
-uidna.h|enum (anonymous)::UIDNA_CHECK_BIDI|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a8f194e81cea21963d7025ccf3ec85dd8
-uidna.h|enum (anonymous)::UIDNA_CHECK_CONTEXTJ|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a285a3c3c35593244b4b1d3682298c54d
-uidna.h|enum (anonymous)::UIDNA_CHECK_CONTEXTO|Stable|ICU 49|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a4228928a95c37e7ab3c74542e46b7dae
-uidna.h|enum (anonymous)::UIDNA_DEFAULT|Stable|ICU 2.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16aa1eb63014cdaf41c7ea6cf3abecf1169
-uidna.h|enum (anonymous)::UIDNA_ERROR_BIDI|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a8a9311811fb0f3db1644ac1a88056370
-uidna.h|enum (anonymous)::UIDNA_ERROR_CONTEXTJ|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a800f864474cc5ab7fa304031aaf10043
-uidna.h|enum (anonymous)::UIDNA_ERROR_CONTEXTO_DIGITS|Stable|ICU 49|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a0206862d880f71ba3ad871ef3e92f97f
-uidna.h|enum (anonymous)::UIDNA_ERROR_CONTEXTO_PUNCTUATION|Stable|ICU 49|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570ad81d443111d7cd585fef134d7a82de36
-uidna.h|enum (anonymous)::UIDNA_ERROR_DISALLOWED|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a807994d718b83ebd8420294cdb398077
-uidna.h|enum (anonymous)::UIDNA_ERROR_DOMAIN_NAME_TOO_LONG|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570acb4f47fc8696d6ee4b31395fd6607a97
-uidna.h|enum (anonymous)::UIDNA_ERROR_EMPTY_LABEL|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570add2c08d0f91b5b18bd37701f315721c9
-uidna.h|enum (anonymous)::UIDNA_ERROR_HYPHEN_3_4|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a9bebae6483c78a9a4b608ba55f4ad367
-uidna.h|enum (anonymous)::UIDNA_ERROR_INVALID_ACE_LABEL|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570afd70a49037cf9f9107485f279c4e6cba
-uidna.h|enum (anonymous)::UIDNA_ERROR_LABEL_HAS_DOT|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a89151c238639213d4859dee188977d9e
-uidna.h|enum (anonymous)::UIDNA_ERROR_LABEL_TOO_LONG|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a5071eb574ee6087ed7850c4e5f307ba4
-uidna.h|enum (anonymous)::UIDNA_ERROR_LEADING_COMBINING_MARK|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a390a6b3d9844a1dcc1f99fb1ae478ecf
-uidna.h|enum (anonymous)::UIDNA_ERROR_LEADING_HYPHEN|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570ad753902b7d5783e75fb3d99505635b5a
-uidna.h|enum (anonymous)::UIDNA_ERROR_PUNYCODE|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570aa1514abc5f09fcccd28645301a913834
-uidna.h|enum (anonymous)::UIDNA_ERROR_TRAILING_HYPHEN|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a113fce683a4fd12b13885dab16e2bc0a
-uidna.h|enum (anonymous)::UIDNA_NONTRANSITIONAL_TO_ASCII|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a3a10cd9aeb86fca0e3085a9fc896ede6
-uidna.h|enum (anonymous)::UIDNA_NONTRANSITIONAL_TO_UNICODE|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16ab42e158cb8c671b266b9f90355ec2f0c
-uidna.h|enum (anonymous)::UIDNA_USE_STD3_RULES|Stable|ICU 2.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a9d76f3ecebbbfb03f760298d47ad8eb9
+uidna.h|enum ::UIDNA_ALLOW_UNASSIGNED|Deprecated|ICU 55|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a40c036f35732a85a90d042ca285a563f
+uidna.h|enum ::UIDNA_CHECK_BIDI|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a8f194e81cea21963d7025ccf3ec85dd8
+uidna.h|enum ::UIDNA_CHECK_CONTEXTJ|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a285a3c3c35593244b4b1d3682298c54d
+uidna.h|enum ::UIDNA_CHECK_CONTEXTO|Stable|ICU 49|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a4228928a95c37e7ab3c74542e46b7dae
+uidna.h|enum ::UIDNA_DEFAULT|Stable|ICU 2.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16aa1eb63014cdaf41c7ea6cf3abecf1169
+uidna.h|enum ::UIDNA_ERROR_BIDI|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a8a9311811fb0f3db1644ac1a88056370
+uidna.h|enum ::UIDNA_ERROR_CONTEXTJ|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a800f864474cc5ab7fa304031aaf10043
+uidna.h|enum ::UIDNA_ERROR_CONTEXTO_DIGITS|Stable|ICU 49|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a0206862d880f71ba3ad871ef3e92f97f
+uidna.h|enum ::UIDNA_ERROR_CONTEXTO_PUNCTUATION|Stable|ICU 49|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570ad81d443111d7cd585fef134d7a82de36
+uidna.h|enum ::UIDNA_ERROR_DISALLOWED|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a807994d718b83ebd8420294cdb398077
+uidna.h|enum ::UIDNA_ERROR_DOMAIN_NAME_TOO_LONG|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570acb4f47fc8696d6ee4b31395fd6607a97
+uidna.h|enum ::UIDNA_ERROR_EMPTY_LABEL|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570add2c08d0f91b5b18bd37701f315721c9
+uidna.h|enum ::UIDNA_ERROR_HYPHEN_3_4|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a9bebae6483c78a9a4b608ba55f4ad367
+uidna.h|enum ::UIDNA_ERROR_INVALID_ACE_LABEL|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570afd70a49037cf9f9107485f279c4e6cba
+uidna.h|enum ::UIDNA_ERROR_LABEL_HAS_DOT|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a89151c238639213d4859dee188977d9e
+uidna.h|enum ::UIDNA_ERROR_LABEL_TOO_LONG|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a5071eb574ee6087ed7850c4e5f307ba4
+uidna.h|enum ::UIDNA_ERROR_LEADING_COMBINING_MARK|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a390a6b3d9844a1dcc1f99fb1ae478ecf
+uidna.h|enum ::UIDNA_ERROR_LEADING_HYPHEN|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570ad753902b7d5783e75fb3d99505635b5a
+uidna.h|enum ::UIDNA_ERROR_PUNYCODE|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570aa1514abc5f09fcccd28645301a913834
+uidna.h|enum ::UIDNA_ERROR_TRAILING_HYPHEN|Stable|ICU 4.6|uidna_8h_1a5e23ac33de89a2ef15bc4726c13a8570a113fce683a4fd12b13885dab16e2bc0a
+uidna.h|enum ::UIDNA_NONTRANSITIONAL_TO_ASCII|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a3a10cd9aeb86fca0e3085a9fc896ede6
+uidna.h|enum ::UIDNA_NONTRANSITIONAL_TO_UNICODE|Stable|ICU 4.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16ab42e158cb8c671b266b9f90355ec2f0c
+uidna.h|enum ::UIDNA_USE_STD3_RULES|Stable|ICU 2.6|uidna_8h_1aa2eb6b798123664771c6530096fb1d16a9d76f3ecebbbfb03f760298d47ad8eb9
 uidna.h|int32_t uidna_IDNToASCII(const char16_t*, int32_t, char16_t*, int32_t, int32_t, UParseError*, UErrorCode*)|Deprecated|ICU 55|uidna_8h_1a711fa1d2e6dd25d7368f5b3ea2aaedc6
 uidna.h|int32_t uidna_IDNToUnicode(const char16_t*, int32_t, char16_t*, int32_t, int32_t, UParseError*, UErrorCode*)|Deprecated|ICU 55|uidna_8h_1acf38e44019d4eb5a7dd903284fdb18e3
 uidna.h|int32_t uidna_compare(const char16_t*, int32_t, const char16_t*, int32_t, int32_t, UErrorCode*)|Deprecated|ICU 55|uidna_8h_1a89b089341501d76335772d8b26ffe0db
@@ -2404,7 +2406,7 @@ uiter.h|#define UITER_NO_STATE|Stable|ICU 2.6|uiter_8h_1aafcf208dc06e96d1a48221d
 uiter.h|char16_t32 uiter_current32(char16_tIterator*)|Stable|ICU 2.1|uiter_8h_1affcb29b418523028e21e3da4aa7d5fcb
 uiter.h|char16_t32 uiter_next32(char16_tIterator*)|Stable|ICU 2.1|uiter_8h_1a06821a7b60f3473895594c78d7bf9d5b
 uiter.h|char16_t32 uiter_previous32(char16_tIterator*)|Stable|ICU 2.1|uiter_8h_1a47c3e76069781517db46e0a328972d07
-uiter.h|enum (anonymous)::UITER_UNKNOWN_INDEX|Stable|ICU 2.6|uiter_8h_1afb1238a03b0175abefed43238ab202f1ac15b49df57fe9ae213b64ef3fc05fd3a
+uiter.h|enum ::UITER_UNKNOWN_INDEX|Stable|ICU 2.6|uiter_8h_1afb1238a03b0175abefed43238ab202f1ac15b49df57fe9ae213b64ef3fc05fd3a
 uiter.h|enum char16_tIteratorOrigin::UITER_CURRENT|Stable|ICU 2.1|uiter_8h_1acb93256d32b49b35a49affe3db4e5766ab6d984dbf323a2aa158488a3f549f16b
 uiter.h|enum char16_tIteratorOrigin::UITER_LENGTH|Stable|ICU 2.1|uiter_8h_1acb93256d32b49b35a49affe3db4e5766aae4e814e37e3a86a722676c1996ebe6e
 uiter.h|enum char16_tIteratorOrigin::UITER_LIMIT|Stable|ICU 2.1|uiter_8h_1acb93256d32b49b35a49affe3db4e5766ac31020bb4b5b3ebb1222389247058fbf
@@ -2673,7 +2675,7 @@ unorm.h|UNormalizationCheckResult unorm_quickCheck(const char16_t*, int32_t, UNo
 unorm.h|UNormalizationCheckResult unorm_quickCheckWithOptions(const char16_t*, int32_t, UNormalizationMode, int32_t, UErrorCode*)|Deprecated|ICU 56|unorm_8h_1ae437a1459c7379e327799d5d5ea44458
 unorm.h|bool unorm_isNormalized(const char16_t*, int32_t, UNormalizationMode, UErrorCode*)|Deprecated|ICU 56|unorm_8h_1a919fb62224dc5f268e7b1cce21c2e873
 unorm.h|bool unorm_isNormalizedWithOptions(const char16_t*, int32_t, UNormalizationMode, int32_t, UErrorCode*)|Deprecated|ICU 56|unorm_8h_1a0a0e785c85a02052d405626ce301405e
-unorm.h|enum (anonymous)::UNORM_UNICODE_3_2|Deprecated|ICU 56|unorm_8h_1a568d2814f1d8c626528e4a153ee69508a5b4745b8b611e2d7e6245c023e22e462
+unorm.h|enum ::UNORM_UNICODE_3_2|Deprecated|ICU 56|unorm_8h_1a568d2814f1d8c626528e4a153ee69508a5b4745b8b611e2d7e6245c023e22e462
 unorm.h|enum UNormalizationMode::UNORM_DEFAULT|Deprecated|ICU 56|unorm_8h_1af317e3ace13f0ce7c86dd1ca48490ef7a0f833bde534a6902911c62dbb091a585
 unorm.h|enum UNormalizationMode::UNORM_FCD|Deprecated|ICU 56|unorm_8h_1af317e3ace13f0ce7c86dd1ca48490ef7aac4a0a6b26928af19d2cef5985bdce8d
 unorm.h|enum UNormalizationMode::UNORM_MODE_COUNT|Deprecated|ICU 56|unorm_8h_1af317e3ace13f0ce7c86dd1ca48490ef7ab16cae528525fca531bcdee42b153796
@@ -2880,8 +2882,8 @@ unumberformatter.h|enum UNumberSignDisplay::UNUM_SIGN_COUNT|Internal|ICU 60|unum
 unumberformatter.h|enum UNumberSignDisplay::UNUM_SIGN_EXCEPT_ZERO|Stable|ICU 61|unumberformatter_8h_1a18092ae1533c9c260f01c9dbf25589c9aa9342df5634c3fc780e31553fb561543
 unumberformatter.h|enum UNumberSignDisplay::UNUM_SIGN_NEGATIVE|Stable|ICU 69|unumberformatter_8h_1a18092ae1533c9c260f01c9dbf25589c9ac06db8e834dd916f3af016910c7fa1b0
 unumberformatter.h|enum UNumberSignDisplay::UNUM_SIGN_NEVER|Stable|ICU 60|unumberformatter_8h_1a18092ae1533c9c260f01c9dbf25589c9a54dff733ecf5a488b6176a3de58229f0
-unumberformatter.h|enum UNumberTrailingZeroDisplay::UNUM_TRAILING_ZERO_AUTO|Stable|ICU 69|unumberformatter_8h_1a39a7f386dd7f624dd611d4f5249c2c26a673c844c1941590a781fab2f0d2fb7b2
-unumberformatter.h|enum UNumberTrailingZeroDisplay::UNUM_TRAILING_ZERO_HIDE_IF_WHOLE|Stable|ICU 69|unumberformatter_8h_1a39a7f386dd7f624dd611d4f5249c2c26a89147ccac5570a1817c370f8e63837df
+unumberformatter.h|enum UNumberTrailingZeroDisplay::UNUM_TRAILING_ZERO_AUTO|StableStable|ICU 69ICU 69|unumberformatter_8h_1a39a7f386dd7f624dd611d4f5249c2c26a673c844c1941590a781fab2f0d2fb7b2
+unumberformatter.h|enum UNumberTrailingZeroDisplay::UNUM_TRAILING_ZERO_HIDE_IF_WHOLE|StableStable|ICU 69ICU 69|unumberformatter_8h_1a39a7f386dd7f624dd611d4f5249c2c26a89147ccac5570a1817c370f8e63837df
 unumberformatter.h|enum UNumberUnitWidth::UNUM_UNIT_WIDTH_COUNT|Internal|ICU 60|unumberformatter_8h_1a5ee613b0f806f558d9ea877aa62a0c3faefbce8f020b12394f6d37b982273a758
 unumberformatter.h|enum UNumberUnitWidth::UNUM_UNIT_WIDTH_FORMAL|Stable|ICU 68|unumberformatter_8h_1a5ee613b0f806f558d9ea877aa62a0c3fa63c08bf7ebfee6ca9e1365c85edccd64
 unumberformatter.h|enum UNumberUnitWidth::UNUM_UNIT_WIDTH_FULL_NAME|Stable|ICU 60|unumberformatter_8h_1a5ee613b0f806f558d9ea877aa62a0c3fa21dfe289ee4e87262df9622134ab29db
@@ -3431,11 +3433,11 @@ uset.h|bool uset_resemblesPattern(const char16_t*, int32_t, int32_t)|Stable|ICU 
 uset.h|bool uset_serializedContains(const USerializedSet*, char16_t32)|Stable|ICU 2.4|uset_8h_1a0a7b9b7c8bd29cd97d8fab4fb2c07366
 uset.h|char16_t32 uset_charAt(const USet*, int32_t)|Stable|ICU 3.2|uset_8h_1a314fd38c52331c708a798e2809d79813
 uset.h|const char16_t* uset_getString(const USet*, int32_t, int32_t*)|Stable|ICU 76|uset_8h_1ae73b6161467f354272118e33d0ced669
-uset.h|enum (anonymous)::USET_ADD_CASE_MAPPINGS|Stable|ICU 3.2|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba68133c690985f92d95996e4cf9abd80d
-uset.h|enum (anonymous)::USET_CASE_INSENSITIVE|Stable|ICU 2.4|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba740685a55f610ca84868b60aef83db7b
-uset.h|enum (anonymous)::USET_IGNORE_SPACE|Stable|ICU 2.4|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba0273be77d90674cbb82a37f9edb504ff
-uset.h|enum (anonymous)::USET_SERIALIZED_STATIC_ARRAY_CAPACITY|Stable|ICU 2.4|uset_8h_1a2b70bb120b19be8ab45f4670605ea532a755814d28a97e9ab24a450e008644d81
-uset.h|enum (anonymous)::USET_SIMPLE_CASE_INSENSITIVE|Stable|ICU 73|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba8a393a738dc4fc7478797c4056effcc8
+uset.h|enum ::USET_ADD_CASE_MAPPINGS|Stable|ICU 3.2|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba68133c690985f92d95996e4cf9abd80d
+uset.h|enum ::USET_CASE_INSENSITIVE|Stable|ICU 2.4|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba740685a55f610ca84868b60aef83db7b
+uset.h|enum ::USET_IGNORE_SPACE|Stable|ICU 2.4|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba0273be77d90674cbb82a37f9edb504ff
+uset.h|enum ::USET_SERIALIZED_STATIC_ARRAY_CAPACITY|Stable|ICU 2.4|uset_8h_1a2b70bb120b19be8ab45f4670605ea532a755814d28a97e9ab24a450e008644d81
+uset.h|enum ::USET_SIMPLE_CASE_INSENSITIVE|Stable|ICU 73|uset_8h_1a1c5be2ad41f4837fff923f99f950604ba8a393a738dc4fc7478797c4056effcc8
 uset.h|enum USetSpanCondition::USET_SPAN_CONDITION_COUNT|Deprecated|ICU 58|uset_8h_1a5fc2e77dd6c8385e0e88fc6a7d72d9b4a6b1ad879b4752df1122a027e528a89d0
 uset.h|enum USetSpanCondition::USET_SPAN_CONTAINED|Stable|ICU 3.8|uset_8h_1a5fc2e77dd6c8385e0e88fc6a7d72d9b4a0a731ae6bad64429eeb153b8704e4d40
 uset.h|enum USetSpanCondition::USET_SPAN_NOT_CONTAINED|Stable|ICU 3.8|uset_8h_1a5fc2e77dd6c8385e0e88fc6a7d72d9b4a02c1d43f074e8153eddaa79eb74d80f4
@@ -3784,12 +3786,12 @@ utext.h|char16_t32 utext_next32(UText*)|Stable|ICU 3.4|utext_8h_1af0ef1bd96a7aea
 utext.h|char16_t32 utext_next32From(UText*, int64_t)|Stable|ICU 3.4|utext_8h_1ae1b4f05c43927c1e261e3779afb4fc75
 utext.h|char16_t32 utext_previous32(UText*)|Stable|ICU 3.4|utext_8h_1a282a69979e9479fe9b9c006f81ed74b6
 utext.h|char16_t32 utext_previous32From(UText*, int64_t)|Stable|ICU 3.4|utext_8h_1a1227561991ca6c5c6048bc7f697a7ddb
-utext.h|enum (anonymous)::UTEXT_MAGIC|Internal||utext_8h_1abb3a2bcf5b2e684153d4b6a03e02a63babd29e48c317ef232e78b188e59e334a5
-utext.h|enum (anonymous)::UTEXT_PROVIDER_HAS_META_DATA|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca40c5cd24aea472f3752b4833b9ce63ca
-utext.h|enum (anonymous)::UTEXT_PROVIDER_LENGTH_IS_EXPENSIVE|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca752c07f9df260b5b0e234e15eab97f9f
-utext.h|enum (anonymous)::UTEXT_PROVIDER_OWNS_TEXT|Stable|ICU 3.6|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca75695072a896ec104b5d77598a7429f7
-utext.h|enum (anonymous)::UTEXT_PROVIDER_STABLE_CHUNKS|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca52bb5c9cacd1f46eb87a856c71c073be
-utext.h|enum (anonymous)::UTEXT_PROVIDER_WRITABLE|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2cac67ce6ecf6bf959645e282f7194fbe3b
+utext.h|enum ::UTEXT_MAGIC|Internal||utext_8h_1abb3a2bcf5b2e684153d4b6a03e02a63babd29e48c317ef232e78b188e59e334a5
+utext.h|enum ::UTEXT_PROVIDER_HAS_META_DATA|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca40c5cd24aea472f3752b4833b9ce63ca
+utext.h|enum ::UTEXT_PROVIDER_LENGTH_IS_EXPENSIVE|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca752c07f9df260b5b0e234e15eab97f9f
+utext.h|enum ::UTEXT_PROVIDER_OWNS_TEXT|Stable|ICU 3.6|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca75695072a896ec104b5d77598a7429f7
+utext.h|enum ::UTEXT_PROVIDER_STABLE_CHUNKS|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2ca52bb5c9cacd1f46eb87a856c71c073be
+utext.h|enum ::UTEXT_PROVIDER_WRITABLE|Stable|ICU 3.4|utext_8h_1a804a541dd1a0382c413fdd3643e51f2cac67ce6ecf6bf959645e282f7194fbe3b
 utext.h|int32_t utext_extract(UText*, int64_t, int64_t, char16_t*, int32_t, UErrorCode*)|Stable|ICU 3.4|utext_8h_1a6d532d7ab06e7463e3236947ccf0905d
 utext.h|int32_t utext_replace(UText*, int64_t, int64_t, const char16_t*, int32_t, UErrorCode*)|Stable|ICU 3.4|utext_8h_1ad99a769d1cd16b673838d4598ec6f156
 utext.h|int64_t utext_getNativeIndex(const UText*)|Stable|ICU 3.4|utext_8h_1ae60a026b3159c2b95e5d6e0a86ac0a72
@@ -4057,58 +4059,6 @@ utmscale.h|enum UTimeScaleValue::UTSV_UNITS_VALUE|Stable|ICU 3.2|utmscale_8h_1ad
 utmscale.h|int64_t utmscale_fromInt64(int64_t, UDateTimeScale, UErrorCode*)|Stable|ICU 3.2|utmscale_8h_1a47e56bdc9e7caf208ffe3f6a5d82c148
 utmscale.h|int64_t utmscale_getTimeScaleValue(UDateTimeScale, UTimeScaleValue, UErrorCode*)|Stable|ICU 3.2|utmscale_8h_1a5d809138492e2a6a2d52d010d64f68d1
 utmscale.h|int64_t utmscale_toInt64(int64_t, UDateTimeScale, UErrorCode*)|Stable|ICU 3.2|utmscale_8h_1ac0c60a1fe945f3e89ae4b941d3260be8
-utrace.h|const char* utrace_functionName(int32_t)|Stable|ICU 2.8|utrace_8h_1af01071fe86753a36a70aa69b1cfd1583
-utrace.h|enum UTraceFunctionNumber::UTRACE_COLLATION_LIMIT|Deprecated|ICU 58|utrace_8h_1a6076ad13223437bd15a3266791905308a3b0b647c015de2cc2346797232ebc3a9
-utrace.h|enum UTraceFunctionNumber::UTRACE_COLLATION_START|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308ae1891de76b83cea17e0c2de8067d18f2
-utrace.h|enum UTraceFunctionNumber::UTRACE_CONVERSION_LIMIT|Deprecated|ICU 58|utrace_8h_1a6076ad13223437bd15a3266791905308ae5986fb60ce52a8e3928873176406bf5
-utrace.h|enum UTraceFunctionNumber::UTRACE_CONVERSION_START|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308abf4300e06312b33d1ddeb4524e3016ce
-utrace.h|enum UTraceFunctionNumber::UTRACE_FUNCTION_LIMIT|Deprecated|ICU 58|utrace_8h_1a6076ad13223437bd15a3266791905308a16b8c7b99796a8346d55b8ba0299b6db
-utrace.h|enum UTraceFunctionNumber::UTRACE_FUNCTION_START|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a39b0e7a2e10c21130453374f9457ed91
-utrace.h|enum UTraceFunctionNumber::UTRACE_RES_DATA_LIMIT|Internal||utrace_8h_1a6076ad13223437bd15a3266791905308adc7c76609b5e07c3693c596ba27335a2
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_BREAK_ENGINE|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a0d5758489b9feb53124ba77e17d07d74
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_CHARACTER|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308af5c0a7b71785aaa95443f79fb0f2b905
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_LINE|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a5108fe0fd5a171761c0f0d97657c7300
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_SENTENCE|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a773111da8901eb083eddbc4bf93230d3
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_TITLE|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a97a23b1c2675dea309615a78b0dfbcb4
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_CREATE_WORD|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a43b7d767e1efb264ef9552904d9f180f
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_LIMIT|Internal||utrace_8h_1a6076ad13223437bd15a3266791905308a7d42702c04b0cd2c8d50f83a1f76986f
-utrace.h|enum UTraceFunctionNumber::UTRACE_UBRK_START|Stable|ICU 67|utrace_8h_1a6076ad13223437bd15a3266791905308a4e009d643b954d675880d288da512459
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_CLONE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a82f4f25ae0c0f42fa8c69d6fc00115e1
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_CLOSE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308ad1f830c98a840555e70c911066619821
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_FLUSH_CACHE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308ab027a34e07b57d0326fa3b150ea37897
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_LOAD|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308ac9773d529016c67264e1cbc926d2fc7a
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_OPEN_ALGORITHMIC|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a5415bef730ff54c4b583fab3c36e2331
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_OPEN_PACKAGE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a758fb0909ce2405534970972ca890768
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_OPEN|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308add14fc7a1ca7cde6ae0e6c9226c0c3fb
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCNV_UNLOAD|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308ab16b29cbc1f293b17c2d55495f8072d1
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_CLOSE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a76584cfd463ef37ead81dfc33226a307
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_GETLOCALE|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308af506f46af48b7339f5c08f630427d853
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_GET_SORTKEY|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a5dd77c9138ace6eb28fa066f92c8ce62
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_NEXTSORTKEYPART|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308af5712976405451c0e0b844825d178ee0
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_OPEN_FROM_SHORT_STRING|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a7b574692228344ab0e24886512bd1431
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_OPEN|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308aa257255d72b61c7b6a6610b32ebdef50
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_STRCOLLITER|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a06c124726f549c3cee9b2113652cb9d6
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_STRCOLLUTF8|Stable|ICU 50|utrace_8h_1a6076ad13223437bd15a3266791905308a18dca4774f919146c684b8071fb976f2
-utrace.h|enum UTraceFunctionNumber::UTRACE_UCOL_STRCOLL|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308aef48d9a6e92cf19dec27baafbf74ba4b
-utrace.h|enum UTraceFunctionNumber::UTRACE_UDATA_BUNDLE|Stable|ICU 65|utrace_8h_1a6076ad13223437bd15a3266791905308a4b61d026018526c7708e9d3b99e48133
-utrace.h|enum UTraceFunctionNumber::UTRACE_UDATA_DATA_FILE|Stable|ICU 65|utrace_8h_1a6076ad13223437bd15a3266791905308a85a65aacd75ea3ff72385deb9e0972f2
-utrace.h|enum UTraceFunctionNumber::UTRACE_UDATA_RESOURCE|Stable|ICU 65|utrace_8h_1a6076ad13223437bd15a3266791905308a9ce49bcce73ecaf836ae6afb59fb8d38
-utrace.h|enum UTraceFunctionNumber::UTRACE_UDATA_RES_FILE|Stable|ICU 65|utrace_8h_1a6076ad13223437bd15a3266791905308ac08925b9fed621934d63325a9d1ea381
-utrace.h|enum UTraceFunctionNumber::UTRACE_UDATA_START|Stable|ICU 65|utrace_8h_1a6076ad13223437bd15a3266791905308a86015e94c5e12f1eddc552036e678df2
-utrace.h|enum UTraceFunctionNumber::UTRACE_U_CLEANUP|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a8a92ba9f25e07e08209fe0ae4afe45ae
-utrace.h|enum UTraceFunctionNumber::UTRACE_U_INIT|Stable|ICU 2.8|utrace_8h_1a6076ad13223437bd15a3266791905308a22a7afd95b9a23f9312abd58ce8749ef
-utrace.h|enum UTraceLevel::UTRACE_ERROR|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079a8e9415b7ad8550fa3d9dcc196f88fe98
-utrace.h|enum UTraceLevel::UTRACE_INFO|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079ae88684e6ac3d6f889b5d1603395c6bf1
-utrace.h|enum UTraceLevel::UTRACE_OFF|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079ad73020624fba9734da1067a92799a7fd
-utrace.h|enum UTraceLevel::UTRACE_OPEN_CLOSE|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079acf27fc8d57f1b0bd0a1700abcc48e9ad
-utrace.h|enum UTraceLevel::UTRACE_VERBOSE|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079af0102c5618b566755d3d0315aeb18ff4
-utrace.h|enum UTraceLevel::UTRACE_WARNING|Stable|ICU 2.8|utrace_8h_1a87213b0396d0aa046bd9116e89152079a4329e6d348c1ce278aa5a70d9d678416
-utrace.h|int32_t utrace_format(char*, int32_t, int32_t, const char*, ...)|Stable|ICU 2.8|utrace_8h_1a3b5f830089d99488adb67ec5fbf57cf8
-utrace.h|int32_t utrace_getLevel()|Stable|ICU 2.8|utrace_8h_1ae3f8d87f6bb4f9ea3e4ee41ffc9cb416
-utrace.h|int32_t utrace_vformat(char*, int32_t, int32_t, const char*, va_list)|Stable|ICU 2.8|utrace_8h_1a69c427067cd9362a7a6532eea3d553cf
-utrace.h|void utrace_getFunctions(const void**, UTraceEntry**, UTraceExit**, UTraceData**)|Stable|ICU 2.8|utrace_8h_1a8861bd8485df67fd38dd8399db4f9d38
-utrace.h|void utrace_setFunctions(const void*, UTraceEntry*, UTraceExit*, UTraceData*)|Stable|ICU 2.8|utrace_8h_1a897b9657eef1b5072be85270e7073b81
-utrace.h|void utrace_setLevel(int32_t)|Stable|ICU 2.8|utrace_8h_1a28c850a0d0d58a9fd5ceb413837bc290
 utrans.h|UEnumeration* utrans_openIDs(UErrorCode*)|Stable|ICU 2.8|utrans_8h_1a6f35e7d8ba432c74c806f929fe75da79
 utrans.h|USet* utrans_getSourceSet(const UTransliterator*, bool, USet*, UErrorCode*)|Stable|ICU 53|utrans_8h_1a39eceeeb62296372d2b71c0ada5fc2bc
 utrans.h|UTransliterator* utrans_clone(const UTransliterator*, UErrorCode*)|Stable|ICU 2.0|utrans_8h_1a0d2eb90602bbbfe72a0e50f80de9c7d8
