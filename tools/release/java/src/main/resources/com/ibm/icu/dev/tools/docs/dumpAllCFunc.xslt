@@ -57,10 +57,9 @@
       <!--  use a name, else '(anonymous)' -->
       <xsl:variable name="enum_node_name">
         <xsl:choose>          
-          <xsl:when test="contains(name/text(), '@')">
-            (anonymous)</xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="name/text()" /></xsl:otherwise></xsl:choose>
+          <xsl:when test="contains(name/text(), '@')"> (anonymous)</xsl:when>
+          <xsl:otherwise><xsl:value-of select="name/text()" /></xsl:otherwise>
+        </xsl:choose>
       </xsl:variable>
     
       <!--  enum object  -->
@@ -82,7 +81,6 @@
       </xsl:if>
       
       --><xsl:variable name="enum_node_file" select="location/@file" />
-      
 
       <xsl:variable name="enum_member" select="enumvalue[@prot='public']"/>
       

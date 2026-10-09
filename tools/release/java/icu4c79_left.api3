@@ -1,8 +1,3 @@
-(Node: [#text: 
-         ] )|(Node: [#text:   ])|(Node: [#text: 
-         ] )(Node: [#text: 
-         ] )||(Node: [#text: 
-         ] )
 RunArrays.h|#define CAPACITY_GROW_LIMIT|Stable|ICU 3.2|RunArrays_8h_1a455292ae142c1e3123a29ab245695923
 RunArrays.h|#define INITIAL_CAPACITY|Stable|ICU 3.2|RunArrays_8h_1a5446a5bbb68bb93392b04dfbfa0095af
 alphaindex.h|enum UAlphabeticIndexLabelType::U_ALPHAINDEX_INFLOW|Stable|ICU 4.8|alphaindex_8h_1a969464092cba264934f2c66c7c621dc8ae6f5d073e12f88885456163e0ccc83f9

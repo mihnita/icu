@@ -642,7 +642,10 @@ public class StableAPI {
         NodeList list = node.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
-            s.add(Function.fromXml(n));
+            Function newFunction = Function.fromXml(n);
+            if (newFunction != null) {
+                s.add(newFunction);
+            }
         }
         return s;
     }

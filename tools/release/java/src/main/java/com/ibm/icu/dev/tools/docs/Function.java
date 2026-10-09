@@ -67,16 +67,16 @@ class Function implements Comparable<Function> {
             f.file = Function.getBasename(f.file);
         }
         f.comparableName = f.comparableName();
+        if (f.id.isEmpty() && f.prototype.isEmpty() && f.file.isEmpty()) {
+            return null;
+        }
         return f;
     }
 
 
     static String getAttr(Node node, String attrName) {
         if (node.getAttributes() == null && node.getNodeType() == 3) {
-            // return "(text node 3)";
-            return "(Node: " + node.toString() + " )";
-            // return
-            // node.getFirstChild().getAttributes().getNamedItem(attrName).getNodeValue();
+            return "";
         }
 
         try {
