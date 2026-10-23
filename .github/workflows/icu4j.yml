@@ -161,7 +161,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java-version: [ '11', '17', '21', '25' ]
+        # The rule is to test on all LTS versions we support, plus the latest released version
+        java-version: [ '11', '17', '21', '25', '27' ]
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
       - name: Checkout and setup
