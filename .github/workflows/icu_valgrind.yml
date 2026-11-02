@@ -33,61 +33,9 @@ permissions:
   contents: read
 
 jobs:
-  clang-valgrind-test:
+  clang-valgrind-build:
     runs-on: ubuntu-24.04  # Updated in BRS
     steps:
-      - name: Install valgrind
-        run: |
-          set -ex;
-          sudo apt-get -y update;
-          sudo apt-get install -y valgrind;
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Build with debug enable
-        env:
-          CC: clang
-          CFLAGS: -gdwarf-4
-          CXX: clang++
-          CXXFLAGS: -gdwarf-4
-        run: |
-          cd icu4c/source;
-          ./runConfigureICU --enable-debug Linux --disable-renaming && make -j -l4.5 tests;
-      - name: Test iotest with valgrind
-        run: |
-          cd icu4c/source/test/iotest
-          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
-              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
-              --show-reachable=yes ./iotest
-      - name: Test cintltst with valgrind
-        run: |
-          cd icu4c/source/test/cintltst
-          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
-              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
-              --show-reachable=yes ./cintltst
-      - name: Test icuinfo with valgrind
-        run: |
-          cd icu4c/source/tools/icuinfo
-          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
-              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
-              --show-reachable=yes ./icuinfo;
-
-  clang-valgrind-intltest:
-    runs-on: ubuntu-24.04  # Updated in BRS
-    strategy:
-      # "fail-fast: false" lets other jobs keep running even if the test breaks in some other test.
-      fail-fast: false
-      matrix:
-        case: [utility, normalize, collator, regex, format, translit,
-              rbbi, rbnf, rbnfrt, icuserv, idna, convert, rbnfp, csdet,
-              spoof, bidi]
-    steps:
-      - name: Install valgrind
-        run: |
-          set -ex;
-          sudo apt-get -y update;
-          sudo apt-get install -y valgrind;
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -114,7 +62,89 @@ jobs:
               echo the "case" list.
               exit -1
           fi
+      - name: Archive build outputs
+        run: |
+          tar -cf valgrind-build.tar \
+            icu4c/source/lib \
+            icu4c/source/stubdata \
+            icu4c/source/tools/ctestfw \
+            icu4c/source/tools/icuinfo/icuinfo \
+            icu4c/source/test/iotest/iotest \
+            icu4c/source/test/cintltst/cintltst \
+            icu4c/source/test/intltest/intltest \
+            icu4c/source/test/testdata/out \
+            icu4c/source/data/out
+      - name: Upload build artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: icu4c-valgrind-build
+          path: valgrind-build.tar
+          retention-days: 1
 
+  clang-valgrind-test:
+    needs: clang-valgrind-build
+    runs-on: ubuntu-24.04  # Updated in BRS
+    steps:
+      - name: Install valgrind
+        run: |
+          set -ex;
+          sudo apt-get -y update;
+          sudo apt-get install -y valgrind;
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download build artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: icu4c-valgrind-build
+      - name: Extract build outputs
+        run: tar -xf valgrind-build.tar && rm valgrind-build.tar
+      - name: Test iotest with valgrind
+        run: |
+          cd icu4c/source/test/iotest
+          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
+              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
+              --show-reachable=yes ./iotest
+      - name: Test cintltst with valgrind
+        run: |
+          cd icu4c/source/test/cintltst
+          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
+              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
+              --show-reachable=yes ./cintltst
+      - name: Test icuinfo with valgrind
+        run: |
+          cd icu4c/source/tools/icuinfo
+          LD_LIBRARY_PATH=../../lib:../../stubdata:../../tools/ctestfw:$LD_LIBRARY_PATH \
+              valgrind --tool=memcheck --error-exitcode=1 --leak-check=full \
+              --show-reachable=yes ./icuinfo;
+
+  clang-valgrind-intltest:
+    needs: clang-valgrind-build
+    runs-on: ubuntu-24.04  # Updated in BRS
+    strategy:
+      # "fail-fast: false" lets other jobs keep running even if the test breaks in some other test.
+      fail-fast: false
+      matrix:
+        case: [utility, normalize, collator, regex, format, translit,
+              rbbi, rbnf, rbnfrt, icuserv, idna, convert, rbnfp, csdet,
+              spoof, bidi]
+    steps:
+      - name: Install valgrind
+        run: |
+          set -ex;
+          sudo apt-get -y update;
+          sudo apt-get install -y valgrind;
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download build artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: icu4c-valgrind-build
+      - name: Extract build outputs
+        run: tar -xf valgrind-build.tar && rm valgrind-build.tar
       - name: Test with valgrind
         run: |
           cd icu4c/source/test/intltest

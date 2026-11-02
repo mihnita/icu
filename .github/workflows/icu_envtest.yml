@@ -23,8 +23,33 @@ permissions:
 
 jobs:
   #=================================================================
+  # Build ICU4C and tests once for all locale and timezone shards.
+  build-icu4c-tests:
+    runs-on: ubuntu-24.04  # Updated in BRS
+    steps:
+      - name: Checkout and setup
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build
+        run: |
+          cd icu4c/source/;
+          ./runConfigureICU Linux;
+          make -j -l4.5 tests;
+      - name: Archive built ICU4C tree
+        run: |
+          tar -cf icu4c-envtest-build.tar icu4c/source
+      - name: Upload built ICU4C tree
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: icu4c-envtest-build
+          path: icu4c-envtest-build.tar
+          retention-days: 1
+
+  #=================================================================
   # locale env tests.
   env-test-locale:
+    needs: build-icu4c-tests
     runs-on: ubuntu-24.04  # Updated in BRS
     strategy:
       # "fail-fast: false" let other jobs keep running even if the test break in some locales.
@@ -49,11 +74,12 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Build
-        run: |
-          cd icu4c/source/;
-          ./runConfigureICU Linux;
-          make -j -l4.5 tests;
+      - name: Download built ICU4C tree
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: icu4c-envtest-build
+      - name: Extract built ICU4C tree
+        run: tar -xf icu4c-envtest-build.tar && rm icu4c-envtest-build.tar
       - name: Test different locales as LC_ALL
         run: |
           echo "This job run the environment test of the following Locales";
@@ -84,6 +110,7 @@ jobs:
   #=================================================================
   # tz env tests.
   env-test-tz:
+    needs: build-icu4c-tests
     runs-on: ubuntu-24.04  # Updated in BRS
     strategy:
       # "fail-fast: false" let other jobs keep running even if the test break in some timezones.
@@ -110,11 +137,12 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Build
-        run: |
-          cd icu4c/source/;
-          ./runConfigureICU Linux;
-          make -j -l4.5 tests;
+      - name: Download built ICU4C tree
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: icu4c-envtest-build
+      - name: Extract built ICU4C tree
+        run: tar -xf icu4c-envtest-build.tar && rm icu4c-envtest-build.tar
       - name: Test different locales as TZ
         run: |
           echo "This job run the environment test of the following TimeZones";
