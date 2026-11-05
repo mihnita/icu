@@ -61,7 +61,8 @@ public final class CleanOutputDirectoryTask extends Task {
     // header without it (since that's the old behaviour).
     // Once there's been an ICU release with this line included in the headers of all data
     // files, we can remove the fallback and just test for this line and nothing else.
-    private static final String WAS_GENERATED_LABEL = "Generated using tools/cldr/cldr-to-icu/";
+    private static final String WAS_GENERATED_LABEL =
+            "Data generated from CLDR using the cldr-to-icu tool. Don’t submit patches to it.";
 
     // The number of header lines to check before giving up if we don't find the generated
     // label.

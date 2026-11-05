@@ -16,7 +16,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CleanOutputDirectoryTaskTest {
     // Not using the original field since we want this test to fail if this changes unexpectedly.
-    private static final String WAS_GENERATED_LABEL = "Generated using tools/cldr/cldr-to-icu/";
+    private static final String WAS_GENERATED_LABEL =
+            "Data generated from CLDR using the cldr-to-icu tool. Don’t submit patches to it.";
 
     // Commented version of the label for test data.
     private static final String WAS_GENERATED_LINE = "// " + WAS_GENERATED_LABEL;
