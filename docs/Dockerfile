@@ -10,8 +10,17 @@
 # Once you have a prompt:
 #   cd docs
 #   bundle exec jekyll serve --host 0.0.0.0 --incremental --livereload --force_polling
+#
+# You can now browse the generated (local) site:
+#   http://localhost:4000/icu/
+#
+# The doc sources in Docker are mapped to the current `docs` folder on the host.
+# Any changes you make here (outside Docker) will trigger a re-generation of the site,
+# and the preview in the browser will be updated automatically.
+# It will take a few seconds, works better in Chrome, and has problems with the left TOC panel.
+# But it is better than a manual re-generation + manual browser refresh.
 
-FROM ubuntu:26.10
+FROM ubuntu:26.04
 
 RUN apt-get update
 RUN apt-get install -y g++ make openssl
