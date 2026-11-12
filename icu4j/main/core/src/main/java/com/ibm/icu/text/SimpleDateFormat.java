@@ -868,7 +868,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             boolean useFastFormat,
             String override) {
         this.pattern = pattern;
-        this.formatData = formatData == null ? null : new DateFormatSymbolsRo(formatData);
+        this.formatData = formatData;
         this.calendar = calendar;
         this.numberFormat = numberFormat;
         this.locale = locale; // time zone formatting
@@ -911,10 +911,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             locale = ULocale.getDefault(Category.FORMAT);
         }
         if (formatData == null) {
-            formatData =
-                    DFS_CACHE.computeIfAbsent(
-                            locale,
-                            locale -> new DateFormatSymbolsRo(new DateFormatSymbols(locale)));
+            formatData = DFS_CACHE.computeIfAbsent(locale, locale -> new DateFormatSymbols(locale));
         }
         if (calendar == null) {
             calendar = Calendar.getInstance(locale);
@@ -4564,7 +4561,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @stable ICU 2.0
      */
     public DateFormatSymbols getDateFormatSymbols() {
-        return formatData.getDateFormatSymbols();
+        return ((DateFormatSymbols) this.formatData).clone();
     }
 
     /**
@@ -4574,16 +4571,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @stable ICU 2.0
      */
     public void setDateFormatSymbols(DateFormatSymbols newFormatSymbols) {
-        this.formatData = new DateFormatSymbolsRo(newFormatSymbols.clone());
-    }
-
-    /**
-     * Method for subclasses to access the DateFormatSymbols.
-     *
-     * @stable ICU 2.0
-     */
-    protected DateFormatSymbols getSymbols() {
-        return formatData.getDateFormatSymbols().clone();
+        this.formatData = newFormatSymbols.clone();
     }
 
     /**
@@ -4621,7 +4609,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
     @Override
     public SimpleDateFormat clone() {
         SimpleDateFormat other = (SimpleDateFormat) super.clone();
-        other.formatData = formatData.clone();
+        other.formatData = this.getDateFormatSymbols();
         // We must create a new copy of work buffer used by
         // the fast numeric field format code.
         if (this.decimalBuf != null) {

@@ -81,7 +81,7 @@ import java.util.TreeMap;
  * @author Chen-Lieh Huang
  * @stable ICU 2.0
  */
-public class DateFormatSymbols implements Serializable, Cloneable {
+public class DateFormatSymbols implements Serializable, Cloneable, DateFormatSymbolsRo {
 
     // TODO make sure local pattern char string is 18 characters long,
     // that is, that it encompasses the new 'u' char for
@@ -1277,7 +1277,7 @@ public class DateFormatSymbols implements Serializable, Cloneable {
      * @param width The width. Currently only ABBREVIATED is supported.
      * @return the day-of-month ordinal name strings, or null if not available.
      */
-    String[] getDayOfMonthOrdinalNames(int context, int width) {
+    public String[] getDayOfMonthOrdinalNames(int context, int width) {
         return dayOfMonthOrdinalNames == null ? null : duplicate(dayOfMonthOrdinalNames);
     }
 
@@ -1291,7 +1291,7 @@ public class DateFormatSymbols implements Serializable, Cloneable {
      * @param width The width. Currently only ABBREVIATED is supported.
      * @return the day-of-month cardinal strings, or null if not available.
      */
-    String[] getDayOfMonthCardinalNames(int context, int width) {
+    public String[] getDayOfMonthCardinalNames(int context, int width) {
         return dayOfMonthCardinalNames == null ? null : duplicate(dayOfMonthCardinalNames);
     }
 
@@ -2727,5 +2727,107 @@ public class DateFormatSymbols implements Serializable, Cloneable {
     /** 3.8 or older version did not have localized GMT format patterns. */
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
+    }
+
+    // The interface stuff
+
+    public String[] getAbbreviatedDayPeriods() {
+        return abbreviatedDayPeriods;
+    }
+
+    public String[] getStandaloneNarrowQuarters() {
+        return standaloneNarrowQuarters;
+    }
+
+    public String[] getStandaloneQuarters() {
+        return standaloneQuarters;
+    }
+
+    public String[] getStandaloneShortQuarters() {
+        return standaloneShortQuarters;
+    }
+
+    public String[] getStandaloneWeekdays() {
+        return standaloneWeekdays;
+    }
+
+    public String[] getStandaloneShortWeekdays() {
+        return standaloneShortWeekdays;
+    }
+
+    public String[] getWideDayPeriods() {
+        return wideDayPeriods;
+    }
+
+    public String[] getNarrowDayPeriods() {
+        return narrowDayPeriods;
+    }
+
+    public String[] getAmpmsWide() {
+        return ampmsWide;
+    }
+
+    public String[] getAmpmsNarrow() {
+        return ampmsNarrow;
+    }
+
+    public String[] getAmpms() {
+        return ampms;
+    }
+
+    public String[] getStandaloneShorterWeekdays() {
+        return standaloneShorterWeekdays;
+    }
+
+    public String[] getLeapMonthPatterns() {
+        return leapMonthPatterns;
+    }
+
+    public String[] getNarrowQuarters() {
+        return narrowQuarters;
+    }
+
+    public String[] getQuarters() {
+        return quarters;
+    }
+
+    public String[] getShortQuarters() {
+        return shortQuarters;
+    }
+
+    public String[] getNarrowWeekdays() {
+        return narrowWeekdays;
+    }
+
+    public String[] getShorterWeekdays() {
+        return shorterWeekdays;
+    }
+
+    public String[] getShortYearNames() {
+        return shortYearNames;
+    }
+
+    public Map<CapitalizationContextUsage, boolean[]> getCapitalization() {
+        return capitalization;
+    }
+
+    public String[] getNarrowMonths() {
+        return narrowMonths;
+    }
+
+    public String[] getStandaloneNarrowMonths() {
+        return standaloneNarrowMonths;
+    }
+
+    public String[] getStandaloneMonths() {
+        return standaloneMonths;
+    }
+
+    public String[] getStandaloneNarrowWeekdays() {
+        return standaloneNarrowWeekdays;
+    }
+
+    public String[] getStandaloneShortMonths() {
+        return standaloneShortMonths;
     }
 }

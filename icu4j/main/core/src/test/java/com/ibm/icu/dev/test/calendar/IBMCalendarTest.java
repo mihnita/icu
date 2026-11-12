@@ -3084,7 +3084,7 @@ public class IBMCalendarTest extends CalendarTestFmwk {
                 cal.clear();
                 cal.set(2000, Calendar.MARCH, 18, 15, 0, 1); // Sat 15:00
 
-                DateFormatSymbols theseSymbols = this.getSymbols();
+                DateFormatSymbols theseSymbols = this.getDateFormatSymbols();
                 String shouldBeMonday = theseSymbols.getWeekdays()[Calendar.MONDAY];
                 assertEquals("Should be Monday", "Monday", shouldBeMonday);
 
