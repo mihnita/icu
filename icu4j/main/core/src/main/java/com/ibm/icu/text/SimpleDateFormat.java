@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.UUID;
 
@@ -668,7 +669,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @serial
      * @see DateFormatSymbols
      */
-    private DateFormatSymbols formatData;
+    private DateFormatSymbolsRo formatData;
 
     private transient ULocale locale;
 
@@ -867,7 +868,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             boolean useFastFormat,
             String override) {
         this.pattern = pattern;
-        this.formatData = formatData;
+        this.formatData = formatData == null ? null : new DateFormatSymbolsRo(formatData);
         this.calendar = calendar;
         this.numberFormat = numberFormat;
         this.locale = locale; // time zone formatting
@@ -900,6 +901,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 formatConfig.getOverrideString());
     }
 
+    private static final Map<ULocale, DateFormatSymbolsRo> DFS_CACHE = new HashMap<>();
+
     /*
      * Initialized fields
      */
@@ -908,7 +911,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             locale = ULocale.getDefault(Category.FORMAT);
         }
         if (formatData == null) {
-            formatData = new DateFormatSymbols(locale);
+            formatData =
+                    DFS_CACHE.computeIfAbsent(
+                            locale,
+                            locale -> new DateFormatSymbolsRo(new DateFormatSymbols(locale)));
         }
         if (calendar == null) {
             calendar = Calendar.getInstance(locale);
@@ -1557,23 +1563,23 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     zeroPaddingNumber(currentNumberFormat, buf, value, 1, 9);
                 } else {
                     if (count == 5) {
-                        safeAppend(formatData.narrowEras, value, buf);
+                        safeAppend(formatData.getNarrowEras(), value, buf);
                         capContextUsageType =
                                 DateFormatSymbols.CapitalizationContextUsage.ERA_NARROW;
                     } else if (count == 4) {
-                        safeAppend(formatData.eraNames, value, buf);
+                        safeAppend(formatData.getEraNames(), value, buf);
                         capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.ERA_WIDE;
                     } else {
-                        safeAppend(formatData.eras, value, buf);
+                        safeAppend(formatData.getEras(), value, buf);
                         capContextUsageType =
                                 DateFormatSymbols.CapitalizationContextUsage.ERA_ABBREV;
                     }
                 }
                 break;
             case 30: // 'U' - YEAR_NAME_FIELD
-                if (formatData.shortYearNames != null
-                        && value <= formatData.shortYearNames.length) {
-                    safeAppend(formatData.shortYearNames, value - 1, buf);
+                if (formatData.getShortYearNames() != null
+                        && value <= formatData.getShortYearNames().length) {
+                    safeAppend(formatData.getShortYearNames(), value - 1, buf);
                     break;
                 }
             // else fall through to numeric year handling, do not break here
@@ -1611,8 +1617,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     }
                 }
                 int isLeapMonth =
-                        (formatData.leapMonthPatterns != null
-                                        && formatData.leapMonthPatterns.length
+                        (formatData.getLeapMonthPatterns() != null
+                                        && formatData.getLeapMonthPatterns().length
                                                 >= DateFormatSymbols.DT_MONTH_PATTERN_COUNT)
                                 ? cal.get(Calendar.IS_LEAP_MONTH)
                                 : 0;
@@ -1621,23 +1627,23 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 if (count == 5) {
                     if (patternCharIndex == 2) {
                         safeAppendWithMonthPattern(
-                                formatData.narrowMonths,
+                                formatData.getNarrowMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols
                                                         .DT_LEAP_MONTH_PATTERN_FORMAT_NARROW]
                                         : null);
                     } else {
                         safeAppendWithMonthPattern(
-                                formatData.standaloneNarrowMonths,
+                                formatData.getStandaloneNarrowMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols
                                                         .DT_LEAP_MONTH_PATTERN_STANDALONE_NARROW]
                                         : null);
@@ -1646,24 +1652,24 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 } else if (count == 4) {
                     if (patternCharIndex == 2) {
                         safeAppendWithMonthPattern(
-                                formatData.months,
+                                formatData.getMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols.DT_LEAP_MONTH_PATTERN_FORMAT_WIDE]
                                         : null);
                         capContextUsageType =
                                 DateFormatSymbols.CapitalizationContextUsage.MONTH_FORMAT;
                     } else {
                         safeAppendWithMonthPattern(
-                                formatData.standaloneMonths,
+                                formatData.getStandaloneMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols
                                                         .DT_LEAP_MONTH_PATTERN_STANDALONE_WIDE]
                                         : null);
@@ -1673,12 +1679,12 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 } else if (count == 3) {
                     if (patternCharIndex == 2) {
                         safeAppendWithMonthPattern(
-                                formatData.shortMonths,
+                                formatData.getShortMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols
                                                         .DT_LEAP_MONTH_PATTERN_FORMAT_ABBREV]
                                         : null);
@@ -1686,12 +1692,12 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                 DateFormatSymbols.CapitalizationContextUsage.MONTH_FORMAT;
                     } else {
                         safeAppendWithMonthPattern(
-                                formatData.standaloneShortMonths,
+                                formatData.getStandaloneShortMonths(),
                                 value,
                                 buf,
                                 (isLeapMonth != 0)
                                         ? formatData
-                                                .leapMonthPatterns[
+                                                .getLeapMonthPatterns()[
                                                 DateFormatSymbols
                                                         .DT_LEAP_MONTH_PATTERN_STANDALONE_ABBREV]
                                         : null);
@@ -1710,7 +1716,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                             buf,
                             (isLeapMonth != 0)
                                     ? formatData
-                                            .leapMonthPatterns[
+                                            .getLeapMonthPatterns()[
                                             DateFormatSymbols.DT_LEAP_MONTH_PATTERN_NUMERIC]
                                     : null);
                 }
@@ -1756,28 +1762,28 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             // fall through, do not break here
             case 9: // 'E' - DAY_OF_WEEK
                 if (count == 5) {
-                    safeAppend(formatData.narrowWeekdays, value, buf);
+                    safeAppend(formatData.getNarrowWeekdays(), value, buf);
                     capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.DAY_NARROW;
                 } else if (count == 4) {
-                    safeAppend(formatData.weekdays, value, buf);
+                    safeAppend(formatData.getWeekdays(), value, buf);
                     capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.DAY_FORMAT;
-                } else if (count == 6 && formatData.shorterWeekdays != null) {
-                    safeAppend(formatData.shorterWeekdays, value, buf);
+                } else if (count == 6 && formatData.getShorterWeekdays() != null) {
+                    safeAppend(formatData.getShorterWeekdays(), value, buf);
                     capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.DAY_FORMAT;
                 } else { // count <= 3, use abbreviated form if exists
-                    safeAppend(formatData.shortWeekdays, value, buf);
+                    safeAppend(formatData.getShortWeekdays(), value, buf);
                     capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.DAY_FORMAT;
                 }
                 break;
             case 14: // 'a' - AM_PM
                 // formatData.ampmsNarrow may be null when deserializing DateFormatSymbolsfrom old
                 // version
-                if (count == 4 && formatData.ampmsWide != null) {
-                    safeAppend(formatData.ampmsWide, value, buf);
-                } else if (count == 5 && formatData.ampmsNarrow != null) {
-                    safeAppend(formatData.ampmsNarrow, value, buf);
+                if (count == 4 && formatData.getAmpmsWide() != null) {
+                    safeAppend(formatData.getAmpmsWide(), value, buf);
+                } else if (count == 5 && formatData.getAmpmsNarrow() != null) {
+                    safeAppend(formatData.getAmpmsNarrow(), value, buf);
                 } else {
-                    safeAppend(formatData.ampms, value, buf);
+                    safeAppend(formatData.getAmpms(), value, buf);
                 }
                 break;
             case 15: // 'h' - HOUR (1..12)
@@ -1908,29 +1914,29 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 // we need the standard DAY_OF_WEEK.
                 value = cal.get(Calendar.DAY_OF_WEEK);
                 if (count == 5) {
-                    safeAppend(formatData.standaloneNarrowWeekdays, value, buf);
+                    safeAppend(formatData.getStandaloneNarrowWeekdays(), value, buf);
                     capContextUsageType = DateFormatSymbols.CapitalizationContextUsage.DAY_NARROW;
                 } else if (count == 4) {
-                    safeAppend(formatData.standaloneWeekdays, value, buf);
+                    safeAppend(formatData.getStandaloneWeekdays(), value, buf);
                     capContextUsageType =
                             DateFormatSymbols.CapitalizationContextUsage.DAY_STANDALONE;
-                } else if (count == 6 && formatData.standaloneShorterWeekdays != null) {
-                    safeAppend(formatData.standaloneShorterWeekdays, value, buf);
+                } else if (count == 6 && formatData.getStandaloneShorterWeekdays() != null) {
+                    safeAppend(formatData.getStandaloneShorterWeekdays(), value, buf);
                     capContextUsageType =
                             DateFormatSymbols.CapitalizationContextUsage.DAY_STANDALONE;
                 } else { // count == 3
-                    safeAppend(formatData.standaloneShortWeekdays, value, buf);
+                    safeAppend(formatData.getStandaloneShortWeekdays(), value, buf);
                     capContextUsageType =
                             DateFormatSymbols.CapitalizationContextUsage.DAY_STANDALONE;
                 }
                 break;
             case 27: // 'Q' - QUARTER
                 if (count >= 5) {
-                    safeAppend(formatData.narrowQuarters, value / 3, buf);
+                    safeAppend(formatData.getNarrowQuarters(), value / 3, buf);
                 } else if (count == 4) {
-                    safeAppend(formatData.quarters, value / 3, buf);
+                    safeAppend(formatData.getQuarters(), value / 3, buf);
                 } else if (count == 3) {
-                    safeAppend(formatData.shortQuarters, value / 3, buf);
+                    safeAppend(formatData.getShortQuarters(), value / 3, buf);
                 } else {
                     zeroPaddingNumber(
                             currentNumberFormat, buf, (value / 3) + 1, count, maxIntCount);
@@ -1938,11 +1944,11 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 break;
             case 28: // 'q' - STANDALONE QUARTER
                 if (count >= 5) {
-                    safeAppend(formatData.standaloneNarrowQuarters, value / 3, buf);
+                    safeAppend(formatData.getStandaloneNarrowQuarters(), value / 3, buf);
                 } else if (count == 4) {
-                    safeAppend(formatData.standaloneQuarters, value / 3, buf);
+                    safeAppend(formatData.getStandaloneQuarters(), value / 3, buf);
                 } else if (count == 3) {
-                    safeAppend(formatData.standaloneShortQuarters, value / 3, buf);
+                    safeAppend(formatData.getStandaloneShortQuarters(), value / 3, buf);
                 } else {
                     zeroPaddingNumber(
                             currentNumberFormat, buf, (value / 3) + 1, count, maxIntCount);
@@ -1970,11 +1976,11 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                         value = cal.get(Calendar.AM_PM);
 
                         if (count <= 3) {
-                            toAppend = formatData.abbreviatedDayPeriods[value];
+                            toAppend = formatData.getAbbreviatedDayPeriods()[value];
                         } else if (count == 4 || count > 5) {
-                            toAppend = formatData.wideDayPeriods[value];
+                            toAppend = formatData.getWideDayPeriods()[value];
                         } else { // count == 5
-                            toAppend = formatData.narrowDayPeriods[value];
+                            toAppend = formatData.getNarrowDayPeriods()[value];
                         }
                     }
 
@@ -2044,11 +2050,11 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                             && periodType != DayPeriodRules.DayPeriod.MIDNIGHT) {
                         index = periodType.ordinal();
                         if (count <= 3) {
-                            toAppend = formatData.abbreviatedDayPeriods[index]; // i.e. short
+                            toAppend = formatData.getAbbreviatedDayPeriods()[index]; // i.e. short
                         } else if (count == 4 || count > 5) {
-                            toAppend = formatData.wideDayPeriods[index];
+                            toAppend = formatData.getWideDayPeriods()[index];
                         } else { // count == 5
-                            toAppend = formatData.narrowDayPeriods[index];
+                            toAppend = formatData.getNarrowDayPeriods()[index];
                         }
                     }
 
@@ -2063,11 +2069,11 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                         index = periodType.ordinal();
 
                         if (count <= 3) {
-                            toAppend = formatData.abbreviatedDayPeriods[index]; // i.e. short
+                            toAppend = formatData.getAbbreviatedDayPeriods()[index]; // i.e. short
                         } else if (count == 4 || count > 5) {
-                            toAppend = formatData.wideDayPeriods[index];
+                            toAppend = formatData.getWideDayPeriods()[index];
                         } else { // count == 5
-                            toAppend = formatData.narrowDayPeriods[index];
+                            toAppend = formatData.getNarrowDayPeriods()[index];
                         }
                     }
 
@@ -2139,8 +2145,9 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     break;
                 case CAPITALIZATION_FOR_UI_LIST_OR_MENU:
                 case CAPITALIZATION_FOR_STANDALONE:
-                    if (formatData.capitalization != null) {
-                        boolean[] transforms = formatData.capitalization.get(capContextUsageType);
+                    if (formatData.getCapitalization() != null) {
+                        boolean[] transforms =
+                                formatData.getCapitalization().get(capContextUsageType);
                         titlecase =
                                 (capitalizationContext
                                                 == DisplayContext
@@ -2500,13 +2507,13 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
         int numericStartPos = 0;
 
         MessageFormat numericLeapMonthFormatter = null;
-        if (formatData.leapMonthPatterns != null
-                && formatData.leapMonthPatterns.length
+        if (formatData.getLeapMonthPatterns() != null
+                && formatData.getLeapMonthPatterns().length
                         >= DateFormatSymbols.DT_MONTH_PATTERN_COUNT) {
             numericLeapMonthFormatter =
                     new MessageFormat(
                             formatData
-                                    .leapMonthPatterns[
+                                    .getLeapMonthPatterns()[
                                     DateFormatSymbols.DT_LEAP_MONTH_PATTERN_NUMERIC],
                             locale);
         }
@@ -3474,11 +3481,20 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 }
                 int ps = 0;
                 if (count == 5) {
-                    ps = matchString(text, start, Calendar.ERA, formatData.narrowEras, null, cal);
+                    ps =
+                            matchString(
+                                    text,
+                                    start,
+                                    Calendar.ERA,
+                                    formatData.getNarrowEras(),
+                                    null,
+                                    cal);
                 } else if (count == 4) {
-                    ps = matchString(text, start, Calendar.ERA, formatData.eraNames, null, cal);
+                    ps =
+                            matchString(
+                                    text, start, Calendar.ERA, formatData.getEraNames(), null, cal);
                 } else {
-                    ps = matchString(text, start, Calendar.ERA, formatData.eras, null, cal);
+                    ps = matchString(text, start, Calendar.ERA, formatData.getEras(), null, cal);
                 }
 
                 // check return position, if it equals -start, then matchString error
@@ -3530,13 +3546,13 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 }
                 return pos.getIndex();
             case 30: // 'U' - YEAR_NAME_FIELD
-                if (formatData.shortYearNames != null) {
+                if (formatData.getShortYearNames() != null) {
                     int newStart =
                             matchString(
                                     text,
                                     start,
                                     Calendar.YEAR,
-                                    formatData.shortYearNames,
+                                    formatData.getShortYearNames(),
                                     null,
                                     cal);
                     if (newStart > 0) {
@@ -3545,8 +3561,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 }
                 if (number != null
                         && (getBooleanAttribute(DateFormat.BooleanAttribute.PARSE_ALLOW_NUMERIC)
-                                || formatData.shortYearNames == null
-                                || value > formatData.shortYearNames.length)) {
+                                || formatData.getShortYearNames() == null
+                                || value > formatData.getShortYearNames().length)) {
                     cal.set(Calendar.YEAR, value);
                     return pos.getIndex();
                 }
@@ -3580,8 +3596,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     // count >= 3 // i.e., MMM/MMMM or LLL/LLLL
                     // Want to be able to parse both short and long forms.
                     boolean haveMonthPat =
-                            (formatData.leapMonthPatterns != null
-                                    && formatData.leapMonthPatterns.length
+                            (formatData.getLeapMonthPatterns() != null
+                                    && formatData.getLeapMonthPatterns().length
                                             >= DateFormatSymbols.DT_MONTH_PATTERN_COUNT);
                     // Try count == 4 first:, unless we're strict
                     int newStart = 0;
@@ -3595,14 +3611,14 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         ? matchAlphaMonthStrings(
                                                 text,
                                                 start,
-                                                formatData.months,
-                                                formatData.shortMonths,
+                                                formatData.getMonths(),
+                                                formatData.getShortMonths(),
                                                 cal)
                                         : matchAlphaMonthStrings(
                                                 text,
                                                 start,
-                                                formatData.standaloneMonths,
-                                                formatData.standaloneShortMonths,
+                                                formatData.getStandaloneMonths(),
+                                                formatData.getStandaloneShortMonths(),
                                                 cal);
                         if (newStart > 0) {
                             return newStart;
@@ -3617,10 +3633,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.months,
+                                                formatData.getMonths(),
                                                 (haveMonthPat)
                                                         ? formatData
-                                                                .leapMonthPatterns[
+                                                                .getLeapMonthPatterns()[
                                                                 DateFormatSymbols
                                                                         .DT_LEAP_MONTH_PATTERN_FORMAT_WIDE]
                                                         : null,
@@ -3629,10 +3645,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.standaloneMonths,
+                                                formatData.getStandaloneMonths(),
                                                 (haveMonthPat)
                                                         ? formatData
-                                                                .leapMonthPatterns[
+                                                                .getLeapMonthPatterns()[
                                                                 DateFormatSymbols
                                                                         .DT_LEAP_MONTH_PATTERN_STANDALONE_WIDE]
                                                         : null,
@@ -3650,10 +3666,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         text,
                                         start,
                                         Calendar.MONTH,
-                                        formatData.shortMonths,
+                                        formatData.getShortMonths(),
                                         (haveMonthPat)
                                                 ? formatData
-                                                        .leapMonthPatterns[
+                                                        .getLeapMonthPatterns()[
                                                         DateFormatSymbols
                                                                 .DT_LEAP_MONTH_PATTERN_FORMAT_ABBREV]
                                                 : null,
@@ -3662,10 +3678,10 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         text,
                                         start,
                                         Calendar.MONTH,
-                                        formatData.standaloneShortMonths,
+                                        formatData.getStandaloneShortMonths(),
                                         (haveMonthPat)
                                                 ? formatData
-                                                        .leapMonthPatterns[
+                                                        .getLeapMonthPatterns()[
                                                         DateFormatSymbols
                                                                 .DT_LEAP_MONTH_PATTERN_STANDALONE_ABBREV]
                                                 : null,
@@ -3721,7 +3737,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.DAY_OF_WEEK,
-                                                formatData.weekdays,
+                                                formatData.getWeekdays(),
                                                 null,
                                                 cal))
                                 > 0) { // try EEEE wide
@@ -3736,7 +3752,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.DAY_OF_WEEK,
-                                                formatData.shortWeekdays,
+                                                formatData.getShortWeekdays(),
                                                 null,
                                                 cal))
                                 > 0) { // try EEE abbrev
@@ -3746,13 +3762,13 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     if (getBooleanAttribute(
                                     DateFormat.BooleanAttribute.PARSE_MULTIPLE_PATTERNS_FOR_MATCH)
                             || count == 6) {
-                        if (formatData.shorterWeekdays != null) {
+                        if (formatData.getShorterWeekdays() != null) {
                             if ((newStart =
                                             matchString(
                                                     text,
                                                     start,
                                                     Calendar.DAY_OF_WEEK,
-                                                    formatData.shorterWeekdays,
+                                                    formatData.getShorterWeekdays(),
                                                     null,
                                                     cal))
                                     > 0) { // try EEEEEE short
@@ -3763,13 +3779,13 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     if (getBooleanAttribute(
                                     DateFormat.BooleanAttribute.PARSE_MULTIPLE_PATTERNS_FOR_MATCH)
                             || count == 5) {
-                        if (formatData.narrowWeekdays != null) {
+                        if (formatData.getNarrowWeekdays() != null) {
                             if ((newStart =
                                             matchString(
                                                     text,
                                                     start,
                                                     Calendar.DAY_OF_WEEK,
-                                                    formatData.narrowWeekdays,
+                                                    formatData.getNarrowWeekdays(),
                                                     null,
                                                     cal))
                                     > 0) { // try EEEEE narrow
@@ -3799,7 +3815,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.DAY_OF_WEEK,
-                                                formatData.standaloneWeekdays,
+                                                formatData.getStandaloneWeekdays(),
                                                 null,
                                                 cal))
                                 > 0) { // try cccc wide
@@ -3814,7 +3830,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.DAY_OF_WEEK,
-                                                formatData.standaloneShortWeekdays,
+                                                formatData.getStandaloneShortWeekdays(),
                                                 null,
                                                 cal))
                                 > 0) { // try ccc abbrev
@@ -3824,12 +3840,12 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     if (getBooleanAttribute(
                                     DateFormat.BooleanAttribute.PARSE_MULTIPLE_PATTERNS_FOR_MATCH)
                             || count == 6) {
-                        if (formatData.standaloneShorterWeekdays != null) {
+                        if (formatData.getStandaloneShorterWeekdays() != null) {
                             return matchString(
                                     text,
                                     start,
                                     Calendar.DAY_OF_WEEK,
-                                    formatData.standaloneShorterWeekdays,
+                                    formatData.getStandaloneShorterWeekdays(),
                                     null,
                                     cal); // try cccccc short
                         }
@@ -3844,7 +3860,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                     // in which case our only option is wide form
                     int newStart = 0;
                     // try wide/abbrev a-aaaa
-                    if (formatData.ampmsNarrow == null
+                    if (formatData.getAmpmsNarrow() == null
                             || count < 5
                             || getBooleanAttribute(
                                     DateFormat.BooleanAttribute
@@ -3854,7 +3870,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.AM_PM,
-                                                formatData.ampms,
+                                                formatData.getAmpms(),
                                                 null,
                                                 cal))
                                 > 0) {
@@ -3862,7 +3878,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                         }
                     }
                     // try narrow aaaaa
-                    if (formatData.ampmsNarrow != null
+                    if (formatData.getAmpmsNarrow() != null
                             && (count >= 5
                                     || getBooleanAttribute(
                                             DateFormat.BooleanAttribute
@@ -3872,7 +3888,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.AM_PM,
-                                                formatData.ampmsNarrow,
+                                                formatData.getAmpmsNarrow(),
                                                 null,
                                                 cal))
                                 > 0) {
@@ -4034,7 +4050,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.quarters,
+                                                formatData.getQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4049,7 +4065,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.shortQuarters,
+                                                formatData.getShortQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4064,7 +4080,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.narrowQuarters,
+                                                formatData.getNarrowQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4100,7 +4116,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.standaloneQuarters,
+                                                formatData.getStandaloneQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4115,7 +4131,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.standaloneShortQuarters,
+                                                formatData.getStandaloneShortQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4130,7 +4146,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                                 text,
                                                 start,
                                                 Calendar.MONTH,
-                                                formatData.standaloneNarrowQuarters,
+                                                formatData.getStandaloneNarrowQuarters(),
                                                 cal))
                                 > 0) {
                             return newStart;
@@ -4203,7 +4219,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                             matchDayPeriodString(
                                                     text,
                                                     start,
-                                                    formatData.abbreviatedDayPeriods,
+                                                    formatData.getAbbreviatedDayPeriods(),
                                                     2,
                                                     dayPeriod))
                                     > 0) {
@@ -4218,7 +4234,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                             matchDayPeriodString(
                                                     text,
                                                     start,
-                                                    formatData.wideDayPeriods,
+                                                    formatData.getWideDayPeriods(),
                                                     2,
                                                     dayPeriod))
                                     > 0) {
@@ -4233,7 +4249,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                             matchDayPeriodString(
                                                     text,
                                                     start,
-                                                    formatData.narrowDayPeriods,
+                                                    formatData.getNarrowDayPeriods(),
                                                     2,
                                                     dayPeriod))
                                     > 0) {
@@ -4255,8 +4271,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         matchDayPeriodString(
                                                 text,
                                                 start,
-                                                formatData.abbreviatedDayPeriods,
-                                                formatData.abbreviatedDayPeriods.length,
+                                                formatData.getAbbreviatedDayPeriods(),
+                                                formatData.getAbbreviatedDayPeriods().length,
                                                 dayPeriod))
                                 > 0) {
                             return newStart;
@@ -4269,8 +4285,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         matchDayPeriodString(
                                                 text,
                                                 start,
-                                                formatData.wideDayPeriods,
-                                                formatData.wideDayPeriods.length,
+                                                formatData.getWideDayPeriods(),
+                                                formatData.getWideDayPeriods().length,
                                                 dayPeriod))
                                 > 0) {
                             return newStart;
@@ -4283,8 +4299,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                                         matchDayPeriodString(
                                                 text,
                                                 start,
-                                                formatData.narrowDayPeriods,
-                                                formatData.narrowDayPeriods.length,
+                                                formatData.getNarrowDayPeriods(),
+                                                formatData.getNarrowDayPeriods().length,
                                                 dayPeriod))
                                 > 0) {
                             return newStart;
@@ -4485,7 +4501,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      */
     public String toLocalizedPattern() {
         return translatePattern(
-                pattern, DateFormatSymbols.patternChars, formatData.localPatternChars);
+                pattern, DateFormatSymbols.patternChars, formatData.getLocalPatternChars());
     }
 
     /**
@@ -4536,7 +4552,8 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      */
     public void applyLocalizedPattern(String pat) {
         this.pattern =
-                translatePattern(pat, formatData.localPatternChars, DateFormatSymbols.patternChars);
+                translatePattern(
+                        pat, formatData.getLocalPatternChars(), DateFormatSymbols.patternChars);
         setLocale(null, null);
     }
 
@@ -4547,7 +4564,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @stable ICU 2.0
      */
     public DateFormatSymbols getDateFormatSymbols() {
-        return formatData.clone();
+        return formatData.getDateFormatSymbols();
     }
 
     /**
@@ -4557,7 +4574,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @stable ICU 2.0
      */
     public void setDateFormatSymbols(DateFormatSymbols newFormatSymbols) {
-        this.formatData = newFormatSymbols.clone();
+        this.formatData = new DateFormatSymbolsRo(newFormatSymbols.clone());
     }
 
     /**
@@ -4566,7 +4583,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
      * @stable ICU 2.0
      */
     protected DateFormatSymbols getSymbols() {
-        return formatData;
+        return formatData.getDateFormatSymbols().clone();
     }
 
     /**

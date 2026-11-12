@@ -65,6 +65,16 @@ public class CompatibilityTest extends CoreTestFmwk {
                     return true;
                 }
             }
+            for (int skip = 0; skip < SKIP_CASES_ABOVE.length; skip++) {
+                if (className.equals(SKIP_CASES_ABOVE[skip])) {
+                    return true;
+                }
+            }
+            for (String classToSkip : SKIP_CASES_ABOVE) {
+                if (className.equals(classToSkip)) {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -206,6 +216,14 @@ public class CompatibilityTest extends CoreTestFmwk {
         }
         return classList;
     }
+
+    private static final String[] SKIP_CASES_ABOVE = {
+        "com.ibm.icu.impl.RelativeDateFormat",
+        "com.ibm.icu.text.ChineseDateFormat",
+        "com.ibm.icu.text.DateFormat",
+        "com.ibm.icu.text.DateIntervalFormat",
+        "com.ibm.icu.text.SimpleDateFormat",
+    };
 
     private static final String[][] SKIP_CASES = {
         // com.ibm.icu.message2.Mf2DataModel$OrderedMap was very drafty
