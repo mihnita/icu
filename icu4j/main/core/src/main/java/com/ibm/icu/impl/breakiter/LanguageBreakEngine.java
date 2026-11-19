@@ -8,6 +8,7 @@
  */
 package com.ibm.icu.impl.breakiter;
 
+import java.io.IOException;
 import java.text.CharacterIterator;
 
 /**
@@ -15,6 +16,21 @@ import java.text.CharacterIterator;
  * break iteration.
  */
 public interface LanguageBreakEngine {
+    /** Factory interface for dynamically loaded dictionary/ML break engines. */
+    interface Factory {
+        LanguageBreakEngine create(int script) throws IOException;
+    }
+
+    static Factory loadFactory(String className) {
+        try {
+            return (Factory) Class.forName(className).getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException e) {
+            return null;
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Failed to instantiate " + className, e);
+        }
+    }
+
     /**
      * @param c A Unicode codepoint value
      * @return true if the engine can handle this character, false otherwise

@@ -42,6 +42,11 @@
 
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>bidi_idna</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>charsetdetect</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -87,6 +92,11 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>segmenter_dict</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>translit</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -119,6 +129,7 @@
                     <!-- Exclude maven info for unpublished artifacts -->
                     <exclude>META-INF/maven/com.ibm.icu/core/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/tools_taglets/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/bidi_idna/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/charsetdetect/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/collate/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/currdata/**</exclude>
@@ -128,6 +139,7 @@
                     <exclude>META-INF/maven/com.ibm.icu/personname/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/prefs/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/regiondata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/segmenter_dict/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/translit/**</exclude>
                   </excludes>
                 </filter>

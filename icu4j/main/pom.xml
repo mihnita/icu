@@ -18,6 +18,7 @@
     <module>framework</module>
     <module>core</module>
     <!-- For publishing to Maven Central -->
+    <module>bidi_idna</module>
     <module>charset</module>
     <module>charsetdetect</module>
     <module>collate</module>
@@ -28,6 +29,7 @@
     <module>personname</module>
     <module>prefs</module>
     <module>regiondata</module>
+    <module>segmenter_dict</module>
     <module>translit</module>
     <module>common_tests</module>
     <!-- Shaded jar for publishing to Maven Central -->

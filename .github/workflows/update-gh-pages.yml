@@ -148,6 +148,7 @@ jobs:
           mkdir -p ${REPORT_FOLDER_COVERAGE}
           java -jar target/jacoco/lib/jacococli.jar report \
               icu4j/main/core/target/jacoco.exec \
+              icu4j/main/bidi_idna/target/jacoco.exec \
               icu4j/main/charsetdetect/target/jacoco.exec \
               icu4j/main/collate/target/jacoco.exec \
               icu4j/main/common_tests/target/jacoco.exec \
@@ -156,9 +157,11 @@ jobs:
               icu4j/main/message2/target/jacoco.exec \
               icu4j/main/personname/target/jacoco.exec \
               icu4j/main/prefs/target/jacoco.exec \
+              icu4j/main/segmenter_dict/target/jacoco.exec \
               icu4j/main/translit/target/jacoco.exec \
               icu4j/main/charset/target/jacoco.exec \
               --classfiles icu4j/main/core/target/core-${artifact_version}.jar \
+              --classfiles icu4j/main/bidi_idna/target/bidi_idna-${artifact_version}.jar \
               --classfiles icu4j/main/charsetdetect/target/charsetdetect-${artifact_version}.jar \
               --classfiles icu4j/main/collate/target/collate-${artifact_version}.jar \
               --classfiles icu4j/main/currdata/target/currdata-${artifact_version}.jar \
@@ -168,9 +171,11 @@ jobs:
               --classfiles icu4j/main/personname/target/personname-${artifact_version}.jar \
               --classfiles icu4j/main/prefs/target/prefs-${artifact_version}.jar \
               --classfiles icu4j/main/regiondata/target/regiondata-${artifact_version}.jar \
+              --classfiles icu4j/main/segmenter_dict/target/segmenter_dict-${artifact_version}.jar \
               --classfiles icu4j/main/translit/target/translit-${artifact_version}.jar \
               --classfiles icu4j/main/charset/target/icu4j-charset-${artifact_version}.jar \
               --sourcefiles icu4j/main/core/src/main/java \
+              --sourcefiles icu4j/main/bidi_idna/src/main/java \
               --sourcefiles icu4j/main/charsetdetect/src/main/java \
               --sourcefiles icu4j/main/collate/src/main/java \
               --sourcefiles icu4j/main/currdata/src/main/java \
@@ -180,6 +185,7 @@ jobs:
               --sourcefiles icu4j/main/personname/src/main/java \
               --sourcefiles icu4j/main/prefs/src/main/java \
               --sourcefiles icu4j/main/regiondata/src/main/java \
+              --sourcefiles icu4j/main/segmenter_dict/src/main/java \
               --sourcefiles icu4j/main/translit/src/main/java \
               --sourcefiles icu4j/main/charset/src/main/java \
               --encoding utf-8 \

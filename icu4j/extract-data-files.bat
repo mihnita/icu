@@ -68,6 +68,18 @@ rd /s/q main\translit\src\main\resources\com\ibm\icu\impl\data\icudata
 md      main\translit\src\main\resources\com\ibm\icu\impl\data\icudata
 move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\translit     main\translit\src\main\resources\com\ibm\icu\impl\data\icudata\translit
 
+echo   Moving bidi_idna data
+rd /s/q main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\*.spp           main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\uts46.nrm       main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\confusables.cfu main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+
+echo   Moving segmenter_dict dictionary data
+rd /s/q main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr\*.dict main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr\
+
 echo Unpacking icutzdata.jar
 rem This unzips together with other existing core files
 rem So we don't remove the folder

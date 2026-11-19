@@ -17,14 +17,8 @@ import com.ibm.icu.impl.CharacterIteration;
 import com.ibm.icu.impl.ICUBinary;
 import com.ibm.icu.impl.ICUDebug;
 import com.ibm.icu.impl.RBBIDataWrapper;
-import com.ibm.icu.impl.breakiter.BurmeseBreakEngine;
-import com.ibm.icu.impl.breakiter.CjkBreakEngine;
 import com.ibm.icu.impl.breakiter.DictionaryBreakEngine;
-import com.ibm.icu.impl.breakiter.KhmerBreakEngine;
-import com.ibm.icu.impl.breakiter.LSTMBreakEngine;
 import com.ibm.icu.impl.breakiter.LanguageBreakEngine;
-import com.ibm.icu.impl.breakiter.LaoBreakEngine;
-import com.ibm.icu.impl.breakiter.ThaiBreakEngine;
 import com.ibm.icu.impl.breakiter.UnhandledBreakEngine;
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.lang.UProperty;
@@ -37,7 +31,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.CharacterIterator;
-import java.util.MissingResourceException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -343,10 +336,15 @@ public class RuleBasedBreakIterator extends BreakIterator implements Cloneable {
      */
     private static final ConcurrentLinkedQueue<LanguageBreakEngine> gAllBreakEngines;
 
+    private static final LanguageBreakEngine.Factory gLanguageBreakEngineFactory;
+
     static {
         gUnhandledBreakEngine = new UnhandledBreakEngine();
         gAllBreakEngines = new ConcurrentLinkedQueue<>();
         gAllBreakEngines.add(gUnhandledBreakEngine);
+        gLanguageBreakEngineFactory =
+                LanguageBreakEngine.loadFactory(
+                        "com.ibm.icu.impl.breakiter.DictionaryBreakEngineProvider");
     }
 
     /**
@@ -730,43 +728,14 @@ public class RuleBasedBreakIterator extends BreakIterator implements Cloneable {
                 script = UScript.HAN;
             }
 
-            LanguageBreakEngine eng;
+            LanguageBreakEngine eng = null;
             try {
-                switch (script) {
-                    case UScript.THAI:
-                        try {
-                            eng =
-                                    LSTMBreakEngine.create(
-                                            script, LSTMBreakEngine.createData(script));
-                        } catch (MissingResourceException e) {
-                            eng = new ThaiBreakEngine();
-                        }
-                        break;
-                    case UScript.LAO:
-                        eng = new LaoBreakEngine();
-                        break;
-                    case UScript.MYANMAR:
-                        try {
-                            eng =
-                                    LSTMBreakEngine.create(
-                                            script, LSTMBreakEngine.createData(script));
-                        } catch (MissingResourceException e) {
-                            eng = new BurmeseBreakEngine();
-                        }
-                        break;
-                    case UScript.KHMER:
-                        eng = new KhmerBreakEngine();
-                        break;
-                    case UScript.HAN:
-                        eng = new CjkBreakEngine(false);
-                        break;
-                    case UScript.HANGUL:
-                        eng = new CjkBreakEngine(true);
-                        break;
-                    default:
-                        gUnhandledBreakEngine.handleChar(c);
-                        eng = gUnhandledBreakEngine;
-                        break;
+                if (gLanguageBreakEngineFactory != null) {
+                    eng = gLanguageBreakEngineFactory.create(script);
+                }
+                if (eng == null) {
+                    gUnhandledBreakEngine.handleChar(c);
+                    eng = gUnhandledBreakEngine;
                 }
             } catch (IOException e) {
                 eng = null;

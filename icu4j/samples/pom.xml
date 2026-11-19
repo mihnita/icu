@@ -21,6 +21,11 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>bidi_idna</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>collate</artifactId>
       <version>${project.version}</version>
     </dependency>
