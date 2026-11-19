@@ -4,6 +4,9 @@
 package com.ibm.icu.dev.test;
 
 import com.ibm.icu.util.ULocale;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
@@ -21,7 +24,12 @@ import org.junit.rules.TestName;
  */
 public class CoreTestFmwk extends TestFmwk {
 
-    private com.ibm.icu.util.TimeZone testStartDefaultIcuTz;
+    private static final IcuTimeZoneHelper DEFAULT_ICU_TZ_HELPER =
+            IcuTimeZoneHelper.forClassName("com.ibm.icu.util.TimeZone");
+
+    private final IcuTimeZoneHelper icuTzHelper;
+
+    private String testStartDefaultIcuTzId;
 
     private java.util.TimeZone testStartDefaultJdkTz;
 
@@ -31,18 +39,29 @@ public class CoreTestFmwk extends TestFmwk {
 
     @Rule public TestName name = new TestName();
 
+    public CoreTestFmwk() {
+        this(DEFAULT_ICU_TZ_HELPER);
+    }
+
+    CoreTestFmwk(IcuTimeZoneHelper icuTzHelper) {
+        this.icuTzHelper = icuTzHelper;
+    }
+
     @Override
     public void localTestInitialize() {
         super.localTestInitialize();
 
         // Just like TestFmwk initializes JDK TimeZone and Locale before every test,
-        // do the same for ICU TimeZone and ULocale.
+        // do the same for ICU TimeZone (when present on classpath) and ULocale.
         ULocale.setDefault(ULocale.forLocale(defaultLocale));
-        com.ibm.icu.util.TimeZone.setDefault(
-                com.ibm.icu.util.TimeZone.getTimeZone(defaultTimeZone.getID()));
+        if (icuTzHelper != null) {
+            icuTzHelper.setDefaultById(defaultTimeZone.getID());
+            testStartDefaultIcuTzId = icuTzHelper.getDefaultId();
+        } else {
+            testStartDefaultIcuTzId = null;
+        }
 
-        // Save starting timezones
-        testStartDefaultIcuTz = com.ibm.icu.util.TimeZone.getDefault();
+        // Save starting JDK timezone
         testStartDefaultJdkTz = java.util.TimeZone.getDefault();
 
         // Save starting locales
@@ -56,18 +75,21 @@ public class CoreTestFmwk extends TestFmwk {
 
         // Assert that timezones are in a good state
 
-        com.ibm.icu.util.TimeZone testEndDefaultIcuTz = com.ibm.icu.util.TimeZone.getDefault();
         java.util.TimeZone testEndDefaultJdkTz = java.util.TimeZone.getDefault();
 
-        assertEquals(
-                "In [" + testMethodName + "] Test should keep in sync ICU & JDK TZs",
-                testEndDefaultIcuTz.getID(),
-                testEndDefaultJdkTz.getID());
+        if (icuTzHelper != null) {
+            String testEndDefaultIcuTzId = icuTzHelper.getDefaultId();
 
-        assertEquals(
-                "In [" + testMethodName + "] Test should reset ICU default TZ",
-                testStartDefaultIcuTz.getID(),
-                testEndDefaultIcuTz.getID());
+            assertEquals(
+                    "In [" + testMethodName + "] Test should keep in sync ICU & JDK TZs",
+                    testEndDefaultIcuTzId,
+                    testEndDefaultJdkTz.getID());
+
+            assertEquals(
+                    "In [" + testMethodName + "] Test should reset ICU default TZ",
+                    testStartDefaultIcuTzId,
+                    testEndDefaultIcuTzId);
+        }
         assertEquals(
                 "In [" + testMethodName + "] Test should reset JDK default TZ",
                 testStartDefaultJdkTz.getID(),
@@ -88,5 +110,65 @@ public class CoreTestFmwk extends TestFmwk {
                 testEndDefaultLocale.toLanguageTag());
 
         super.localTestTeardown();
+    }
+
+    /**
+     * Reflective bridge to {@code com.ibm.icu.util.TimeZone} so {@link CoreTestFmwk} can be used by
+     * modules that do not depend on the datetime/timezone component.
+     */
+    @Ignore // Prevent this helper class from being detected as a JUnit test case class
+    static final class IcuTimeZoneHelper {
+        private final Method getTimeZoneMethod;
+        private final Method setDefaultMethod;
+        private final Method getDefaultMethod;
+        private final Method getIdMethod;
+
+        private IcuTimeZoneHelper(
+                Method getTimeZoneMethod,
+                Method setDefaultMethod,
+                Method getDefaultMethod,
+                Method getIdMethod) {
+            this.getTimeZoneMethod = getTimeZoneMethod;
+            this.setDefaultMethod = setDefaultMethod;
+            this.getDefaultMethod = getDefaultMethod;
+            this.getIdMethod = getIdMethod;
+        }
+
+        static IcuTimeZoneHelper forClassName(String className) {
+            try {
+                Class<?> tzClass = Class.forName(className);
+                Method getTimeZone = tzClass.getMethod("getTimeZone", String.class);
+                Method setDefault = tzClass.getMethod("setDefault", tzClass);
+                Method getDefault = tzClass.getMethod("getDefault");
+                Method getId = tzClass.getMethod("getID");
+                return new IcuTimeZoneHelper(getTimeZone, setDefault, getDefault, getId);
+            } catch (ClassNotFoundException e) {
+                return null;
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalStateException("Unexpected ICU TimeZone API mismatch", e);
+            }
+        }
+
+        void setDefaultById(String id) {
+            try {
+                Object tz = getTimeZoneMethod.invoke(null, id);
+                setDefaultMethod.invoke(null, tz);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e.getTargetException());
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String getDefaultId() {
+            try {
+                Object tz = getDefaultMethod.invoke(null);
+                return (String) getIdMethod.invoke(tz);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e.getTargetException());
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

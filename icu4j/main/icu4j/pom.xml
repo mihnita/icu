@@ -57,6 +57,11 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>prefs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>regiondata</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -97,6 +102,7 @@
                     <exclude>META-INF/maven/com.ibm.icu/collate/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/currdata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/langdata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/prefs/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/regiondata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/translit/**</exclude>
                   </excludes>

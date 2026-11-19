@@ -22,6 +22,7 @@
     <module>collate</module>
     <module>currdata</module>
     <module>langdata</module>
+    <module>prefs</module>
     <module>regiondata</module>
     <module>translit</module>
     <module>common_tests</module>

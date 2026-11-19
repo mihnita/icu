@@ -18,6 +18,8 @@
       <groupId>com.ibm.icu</groupId>
       <artifactId>tools_taglets</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
 
     <!-- Test only -->
