@@ -19,9 +19,13 @@
     <module>core</module>
     <!-- For publishing to Maven Central -->
     <module>charset</module>
+    <module>charsetdetect</module>
     <module>collate</module>
     <module>currdata</module>
+    <module>duration</module>
     <module>langdata</module>
+    <module>message2</module>
+    <module>personname</module>
     <module>prefs</module>
     <module>regiondata</module>
     <module>translit</module>

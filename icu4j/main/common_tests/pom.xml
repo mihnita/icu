@@ -37,7 +37,26 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>message2</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>charsetdetect</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>currdata</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>duration</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -50,6 +69,18 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>langdata</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>message2</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>personname</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

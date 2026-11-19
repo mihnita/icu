@@ -42,6 +42,11 @@
 
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>charsetdetect</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>collate</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -52,7 +57,22 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>duration</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>langdata</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>message2</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>personname</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -99,9 +119,13 @@
                     <!-- Exclude maven info for unpublished artifacts -->
                     <exclude>META-INF/maven/com.ibm.icu/core/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/tools_taglets/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/charsetdetect/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/collate/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/currdata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/duration/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/langdata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/message2/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/personname/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/prefs/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/regiondata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/translit/**</exclude>
