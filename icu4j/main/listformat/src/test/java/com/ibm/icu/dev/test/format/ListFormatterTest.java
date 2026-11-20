@@ -242,7 +242,7 @@ public class ListFormatterTest extends CoreTestFmwk {
                         {ListFormatter.SpanField.LIST_SPAN, 22, 27, 2},
                         {ListFormatter.Field.ELEMENT, 22, 27}
                     };
-            FormattedValueTest.checkFormattedValue(
+            FormattedValueTestUtil.checkFormattedValue(
                     message, result, expectedString, expectedFieldPositions);
         }
 
@@ -263,7 +263,7 @@ public class ListFormatterTest extends CoreTestFmwk {
                 {ListFormatter.SpanField.LIST_SPAN, 9, 12, 2},
                 {ListFormatter.Field.ELEMENT, 9, 12}
             };
-            FormattedValueTest.checkFormattedValue(
+            FormattedValueTestUtil.checkFormattedValue(
                     message,
                     result,
                     expectedString,
@@ -311,7 +311,7 @@ public class ListFormatterTest extends CoreTestFmwk {
                 {ListFormatter.SpanField.LIST_SPAN, 24, 25, 8},
                 {ListFormatter.Field.ELEMENT, 24, 25},
             };
-            FormattedValueTest.checkFormattedValue(
+            FormattedValueTestUtil.checkFormattedValue(
                     message, result, expectedString, expectedFieldPositions);
         }
     }

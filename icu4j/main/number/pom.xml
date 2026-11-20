@@ -23,6 +23,11 @@
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>listformat</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- Test only -->
     <dependency>

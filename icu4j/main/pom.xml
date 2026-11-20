@@ -27,6 +27,7 @@
     <module>duration</module>
     <module>idna</module>
     <module>langdata</module>
+    <module>listformat</module>
     <module>message1</module>
     <module>message2</module>
     <module>number</module>

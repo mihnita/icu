@@ -43,6 +43,7 @@ function copyDependencyArtifacts() {
   mvn dependency:copy -q -Dartifact=com.ibm.icu:duration:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:idna:${artifact_version}                   -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:langdata:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
+  mvn dependency:copy -q -Dartifact=com.ibm.icu:listformat:${artifact_version}             -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:message1:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:message2:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:number:${artifact_version}                 -DoutputDirectory=${out_dir}/lib/

@@ -3,7 +3,6 @@
 package com.ibm.icu.impl;
 
 import com.ibm.icu.text.ConstrainedFieldPosition;
-import com.ibm.icu.text.ListFormatter;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.UFormat;
 import com.ibm.icu.text.UnicodeSet;
@@ -212,20 +211,10 @@ public class FormattedValueStringBuilderImpl {
             if (i > self.zero && prevIsSpan) {
                 assert self.fields[i - 1] instanceof SpanFieldPlaceholder;
                 SpanFieldPlaceholder ph = (SpanFieldPlaceholder) self.fields[i - 1];
-                if (ph.normalField == ListFormatter.Field.ELEMENT) {
-                    // Special handling for ULISTFMT_ELEMENT_FIELD
-                    if (cfpos.matchesField(ListFormatter.Field.ELEMENT, null)) {
-                        fieldStart = i - self.zero - ph.length;
-                        int end = fieldStart + ph.length;
-                        cfpos.setState(ListFormatter.Field.ELEMENT, null, fieldStart, end);
-                        return true;
-                    }
-                } else {
-                    // Re-wind, since there may be multiple fields in the span.
-                    i -= ph.length;
-                    assert i >= self.zero;
-                    _field = ((SpanFieldPlaceholder) self.fields[i]).normalField;
-                }
+                // Re-wind, since there may be multiple fields in the span.
+                i -= ph.length;
+                assert i >= self.zero;
+                _field = ((SpanFieldPlaceholder) self.fields[i]).normalField;
             }
             // Special case: coalesce the INTEGER if we are pointing at the end of the INTEGER.
             if (cfpos.matchesField(NumberFormat.Field.INTEGER, null)
@@ -264,18 +253,6 @@ public class FormattedValueStringBuilderImpl {
                     int end = fieldStart + ph.length;
                     cfpos.setState(ph.spanField, ph.value, fieldStart, end);
                     return true;
-                } else if (ph.normalField == ListFormatter.Field.ELEMENT) {
-                    // Special handling for ListFormatter.Field.ELEMENT
-                    if (cfpos.matchesField(ListFormatter.Field.ELEMENT, null)) {
-                        fieldStart = i - self.zero;
-                        int end = fieldStart + ph.length;
-                        cfpos.setState(ListFormatter.Field.ELEMENT, null, fieldStart, end);
-                        return true;
-                    } else {
-                        // Failed to match; jump ahead
-                        i += ph.length - 1;
-                        // goto loopend
-                    }
                 }
             }
             // Special case: skip over INTEGER; will be coalesced later.
@@ -315,8 +292,7 @@ public class FormattedValueStringBuilderImpl {
     }
 
     private static boolean isTrimmable(Object field) {
-        return field != NumberFormat.Field.GROUPING_SEPARATOR
-                && !(field instanceof ListFormatter.Field);
+        return field != NumberFormat.Field.GROUPING_SEPARATOR;
     }
 
     private static int trimBack(FormattedStringBuilder self, int limit) {

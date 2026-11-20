@@ -8,9 +8,6 @@
  */
 package com.ibm.icu.text;
 
-import com.ibm.icu.impl.FormattedStringBuilder;
-import com.ibm.icu.impl.FormattedValueStringBuilderImpl;
-import com.ibm.icu.impl.FormattedValueStringBuilderImpl.SpanFieldPlaceholder;
 import com.ibm.icu.impl.ICUCache;
 import com.ibm.icu.impl.ICUData;
 import com.ibm.icu.impl.ICUResourceBundle;
@@ -22,6 +19,7 @@ import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
 import java.io.InvalidObjectException;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -197,10 +195,12 @@ public final class ListFormatter {
      * @stable ICU 67
      */
     public static final class FormattedList implements FormattedValue {
-        private final FormattedStringBuilder string;
+        private final String string;
+        private final int[] fields;
 
-        FormattedList(FormattedStringBuilder string) {
+        FormattedList(String string, int[] fields) {
             this.string = string;
+            this.fields = fields;
         }
 
         /**
@@ -210,7 +210,7 @@ public final class ListFormatter {
          */
         @Override
         public String toString() {
-            return string.toString();
+            return string;
         }
 
         /**
@@ -240,7 +240,7 @@ public final class ListFormatter {
          */
         @Override
         public CharSequence subSequence(int start, int end) {
-            return string.subString(start, end);
+            return string.substring(start, end);
         }
 
         /**
@@ -260,7 +260,48 @@ public final class ListFormatter {
          */
         @Override
         public boolean nextPosition(ConstrainedFieldPosition cfpos) {
-            return FormattedValueStringBuilderImpl.nextPosition(string, cfpos, null);
+            int length = string.length();
+            int limit = cfpos.getLimit();
+            boolean prevIsSpan =
+                    limit > 0
+                            && cfpos.getField() instanceof UFormat.SpanField
+                            && cfpos.getStart() < limit;
+            if (prevIsSpan && limit <= length && fields[limit - 1] >= 0) {
+                int elemIndex = fields[limit - 1];
+                int elemStart = limit - 1;
+                while (elemStart > 0 && fields[elemStart - 1] == elemIndex) {
+                    elemStart--;
+                }
+                if (cfpos.matchesField(Field.ELEMENT, null)) {
+                    cfpos.setState(Field.ELEMENT, null, elemStart, limit);
+                    return true;
+                }
+            }
+            for (int i = Math.max(0, limit); i < length; ) {
+                int f = fields[i];
+                int runLimit = i + 1;
+                while (runLimit < length && fields[runLimit] == f) {
+                    runLimit++;
+                }
+                if (f < 0) {
+                    if (cfpos.matchesField(Field.LITERAL, null)) {
+                        cfpos.setState(Field.LITERAL, null, i, runLimit);
+                        return true;
+                    }
+                } else {
+                    if (cfpos.matchesField(SpanField.LIST_SPAN, f)) {
+                        cfpos.setState(SpanField.LIST_SPAN, f, i, runLimit);
+                        return true;
+                    }
+                    if (cfpos.matchesField(Field.ELEMENT, null)) {
+                        cfpos.setState(Field.ELEMENT, null, i, runLimit);
+                        return true;
+                    }
+                }
+                i = runLimit;
+            }
+            cfpos.setState(cfpos.getField(), cfpos.getFieldValue(), length, length);
+            return false;
         }
 
         /**
@@ -270,7 +311,16 @@ public final class ListFormatter {
          */
         @Override
         public AttributedCharacterIterator toCharacterIterator() {
-            return FormattedValueStringBuilderImpl.toCharacterIterator(string, null);
+            ConstrainedFieldPosition cfpos = new ConstrainedFieldPosition();
+            AttributedString as = new AttributedString(string);
+            while (nextPosition(cfpos)) {
+                Object value = cfpos.getFieldValue();
+                if (value == null) {
+                    value = cfpos.getField();
+                }
+                as.addAttribute(cfpos.getField(), value, cfpos.getStart(), cfpos.getLimit());
+            }
+            return as.getIterator();
         }
     }
 
@@ -604,16 +654,19 @@ public final class ListFormatter {
     }
 
     // Builds a formatted list
-    static class FormattedListBuilder {
-        private FormattedStringBuilder string;
-        boolean needsFields;
+    static class FormattedListBuilder implements Appendable {
+        private final StringBuilder chars;
+        private int[] fields;
+        private int appendIndex;
+        private int currentField;
 
         // Start is the first object in the list; If needsFields is true, enable the slightly
         // more expensive code path that records offsets of each element.
         public FormattedListBuilder(Object start, boolean needsFields) {
-            string = new FormattedStringBuilder();
-            this.needsFields = needsFields;
-            string.setAppendableField(Field.LITERAL);
+            this.chars = new StringBuilder();
+            this.fields = needsFields ? new int[40] : null;
+            this.appendIndex = 0;
+            this.currentField = -1;
             appendElement(start, 0);
         }
 
@@ -623,16 +676,17 @@ public final class ListFormatter {
         // index of the next object in the list of inputs.
         public FormattedListBuilder append(String compiledPattern, Object next, int position) {
             assert SimpleFormatterImpl.getArgumentLimit(compiledPattern) == 2;
-            string.setAppendIndex(0);
+            appendIndex = 0;
+            currentField = -1;
             long state = 0;
             while (true) {
-                state = IterInternal.step(state, compiledPattern, string);
+                state = IterInternal.step(state, compiledPattern, this);
                 if (state == IterInternal.DONE) {
                     break;
                 }
                 int argIndex = IterInternal.getArgIndex(state);
                 if (argIndex == 0) {
-                    string.setAppendIndex(string.length());
+                    appendIndex = chars.length();
                 } else {
                     appendElement(next, position);
                 }
@@ -640,36 +694,90 @@ public final class ListFormatter {
             return this;
         }
 
+        private void insertText(CharSequence csq, int start, int end, int fieldValue) {
+            int len = end - start;
+            if (len == 0) {
+                return;
+            }
+            int oldLen = chars.length();
+            chars.insert(appendIndex, csq, start, end);
+            if (fields != null) {
+                if (oldLen + len > fields.length) {
+                    fields = Arrays.copyOf(fields, Math.max(oldLen + len, fields.length * 2));
+                }
+                if (appendIndex < oldLen) {
+                    System.arraycopy(
+                            fields, appendIndex, fields, appendIndex + len, oldLen - appendIndex);
+                }
+                Arrays.fill(fields, appendIndex, appendIndex + len, fieldValue);
+            }
+            appendIndex += len;
+        }
+
+        @Override
+        public Appendable append(CharSequence csq) {
+            CharSequence s = csq == null ? "null" : csq;
+            insertText(s, 0, s.length(), currentField);
+            return this;
+        }
+
+        @Override
+        public Appendable append(CharSequence csq, int start, int end) {
+            CharSequence s = csq == null ? "null" : csq;
+            insertText(s, start, end, currentField);
+            return this;
+        }
+
+        @Override
+        public Appendable append(char c) {
+            int oldLen = chars.length();
+            chars.insert(appendIndex, c);
+            if (fields != null) {
+                if (oldLen + 1 > fields.length) {
+                    fields = Arrays.copyOf(fields, Math.max(oldLen + 1, fields.length * 2));
+                }
+                if (appendIndex < oldLen) {
+                    System.arraycopy(
+                            fields, appendIndex, fields, appendIndex + 1, oldLen - appendIndex);
+                }
+                fields[appendIndex] = currentField;
+            }
+            appendIndex += 1;
+            return this;
+        }
+
         private void appendElement(Object element, int position) {
             String elementString = element.toString();
-            if (needsFields) {
-                SpanFieldPlaceholder field = new SpanFieldPlaceholder();
-                field.spanField = SpanField.LIST_SPAN;
-                field.normalField = Field.ELEMENT;
-                field.value = position;
-                field.start = -1;
-                field.length = elementString.length();
-                string.append(elementString, field);
-            } else {
-                string.append(elementString, null);
-            }
+            insertText(elementString, 0, elementString.length(), position);
         }
 
         public void appendTo(Appendable appendable) {
-            Utility.appendTo(string, appendable);
+            Utility.appendTo(chars, appendable);
         }
 
         public int getOffset(int fieldPositionFoundIndex) {
-            return FormattedValueStringBuilderImpl.findSpan(string, fieldPositionFoundIndex);
+            if (fields == null || fieldPositionFoundIndex < 0) {
+                return -1;
+            }
+            int len = chars.length();
+            for (int i = 0; i < len; i++) {
+                if (fields[i] == fieldPositionFoundIndex) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         @Override
         public String toString() {
-            return string.toString();
+            return chars.toString();
         }
 
         public FormattedList toValue() {
-            return new FormattedList(string);
+            String result = chars.toString();
+            int[] resultFields =
+                    fields == null ? new int[0] : Arrays.copyOf(fields, result.length());
+            return new FormattedList(result, resultFields);
         }
     }
 

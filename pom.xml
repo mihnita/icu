@@ -935,6 +935,7 @@
             icu4j/main/duration/target/jacoco.exec \
             icu4j/main/framework/target/jacoco.exec \
             icu4j/main/idna/target/jacoco.exec \
+            icu4j/main/listformat/target/jacoco.exec \
             icu4j/main/message1/target/jacoco.exec \
             icu4j/main/message2/target/jacoco.exec \
             icu4j/main/number/target/jacoco.exec \
@@ -954,6 +955,7 @@
             \-\-classfiles icu4j/main/duration/target/duration-${artifact_version}.jar \
             \-\-classfiles icu4j/main/idna/target/idna-${artifact_version}.jar \
             \-\-classfiles icu4j/main/langdata/target/langdata-${artifact_version}.jar \
+            \-\-classfiles icu4j/main/listformat/target/listformat-${artifact_version}.jar \
             \-\-classfiles icu4j/main/message1/target/message1-${artifact_version}.jar \
             \-\-classfiles icu4j/main/message2/target/message2-${artifact_version}.jar \
             \-\-classfiles icu4j/main/number/target/number-${artifact_version}.jar \
@@ -974,6 +976,7 @@
             \-\-sourcefiles icu4j/main/duration/src/main/java \
             \-\-sourcefiles icu4j/main/idna/src/main/java \
             \-\-sourcefiles icu4j/main/langdata/src/main/java \
+            \-\-sourcefiles icu4j/main/listformat/src/main/java \
             \-\-sourcefiles icu4j/main/message1/src/main/java \
             \-\-sourcefiles icu4j/main/message2/src/main/java \
             \-\-sourcefiles icu4j/main/number/src/main/java \
