@@ -2499,16 +2499,17 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
         // start index of numeric text run in the input text
         int numericStartPos = 0;
 
-        MessageFormat numericLeapMonthFormatter = null;
+        String numericLeapMonthFormatter = null;
         if (formatData.leapMonthPatterns != null
                 && formatData.leapMonthPatterns.length
                         >= DateFormatSymbols.DT_MONTH_PATTERN_COUNT) {
-            numericLeapMonthFormatter =
-                    new MessageFormat(
-                            formatData
-                                    .leapMonthPatterns[
-                                    DateFormatSymbols.DT_LEAP_MONTH_PATTERN_NUMERIC],
-                            locale);
+            String rawLeapPattern =
+                    formatData.leapMonthPatterns[DateFormatSymbols.DT_LEAP_MONTH_PATTERN_NUMERIC];
+            if (rawLeapPattern != null) {
+                numericLeapMonthFormatter =
+                        SimpleFormatterImpl.compileToStringMinMaxArguments(
+                                rawLeapPattern, new StringBuilder(), 1, 1);
+            }
         }
 
         Object[] items = getPatternItems();
@@ -3308,6 +3309,42 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
                 text, start, ch, count, obeyCount, allowNegative, ambiguousYear, cal, null, null);
     }
 
+    private static Number parseNumericLeapMonth(
+            String text, ParsePosition pos, String compiledPattern, NumberFormat numFmt) {
+        int start = pos.getIndex();
+        int sourceOffset = start;
+        StringBuilder literal = new StringBuilder();
+        ParsePosition tempPos = new ParsePosition(0);
+        Number result = null;
+        long state = 0;
+        while (true) {
+            literal.setLength(0);
+            state = SimpleFormatterImpl.IterInternal.step(state, compiledPattern, literal);
+            if (literal.length() > 0) {
+                String lit = literal.toString();
+                if (!text.regionMatches(sourceOffset, lit, 0, lit.length())) {
+                    return null;
+                }
+                sourceOffset += lit.length();
+            }
+            if (state == SimpleFormatterImpl.IterInternal.DONE) {
+                break;
+            }
+            tempPos.setIndex(sourceOffset);
+            Number parsed = numFmt.parse(text, tempPos);
+            if (tempPos.getIndex() == sourceOffset || parsed == null) {
+                return null;
+            }
+            result = parsed;
+            sourceOffset = tempPos.getIndex();
+        }
+        if (sourceOffset > start && result != null) {
+            pos.setIndex(sourceOffset);
+            return result;
+        }
+        return null;
+    }
+
     /** Overloading to provide default argument (null) for day period. */
     private int subParse(
             String text,
@@ -3318,7 +3355,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             boolean allowNegative,
             boolean[] ambiguousYear,
             Calendar cal,
-            MessageFormat numericLeapMonthFormatter,
+            String numericLeapMonthFormatter,
             Output<TimeType> tzTimeType) {
         return subParse(
                 text,
@@ -3368,7 +3405,7 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             boolean allowNegative,
             boolean[] ambiguousYear,
             Calendar cal,
-            MessageFormat numericLeapMonthFormatter,
+            String numericLeapMonthFormatter,
             Output<TimeType> tzTimeType,
             Output<DayPeriodRules.DayPeriod> dayPeriod) {
         Number number = null;
@@ -3386,9 +3423,6 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
 
         int field = PATTERN_INDEX_TO_CALENDAR_FIELD[patternCharIndex]; // -1 if irrelevant
 
-        if (numericLeapMonthFormatter != null) {
-            numericLeapMonthFormatter.setFormatByArgumentIndex(0, currentNumberFormat);
-        }
         boolean isChineseCalendar =
                 (cal.getType().equals("chinese") || cal.getType().equals("dangi"));
 
@@ -3433,10 +3467,12 @@ public class SimpleDateFormat extends DateFormat implements Cloneable {
             if (numericLeapMonthFormatter != null
                     && (patternCharIndex == 2 || patternCharIndex == 26)) {
                 // First see if we can parse month number with leap month pattern
-                Object[] args = numericLeapMonthFormatter.parse(text, pos);
-                if (args != null && pos.getIndex() > start && (args[0] instanceof Number)) {
+                Number parsedLeapMonth =
+                        parseNumericLeapMonth(
+                                text, pos, numericLeapMonthFormatter, currentNumberFormat);
+                if (parsedLeapMonth != null && pos.getIndex() > start) {
                     parsedNumericLeapMonth = true;
-                    number = (Number) args[0];
+                    number = parsedLeapMonth;
                     cal.set(Calendar.IS_LEAP_MONTH, 1);
                 } else {
                     pos.setIndex(start);

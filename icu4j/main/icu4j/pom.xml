@@ -72,6 +72,11 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>message1</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>message2</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -135,6 +140,7 @@
                     <exclude>META-INF/maven/com.ibm.icu/currdata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/duration/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/langdata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/message1/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/message2/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/personname/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/prefs/**</exclude>

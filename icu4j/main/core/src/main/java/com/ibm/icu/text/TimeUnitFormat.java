@@ -10,6 +10,7 @@ package com.ibm.icu.text;
 
 import com.ibm.icu.impl.ICUData;
 import com.ibm.icu.impl.ICUResourceBundle;
+import com.ibm.icu.impl.SimpleFormatterImpl;
 import com.ibm.icu.impl.UResource;
 import com.ibm.icu.number.LocalizedNumberFormatter;
 import com.ibm.icu.util.TimeUnit;
@@ -267,46 +268,66 @@ public class TimeUnitFormat extends MeasureFormat implements Cloneable {
         // needed.
         // Parse by iterating through all available patterns
         // and looking for the longest match.
+        StringBuilder literalBuf = new StringBuilder();
         for (TimeUnit timeUnit : timeUnitToCountToPatterns.keySet()) {
             Map<String, Object[]> countToPattern = timeUnitToCountToPatterns.get(timeUnit);
             for (Entry<String, Object[]> patternEntry : countToPattern.entrySet()) {
                 String count = patternEntry.getKey();
                 for (int styl = FULL_NAME; styl < TOTAL_STYLES; ++styl) {
-                    MessageFormat pattern = (MessageFormat) (patternEntry.getValue())[styl];
-                    pos.setErrorIndex(-1);
-                    pos.setIndex(oldPos);
-                    // see if we can parse
-                    Object parsed = pattern.parseObject(source, pos);
-                    if (pos.getErrorIndex() != -1 || pos.getIndex() == oldPos) {
-                        // nothing parsed
+                    String compiledPattern = (String) patternEntry.getValue()[styl];
+                    if (source == null) {
                         continue;
                     }
+                    int argLimit = SimpleFormatterImpl.getArgumentLimit(compiledPattern);
+                    int parsedEnd;
                     Number temp = null;
-                    if (((Object[]) parsed).length != 0) {
-                        // pattern with Number as beginning,
-                        // such as "{0} d".
-                        // check to make sure that the timeUnit is consistent
-                        Object tempObj = ((Object[]) parsed)[0];
-                        if (tempObj instanceof Number) {
-                            temp = (Number) tempObj;
-                        } else {
-                            // Since we now format the number ourselves, parseObject will likely
-                            // give us back a String
-                            // for
-                            // the number. When this happens we must parse the formatted number
-                            // ourselves.
-                            try {
-                                temp = format.parse(tempObj.toString());
-                            } catch (ParseException e) {
-                                continue;
-                            }
+                    if (argLimit == 0) {
+                        String literal =
+                                SimpleFormatterImpl.getTextWithNoArguments(compiledPattern);
+                        if (literal.isEmpty()
+                                || !source.regionMatches(oldPos, literal, 0, literal.length())) {
+                            continue;
+                        }
+                        parsedEnd = oldPos + literal.length();
+                    } else {
+                        literalBuf.setLength(0);
+                        long state =
+                                SimpleFormatterImpl.IterInternal.step(
+                                        0, compiledPattern, literalBuf);
+                        String prefix = literalBuf.toString();
+                        if (!source.regionMatches(oldPos, prefix, 0, prefix.length())) {
+                            continue;
+                        }
+                        int argStart = oldPos + prefix.length();
+                        literalBuf.setLength(0);
+                        SimpleFormatterImpl.IterInternal.step(state, compiledPattern, literalBuf);
+                        String suffix = literalBuf.toString();
+                        int next =
+                                suffix.isEmpty()
+                                        ? source.length()
+                                        : source.indexOf(suffix, argStart);
+                        if (next < 0) {
+                            continue;
+                        }
+                        String strValue = source.substring(argStart, next);
+                        if (strValue.equals("{0}")) {
+                            continue;
+                        }
+                        try {
+                            temp = format.parse(strValue);
+                        } catch (ParseException e) {
+                            continue;
+                        }
+                        parsedEnd = next + suffix.length();
+                        if (parsedEnd == oldPos) {
+                            continue;
                         }
                     }
-                    int parseDistance = pos.getIndex() - oldPos;
+                    int parseDistance = parsedEnd - oldPos;
                     if (parseDistance > longestParseDistance) {
                         resultNumber = temp;
                         resultTimeUnit = timeUnit;
-                        newPos = pos.getIndex();
+                        newPos = parsedEnd;
                         longestParseDistance = parseDistance;
                         countOfLongestMatch = count;
                     }
@@ -367,7 +388,10 @@ public class TimeUnitFormat extends MeasureFormat implements Cloneable {
         Map<TimeUnit, Map<String, Object[]>> timeUnitToCountToPatterns;
         int style;
         Set<String> pluralKeywords;
+
+        @SuppressWarnings("UnusedVariable")
         ULocale locale;
+
         boolean beenHere;
 
         TimeUnitFormatSetupSink(
@@ -435,8 +459,9 @@ public class TimeUnitFormat extends MeasureFormat implements Cloneable {
                     }
                     if (pair[style] == null) {
                         String pattern = value.getString();
-                        final MessageFormat messageFormat = new MessageFormat(pattern, locale);
-                        pair[style] = messageFormat;
+                        pair[style] =
+                                SimpleFormatterImpl.compileToStringMinMaxArguments(
+                                        pattern, new StringBuilder(), 0, 1);
                     }
                 }
             }
@@ -534,13 +559,15 @@ public class TimeUnitFormat extends MeasureFormat implements Cloneable {
                 unitsRes = unitsRes.getWithFallback(resourceKey);
                 ICUResourceBundle oneUnitRes = unitsRes.getWithFallback(srcTimeUnitName);
                 String pattern = oneUnitRes.getStringWithFallback(searchPluralCount);
-                final MessageFormat messageFormat = new MessageFormat(pattern, locale);
+                final String compiledPattern =
+                        SimpleFormatterImpl.compileToStringMinMaxArguments(
+                                pattern, new StringBuilder(), 0, 1);
                 Object[] pair = countToPatterns.get(srcPluralCount);
                 if (pair == null) {
                     pair = new Object[2];
                     countToPatterns.put(srcPluralCount, pair);
                 }
-                pair[styl] = messageFormat;
+                pair[styl] = compiledPattern;
                 return;
             } catch (MissingResourceException e) {
             }
@@ -560,28 +587,32 @@ public class TimeUnitFormat extends MeasureFormat implements Cloneable {
         // fall-back to plural count "other"
         if (searchPluralCount.equals("other")) {
             // set default fall back the same as the resource in root
-            MessageFormat messageFormat = null;
+            String defaultPattern = null;
             if (timeUnit == TimeUnit.SECOND) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_SECOND, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_SECOND;
             } else if (timeUnit == TimeUnit.MINUTE) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_MINUTE, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_MINUTE;
             } else if (timeUnit == TimeUnit.HOUR) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_HOUR, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_HOUR;
             } else if (timeUnit == TimeUnit.WEEK) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_WEEK, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_WEEK;
             } else if (timeUnit == TimeUnit.DAY) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_DAY, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_DAY;
             } else if (timeUnit == TimeUnit.MONTH) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_MONTH, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_MONTH;
             } else if (timeUnit == TimeUnit.YEAR) {
-                messageFormat = new MessageFormat(DEFAULT_PATTERN_FOR_YEAR, locale);
+                defaultPattern = DEFAULT_PATTERN_FOR_YEAR;
             }
             Object[] pair = countToPatterns.get(srcPluralCount);
             if (pair == null) {
                 pair = new Object[2];
                 countToPatterns.put(srcPluralCount, pair);
             }
-            pair[styl] = messageFormat;
+            pair[styl] =
+                    defaultPattern == null
+                            ? null
+                            : SimpleFormatterImpl.compileToStringMinMaxArguments(
+                                    defaultPattern, new StringBuilder(), 0, 1);
         } else {
             // fall back to rule "other", and search in parents
             searchInTree(resourceKey, styl, timeUnit, srcPluralCount, "other", countToPatterns);

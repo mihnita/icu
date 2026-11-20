@@ -12,12 +12,13 @@ import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.BreakIterator;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.DisplayContext;
-import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class RelativeDateFormat extends DateFormat {
             if (relativeDayString != null
                     && fDatePattern != null
                     && (fTimePattern == null
-                            || fCombinedFormat == null
+                            || fCombinedPattern == null
                             || combinedFormatHasDateAtStart)) {
                 // capitalize relativeDayString according to context for relative, set formatter no
                 // context
@@ -173,12 +174,10 @@ public class RelativeDateFormat extends DateFormat {
                     // Need to quote the relativeDayString to make it a legal date pattern
                     datePattern = "'" + relativeDayString.replace("'", "''") + "'";
                 }
-                StringBuffer combinedPattern = new StringBuffer("");
-                fCombinedFormat.format(
-                        new Object[] {fTimePattern, datePattern},
-                        combinedPattern,
-                        new FieldPosition(0));
-                fDateTimeFormat.applyPattern(combinedPattern.toString());
+                String combinedPattern =
+                        SimpleFormatterImpl.formatCompiledPattern(
+                                fCombinedPattern, fTimePattern, datePattern);
+                fDateTimeFormat.applyPattern(combinedPattern);
                 fDateTimeFormat.format(cal, toAppendTo, fieldPosition);
             }
         } else if (fDateFormat != null) {
@@ -231,7 +230,7 @@ public class RelativeDateFormat extends DateFormat {
     @SuppressWarnings("unused")
     private DateFormat fTimeFormat; // now unused, keep for serialization compatibility
 
-    private MessageFormat fCombinedFormat; //  the {0} {1} format.
+    private transient String fCombinedPattern; //  the {0} {1} format.
     private SimpleDateFormat fDateTimeFormat = null; // the held date/time formatter
     private String fDatePattern = null;
     private String fTimePattern = null;
@@ -356,7 +355,14 @@ public class RelativeDateFormat extends DateFormat {
         return calendar;
     }
 
-    private MessageFormat initializeCombinedFormat(Calendar cal, ULocale locale) {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        if (fLocale != null && calendar != null) {
+            initializeCombinedFormat(calendar, fLocale);
+        }
+    }
+
+    private String initializeCombinedFormat(Calendar cal, ULocale locale) {
         String pattern;
         ICUResourceBundle rb =
                 (ICUResourceBundle)
@@ -389,7 +395,9 @@ public class RelativeDateFormat extends DateFormat {
             }
         }
         combinedFormatHasDateAtStart = pattern.startsWith("{1}");
-        fCombinedFormat = new MessageFormat(pattern, locale);
-        return fCombinedFormat;
+        fCombinedPattern =
+                SimpleFormatterImpl.compileToStringMinMaxArguments(
+                        pattern, new StringBuilder(), 2, 2);
+        return fCombinedPattern;
     }
 }

@@ -25,6 +25,7 @@
     <module>currdata</module>
     <module>duration</module>
     <module>langdata</module>
+    <module>message1</module>
     <module>message2</module>
     <module>personname</module>
     <module>prefs</module>
