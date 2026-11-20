@@ -57,12 +57,16 @@ rm   -fr main/translit/src/main/resources/com/ibm/icu/impl/data/icudata
 mkdir -p main/translit/src/main/resources/com/ibm/icu/impl/data/icudata/
 mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/translit     main/translit/src/main/resources/com/ibm/icu/impl/data/icudata/translit
 
-echo "  Moving bidi_idna data"
-rm   -fr main/bidi_idna/src/main/resources/com/ibm/icu/impl/data/icudata
-mkdir -p main/bidi_idna/src/main/resources/com/ibm/icu/impl/data/icudata/
-mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/*.spp           main/bidi_idna/src/main/resources/com/ibm/icu/impl/data/icudata/
-mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/uts46.nrm       main/bidi_idna/src/main/resources/com/ibm/icu/impl/data/icudata/
-mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/confusables.cfu main/bidi_idna/src/main/resources/com/ibm/icu/impl/data/icudata/
+echo "  Moving idna data"
+rm   -fr main/idna/src/main/resources/com/ibm/icu/impl/data/icudata
+mkdir -p main/idna/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/*.spp     main/idna/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/uts46.nrm main/idna/src/main/resources/com/ibm/icu/impl/data/icudata/
+
+echo "  Moving spoof data"
+rm   -fr main/spoof/src/main/resources/com/ibm/icu/impl/data/icudata
+mkdir -p main/spoof/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/confusables.cfu main/spoof/src/main/resources/com/ibm/icu/impl/data/icudata/
 
 echo "  Moving segmenter_dict dictionary data"
 rm   -fr main/segmenter_dict/src/main/resources/com/ibm/icu/impl/data/icudata

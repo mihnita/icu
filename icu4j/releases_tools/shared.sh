@@ -34,13 +34,14 @@ function copyDependencyArtifacts() {
   mkdir -p ${out_dir}/lib/
 
   mvn dependency:copy -q -Dartifact=com.ibm.icu:core:${artifact_version}                   -DoutputDirectory=${out_dir}/lib/
-  mvn dependency:copy -q -Dartifact=com.ibm.icu:bidi_idna:${artifact_version}              -DoutputDirectory=${out_dir}/lib/
+  mvn dependency:copy -q -Dartifact=com.ibm.icu:bidi:${artifact_version}                   -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:charsetdetect:${artifact_version}          -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:collate:${artifact_version}                -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:icu4j-charset:${artifact_version}          -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:currdata:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:datetime:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:duration:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
+  mvn dependency:copy -q -Dartifact=com.ibm.icu:idna:${artifact_version}                   -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:langdata:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:message1:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:message2:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
@@ -50,6 +51,7 @@ function copyDependencyArtifacts() {
   mvn dependency:copy -q -Dartifact=com.ibm.icu:rbnf:${artifact_version}                   -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:regiondata:${artifact_version}             -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:segmenter_dict:${artifact_version}         -DoutputDirectory=${out_dir}/lib/
+  mvn dependency:copy -q -Dartifact=com.ibm.icu:spoof:${artifact_version}                  -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:translit:${artifact_version}               -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:tools_build:${artifact_version}            -DoutputDirectory=${out_dir}/lib/
   mvn dependency:copy -q -Dartifact=com.ibm.icu:common_tests:${artifact_version}:jar:tests -DoutputDirectory=${out_dir}/lib/

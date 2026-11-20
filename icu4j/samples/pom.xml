@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
-      <artifactId>bidi_idna</artifactId>
+      <artifactId>bidi</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

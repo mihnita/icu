@@ -68,12 +68,16 @@ rd /s/q main\translit\src\main\resources\com\ibm\icu\impl\data\icudata
 md      main\translit\src\main\resources\com\ibm\icu\impl\data\icudata
 move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\translit     main\translit\src\main\resources\com\ibm\icu\impl\data\icudata\translit
 
-echo   Moving bidi_idna data
-rd /s/q main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata
-md      main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata
-move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\*.spp           main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
-move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\uts46.nrm       main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
-move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\confusables.cfu main\bidi_idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+echo   Moving idna data
+rd /s/q main\idna\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\idna\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\*.spp     main\idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\uts46.nrm main\idna\src\main\resources\com\ibm\icu\impl\data\icudata\
+
+echo   Moving spoof data
+rd /s/q main\spoof\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\spoof\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\confusables.cfu main\spoof\src\main\resources\com\ibm\icu\impl\data\icudata\
 
 echo   Moving segmenter_dict dictionary data
 rd /s/q main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata

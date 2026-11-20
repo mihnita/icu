@@ -37,7 +37,7 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
-      <artifactId>bidi_idna</artifactId>
+      <artifactId>bidi</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
@@ -45,6 +45,13 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>idna</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
@@ -86,7 +93,7 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
-      <artifactId>bidi_idna</artifactId>
+      <artifactId>bidi</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -111,6 +118,12 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>duration</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>idna</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -159,6 +172,12 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>segmenter_dict</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>spoof</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

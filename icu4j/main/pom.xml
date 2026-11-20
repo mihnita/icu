@@ -18,13 +18,14 @@
     <module>framework</module>
     <module>core</module>
     <!-- For publishing to Maven Central -->
-    <module>bidi_idna</module>
+    <module>bidi</module>
     <module>charset</module>
     <module>charsetdetect</module>
     <module>collate</module>
     <module>currdata</module>
     <module>datetime</module>
     <module>duration</module>
+    <module>idna</module>
     <module>langdata</module>
     <module>message1</module>
     <module>message2</module>
@@ -34,6 +35,7 @@
     <module>rbnf</module>
     <module>regiondata</module>
     <module>segmenter_dict</module>
+    <module>spoof</module>
     <module>translit</module>
     <module>common_tests</module>
     <!-- Shaded jar for publishing to Maven Central -->
