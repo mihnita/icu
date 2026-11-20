@@ -34,11 +34,37 @@ public class CoreTestFmwkTest {
         }
     }
 
+    @Ignore // Stub matching the reflective TimeZone contract in CoreTestFmwk.IcuTimeZoneHelper
+    public static final class StubTimeZone {
+        private static StubTimeZone defaultZone = new StubTimeZone("UTC");
+        private final String id;
+
+        private StubTimeZone(String id) {
+            this.id = id;
+        }
+
+        public static StubTimeZone getTimeZone(String id) {
+            return new StubTimeZone(id);
+        }
+
+        public static void setDefault(StubTimeZone tz) {
+            defaultZone = tz;
+        }
+
+        public static StubTimeZone getDefault() {
+            return defaultZone;
+        }
+
+        public String getID() {
+            return id;
+        }
+    }
+
     @Test
-    public void testWithIcuTimeZoneAvailable() {
+    public void testWithTimeZoneHelperContract() {
         CoreTestFmwk.IcuTimeZoneHelper helper =
-                CoreTestFmwk.IcuTimeZoneHelper.forClassName("com.ibm.icu.util.TimeZone");
-        assertNotNull("Expected ICU TimeZone helper when TimeZone is on classpath", helper);
+                CoreTestFmwk.IcuTimeZoneHelper.forClassName(StubTimeZone.class.getName());
+        assertNotNull("Expected reflective helper for compatible TimeZone contract", helper);
 
         DummyCoreTest dummy = new DummyCoreTest(helper);
         dummy.testInitialize();
@@ -48,6 +74,9 @@ public class CoreTestFmwkTest {
 
     @Test
     public void testWithoutIcuTimeZoneAvailable() {
+        assertNull(
+                "Expected com.ibm.icu.util.TimeZone to be absent in standalone core",
+                CoreTestFmwk.IcuTimeZoneHelper.forClassName("com.ibm.icu.util.TimeZone"));
         CoreTestFmwk.IcuTimeZoneHelper missingHelper =
                 CoreTestFmwk.IcuTimeZoneHelper.forClassName(
                         "com.ibm.icu.util.NonExistentTimeZoneForTest");

@@ -20,6 +20,7 @@ import com.ibm.icu.impl.UResource;
 import com.ibm.icu.impl.Utility;
 import com.ibm.icu.impl.number.DecimalQuantity;
 import com.ibm.icu.impl.number.DecimalQuantity_DualStorageBCD;
+import com.ibm.icu.impl.number.SimpleModifier;
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ICUException;
@@ -785,7 +786,7 @@ public final class RelativeDateTimeFormatter {
 
         String compiledPattern =
                 getRelativeUnitPluralPattern(style, unit, pastFutureIndex, pluralForm);
-        SimpleFormatterImpl.formatPrefixSuffix(
+        SimpleModifier.formatPrefixSuffix(
                 compiledPattern, Field.LITERAL, 0, output.length(), output);
         return output;
     }

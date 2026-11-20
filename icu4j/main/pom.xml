@@ -23,12 +23,15 @@
     <module>charsetdetect</module>
     <module>collate</module>
     <module>currdata</module>
+    <module>datetime</module>
     <module>duration</module>
     <module>langdata</module>
     <module>message1</module>
     <module>message2</module>
+    <module>number</module>
     <module>personname</module>
     <module>prefs</module>
+    <module>rbnf</module>
     <module>regiondata</module>
     <module>segmenter_dict</module>
     <module>translit</module>

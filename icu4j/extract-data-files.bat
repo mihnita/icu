@@ -80,12 +80,34 @@ rd /s/q main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata
 md      main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr
 move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr\*.dict main\segmenter_dict\src\main\resources\com\ibm\icu\impl\data\icudata\brkitr\
 
-echo Unpacking icutzdata.jar
-rem This unzips together with other existing core files
-rem So we don't remove the folder
-cd     %icu4j_root%\main\core\src\main\resources
+echo   Moving number data
+rd /s/q main\number\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\number\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\unit                     main\number\src\main\resources\com\ibm\icu\impl\data\icudata\unit
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\units.res                main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\plurals.res              main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\pluralRanges.res         main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\numberingSystems.res     main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\grammaticalFeatures.res  main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\currencyNumericCodes.res main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\genderList.res           main\number\src\main\resources\com\ibm\icu\impl\data\icudata\
+
+echo   Moving rbnf data
+rd /s/q main\rbnf\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\rbnf\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\rbnf main\rbnf\src\main\resources\com\ibm\icu\impl\data\icudata\rbnf
+
+echo   Moving datetime data and unpacking icutzdata.jar
+rd /s/q main\datetime\src\main\resources\com\ibm\icu\impl\data\icudata
+md      main\datetime\src\main\resources\com\ibm\icu\impl\data\icudata
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\zone           main\datetime\src\main\resources\com\ibm\icu\impl\data\icudata\zone
+move    main\core\src\main\resources\com\ibm\icu\impl\data\icudata\dayPeriods.res main\datetime\src\main\resources\com\ibm\icu\impl\data\icudata\
+cd     %icu4j_root%\main\datetime\src\main\resources
 jar xf %icu4j_root%\main\shared\data\icutzdata.jar
 rd /s/q META-INF
+cd %icu4j_root%
+rem timezoneTypes.res is aliased from keyTypeData.res in core
+move    main\datetime\src\main\resources\com\ibm\icu\impl\data\icudata\timezoneTypes.res main\core\src\main\resources\com\ibm\icu\impl\data\icudata\
 
 echo Unpacking testdata.jar
 cd %icu4j_root%

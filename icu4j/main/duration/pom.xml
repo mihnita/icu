@@ -39,6 +39,12 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

@@ -69,11 +69,32 @@ rm   -fr main/segmenter_dict/src/main/resources/com/ibm/icu/impl/data/icudata
 mkdir -p main/segmenter_dict/src/main/resources/com/ibm/icu/impl/data/icudata/brkitr/
 mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/brkitr/*.dict main/segmenter_dict/src/main/resources/com/ibm/icu/impl/data/icudata/brkitr/
 
-echo "Unpacking icutzdata.jar"
-# This unzips together with other existing core files
-# So we don't remove the folder
-unzip -q -d main/core/src/main/resources/ main/shared/data/icutzdata.jar
-rm -fr      main/core/src/main/resources/META-INF
+echo "  Moving number data"
+rm   -fr main/number/src/main/resources/com/ibm/icu/impl/data/icudata
+mkdir -p main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/unit                    main/number/src/main/resources/com/ibm/icu/impl/data/icudata/unit
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/units.res               main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/plurals.res             main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/pluralRanges.res        main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/numberingSystems.res    main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/grammaticalFeatures.res main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/currencyNumericCodes.res main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/genderList.res          main/number/src/main/resources/com/ibm/icu/impl/data/icudata/
+
+echo "  Moving rbnf data"
+rm   -fr main/rbnf/src/main/resources/com/ibm/icu/impl/data/icudata
+mkdir -p main/rbnf/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/rbnf main/rbnf/src/main/resources/com/ibm/icu/impl/data/icudata/rbnf
+
+echo "  Moving datetime data and unpacking icutzdata.jar"
+rm   -fr main/datetime/src/main/resources/com/ibm/icu/impl/data/icudata
+mkdir -p main/datetime/src/main/resources/com/ibm/icu/impl/data/icudata/
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/zone           main/datetime/src/main/resources/com/ibm/icu/impl/data/icudata/zone
+mv       main/core/src/main/resources/com/ibm/icu/impl/data/icudata/dayPeriods.res main/datetime/src/main/resources/com/ibm/icu/impl/data/icudata/
+unzip -q -d main/datetime/src/main/resources/ main/shared/data/icutzdata.jar
+rm -fr      main/datetime/src/main/resources/META-INF
+# timezoneTypes.res is aliased from keyTypeData.res in core
+mv       main/datetime/src/main/resources/com/ibm/icu/impl/data/icudata/timezoneTypes.res main/core/src/main/resources/com/ibm/icu/impl/data/icudata/
 
 echo "Unpacking testdata.jar"
 rm -fr      main/core/src/test/resources/com/ibm/icu/dev/data/testdata/

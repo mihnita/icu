@@ -10,7 +10,6 @@ package com.ibm.icu.impl;
 
 import com.ibm.icu.util.ICUUncheckedIOException;
 import java.io.IOException;
-import java.text.Format;
 
 /**
  * Formats simple patterns like "{1} was born in {0}". Internal version of {@link
@@ -344,58 +343,6 @@ public final class SimpleFormatterImpl {
             return 0;
         } else {
             return compiledPattern.charAt(1) - ARG_NUM_LIMIT;
-        }
-    }
-
-    /**
-     * Special case for using FormattedStringBuilder with patterns with 0 or 1 argument.
-     *
-     * <p>With 1 argument, treat the current contents of the FormattedStringBuilder between start
-     * and end as the argument {0}. Insert the extra strings from compiledPattern to surround the
-     * argument in the output.
-     *
-     * <p>With 0 arguments, overwrite the entire contents of the FormattedStringBuilder between
-     * start and end.
-     *
-     * @param compiledPattern Compiled form of a pattern string.
-     * @param field Field to use when adding chars to the output.
-     * @param start The start index of the argument already in the output string.
-     * @param end The end index of the argument already in the output string.
-     * @param output Destination for formatted output.
-     * @return Net number of characters added to the formatted string.
-     */
-    public static int formatPrefixSuffix(
-            String compiledPattern,
-            Format.Field field,
-            int start,
-            int end,
-            FormattedStringBuilder output) {
-        int argLimit = getArgumentLimit(compiledPattern);
-        if (argLimit == 0) {
-            // No arguments in compiled pattern; overwrite the entire segment with our string.
-            return output.splice(start, end, compiledPattern, 2, compiledPattern.length(), field);
-        } else {
-            assert argLimit == 1;
-            int suffixOffset;
-            int length = 0;
-            if (compiledPattern.charAt(1) != '\u0000') {
-                int prefixLength = compiledPattern.charAt(1) - ARG_NUM_LIMIT;
-                length = output.insert(start, compiledPattern, 2, 2 + prefixLength, field);
-                suffixOffset = 3 + prefixLength;
-            } else {
-                suffixOffset = 2;
-            }
-            if (suffixOffset < compiledPattern.length()) {
-                int suffixLength = compiledPattern.charAt(suffixOffset) - ARG_NUM_LIMIT;
-                length +=
-                        output.insert(
-                                end + length,
-                                compiledPattern,
-                                1 + suffixOffset,
-                                1 + suffixOffset + suffixLength,
-                                field);
-            }
-            return length;
         }
     }
 

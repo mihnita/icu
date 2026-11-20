@@ -30,7 +30,17 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>icu4j-charset</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>number</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

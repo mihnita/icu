@@ -62,6 +62,11 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>duration</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -82,12 +87,22 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>number</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>personname</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>prefs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>rbnf</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -138,12 +153,15 @@
                     <exclude>META-INF/maven/com.ibm.icu/charsetdetect/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/collate/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/currdata/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/datetime/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/duration/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/langdata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/message1/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/message2/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/number/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/personname/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/prefs/**</exclude>
+                    <exclude>META-INF/maven/com.ibm.icu/rbnf/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/regiondata/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/segmenter_dict/**</exclude>
                     <exclude>META-INF/maven/com.ibm.icu/translit/**</exclude>

@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.Format;
@@ -1452,14 +1455,14 @@ public abstract class NumberFormat extends UFormat implements Cloneable {
             return null;
         }
 
-        NumberFormat format;
+        NumberFormat format = null;
 
         if (ns != null && ns.isAlgorithmic()) {
             String nsDesc;
             String nsRuleSetGroup;
             String nsRuleSetName;
             ULocale nsLoc;
-            int desiredRulesType = RuleBasedNumberFormat.NUMBERING_SYSTEM;
+            int desiredRulesType = RBNF_NUMBERING_SYSTEM;
 
             nsDesc = ns.getDescription();
             int firstSlash = nsDesc.indexOf("/");
@@ -1472,17 +1475,16 @@ public abstract class NumberFormat extends UFormat implements Cloneable {
 
                 nsLoc = new ULocale(nsLocID);
                 if (nsRuleSetGroup.equals("SpelloutRules")) {
-                    desiredRulesType = RuleBasedNumberFormat.SPELLOUT;
+                    desiredRulesType = RBNF_SPELLOUT;
                 }
             } else {
                 nsLoc = desiredLocale;
                 nsRuleSetName = nsDesc;
             }
 
-            RuleBasedNumberFormat r = new RuleBasedNumberFormat(nsLoc, desiredRulesType);
-            r.setDefaultRuleSet(nsRuleSetName);
-            format = r;
-        } else {
+            format = createAlgorithmicNumberFormat(nsLoc, desiredRulesType, nsRuleSetName);
+        }
+        if (format == null) {
             DecimalFormat f = new DecimalFormat(pattern, symbols, choice);
             // System.out.println("loc: " + desiredLocale + " choice: " + choice + " pat: " +
             // pattern + " sym: " + symbols + " result: " + format);
@@ -1513,6 +1515,35 @@ public abstract class NumberFormat extends UFormat implements Cloneable {
         format.setLocale(valid, actual);
 
         return format;
+    }
+
+    // Matches RuleBasedNumberFormat.SPELLOUT and RuleBasedNumberFormat.NUMBERING_SYSTEM
+    private static final int RBNF_SPELLOUT = 1;
+    private static final int RBNF_NUMBERING_SYSTEM = 4;
+
+    private static NumberFormat createAlgorithmicNumberFormat(
+            ULocale nsLoc, int desiredRulesType, String nsRuleSetName) {
+        try {
+            Class<?> rbnfClass = Class.forName("com.ibm.icu.text.RuleBasedNumberFormat");
+            Constructor<?> ctor = rbnfClass.getConstructor(ULocale.class, int.class);
+            NumberFormat rbnf = (NumberFormat) ctor.newInstance(nsLoc, desiredRulesType);
+            Method setDefaultRuleSet = rbnfClass.getMethod("setDefaultRuleSet", String.class);
+            setDefaultRuleSet.invoke(rbnf, nsRuleSetName);
+            return rbnf;
+        } catch (ClassNotFoundException e) {
+            return null;
+        } catch (InvocationTargetException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof RuntimeException) {
+                throw (RuntimeException) cause;
+            }
+            if (cause instanceof Error) {
+                throw (Error) cause;
+            }
+            throw new RuntimeException(cause);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

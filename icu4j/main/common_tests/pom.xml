@@ -44,6 +44,13 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>message1</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
@@ -52,6 +59,20 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>message2</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>number</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>rbnf</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
@@ -78,6 +99,12 @@
     <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>currdata</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -113,7 +140,19 @@
     </dependency>
     <dependency>
       <groupId>com.ibm.icu</groupId>
+      <artifactId>number</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
       <artifactId>personname</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>rbnf</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

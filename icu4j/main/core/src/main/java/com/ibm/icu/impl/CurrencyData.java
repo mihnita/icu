@@ -9,7 +9,6 @@
 package com.ibm.icu.impl;
 
 import com.ibm.icu.text.CurrencyDisplayNames;
-import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.util.ULocale;
 import java.util.Collections;
 import java.util.Map;
@@ -65,9 +64,9 @@ public class CurrencyData {
         };
 
         public static enum SpacingPattern {
-            CURRENCY_MATCH(DecimalFormatSymbols.CURRENCY_SPC_CURRENCY_MATCH),
-            SURROUNDING_MATCH(DecimalFormatSymbols.CURRENCY_SPC_SURROUNDING_MATCH),
-            INSERT_BETWEEN(DecimalFormatSymbols.CURRENCY_SPC_INSERT),
+            CURRENCY_MATCH(0),
+            SURROUNDING_MATCH(1),
+            INSERT_BETWEEN(2),
             COUNT;
 
             SpacingPattern() {}

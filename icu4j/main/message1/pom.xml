@@ -23,6 +23,21 @@
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>datetime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>number</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>rbnf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- Test only -->
     <dependency>
